@@ -1,0 +1,110 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 1,
+                "name": "Kelompok Tani 1"
+            },
+            "geometry": {
+                "coordinates": [
+                    114.64442248913087,
+                    -8.181414236347365
+                ],
+                "type": "Point"
+            },
+            "id": 0
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 2,
+                "name": "Kelompok Tani 2"
+            },
+            "geometry": {
+                "coordinates": [
+                    114.91149810465413,
+                    -8.240224824673248
+                ],
+                "type": "Point"
+            },
+            "id": 1
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 3,
+                "name": "Kelompok Tani 3"
+            },
+            "geometry": {
+                "coordinates": [
+                    115.05055491732844,
+                    -8.222698124049543
+                ],
+                "type": "Point"
+            },
+            "id": 2
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "name": "Kelompok Tani 4"
+            },
+            "geometry": {
+                "coordinates": [
+                    115.18700815177374,
+                    -8.152502294146672
+                ],
+                "type": "Point"
+            },
+            "id": 3
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 5,
+                "name": "Kelompok Tani 5"
+            },
+            "geometry": {
+                "coordinates": [
+                    115.28369833115016,
+                    -8.1680037709977
+                ],
+                "type": "Point"
+            },
+            "id": 4
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 6,
+                "name": "Kelompok Tani 6"
+            },
+            "geometry": {
+                "coordinates": [
+                    114.7573060339588,
+                    -8.246065804448094
+                ],
+                "type": "Point"
+            },
+            "id": 5
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 7,
+                "name": "Kelompok Tani 7"
+            },
+            "geometry": {
+                "coordinates": [
+                    115.13539761747955,
+                    -8.176024220378423
+                ],
+                "type": "Point"
+            },
+            "id": 6
+        }
+    ]
+}
