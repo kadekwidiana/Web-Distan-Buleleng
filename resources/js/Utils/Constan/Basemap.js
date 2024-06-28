@@ -1,5 +1,5 @@
 // BASEMAP
-const ATRIBUTE_NAME = '© SIG Distan Kab. Buleleng';
+export const ATRIBUTE_NAME = '© SIG Distan Kab. Buleleng';
 
 export const OPEN_STREET_MAP = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: ATRIBUTE_NAME,

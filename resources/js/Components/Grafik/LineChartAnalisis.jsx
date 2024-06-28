@@ -6,7 +6,8 @@ import { vciData } from "@/Utils/Data/vci"
 import { eviAndMsiData } from "@/Utils/Data/evi"
 Chart.register(CategoryScale);
 
-export default function LineChartAnalisis({ dataPrecipitation, dataVCI, dataEviAndMSI }) {
+export default function LineChartAnalisis({ dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {
+    console.log('MONTH LABEL', monthLabel);
     let datasets = [];
 
     dataPrecipitation.length > 0 && datasets.push({
@@ -71,8 +72,8 @@ export default function LineChartAnalisis({ dataPrecipitation, dataVCI, dataEviA
         <Line width={100} height={60} className=""
             datasetIdKey='id'
             data={{
-                labels: dataPrecipitation.map((data) => (
-                    [data.month]
+                labels: monthLabel.map((data) => (
+                    [data.month | data.Month] // pake or karena response nya beda ada yang month dan Month
                 )),
                 datasets: datasets
 

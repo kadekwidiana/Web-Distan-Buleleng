@@ -8,7 +8,7 @@ import InputLabel from "../Input/InputLabel";
 import InputSelect from "../Input/InputSelect";
 import { YEARRANGE } from "@/Utils/Constan/Index";
 
-export default function DetailAnalisis({ yearRange, dataPrecipitation, dataVCI, dataEviAndMSI }) {
+export default function DetailAnalisis({ yearRange, dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {
     const [openModal, setOpenModal] = useState(false);
     const [modalSize, setModalSize] = useState('6xl');
     const [yearRangeValue, setYearRangeValue] = useState(yearRange);
@@ -99,6 +99,7 @@ export default function DetailAnalisis({ yearRange, dataPrecipitation, dataVCI, 
                                 dataPrecipitation={dataPrecipitation}
                                 dataVCI={dataVCI}
                                 dataEviAndMSI={dataEviAndMSI}
+                                monthLabel={monthLabel}
                             />
                         </div>
                     </div>

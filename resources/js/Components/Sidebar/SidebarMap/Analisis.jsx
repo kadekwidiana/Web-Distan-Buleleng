@@ -16,7 +16,7 @@ import { Toast, ToastLoading } from "@/Components/Alert/Toast"
 import { Spinner } from "flowbite-react"
 import { useStore } from "@/Store/Index.store"
 import { useShallow } from 'zustand/react/shallow'
-import { useEVIAndMSIAnalisis, usePrecipitationAnalisis, useVCIAnalisis } from "@/Services/api.service"
+import { useEVIAndMSIAnalisis, usePrecipitationAnalisis, useVCIAnalisis } from "@/Hooks/Analisis/useAnalisis"
 
 const dataAnalisis = [
     {
@@ -42,8 +42,10 @@ export const SidebarAnalisis = () => {
     const [VCIData, setVciData] = useState([]);
     const [EVIAndMSIData, setEviAndMsiData] = useState([]);
     const [yearRange, setYearRange] = useState([]);
-    const [isError, setIsError] = useState(false);
+    const [isErrorInput, setIsErrorInput] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isErrorAll, setIsErrorAll] = useState(false);
+    const [monthLabel, setMonthLabel] = useState([]);
 
     const { setPrecipitationData: setPrecipitationDataStore, setVCIData: setVCIDataStore, setEVIData: setEVIDataStore, setMSIData: setMSIDataStore } = useStore(
         useShallow((state) => (
@@ -94,8 +96,8 @@ export const SidebarAnalisis = () => {
             formData.endYear
         ]);
 
-        if (formData.startYear > formData.endYear) return setIsError(true);
-        setIsError(false);
+        if (formData.startYear > formData.endYear) return setIsErrorInput(true);
+        setIsErrorInput(false);
 
         postDataPrecipitation(formData);
         postDataVCI(formData);
@@ -103,6 +105,7 @@ export const SidebarAnalisis = () => {
     }
 
     useEffect(() => {
+        // jika salah 1 pending
         if (isPendingPrecipitation || isPendingVCI || isPendingEVIAndMSI) {
             setIsLoading(true);
             ToastLoading.fire({
@@ -113,21 +116,32 @@ export const SidebarAnalisis = () => {
             ToastLoading.close();
         }
 
-        if (isSuccessPrecipitation && resDataPrecipitation.data) {
+        // jika precipitation success dan memiliki data dan tidak error
+        if (isSuccessPrecipitation && resDataPrecipitation.data && !isErrorPrecipitation) {
             setPrecipitationData(resDataPrecipitation.data);
             setPrecipitationDataStore(resDataPrecipitation);
+            setMonthLabel(resDataPrecipitation.data);
         }
 
-        if (isSuccessVCI && resDataVCI.data) {
+        // jika VCI success dan memiliki data dan tidak error
+        if (isSuccessVCI && resDataVCI.data && !isErrorVCI) {
             setVciData(resDataVCI.data);
             setVCIDataStore(resDataVCI);
+            setMonthLabel(resDataVCI.data);
         }
 
-        if (isSuccessEVIAndMSI && resDataEVIAndMSI.data) {
+        // jika EVI, MSI success dan memiliki data dan tidak error
+        if (isSuccessEVIAndMSI && resDataEVIAndMSI.data && !isErrorEVIAndMSI) {
             setEviAndMsiData(resDataEVIAndMSI.data);
             setEVIDataStore(resDataEVIAndMSI);
-            setMSIDataStore(resDataEVIAndMSI);
+            setMonthLabel(resDataEVIAndMSI.data);
         }
+
+        // jika semua request error
+        if (isErrorPrecipitation && isErrorVCI && isErrorEVIAndMSI) {
+            setIsErrorAll(true);
+        }
+
     }, [
         // pending/loading
         isPendingPrecipitation,
@@ -180,7 +194,7 @@ export const SidebarAnalisis = () => {
                             Tahun Mulai
                         </InputLabel>
                         <InputSelect
-                            className={isError && 'border border-red-500'}
+                            className={isErrorInput && 'border border-red-500'}
                             id="startYear"
                             name="startYear"
                             required>
@@ -194,7 +208,7 @@ export const SidebarAnalisis = () => {
                             Tahun Selesai
                         </InputLabel>
                         <InputSelect
-                            className={isError && 'border border-red-500'}
+                            className={isErrorInput && 'border border-red-500'}
                             id="endYear"
                             name="endYear"
                             required>
@@ -204,7 +218,7 @@ export const SidebarAnalisis = () => {
                         </InputSelect>
                     </div>
                 </div>
-                {isError &&
+                {isErrorInput &&
                     <div className="">
                         <InputError message={'Mohon pilih rentan tahun yang sesuai!'} />
                     </div>
@@ -218,7 +232,11 @@ export const SidebarAnalisis = () => {
                     </Button>
                 </div>
             </form>
-            {isPendingPrecipitation && precipitationData.length <= 0 &&
+
+            {/* jika request data kosong dan loading (code di bawah ini di balik because pusing my head 🥱)*/}
+            {precipitationData.length > 0 || VCIData.length > 0 || EVIAndMSIData.length > 0 || !isLoading ?
+                null
+                :
                 <div className="animate-pulse">
                     <article className="flex max-w-xl flex-col items-start justify-between my-3 bg-gray-100 rounded-md">
                         <div className="h-52 w-full relative mb-2">
@@ -232,7 +250,20 @@ export const SidebarAnalisis = () => {
                     </article>
                 </div>
             }
-            {precipitationData.length > 0 &&
+
+            {/* jika semua request error */}
+            {isErrorAll &&
+                <div className="flex flex-col items-center gap-2 my-4">
+                    <p className="text-gray-700">Terjadi kesalahan, silahkan coba lagi nanti!</p>
+                    <a href="/maps" className="flex items-center gap-2 rounded-md bg-gray-200 text-center font-medium text-gray-700 hover:bg-opacity-90 justify-center px-3 py-1 border">
+                        <span>Refresh</span>
+                        <i className="fa-solid fa-rotate"></i>
+                    </a>
+                </div>
+            }
+
+            {/* jika salah 1 data sudah ada */}
+            {precipitationData.length > 0 || VCIData.length > 0 || EVIAndMSIData.length > 0 ?
                 <div className="w-full border border-gray-400 p-1 rounded-md">
                     <div className="flex justify-end">
                         <DetailAnalisis
@@ -240,6 +271,7 @@ export const SidebarAnalisis = () => {
                             dataPrecipitation={precipitationData}
                             dataVCI={VCIData}
                             dataEviAndMSI={EVIAndMSIData}
+                            monthLabel={monthLabel}
                         />
                     </div>
                     <div className="">
@@ -247,11 +279,15 @@ export const SidebarAnalisis = () => {
                             dataPrecipitation={precipitationData}
                             dataVCI={VCIData}
                             dataEviAndMSI={EVIAndMSIData}
+                            monthLabel={monthLabel}
                         />
                     </div>
                 </div>
+                :
+                null
             }
-            <div className={`flex flex-col gap-2 mt-2 mb-2 ${isPendingPrecipitation || precipitationData.length <= 0 && 'hidden'}`}>
+
+            <div className={`flex flex-col gap-2 mt-2 mb-2 ${precipitationData.length > 0 || VCIData.length > 0 || EVIAndMSIData.length > 0 ? '' : 'hidden'}`}>
                 <label className="flex items-center">
                     <span className="text-base font-semibold text-gray-800">Layer</span>
                 </label>

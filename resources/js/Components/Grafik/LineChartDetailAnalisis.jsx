@@ -3,12 +3,12 @@ import { Line } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
 Chart.register(CategoryScale);
 
-export default function LineChartDetailAnalisis({ yearRange, dataPrecipitation, dataVCI, dataEviAndMSI }) {
+export default function LineChartDetailAnalisis({ yearRange, dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {
     console.log('YEAR', yearRange);
 
-    let labels = dataPrecipitation
+    let labels = monthLabel
         .filter(data => data.year >= yearRange[0] && data.year <= yearRange[1])
-        .map(data => [data.month, data.month == 6 ? data.year : '']);
+        .map(data => [data.month, data.month == 6 ? data.year : '']); // pake or karena response nya beda ada yang month dan Month
 
     let datasets = [];
 
