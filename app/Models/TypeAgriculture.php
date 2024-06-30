@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subak extends Model
+class TypeAgriculture extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Subak extends Model
      *
      * @var string
      */
-    protected $table = 'subaks';
+    protected $table = 'type_agricultures';
 
     /**
      * The attributes that are mass assignable.
@@ -22,18 +22,8 @@ class Subak extends Model
      * @var array
      */
     protected $fillable = [
-        'village_id',
         'layer_group_id',
         'name',
-        'leader',
-        'secretary',
-        'treasurer',
-        'number_of_members',
-        'since',
-        'location',
-        'address',
-        'icon',
-        'photo',
         'description',
     ];
 
@@ -43,24 +33,20 @@ class Subak extends Model
      * @var array
      */
     protected $casts = [
-        'location' => 'json',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
     /**
-     * Get the village that owns the Subak.
-     */
-    public function village()
-    {
-        return $this->belongsTo(Village::class, 'village_id');
-    }
-
-    /**
-     * Get the layer group that owns the Subak.
+     * Get the layer group that owns the type agriculture.
      */
     public function layerGroup()
     {
         return $this->belongsTo(LayerGrup::class, 'layer_group_id');
+    }
+
+    public function commodities()
+    {
+        return $this->hasMany(Commodity::class, 'type_agriculture_id');
     }
 }

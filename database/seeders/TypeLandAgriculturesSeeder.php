@@ -16,7 +16,7 @@ class TypeLandAgriculturesSeeder extends Seeder
         $data = [
             [
                 'id' => 1,
-                'layer_group_id' => 1, // ID dari layer grup yang sesuai
+                'layer_group_id' => 2, // ID dari layer grup yang sesuai
                 'name' => 'Lahan Basah',
                 'description' => 'Deskripsi mengenai lahan basah.',
                 'created_at' => now(),
@@ -24,7 +24,7 @@ class TypeLandAgriculturesSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'layer_group_id' => 1, // ID dari layer grup yang sesuai
+                'layer_group_id' => 2, // ID dari layer grup yang sesuai
                 'name' => 'Lahan Kering',
                 'description' => 'Deskripsi mengenai lahan kering.',
                 'created_at' => now(),
@@ -32,7 +32,7 @@ class TypeLandAgriculturesSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'layer_group_id' => 1, // ID dari layer grup yang sesuai
+                'layer_group_id' => 2, // ID dari layer grup yang sesuai
                 'name' => 'Campuran',
                 'description' => 'Deskripsi mengenai lahan campuran.',
                 'created_at' => now(),

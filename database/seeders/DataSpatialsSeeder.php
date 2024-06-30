@@ -16,7 +16,7 @@ class DataSpatialsSeeder extends Seeder
         $data = [
             [
                 'id' => 1,
-                'layer_group_id' => 3, // Kewilayahan
+                'layer_group_id' => 1, // Kewilayahan
                 'name' => 'Batas Kabupaten',
                 'url_spatial' => '/data-spasial/batas-kabupaten-buleleng.geojson',
                 'file_spatial' => '/data-spasial/batas-kabupaten-buleleng.geojson',
@@ -27,7 +27,7 @@ class DataSpatialsSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'layer_group_id' => 3, // Kewilayahan
+                'layer_group_id' => 1, // Kewilayahan
                 'name' => 'Batas Kecamatan',
                 'url_spatial' => '/data-spasial/batas-kecamatan-buleleng.geojson',
                 'file_spatial' => '/data-spasial/batas-kecamatan-buleleng.geojson',
@@ -38,7 +38,7 @@ class DataSpatialsSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'layer_group_id' => 3, // Kewilayahan
+                'layer_group_id' => 1, // Kewilayahan
                 'name' => 'Batas Desa',
                 'url_spatial' => '/data-spasial/batas-desa-buleleng.geojson',
                 'file_spatial' => '/data-spasial/batas-desa-buleleng.geojson',

@@ -6,9 +6,24 @@ import { useBasemapLayers } from "./useBasemapLayers";
 import { useDrawTools } from "./useDrawTools";
 import useLayerAnalisis from "./useLayerAnalisis";
 import { ATRIBUTE_NAME } from "@/Utils/Constan/Basemap";
+import { usePage } from "@inertiajs/react";
 
 //  LOGIC ANTI MAINSTREAM wkwk
 const useInitializeMap = () => {
+    const {
+        layerGroups,
+        typeAgricultures,
+        commodities,
+        typeLandAgricultures,
+        dataSpatials,
+        gapoktans,
+        poktans,
+        subaks,
+        landAgricultures,
+    } = usePage().props;
+
+    console.log(layerGroups);
+
     useEffect(() => {
         const GOOGLE_STREET_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
             attribution: ATRIBUTE_NAME,
@@ -26,7 +41,17 @@ const useInitializeMap = () => {
 
         useBasemapLayers(map)
 
-        useDataMaps(map);
+        useDataMaps(map, {
+            layerGroups,
+            typeAgricultures,
+            commodities,
+            typeLandAgricultures,
+            dataSpatials,
+            gapoktans,
+            poktans,
+            subaks,
+            landAgricultures,
+        });
 
         useScriptSidebarMaps(map);
 

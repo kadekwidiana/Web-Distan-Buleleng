@@ -2,8 +2,8 @@ import { DropdownLayer } from "@/Components/Dropdown/Layers";
 import CheckboxLayer from "@/Components/Input/CheckboxLayer";
 import { useState } from "react";
 
-export const DropdownSubLayers = ({ subLayerName, children }) => {
-    const [showSubLayer, setShowSubLayer] = useState(false);
+export const DropdownSubLayers = ({ subLayerName, children, showingSubLayer = false }) => {
+    const [showSubLayer, setShowSubLayer] = useState(showingSubLayer);
 
     return (
         <>

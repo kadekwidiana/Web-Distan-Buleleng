@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Poktan extends Model
+class TypeLandAgriculture extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Poktan extends Model
      *
      * @var string
      */
-    protected $table = 'poktans';
+    protected $table = 'type_land_agricultures';
 
     /**
      * The attributes that are mass assignable.
@@ -22,19 +22,8 @@ class Poktan extends Model
      * @var array
      */
     protected $fillable = [
-        'village_id',
-        'gapoktan_id',
         'layer_group_id',
         'name',
-        'leader',
-        'secretary',
-        'treasurer',
-        'number_of_members',
-        'since',
-        'location',
-        'address',
-        'icon',
-        'photo',
         'description',
     ];
 
@@ -44,29 +33,12 @@ class Poktan extends Model
      * @var array
      */
     protected $casts = [
-        'location' => 'json',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
     /**
-     * Get the village that owns the Poktan.
-     */
-    public function village()
-    {
-        return $this->belongsTo(Village::class, 'village_id');
-    }
-
-    /**
-     * Get the gapoktan that owns the Poktan.
-     */
-    public function gapoktan()
-    {
-        return $this->belongsTo(Gapoktan::class, 'gapoktan_id');
-    }
-
-    /**
-     * Get the layer group that owns the Poktan.
+     * Get the layer group that owns the type land agriculture.
      */
     public function layerGroup()
     {

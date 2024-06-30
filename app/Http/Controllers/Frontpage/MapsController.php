@@ -3,6 +3,15 @@
 namespace App\Http\Controllers\Frontpage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Commodity;
+use App\Models\DataSpatial;
+use App\Models\Gapoktan;
+use App\Models\LandAgriculture;
+use App\Models\LayerGrup;
+use App\Models\Poktan;
+use App\Models\Subak;
+use App\Models\TypeAgriculture;
+use App\Models\TypeLandAgriculture;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,93 +19,28 @@ class MapsController extends Controller
 {
     public function index()
     {
-        $subLayersData = [
-            [
-                "name" => "Padi",
-                "icon" => "/assets/icons/icon-layer/padi.png",
-                "latitude" => "1212",
-                "longitude" => "2121"
-            ],
-            [
-                "name" => "Jagung",
-                "icon" => "/assets/icons/icon-layer/jagung.png",
-                "latitude" => "1234",
-                "longitude" => "2345"
-            ],
-            [
-                "name" => "Kedelai",
-                "icon" => "/assets/icons/icon-layer/kedelai.png",
-                "latitude" => "1256",
-                "longitude" => "2567"
-            ],
-        ];
-
-        $dataSubLayers = array_map(function ($data, $i) {
-            return [
-                "id" => $i + 1,  
-                "name" => $data["name"],
-                "icon" => $data["icon"],
-                "latitude" => $data["latitude"],
-                "longitude" => $data["longitude"]
-            ];
-        }, $subLayersData, array_keys($subLayersData));
+        $layerGroups = LayerGrup::all();
+        $typeAgricultures = TypeAgriculture::all();
+        $typeLandAgricultures = TypeLandAgriculture::all();
+        $dataSpatials = DataSpatial::all();
+        $gapoktans = Gapoktan::all();
+        $poktans = Poktan::all();
+        $subaks = Subak::all();
+        $landAgricultures = LandAgriculture::all();
+        $commodities = Commodity::all();
 
         $data = [
-            [
-                "id" => 1,
-                'typeLayerName' => 'Pertanian',
-                "layers" => [
-                    [
-                        "id" => 1,
-                        "name" => "Tanaman Pangan",
-                        "subLayers" => $dataSubLayers,
-                    ],
-                    [
-                        "id" => 2,
-                        "name" => "Holtikultura",
-                        "subLayers" => [
-                            [
-                                "id" => 1,
-                                "name" => "Sayur",
-                                "icon" => "/assets/icons/icon-layer/sayur.png",
-                                "latitude" => "1212",
-                                "longitude" => "2121"
-                            ],
-                            [
-                                "id" => 2,
-                                "name" => "Buah",
-                                "icon" => "/assets/icons/icon-layer/buah.png",
-                                "latitude" => "1212",
-                                "longitude" => "2121"
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "id" => 2,
-                'typeLayerName' => 'Perkebunan',
-                "layers" => [
-                    [
-                        "id" => 1,
-                        "name" => "Padi",
-                        "icon" => "/assets/icons/icon-layer/padi.png",
-                        "latitude" => "1212",
-                        "longitude" => "2121"
-                    ],
-                    [
-                        "id" => 2,
-                        "name" => "Jagung",
-                        "icon" => "/assets/icons/icon-layer/jagung.png",
-                        "latitude" => "1212",
-                        "longitude" => "2121"
-                    ]
-                ]
-            ]
+            'layerGroups' => $layerGroups,
+            'typeAgricultures' => $typeAgricultures,
+            'commodities' => $commodities,
+            'typeLandAgricultures' => $typeLandAgricultures,
+            'dataSpatials' => $dataSpatials,
+            'gapoktans' => $gapoktans,
+            'poktans' => $poktans,
+            'subaks' => $subaks,
+            'landAgricultures' => $landAgricultures,
         ];
 
-        return Inertia::render('Frontpage/Maps/Index', [
-            "dataLayers" => $data
-        ]);
+        return Inertia::render('Frontpage/Maps/Index', $data);
     }
 }

@@ -1,4 +1,20 @@
-const useDataMaps = (map) => {
+import { AxiosInstance } from "@/Services/AxiosConfig";
+
+const useDataMaps = (map, dataLayers) => {
+    const {
+        // layerGroups,
+        typeAgricultures,
+        commodities,
+        typeLandAgricultures,
+        dataSpatials,
+        gapoktans,
+        poktans,
+        subaks,
+        landAgricultures,
+    } = dataLayers;
+
+    console.log(commodities);
+
     function onEachFeature(feature, layer) {
         // does this feature have a property named popupContent?
         if (feature.properties && feature.properties.popupContent) {
@@ -6,38 +22,29 @@ const useDataMaps = (map) => {
         }
     }
 
-    const bataKecamatan = L.layerGroup();
-    const kelompokTani = L.layerGroup();
+    // Object to hold the dynamic layer groups
+    const layerGroups = {};
 
-    // Event for checkbox
-    function checkboxEventListener(checkboxId, layer) {
+    // Event for checkbox layer
+    const checkboxEventListenerLayer = (checkboxId, layer) => {
         document.getElementById(checkboxId).addEventListener("change", function () {
             if (this.checked) {
                 layer.addTo(map); // Dislay layer to map
-                // console.log("tes");
             } else {
                 layer.removeFrom(map); // Remove layer
             }
         });
     }
 
-    checkboxEventListener("batas-kecamatan", bataKecamatan);
-    checkboxEventListener("kelompok-tani", kelompokTani);
-
-    // batas kecamatan
-    const getDataBatasKec = async () => {
+    // fetch data geojson
+    const fetchDataGeoJson = async (dataGeoJson, layer) => {
         try {
-            const response = await fetch('/data-spasial/batas-kec-buleleng.geojson', {
-                method: 'GET'
+            const response = await AxiosInstance({
+                method: "GET",
+                url: dataGeoJson,
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-
-            L.geoJSON(data.features, {
+            L.geoJSON(response.data.features, {
                 style: function (feature) {
                     return {
                         color: 'black',
@@ -46,63 +53,64 @@ const useDataMaps = (map) => {
                     };
                 },
                 onEachFeature: onEachFeature
-            }).addTo(bataKecamatan);
+            }).addTo(layer);
+
         } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
+            throw new Error(`Error: ${error.message}`);
         }
     }
-    getDataBatasKec();
 
-
-    // kelompok tani
-    const getDataKelompokTani = async () => {
-        try {
-            const response = await fetch('/data-spasial/kelompok-tani.geojson', {
-                method: 'GET'
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            // console.log(data.features[0].properties.name);
-
-            L.geoJSON(data.features, {
-                onEachFeature: function (feature, layer) {
-                    layer.bindPopup(`
-                        <div class="w-32 popup-container">
-                            <div class="md:pb-2">
-                                <div class="relative">
-                                    <div class="flex items-center justify-between md:pt-2 md:pb-2 border-b rounded-t">
-                                        <h3 class="text-xl font-medium text-gray-900">
-                                            Data Kelompok Tani
-                                        </h3>
-                                    </div>
-                                    <div class="space-y-4 overflow-y-auto">
-                                        <div class="relative overflow-x-auto">
-                                            <table class="w-full text-sm text-left rtl:text-right text-gray-600 table-fixed">
-                                                <tbody>
-                                                    <tr class='border-b border-t'>
-                                                        <td class='px-0 py-2 w-36'>Nama Kelompok Tani</td>
-                                                        <td class='px-0 py-2'>: </td>
-                                                        <td class='px-0 py-2'>${feature.properties.name}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                }
-            }).addTo(kelompokTani);
-        } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
-        }
+    const customIcon = (iconUrl) => {
+        return L.icon({
+            iconUrl: iconUrl,
+            iconSize: [40, 40], // Ukuran ikon (lebar, tinggi)
+            iconAnchor: [20, 40], // Titik penambatan ikon (lebar / 2, tinggi)
+            popupAnchor: [0, -40] // Titik penambatan popup (lebar / 2, tinggi)
+        });
     };
-    getDataKelompokTani();
+
+    const getAndSetDataAgriculture = (dataAgriculture, layer) => {
+        const iconUrl = dataAgriculture.icon; // URL ikon diambil dari dataAgriculture.icon
+        const marker = L.marker(dataAgriculture.location, { icon: customIcon(iconUrl) });
+        marker.bindPopup(`
+            <div>
+                <strong>Name:</strong> ${dataAgriculture.name}<br>
+                <strong>Leader:</strong> ${dataAgriculture.leader}<br>
+                <strong>Secretary:</strong> ${dataAgriculture.secretary}<br>
+                <strong>Treasurer:</strong> ${dataAgriculture.treasurer}<br>
+                <strong>Members:</strong> ${dataAgriculture.number_of_members}<br>
+                <strong>Since:</strong> ${dataAgriculture.since}<br>
+                <strong>Address:</strong> ${dataAgriculture.address}<br>
+            </div>
+        `);
+        marker.addTo(layer);
+    };
+
+    const layerDataAgricultureMappings = [
+        { key: 'gapoktan', data: gapoktans },
+        { key: 'poktan', data: poktans },
+        { key: 'subak', data: subaks },
+        { key: 'lahan_pertanian', data: landAgricultures }
+    ];
+
+    layerDataAgricultureMappings.forEach(mapping => {
+        const { key, data } = mapping;
+        layerGroups[key] = L.layerGroup();
+        checkboxEventListenerLayer(key, layerGroups[key]);
+        data.forEach(item => {
+            getAndSetDataAgriculture(item, layerGroups[key]);
+        });
+    });
+
+
+    // Loop data lalu buat layerGroup, checkboxEventListenerLayer, dan fetchDataGeoJson
+    dataSpatials.forEach(dataSpatial => {
+        // Create a new layer group
+        layerGroups[dataSpatial.name] = L.layerGroup();
+        checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
+        fetchDataGeoJson(dataSpatial.file_spatial, layerGroups[dataSpatial.name]);
+    });
+
 }
 
 export default useDataMaps;

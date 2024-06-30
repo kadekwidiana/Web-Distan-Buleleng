@@ -3,6 +3,7 @@
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
+use App\Http\Controllers\Frontpage\TestDataController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::get('/', function () {
 // })->name('maps-frontpage');
 
 Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
+
+Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin', function () {

@@ -4,50 +4,65 @@ import CheckboxLayer from "@/Components/Input/CheckboxLayer";
 import { usePage } from "@inertiajs/react";
 
 export const SidebarLayer = () => {
-    const { dataLayers } = usePage().props;
-    console.log(dataLayers);
-    console.log(usePage().props);
+    const {
+        layerGroups,
+        typeAgricultures,
+        commodities,
+        typeLandAgricultures,
+        dataSpatials,
+        gapoktans,
+        poktans,
+        subaks,
+        landAgricultures,
+    } = usePage().props;
+
+    // console.log(gapoktans[0].name);
+    // console.log(usePage().props);
 
     return (
         <div className="max-h-[90dvh] sidebar-layer bg-white mt-0 pb-5 px-2" id="sidebar-layer">
             <h1 className="text-center font-semibold text-gray-700 text-lg my-1">Layers</h1>
             <div className="border"></div>
             <div className="mt-2 flex flex-col gap-2">
-                {dataLayers && dataLayers.map((dataLayer) => (
-                    <DropdownLayer key={dataLayer.typeLayerName} layerName={dataLayer.typeLayerName} showLayers={true}>
-                        {dataLayer.layers.map((layer) => (
-                            <div key={layer.id}>
-                                {layer.subLayers ?
-                                    <DropdownSubLayers key={layer.name} subLayerName={layer.name}>
-                                        {layer.subLayers.map((subLayer) => (
-                                            <CheckboxLayer key={subLayer.name} id={subLayer.name} icon={subLayer.icon} label={subLayer.name} />
-                                        ))}
-                                    </DropdownSubLayers>
-                                    :
-                                    <CheckboxLayer key={layer.name} id={layer.name} icon={layer.icon} label={layer.name} />
-                                }
-                            </div>
+                {/* LAYER GROUP */}
+                {layerGroups && layerGroups.map((layerGroup) => (
+                    <DropdownLayer key={layerGroup.name} layerName={layerGroup.name} showLayers={true}>
+                        {/* DATA SPATIAL */}
+                        {dataSpatials.map((dataSpatial) => (
+                            dataSpatial.layer_group_id === layerGroup.id ?
+                                <CheckboxLayer key={dataSpatial.id} id={dataSpatial.name} icon={dataSpatial.icon} label={dataSpatial.name} />
+                                :
+                                null
                         ))}
+                        {/* TYPE AGRICULTURE */}
+                        {layerGroup.name === 'Komoditas' ?
+                            typeAgricultures.map((typeAgriculture) => (
+                                <DropdownSubLayers key={typeAgriculture.id} subLayerName={typeAgriculture.name} showingSubLayer={true}>
+                                    {commodities.map((commodity) => (
+                                        commodity.type_agriculture_id === typeAgriculture.id ?
+                                            <CheckboxLayer key={commodity.name} id={commodity.name} icon={commodity.icon} label={commodity.name} />
+                                            :
+                                            null
+                                    ))}
+                                </DropdownSubLayers>
+                            ))
+                            :
+                            null
+                        }
+
+                        {/* ORGANISASI PERTANIAN */}
+                        {layerGroup.name === 'Pertanian' ?
+                            <div>
+                                <CheckboxLayer id={'gapoktan'} icon={gapoktans[0].icon} label={'Gabungan Kelompok Tani'} />
+                                <CheckboxLayer id={'poktan'} icon={poktans[0].icon} label={'Kelompok Tani'} />
+                                <CheckboxLayer id={'subak'} icon={subaks[0].icon} label={'Subak'} />
+                                <CheckboxLayer id={'lahan_pertanian'} icon={landAgricultures[0].icon} label={'Lahan Pertanian'} />
+                            </div>
+                            :
+                            null
+                        }
                     </DropdownLayer>
                 ))}
-
-                <DropdownLayer layerName={'Layers 1'} showLayers={false}>
-                    <CheckboxLayer id={'layer-1'} icon={"/assets/icons/icon-marker/corn.png"} label={"Layer 1"} />
-                    <CheckboxLayer id={'layer-1'} icon={"/assets/icons/icon-marker/corn.png"} label={"Layer 1"} />
-                    <DropdownSubLayers subLayerName={'Sub Layers 1'}>
-                        <CheckboxLayer id={'layer-1'} icon={"/assets/icons/icon-marker/corn.png"} label={"Layer 1"} />
-                    </DropdownSubLayers>
-                </DropdownLayer>
-
-                <DropdownLayer layerName={'Administrasi'} showLayers={false}>
-                    <CheckboxLayer id='batas-kabupaten' icon="/assets/icons/icon-marker/corn.png" label="Batas Kabupaten" />
-                    <CheckboxLayer id='batas-kecamatan' icon="/assets/icons/icon-marker/corn.png" label="Batas Kecamatan" />
-                    <CheckboxLayer id='batas-desa' icon="/assets/icons/icon-marker/corn.png" label="Batas Desa" />
-                </DropdownLayer>
-
-                <DropdownLayer layerName='Pertanian' showLayers={false}>
-                    <CheckboxLayer id='kelompok-tani' icon="/assets/icons/icon-marker/corn.png" label="Kelompok Tani" />
-                </DropdownLayer>
             </div>
         </div >
     )

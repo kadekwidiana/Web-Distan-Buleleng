@@ -17,7 +17,7 @@ class SubaksSeeder extends Seeder
             [
                 'id' => 1,
                 'village_id' => '5108050010',
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Subak Sari',
                 'leader' => 'I Ketut Sudiarsa',
                 'secretary' => 'I Made Wijaya',
@@ -35,7 +35,7 @@ class SubaksSeeder extends Seeder
             [
                 'id' => 2,
                 'village_id' => '5108050010',
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Subak Mekar',
                 'leader' => 'I Gusti Ngurah Putra',
                 'secretary' => 'I Putu Adnyana',
@@ -53,7 +53,7 @@ class SubaksSeeder extends Seeder
             [
                 'id' => 3,
                 'village_id' => '5108050010',
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Subak Jaya',
                 'leader' => 'I Nyoman Budiasa',
                 'secretary' => 'I Ketut Wijaya',
@@ -71,7 +71,7 @@ class SubaksSeeder extends Seeder
             [
                 'id' => 4,
                 'village_id' => '5108050010',
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Subak Maju',
                 'leader' => 'I Made Sudarma',
                 'secretary' => 'I Ketut Sujana',

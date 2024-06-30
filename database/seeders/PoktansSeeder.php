@@ -18,7 +18,7 @@ class PoktansSeeder extends Seeder
                 'id' => 1,
                 'village_id' => '5108050010',
                 'gapoktan_id' => 1, // Sesuaikan dengan ID Gapoktan yang sesuai
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Poktan Tani Sejahtera',
                 'leader' => 'I Ketut Sudiarsa',
                 'secretary' => 'I Made Wijaya',
@@ -37,7 +37,7 @@ class PoktansSeeder extends Seeder
                 'id' => 2,
                 'village_id' => '5108050010',
                 'gapoktan_id' => 2, // Sesuaikan dengan ID Gapoktan yang sesuai
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Poktan Makmur Jaya',
                 'leader' => 'I Gusti Ngurah Putra',
                 'secretary' => 'I Putu Adnyana',
@@ -56,7 +56,7 @@ class PoktansSeeder extends Seeder
                 'id' => 3,
                 'village_id' => '5108050010',
                 'gapoktan_id' => 1, // Sesuaikan dengan ID Gapoktan yang sesuai
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Poktan Sumber Rejeki',
                 'leader' => 'I Nyoman Budiasa',
                 'secretary' => 'I Ketut Wijaya',
@@ -75,7 +75,7 @@ class PoktansSeeder extends Seeder
                 'id' => 4,
                 'village_id' => '5108050010',
                 'gapoktan_id' => 2, // Sesuaikan dengan ID Gapoktan yang sesuai
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Poktan Karya Tani',
                 'leader' => 'I Made Sudarma',
                 'secretary' => 'I Ketut Sujana',

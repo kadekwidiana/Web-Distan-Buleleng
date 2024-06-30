@@ -17,7 +17,7 @@ class GapoktansSeeder extends Seeder
             [
                 'id' => 1,
                 'village_id' => '5108050010',
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Gapoktan Tani Makmur',
                 'leader' => 'I Made Sujana',
                 'secretary' => 'I Nyoman Budiarsa',
@@ -41,7 +41,7 @@ class GapoktansSeeder extends Seeder
             [
                 'id' => 2,
                 'village_id' => '5108050010',
-                'layer_group_id' => 5,
+                'layer_group_id' => 2,
                 'name' => 'Gapoktan Subur Sejahtera',
                 'leader' => 'I Putu Wibawa',
                 'secretary' => 'I Made Sutrisna',
