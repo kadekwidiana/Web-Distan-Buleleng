@@ -53,10 +53,10 @@ export const SidebarLayer = () => {
                         {/* ORGANISASI PERTANIAN */}
                         {layerGroup.name === 'Pertanian' ?
                             <div>
-                                <CheckboxLayer id={'gapoktan'} icon={gapoktans[0].icon} label={'Gabungan Kelompok Tani'} />
-                                <CheckboxLayer id={'poktan'} icon={poktans[0].icon} label={'Kelompok Tani'} />
-                                <CheckboxLayer id={'subak'} icon={subaks[0].icon} label={'Subak'} />
-                                <CheckboxLayer id={'lahan_pertanian'} icon={landAgricultures[0].icon} label={'Lahan Pertanian'} />
+                                <CheckboxLayer id={'layer_gapoktan'} icon={gapoktans[0].icon} label={'Gabungan Kelompok Tani'} />
+                                <CheckboxLayer id={'layer_poktan'} icon={poktans[0].icon} label={'Kelompok Tani'} />
+                                <CheckboxLayer id={'layer_subak'} icon={subaks[0].icon} label={'Subak'} />
+                                <CheckboxLayer id={'layer_lahan_pertanian'} icon={landAgricultures[0].icon} label={'Lahan Pertanian'} />
                             </div>
                             :
                             null

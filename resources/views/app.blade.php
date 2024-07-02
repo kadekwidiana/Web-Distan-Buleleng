@@ -21,6 +21,9 @@
     <!-- NAVIGASI BAR -->
     <link rel="stylesheet" href="{{ asset("/assets/css-leaflet/Leaflet.NavBar.css") }}">
 
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <!-- Scripts -->
     @routes
     @viteReactRefresh
@@ -44,5 +47,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   <!-- turf and axios -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 </html>
