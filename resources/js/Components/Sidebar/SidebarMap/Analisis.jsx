@@ -12,7 +12,7 @@ import { YEARRANGE } from "@/Utils/Constan/Index"
 import DetailAnalisis from "@/Components/Modal/DetailAnalisis"
 import LineChartAnalisis from "@/Components/Grafik/LineChartAnalisis"
 import InputError from "@/Components/Input/InputError"
-import { Toast, ToastLoading } from "@/Components/Alert/Toast"
+import { ToastLoading } from "@/Components/Alert/Toast"
 import { Spinner } from "flowbite-react"
 import { useStore } from "@/Store/Index.store"
 import { useShallow } from 'zustand/react/shallow'

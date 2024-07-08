@@ -17,7 +17,7 @@ class PoktansSeeder extends Seeder
             [
                 'id' => 1,
                 'village_id' => '5108050010',
-                'gapoktan_id' => 1, // Sesuaikan dengan ID Gapoktan yang sesuai
+                'gapoktan_id' => 1,
                 'layer_group_id' => 2,
                 'name' => 'Poktan Tani Sejahtera',
                 'leader' => 'I Ketut Sudiarsa',
@@ -25,6 +25,10 @@ class PoktansSeeder extends Seeder
                 'treasurer' => 'I Nyoman Sudarta',
                 'number_of_members' => 15,
                 'since' => '2015',
+                'status' => 'Aktif',
+                'ability_class' => 'Menengah',
+                'group_confirmation_status' => 'Disetujui',
+                'year_of_class_assignment' => '2020',
                 'location' => json_encode([-8.15362919556026, 115.10103340911172]),
                 'address' => 'Jl. Raya Sambangan No.20, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'icon' => '/assets/icons/icon-layer/poktan.png',
@@ -36,7 +40,7 @@ class PoktansSeeder extends Seeder
             [
                 'id' => 2,
                 'village_id' => '5108050010',
-                'gapoktan_id' => 2, // Sesuaikan dengan ID Gapoktan yang sesuai
+                'gapoktan_id' => 2,
                 'layer_group_id' => 2,
                 'name' => 'Poktan Makmur Jaya',
                 'leader' => 'I Gusti Ngurah Putra',
@@ -44,6 +48,10 @@ class PoktansSeeder extends Seeder
                 'treasurer' => 'I Made Suwandi',
                 'number_of_members' => 20,
                 'since' => '2016',
+                'status' => 'Aktif',
+                'ability_class' => 'Tinggi',
+                'group_confirmation_status' => 'Disetujui',
+                'year_of_class_assignment' => '2021',
                 'location' => json_encode([-8.137863332697915, 115.09236483616944]),
                 'address' => 'Jl. Raya Sambangan No.25, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'icon' => '/assets/icons/icon-layer/poktan.png',
@@ -55,7 +63,7 @@ class PoktansSeeder extends Seeder
             [
                 'id' => 3,
                 'village_id' => '5108050010',
-                'gapoktan_id' => 1, // Sesuaikan dengan ID Gapoktan yang sesuai
+                'gapoktan_id' => 1,
                 'layer_group_id' => 2,
                 'name' => 'Poktan Sumber Rejeki',
                 'leader' => 'I Nyoman Budiasa',
@@ -63,6 +71,10 @@ class PoktansSeeder extends Seeder
                 'treasurer' => 'I Wayan Suardana',
                 'number_of_members' => 18,
                 'since' => '2017',
+                'status' => 'Aktif',
+                'ability_class' => 'Menengah',
+                'group_confirmation_status' => 'Disetujui',
+                'year_of_class_assignment' => '2019',
                 'location' => json_encode([-8.177926811350167, 115.10688233774879]),
                 'address' => 'Jl. Raya Sambangan No.30, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'icon' => '/assets/icons/icon-layer/poktan.png',
@@ -74,7 +86,7 @@ class PoktansSeeder extends Seeder
             [
                 'id' => 4,
                 'village_id' => '5108050010',
-                'gapoktan_id' => 2, // Sesuaikan dengan ID Gapoktan yang sesuai
+                'gapoktan_id' => 2,
                 'layer_group_id' => 2,
                 'name' => 'Poktan Karya Tani',
                 'leader' => 'I Made Sudarma',
@@ -82,6 +94,10 @@ class PoktansSeeder extends Seeder
                 'treasurer' => 'I Nyoman Wijaya',
                 'number_of_members' => 22,
                 'since' => '2018',
+                'status' => 'Aktif',
+                'ability_class' => 'Tinggi',
+                'group_confirmation_status' => 'Disetujui',
+                'year_of_class_assignment' => '2021',
                 'location' => json_encode([-8.191280410466735, 115.10981516625868]),
                 'address' => 'Jl. Raya Sambangan No.35, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'icon' => '/assets/icons/icon-layer/poktan.png',

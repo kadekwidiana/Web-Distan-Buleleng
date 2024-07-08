@@ -39,7 +39,7 @@ return new class extends Migration
             $table->json('area_json');
             $table->string('land_area');
             $table->boolean('is_active');
-            $table->string('icon');
+            $table->string('icon')->default('/assets/icons/icon-layer/lahan-pertanian.png');
             $table->text('photo');
             $table->text('description');
             $table->timestamps();

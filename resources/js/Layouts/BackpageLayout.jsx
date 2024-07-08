@@ -19,7 +19,7 @@ export default function BackpageLayout({ children }) {
         <>
             <NavbarBackpage showSidebar={showSidebar} handleShowSidebar={handleShowSidebar} showSidebarMobile={showSidebarMobile} handleShowSidebarMobile={handleShowSidebarMobile}></NavbarBackpage>
             <SidebarBackpage showSidebar={showSidebar} handleShowSidebar={handleShowSidebar} showSidebarMobile={showSidebarMobile} handleShowSidebarMobile={handleShowSidebarMobile}></SidebarBackpage>
-            <div onClick={() => setShowSidebarMobile(false)} className={`py-10 px-6 transition-transform ${showSidebar && 'sm:ml-64'}`}>
+            <div className={`py-6 px-3 transition-transform ${showSidebar && 'sm:ml-64'}`}>
                 <div className="mt-14">
                     {children}
                 </div>

@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function LandingPage() {
     const { datas } = usePage().props;
-    console.log(datas);
+    // console.log(datas);
     
     return (
         <>

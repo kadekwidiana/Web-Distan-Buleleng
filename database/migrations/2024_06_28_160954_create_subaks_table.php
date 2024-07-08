@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('since', 4);
             $table->json('location');
             $table->text('address');
-            $table->string('icon');
+            $table->string('icon')->default('/assets/icons/icon-layer/subak.png');
             $table->text('photo');
             $table->text('description');
             $table->timestamps();

@@ -32,11 +32,11 @@ class Village extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'district_id'
-    ];
+    // protected $hidden = [
+    //     'district_id'
+    // ];
 
-	/**
+    /**
      * Village belongs to District.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -44,5 +44,10 @@ class Village extends Model
     public function district()
     {
         return $this->belongsTo(District::class);
+    }
+
+    public function gapoktans()
+    {
+        return $this->hasMany(Gapoktan::class);
     }
 }

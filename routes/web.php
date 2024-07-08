@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
@@ -48,8 +49,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/ppl/input', function () {
         return Inertia::render('Backpage/PPL/Input');
     })->name('input.ppl');
-});
 
+    // Route::resource('/kelembagaan-pertanian/gapoktan', [GapoktanController::class]);
+    // Route::get('/kelembagaan-pertanian/gapoktan', [GapoktanController::class, 'index'])->name('gapoktan.index');
+    Route::get('/kelembagaan-pertanian/gapoktan', [GapoktanController::class, 'gapoktanRegency'])->name('list-gapoktan-regency');
+    Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}', [GapoktanController::class, 'gapoktanDistrict'])->name('gapoktans.district');
+    Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create', [GapoktanController::class, 'create'])->name('gapoktans.create');
+    Route::post('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}', [GapoktanController::class, 'store'])->name('gapoktans.store');
+    Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create-step-one', [GapoktanController::class, 'createStepOne'])->name('gapoktans.create.step.one');
+    Route::post('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create-step-one', [GapoktanController::class, 'storeStepOne'])->name('gapoktans.store.step.one');
+    Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create-step-two', [GapoktanController::class, 'createStepTwo'])->name('gapoktans.create.step.two');
+    Route::post('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create-step-two', [GapoktanController::class, 'storeStepTwo'])->name('gapoktans.store.step.two');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

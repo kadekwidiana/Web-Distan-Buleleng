@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 // import DropdownLaravel from '../Dropdown';
 import { Dropdown, DropdownItem } from 'flowbite-react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleShowSidebar, handleShowSidebarMobile }) {
+    const { navName } = usePage().props;
+    // console.log(usePage().props);
     return (
         <nav className="fixed top-0 z-40 w-full bg-white border-b shadow-sm border-gray-200">
             <div className="px-3 py-4 lg:px-5 lg:pl-3">
                 <div className="flex items-center justify-between">
                     <div className="block">
-                        <div className={`flex items-center justify-start sm:justify-center rtl:justify-end transition-transform ${showSidebar && 'sm:ml-64'} `}>
+                        <div className={`flex items-center justify-start sm:justify-center rtl:justify-end text-gray-800 transition-transform ${showSidebar && 'sm:ml-64'} `}>
                             <button className='hidden sm:block' onClick={handleShowSidebar}>
                                 <i className="fa-solid fa-bars fa-xl"></i>
                             </button>
@@ -18,6 +20,9 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                             </button>
                             <a href="/" className="flex ms-2 md:me-24">
                                 <span className="self-center text-base sm:text-lg font-semibold  whitespace-nowrap">
+                                    <div className="flex items-center">
+                                        {navName}
+                                    </div>
                                     {route().current('index.dashboard') ?
                                         'Dashboard' :
                                         route().current('index.ppl') ?

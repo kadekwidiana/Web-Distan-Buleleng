@@ -34,9 +34,13 @@ return new class extends Migration
             $table->string('treasurer', 50);
             $table->integer('number_of_members');
             $table->string('since', 4);
+            $table->string('status');
+            $table->string('ability_class');
+            $table->string('group_confirmation_status');
+            $table->string('year_of_class_assignment');
             $table->json('location');
             $table->text('address');
-            $table->string('icon');
+            $table->string('icon')->default('/assets/icons/icon-layer/poktan.png');
             $table->text('photo');
             $table->text('description');
             $table->timestamps();

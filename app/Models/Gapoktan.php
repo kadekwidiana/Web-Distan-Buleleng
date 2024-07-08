@@ -50,8 +50,9 @@ class Gapoktan extends Model
      */
     protected $casts = [
         'location' => 'json',
-        'business_unit' => 'json',
-        'tools_and_machines' => 'json',
+        // 'business_unit' => 'json',
+        // 'tools_and_machines' => 'json',
+        // 'photo' => 'array',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

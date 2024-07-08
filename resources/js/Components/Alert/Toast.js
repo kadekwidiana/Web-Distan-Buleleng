@@ -17,7 +17,7 @@ export const ToastLoading = Swal.mixin({
 
 export const Toast = Swal.mixin({
     toast: true,
-    position: "bottom-start",
+    position: "top-end",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,

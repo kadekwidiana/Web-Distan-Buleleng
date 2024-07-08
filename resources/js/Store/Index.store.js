@@ -36,6 +36,22 @@ export const useStore = create()(
                     }
                 ))
             },
+            locationInput: '',
+            setLocationInput: (data) => {
+                set((
+                    {
+                        locationInput: data
+                    }
+                ))
+            },
+            addressInput: '',
+            setAddressInput: (data) => {
+                set((
+                    {
+                        addressInput: data
+                    }
+                ))
+            }
         }),
         {
             name: 'ANALISIS-STORAGE',
