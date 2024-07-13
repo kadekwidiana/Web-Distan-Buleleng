@@ -23,16 +23,18 @@ export default function StepOneCreateGapoktanPage() {
         )),
     );
 
-    const { gapoktan, district, villages, layerGroup, errors } = usePage().props;
+    const { gapoktanById, gapoktan, district, villages, layerGroup, errors } = usePage().props;
     console.log(usePage().props);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
-        layer_group_id: '',
-        photos: [],
-        location: '',
-        address: '',
-        description: ''
+        layer_group_id: gapoktanById.layer_group_id,
+        photos: JSON.parse(gapoktanById.photo) ?? [],
+        location: gapoktanById.location,
+        address: gapoktanById.address,
+        description: gapoktanById.description
     });
+
+    console.log(JSON.parse(gapoktanById.photo));
 
     useEffect(() => {
         setData(
@@ -45,8 +47,10 @@ export default function StepOneCreateGapoktanPage() {
     }, [locationInput, addressInput]);
 
     const photosUpload = data.photos.map((photo) => (
-        console.log(photo.name)
+        console.log(photo)
     ));
+
+    console.log(photosUpload);
 
     const [location, setLocation] = useState(data.location);
     const [address, setAddress] = useState(data.address);
@@ -86,7 +90,7 @@ export default function StepOneCreateGapoktanPage() {
             formData.append('photos[]', photo);
         });
 
-        post(route('gapoktans.store.step.two', { districtId: district.id }), {
+        post(route('gapoktans.update.step.two', { districtId: district.id, gapoktanId: gapoktanById.id }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
@@ -102,7 +106,7 @@ export default function StepOneCreateGapoktanPage() {
             <div className="py-2 grid grid-cols-2 gap-2">
                 {data.photos.map((photo, index) => (
                     <div key={index} >
-                        <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} />
+                        <img src={photo} alt={`Preview ${photo}`} />
                         <button type='button' onClick={() => removePhoto(index)}>Hapus</button>
                     </div>))}
             </div>
@@ -142,6 +146,7 @@ export default function StepOneCreateGapoktanPage() {
                             <div className="">
                                 <InputLabel>Layer Grup</InputLabel>
                                 <InputSelect
+                                    defaultValue={data.layer_group_id}
                                     onChange={handleChange}
                                     id="layer_group_id"
                                     name="layer_group_id"
@@ -190,7 +195,7 @@ export default function StepOneCreateGapoktanPage() {
                         </div>
                     </div>
                     <div className="flex justify-between my-2">
-                        <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${district.id}/create-step-one`}>
+                        <Link href={route('gapoktans.edit.step.one', { districtId: district.id, gapoktanId: gapoktanById.id })}>
                             <Button type="button" className='bg-red-500 hover:bg-red-600'>Previous</Button>
                         </Link>
                         <Button type="submit">Simpan</Button>

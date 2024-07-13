@@ -19,7 +19,7 @@ return new class extends Migration
                 ->on('layer_grups')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 50);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

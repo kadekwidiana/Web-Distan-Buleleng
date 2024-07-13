@@ -12,7 +12,7 @@ const SidebarMenus = () => {
                 icon={<i className="fa-solid fa-gauge"></i>}
                 label={'Dashboard'}
             />
-            <DropdownMenu
+            {/* <DropdownMenu
                 icon={<i className="fa-solid fa-person-chalkboard"></i>}
                 label={'PPL'}
                 url={'/ppl'}
@@ -23,7 +23,7 @@ const SidebarMenus = () => {
                         label={'Index'}
                     />
                 }
-            />
+            /> */}
             <DropdownMenu
                 icon={<i className="fa-solid fa-building-columns"></i>}
                 label={'Kelembagaan Pertanian'}

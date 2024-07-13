@@ -20,7 +20,7 @@ return new class extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 50);
             $table->string('icon', 255);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

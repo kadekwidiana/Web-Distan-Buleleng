@@ -165,10 +165,8 @@ const useDataMaps = (map, dataLayers) => {
                             <strong>Jumlah anggota:</strong> ${dataGapoktan.number_of_members}</br >
                             <strong>Tahun berdiri:</strong> ${dataGapoktan.since}</br >
                             <strong>Alamat:</strong> ${dataGapoktan.address}</br >
-                            <strong>Unit usaha:</strong> ${dataGapoktan.business_unit.map(data => data + ', ').join('')}</br >
                             <strong>Usaha pertanian:</strong> ${dataGapoktan.farming_business}</br >
                             <strong>Proses bisnis:</strong> ${dataGapoktan.business_process}</br >
-                            <strong>Alat dan mesin:</strong> ${dataGapoktan.tools_and_machines.map(data => data + ', ').join('')}</br >
                             <strong>Deskripsi:</strong> ${dataGapoktan.description}</br >
                         </div >
                     `;

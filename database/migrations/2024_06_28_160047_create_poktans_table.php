@@ -42,7 +42,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('icon')->default('/assets/icons/icon-layer/poktan.png');
             $table->text('photo');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('farming_business');
             $table->string('business_process');
             $table->text('tools_and_machines');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

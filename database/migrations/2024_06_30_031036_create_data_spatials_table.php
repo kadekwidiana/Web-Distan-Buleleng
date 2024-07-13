@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('url_spatial');
             $table->string('file_spatial');
             $table->string('attribute');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

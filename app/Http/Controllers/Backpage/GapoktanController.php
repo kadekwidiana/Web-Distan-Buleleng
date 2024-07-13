@@ -229,7 +229,7 @@ class GapoktanController extends Controller
             'photos.*' => 'required',
             'location' => 'required|json',
             'address' => 'required|string',
-            'description' => 'string',
+            'description' => 'nullable|string',
         ]);
 
         // Handle file uploads
@@ -263,6 +263,139 @@ class GapoktanController extends Controller
 
         return redirect()->route('gapoktans.district', ['districtId' => $districtId])->with('success', 'Gapoktan created successfully.');
     }
+
+    public function editStepOne(Request $request)
+    {
+        $gapoktanById = Gapoktan::findOrFail($request->gapoktanId); // dari request ambil
+
+        $district = District::firstWhere('id', $request->districtId);
+        $villages = Village::where('district_id', $request->districtId)->get();
+        $layerGroup = LayerGrup::all();
+
+        $gapoktan = $request->session()->get('gapoktan');
+
+        return Inertia::render('Backpage/Gapoktan/Edit/StepOne', [
+            'navName' => 'Edit Gapoktan',
+            'district' => $district,
+            'villages' => $villages,
+            'layerGroup' => $layerGroup,
+            'gapoktanById' => $gapoktanById,
+            'gapoktan' => $gapoktan
+        ]);
+    }
+
+    public function updateStepOne(Request $request)
+    {
+        $gapoktanById = Gapoktan::findOrFail($request->gapoktanId); // dari request ambil
+
+        $districtId = $request->districtId;
+
+        $validatedData = $request->validate([
+            'village_id' => 'required|exists:villages,id',
+            'name' => 'required|string|max:50',
+            'leader' => 'required|string|max:50',
+            'secretary' => 'required|string|max:50',
+            'treasurer' => 'required|string|max:50',
+            'number_of_members' => 'required|integer',
+            'since' => 'required|string|max:4',
+            'confirmation_sk' => 'required|string',
+            'confirmation_sk_no' => 'required|string',
+            'farming_business' => 'required|string',
+            'business_process' => 'required|string',
+            'business_unit' => 'required',
+            'tools_and_machines' => 'required',
+        ]);
+
+        if (empty($request->session()->get('gapoktan'))) {
+            // $gapoktanById->update($validatedData);
+            $gapoktanById->fill($validatedData);
+            $request->session()->put('gapoktan', $gapoktanById);
+        } else {
+            $gapoktanById = $request->session()->get('gapoktan');
+            $gapoktanById->fill($validatedData);
+            $request->session()->put('gapoktan', $gapoktanById);
+        }
+
+        return redirect()->route('gapoktans.edit.step.two', ['districtId' => $districtId, 'gapoktanId' => $request->gapoktanId]);
+    }
+
+    public function editStepTwo(Request $request)
+    {
+        $gapoktanById = Gapoktan::findOrFail($request->gapoktanId); // dari request ambil
+
+        $district = District::firstWhere('id', $request->districtId);
+        $villages = Village::where('district_id', $request->districtId)->get();
+        $layerGroup = LayerGrup::all();
+
+        $gapoktan = $request->session()->get('gapoktan');
+
+        return Inertia::render('Backpage/Gapoktan/Edit/StepTwo', [
+            'navName' => 'Edit Gapoktan',
+            'district' => $district,
+            'villages' => $villages,
+            'layerGroup' => $layerGroup,
+            'gapoktanById' => $gapoktanById,
+            'gapoktan' => $gapoktan
+        ]);
+    }
+
+    public function updateStepTwo(Request $request)
+    {
+        $gapoktanById = Gapoktan::findOrFail($request->gapoktanId); // Find the Gapoktan by ID from the request
+
+        $districtId = $request->districtId;
+
+        $validatedData = $request->validate([
+            'layer_group_id' => 'required|exists:layer_grups,id',
+            'photos.*' => 'required',
+            'location' => 'required|json',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        // Handle file uploads
+        $photoPaths = [];
+        if ($request->hasFile('photos')) {
+            // Delete old photos if they exist
+            if ($gapoktanById->photo) {
+                $oldPhotos = json_decode($gapoktanById->photo, true);
+                foreach ($oldPhotos as $oldPhoto) {
+                    $oldPhotoPath = str_replace('/storage', 'public', $oldPhoto); // Convert the URL to the storage path
+                    Storage::delete($oldPhotoPath);
+                }
+            }
+
+            // Store new photos
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('public/gapoktans-image');
+                $photoPaths[] = Storage::url($path);
+            }
+        }
+        $validatedData['photo'] = json_encode($photoPaths);
+
+        // Get gapoktan data from session if it exists
+        $gapoktan = $request->session()->get('gapoktan');
+        if ($gapoktan) {
+            // Ensure business_unit and tools_and_machines exist in gapoktan
+            if (isset($gapoktan['business_unit'])) {
+                $validatedData['business_unit'] = json_encode($gapoktan['business_unit']);
+            }
+
+            if (isset($gapoktan['tools_and_machines'])) {
+                $validatedData['tools_and_machines'] = json_encode($gapoktan['tools_and_machines']);
+            }
+
+            // Fill and save gapoktan data
+            $gapoktanById->fill($validatedData);
+            $gapoktanById->save();
+
+            // Remove gapoktan data from session
+            $request->session()->forget('gapoktan');
+        }
+
+        return redirect()->route('gapoktans.district', ['districtId' => $districtId])->with('success', 'Gapoktan updated successfully.');
+    }
+
 
     /**
      * Display the specified resource.

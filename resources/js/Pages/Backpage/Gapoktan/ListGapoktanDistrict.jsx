@@ -79,7 +79,7 @@ export default function ListGapoktansInDistrictPage() {
         <BackpageLayout>
             <Head title="Gapoktan" />
             <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
-                <ButtonBack url={`/kelembagaan-pertanian/gapoktan/`} />
+                <ButtonBack url={`/kelembagaan-pertanian/gapoktan`} />
                 <h1 className='text-2xl font-semibold text-gray-800 mb-2 capitalize'>Daftar Gapoktan di Kecamatan {districtData.name}</h1>
                 <div className="flex justify-between gap-2 sm:gap-10">
                     <div className="flex w-full">
@@ -147,10 +147,9 @@ export default function ListGapoktansInDistrictPage() {
                                                 <i className="fa-solid fa-ellipsis fa-2xl"></i>
                                             </button>
                                         }>
-                                            <Dropdown.Item><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Dropdown.Item>
+                                            <Dropdown.Item><Link href={route('gapoktans.edit.step.one', { districtId: districtData.id, gapoktanId: gapoktan.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
                                             <Dropdown.Item><i className="mr-2 fa-solid fa-trash fa-xl text-red-500"></i>Hapus</Dropdown.Item>
                                         </Dropdown>
-
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

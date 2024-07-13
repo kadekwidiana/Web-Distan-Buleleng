@@ -6,37 +6,25 @@ import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import { Head, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 
 export default function StepOneCreateGapoktanPage() {
-  const { gapoktan, district, villages, layerGroup, errors } = usePage().props;
+  const { gapoktanById, gapoktan, district, villages, layerGroup, errors } = usePage().props;
   const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
-    village_id: gapoktan?.village_id ?? '',
-    name: gapoktan?.name ?? '',
-    leader: gapoktan?.leader ?? '',
-    secretary: gapoktan?.secretary ?? '',
-    treasurer: gapoktan?.treasurer ?? '',
-    number_of_members: gapoktan?.number_of_members ?? '',
-    since: gapoktan?.since ?? '',
-    confirmation_sk: gapoktan?.confirmation_sk ?? '',
-    confirmation_sk_no: gapoktan?.confirmation_sk_no ?? '',
-    business_unit: gapoktan?.business_unit ?? {
-      sp_produksi: false,
-      pemasaran: false,
-      keuangan_mikro: false,
-      jasa_lainnya: ''
-    },
-    farming_business: gapoktan?.farming_business ?? '',
-    business_process: gapoktan?.business_process ?? '',
-    tools_and_machines: gapoktan?.tools_and_machines ?? {
-      traktor: '',
-      hand_traktor: '',
-      pompa_air: '',
-      mesin_penggiling_padi: '',
-      mesin_pengering: '',
-      lainnya: '',
-    },
+    village_id: gapoktan?.village_id ?? gapoktanById?.village_id,
+    name: gapoktan?.name ?? gapoktanById?.name,
+    leader: gapoktan?.leader ?? gapoktanById?.leader,
+    secretary: gapoktan?.secretary ?? gapoktanById?.secretary,
+    treasurer: gapoktan?.treasurer ?? gapoktanById.treasurer,
+    number_of_members: gapoktan?.number_of_members ?? gapoktanById?.number_of_members,
+    since: gapoktan?.since ?? gapoktanById?.since,
+    confirmation_sk: gapoktan?.confirmation_sk ?? gapoktanById.confirmation_sk,
+    confirmation_sk_no: gapoktan?.confirmation_sk_no ?? gapoktanById.confirmation_sk_no,
+    business_unit: gapoktan?.business_unit ?? JSON.parse(gapoktanById.business_unit),
+    farming_business: gapoktan?.farming_business ?? gapoktanById.farming_business,
+    business_process: gapoktan?.business_process ?? gapoktanById.business_process,
+    tools_and_machines: gapoktan?.tools_and_machines ?? JSON.parse(gapoktanById.tools_and_machines),
   });
 
   const handleChange = (e) => {
@@ -91,10 +79,12 @@ export default function StepOneCreateGapoktanPage() {
     e.preventDefault();
     const formData = new FormData();
 
-    post(route('gapoktans.store.step.one', { districtId: district.id }), {
+    post(route('gapoktans.update.step.one', { districtId: district.id, gapoktanId: gapoktanById.id }), {
       data: formData
     });
   };
+
+  console.log(gapoktanById);
 
   return (
     <BackpageLayout>
@@ -318,10 +308,7 @@ export default function StepOneCreateGapoktanPage() {
               </div>
             </div>
           </div>
-          <div className="flex justify-between my-2">
-            <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${district.id}`}>
-              <Button type="button" className='bg-red-500 hover:bg-red-600'>Batal</Button>
-            </Link>
+          <div className="flex justify-end my-2">
             <Button disabled={processing} type="submit">{processing ? 'Next...' : 'Next'}</Button>
           </div>
         </form>

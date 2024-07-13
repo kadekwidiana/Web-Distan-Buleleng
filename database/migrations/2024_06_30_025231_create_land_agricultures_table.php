@@ -41,7 +41,7 @@ return new class extends Migration
             $table->boolean('is_active');
             $table->string('icon')->default('/assets/icons/icon-layer/lahan-pertanian.png');
             $table->text('photo');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
