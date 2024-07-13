@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OutreachActivity extends Model
+class OutreachActivities extends Model
 {
     use HasFactory;
 
