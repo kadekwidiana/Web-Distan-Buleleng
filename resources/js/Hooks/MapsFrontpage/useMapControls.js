@@ -1,4 +1,5 @@
 import React from 'react'
+import L from 'leaflet';
 
 export const useMapControls = (map) => {
     // Custom zoom control

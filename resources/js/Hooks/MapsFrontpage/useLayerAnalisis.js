@@ -1,4 +1,5 @@
 import { useStore } from '@/Store/Index.store';
+import L from 'leaflet';
 
 // NOTE: ID ELEMENT HTML HARUS SAMA DENGAN DATA DI STORE
 const dataElementCheckboxAnalisis = [

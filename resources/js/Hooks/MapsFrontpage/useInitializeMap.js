@@ -7,6 +7,17 @@ import { useDrawTools } from "./useDrawTools";
 import useLayerAnalisis from "./useLayerAnalisis";
 import { ATRIBUTE_NAME } from "@/Utils/Constan/Basemap";
 import { usePage } from "@inertiajs/react";
+// leaflet
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+// leaflet draw
+import 'leaflet-draw/dist/leaflet.draw.css'
+import 'leaflet-draw/dist/leaflet.draw'
+// leaflet hash
+import '/public/assets/js-leaflet/leaflet-hash'
+// leaflet navbar
+import '/public/assets/css-leaflet/Leaflet.NavBar.css'
+import '/public/assets/js-leaflet/Leaflet.NavBar'
 
 //  LOGIC ANTI MAINSTREAM wkwk
 const useInitializeMap = () => {
@@ -22,7 +33,7 @@ const useInitializeMap = () => {
         landAgricultures,
     } = usePage().props;
 
-    console.log(layerGroups);
+    // console.log(layerGroups);
 
     useEffect(() => {
         const GOOGLE_STREET_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {

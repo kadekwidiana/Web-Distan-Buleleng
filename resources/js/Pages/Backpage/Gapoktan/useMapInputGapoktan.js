@@ -2,6 +2,12 @@ import { useStore } from "@/Store/Index.store";
 import { useEffect } from "react"
 import Swal from 'sweetalert2'
 import { useShallow } from "zustand/react/shallow";
+// leaflet
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+// leaflet draw
+import 'leaflet-draw/dist/leaflet.draw.css'
+import 'leaflet-draw/dist/leaflet.draw'
 
 const useMapInputGapoktan = () => {
     const { locationInput, setLocationInput, addressInput, setAddressInput } = useStore(

@@ -1,4 +1,5 @@
 import { AxiosInstance } from "@/Services/AxiosConfig";
+import L from 'leaflet';
 
 const useDataMaps = (map, dataLayers) => {
     const {
@@ -13,7 +14,7 @@ const useDataMaps = (map, dataLayers) => {
         landAgricultures,
     } = dataLayers;
 
-    console.log(commodities);
+    // console.log(commodities);
 
     function onEachFeature(feature, layer) {
         // does this feature have a property named popupContent?
@@ -372,7 +373,7 @@ const useDataMaps = (map, dataLayers) => {
         dataCommodity.land_agricultures.forEach(landAgriculture => {
             const marker = L.marker(landAgriculture.location, { icon: customIcon(iconUrl) });
 
-            console.log(landAgriculture.area_json);
+            // console.log(landAgriculture.area_json);  
             // Generate unique ID for the swiper container
             const swiperId = `swiper-${Math.random().toString(36).substring(7)}`;
 

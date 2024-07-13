@@ -1,4 +1,5 @@
 import { ESRI_SATELLITE, ESRI_WORLD_STREET_MAP, GOOGLE_EARTH, GOOGLE_HYBRID_MAP, GOOGLE_STREET_MAP, OPEN_STREET_MAP, OPEN_TOPO_MAP, SATELLITE_MAP } from "@/Utils/Constan/Basemap";
+import L from 'leaflet';
 
 export const useBasemapLayers = (map) => {
     function changeBasemap(newBasemap) {

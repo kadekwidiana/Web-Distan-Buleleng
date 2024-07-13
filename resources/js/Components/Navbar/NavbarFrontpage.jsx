@@ -26,11 +26,11 @@ export default function NavbarFrontpage() {
                 <div className={`${showNavbar ? '' : 'hidden'} transition-shadow w-full lg:block lg:w-auto`} id="navbar-default">
                     <ul className="font-medium flex flex-col lg:p-0 mt-4 mb-1 border shadow-2xl text-white rounded-lg lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0 ">
                         <li>
-                            <Link href="/" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 ${route().current('landing-page') && 'underline underline-offset-4 font-extrabold'}`}
+                            <Link href="/" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 ${route().current('landing-page') && 'underline underline-offset-4 font-bold'}`}
                                 aria-current="page">Beranda</Link>
                         </li>
                         <li>
-                            <Link href="/maps" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 ${route().current('maps-frontpage') && 'underline underline-offset-4 font-extrabold'}`}
+                            <Link href="/maps" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 ${route().current('maps-frontpage') && 'underline underline-offset-4 font-bold'}`}
                                 aria-current="page">Peta Geografis</Link>
                         </li>
                         <li>

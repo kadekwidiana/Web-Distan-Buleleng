@@ -1,3 +1,5 @@
+import L from 'leaflet';
+
 const useScriptSidebarMaps = (map) => {
     // get width sreen
     const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
