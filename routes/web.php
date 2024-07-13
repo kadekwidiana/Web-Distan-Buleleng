@@ -80,3 +80,7 @@ Route::get('/data-layer', [LayerController::class, 'dataLayer'])->name('dataLaye
 Route::post('/precipitation', [AnalisisGeospasial::class, 'precipitation'])->name('precipitation');
 Route::post('/vci', [AnalisisGeospasial::class, 'vci'])->name('vci');
 Route::post('/evi', [AnalisisGeospasial::class, 'evi'])->name('evi');
+
+Route::get('/about', function () {
+    return view('about');
+});
