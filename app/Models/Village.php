@@ -50,4 +50,9 @@ class Village extends Model
     {
         return $this->hasMany(Gapoktan::class);
     }
+
+    public function poktans()
+    {
+        return $this->hasMany(Poktan::class);
+    }
 }

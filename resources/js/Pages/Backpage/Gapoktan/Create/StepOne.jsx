@@ -10,7 +10,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 
 export default function StepOneCreateGapoktanPage() {
-  const { gapoktan, district, villages, layerGroup, errors } = usePage().props;
+  const { gapoktan, district, villages, errors } = usePage().props;
   const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
     village_id: gapoktan?.village_id ?? '',
     name: gapoktan?.name ?? '',
@@ -114,15 +114,16 @@ export default function StepOneCreateGapoktanPage() {
       </div>
       <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
         <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
               <div className="w-full">
                 <InputLabel>Kecamatan</InputLabel>
-                <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#eeeeee]" readOnly />
+                <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
               </div>
               <div className="">
                 <InputLabel>Desa</InputLabel>
                 <InputSelect
+                  error={errors.village_id}
                   defaultValue={data.village_id}
                   onChange={handleChange}
                   id="village_id"
@@ -137,42 +138,42 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Nama Gapoktan</InputLabel>
-                <TextInput defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama gapoktan.." />
+                <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama gapoktan.." />
                 <InputError message={errors.name} />
               </div>
               <div className="">
                 <InputLabel>Ketua</InputLabel>
-                <TextInput defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua.." />
+                <TextInput error={errors.leader} defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua.." />
                 <InputError message={errors.leader} />
               </div>
               <div className="">
                 <InputLabel>Sekretaris</InputLabel>
-                <TextInput defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris.." />
+                <TextInput error={errors.secretary} defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris.." />
                 <InputError message={errors.secretary} />
               </div>
               <div className="">
                 <InputLabel>Bendahara</InputLabel>
-                <TextInput defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara.." />
+                <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara.." />
                 <InputError message={errors.treasurer} />
               </div>
               <div className="">
                 <InputLabel>Jumlah Anggota</InputLabel>
-                <TextInput defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="Jumlah anggota.." />
+                <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="Jumlah anggota.." />
                 <InputError message={errors.number_of_members} />
               </div>
               <div className="">
                 <InputLabel>Tahun Pembentukan</InputLabel>
-                <TextInput defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
+                <TextInput error={errors.since} defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
                 <InputError message={errors.since} />
               </div>
               <div className="">
                 <InputLabel>SK Pengukuhan</InputLabel>
-                <TextInput defaultValue={data.confirmation_sk} onChange={handleChange} id='confirmation_sk' name='confirmation_sk' placeholder="SK Pengukuhan.." />
+                <TextInput error={errors.confirmation_sk} defaultValue={data.confirmation_sk} onChange={handleChange} id='confirmation_sk' name='confirmation_sk' placeholder="SK Pengukuhan.." />
                 <InputError message={errors.confirmation_sk} />
               </div>
               <div className="">
                 <InputLabel>No. SK Pengukuhan</InputLabel>
-                <TextInput defaultValue={data.confirmation_sk_no} onChange={handleChange} id='confirmation_sk_no' name='confirmation_sk_no' placeholder="No. SK Pengukuhan.." />
+                <TextInput error={errors.confirmation_sk_no} defaultValue={data.confirmation_sk_no} onChange={handleChange} id='confirmation_sk_no' name='confirmation_sk_no' placeholder="No. SK Pengukuhan.." />
                 <InputError message={errors.confirmation_sk_no} />
               </div>
             </div>
@@ -225,12 +226,12 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Usaha Tani</InputLabel>
-                <TextInput defaultValue={data.farming_business} onChange={handleChange} id='farming_business' name='farming_business' placeholder="Bisnis pertanian.." />
+                <TextInput error={errors.farming_business} defaultValue={data.farming_business} onChange={handleChange} id='farming_business' name='farming_business' placeholder="Bisnis pertanian.." />
                 <InputError message={errors.farming_business} />
               </div>
               <div className="">
                 <InputLabel>Usaha Olah</InputLabel>
-                <TextInput defaultValue={data.business_process} onChange={handleChange} id='business_process' name='business_process' placeholder="Proses bisnis.." />
+                <TextInput error={errors.business_process} defaultValue={data.business_process} onChange={handleChange} id='business_process' name='business_process' placeholder="Proses bisnis.." />
                 <InputError message={errors.business_process} />
               </div>
               <div className="">
@@ -318,11 +319,11 @@ export default function StepOneCreateGapoktanPage() {
               </div>
             </div>
           </div>
-          <div className="flex justify-between my-2">
-            <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${district.id}`}>
+          <div className="flex justify-end gap-4 my-2">
+            <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${district.id}/back`}>
               <Button type="button" className='bg-red-500 hover:bg-red-600'>Batal</Button>
             </Link>
-            <Button disabled={processing} type="submit">{processing ? 'Next...' : 'Next'}</Button>
+            <Button disabled={processing} type="submit">{processing ? 'Lanjut...' : 'Lanjut'}</Button>
           </div>
         </form>
       </div>

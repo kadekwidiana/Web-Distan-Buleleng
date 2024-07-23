@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import useScriptSidebarMaps from "./useSidebars";
 import useDataMaps from "./useDataMaps";
-import { useMapControls } from "./useMapControls";
 import { useBasemapLayers } from "./useBasemapLayers";
 import { useDrawTools } from "./useDrawTools";
 import useLayerAnalisis from "./useLayerAnalisis";
@@ -18,9 +17,10 @@ import '/public/assets/js-leaflet/leaflet-hash'
 // leaflet navbar
 import '/public/assets/css-leaflet/Leaflet.NavBar.css'
 import '/public/assets/js-leaflet/Leaflet.NavBar'
+import { useMapsControls } from "./useMapsControls";
 
 //  LOGIC ANTI MAINSTREAM wkwk
-const useInitializeMap = () => {
+const useInitializeMaps = () => {
     const {
         layerGroups,
         typeAgricultures,
@@ -68,11 +68,11 @@ const useInitializeMap = () => {
 
         useDrawTools(map);
 
-        useMapControls(map);
+        useMapsControls(map);
 
         useLayerAnalisis(map);
 
     }, [])
 }
 
-export default useInitializeMap;
+export default useInitializeMaps;

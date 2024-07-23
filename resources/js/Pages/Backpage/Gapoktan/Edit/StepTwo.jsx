@@ -9,9 +9,9 @@ import TextInputArea from '@/Components/Input/TextInputArea';
 import BackpageLayout from '@/Layouts/BackpageLayout'
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
-import MapsInputGapoktan from '../MapInputGapoktan';
 import { useStore } from '@/Store/Index.store';
 import { useShallow } from 'zustand/react/shallow';
+import MapsInputData from '@/Components/Maps/MapsInputData';
 
 export default function StepOneCreateGapoktanPage() {
     const { locationInput, addressInput } = useStore(
@@ -24,17 +24,19 @@ export default function StepOneCreateGapoktanPage() {
     );
 
     const { gapoktanById, gapoktan, district, villages, layerGroup, errors } = usePage().props;
-    console.log(usePage().props);
+
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         layer_group_id: gapoktanById.layer_group_id,
         photos: JSON.parse(gapoktanById.photo) ?? [],
-        location: gapoktanById.location,
+        location: locationInput,
         address: gapoktanById.address,
         description: gapoktanById.description
     });
 
-    console.log(JSON.parse(gapoktanById.photo));
+    useEffect(() => {
+        setLocation(gapoktanById.location);
+    }, [gapoktanById?.location]);
 
     useEffect(() => {
         setData(
@@ -45,12 +47,6 @@ export default function StepOneCreateGapoktanPage() {
             }
         )
     }, [locationInput, addressInput]);
-
-    const photosUpload = data.photos.map((photo) => (
-        console.log(photo)
-    ));
-
-    console.log(photosUpload);
 
     const [location, setLocation] = useState(data.location);
     const [address, setAddress] = useState(data.address);
@@ -105,11 +101,19 @@ export default function StepOneCreateGapoktanPage() {
         return (
             <div className="py-2 grid grid-cols-2 gap-2">
                 {data.photos.map((photo, index) => (
-                    <div key={index} >
-                        <img src={photo} alt={`Preview ${photo}`} />
-                        <button type='button' onClick={() => removePhoto(index)}>Hapus</button>
-                    </div>))}
+                    <div key={index}>
+                        {typeof photo === 'object' ?
+                            <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
+                            :
+                            <img src={photo} alt={`Preview ${photo}`} />
+                        }
+                        <div className="flex justify-end mt-2">
+                            <button type='button' onClick={() => removePhoto(index)} className='py-0.5 px-2 bg-red-500 text-white rounded-sm'>Hapus</button>
+                        </div>
+                    </div>
+                ))}
             </div>
+
         )
     };
 
@@ -181,24 +185,24 @@ export default function StepOneCreateGapoktanPage() {
                         <div className="flex flex-col gap-3">
                             <div className="">
                                 <InputLabel>Lokasi</InputLabel>
-                                <TextInput defaultValue={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi.." />
+                                <TextInput value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi.." />
                                 <InputError message={errors.location} />
                             </div>
                             <div className="">
                                 <InputLabel>Alamat Lengkap</InputLabel>
-                                <TextInputArea defaultValue={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
+                                <TextInputArea value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputGapoktan />
+                                <MapsInputData isEdit={true} data={gapoktanById} />
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between my-2">
+                    <div className="flex justify-end gap-2 my-2">
                         <Link href={route('gapoktans.edit.step.one', { districtId: district.id, gapoktanId: gapoktanById.id })}>
-                            <Button type="button" className='bg-red-500 hover:bg-red-600'>Previous</Button>
+                            <Button type="button" className='bg-red-500 hover:bg-red-600'>Sebelumnya</Button>
                         </Link>
-                        <Button type="submit">Simpan</Button>
+                        <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>
                     </div>
                 </form>
             </div>

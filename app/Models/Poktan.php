@@ -31,6 +31,10 @@ class Poktan extends Model
         'treasurer',
         'number_of_members',
         'since',
+        'status',
+        'ability_class',
+        'group_confirmation_status',
+        'year_of_class_assignment',
         'location',
         'address',
         'icon',
@@ -71,5 +75,10 @@ class Poktan extends Model
     public function layerGroup()
     {
         return $this->belongsTo(LayerGrup::class, 'layer_group_id');
+    }
+
+    public function commodities()
+    {
+        return $this->belongsToMany(Commodity::class, 'poktan_commodities');
     }
 }

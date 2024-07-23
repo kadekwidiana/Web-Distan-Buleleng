@@ -85,6 +85,15 @@ class GapoktanController extends Controller
         ]);
     }
 
+    public function backNav(Request $request)
+    {
+        $districtId = $request->districtId;
+        // Hapus data gapoktan dari sesi
+        $request->session()->forget('gapoktan');
+
+        return redirect()->route('gapoktans.district', ['districtId' => $districtId]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -157,7 +166,6 @@ class GapoktanController extends Controller
     {
         $district = District::firstWhere('id', $request->districtId);
         $villages = Village::where('district_id', $request->districtId)->get();
-        $layerGroup = LayerGrup::all();
 
         $gapoktan = $request->session()->get('gapoktan');
 
@@ -165,7 +173,6 @@ class GapoktanController extends Controller
             'navName' => 'Tambah Gapoktan',
             'district' => $district,
             'villages' => $villages,
-            'layerGroup' => $layerGroup,
             'gapoktan' => $gapoktan
         ]);
     }
@@ -231,6 +238,9 @@ class GapoktanController extends Controller
             'address' => 'required|string',
             'description' => 'nullable|string',
         ]);
+
+        // Mengonversi lokasi ke array
+        $validatedData['location'] = json_decode($request->location, true);
 
         // Handle file uploads
         $photoPaths = [];
@@ -347,30 +357,45 @@ class GapoktanController extends Controller
 
         $validatedData = $request->validate([
             'layer_group_id' => 'required|exists:layer_grups,id',
-            'photos.*' => 'required',
+            'photos.*' => 'required', // Ensure photos are images
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
         ]);
 
+        // Mengonversi lokasi ke array
+        $validatedData['location'] = json_decode($request->location, true);
+
         // Handle file uploads
+        $newPhotoPaths = [];
+
         $photoPaths = [];
-        if ($request->hasFile('photos')) {
-            // Delete old photos if they exist
-            if ($gapoktanById->photo) {
-                $oldPhotos = json_decode($gapoktanById->photo, true);
-                foreach ($oldPhotos as $oldPhoto) {
-                    $oldPhotoPath = str_replace('/storage', 'public', $oldPhoto); // Convert the URL to the storage path
-                    Storage::delete($oldPhotoPath);
-                }
+        if ($gapoktanById->photo) {
+            $oldPhotos = json_decode($gapoktanById->photo, true);
+
+            // Compare old and new photos
+            $photosToKeep = array_intersect($oldPhotos, $request->photos ? $request->photos : []);
+            $photosToDelete = array_diff($oldPhotos, $photosToKeep);
+
+            // Delete removed photos from storage
+            foreach ($photosToDelete as $oldPhoto) {
+                $oldPhotoPath = str_replace('/storage', '', $oldPhoto); // Convert the URL to the storage path
+                Storage::delete($oldPhotoPath);
             }
 
-            // Store new photos
+            // Merge kept old photos with new photos
+            $photoPaths = array_merge($photosToKeep, $newPhotoPaths);
+        } else {
+            $photoPaths = $newPhotoPaths;
+        }
+
+        if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('public/gapoktans-image');
+                $path = $photo->store('gapoktans-image');
                 $photoPaths[] = Storage::url($path);
             }
         }
+
         $validatedData['photo'] = json_encode($photoPaths);
 
         // Get gapoktan data from session if it exists
@@ -400,9 +425,15 @@ class GapoktanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $gapoktanById = Gapoktan::findOrFail($request->gapoktanId);
+
+        return Inertia::render('Backpage/Gapoktan/Detail/Index', [
+            'navName' => 'Detail ' . $gapoktanById->name,
+            'gapoktanById' => $gapoktanById,
+            'districtId' => $request->districtId
+        ]);
     }
 
     /**
@@ -424,8 +455,22 @@ class GapoktanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $gapoktan = Gapoktan::findOrFail($request->gapoktanId);
+
+        // Hapus file foto dari penyimpanan
+        if ($gapoktan->photo) {
+            $photoPaths = json_decode($gapoktan->photo, true);
+            foreach ($photoPaths as $photoPath) {
+                $storagePath = str_replace('/storage', '', $photoPath); // Konversi URL ke path penyimpanan
+                Storage::delete($storagePath);
+            }
+        }
+
+        // Hapus Gapoktan dari database
+        $gapoktan->delete();
+
+        return redirect()->route('gapoktans.district', ['districtId' => $request->districtId])->with('success', 'Gapoktan deleted successfully.');
     }
 }

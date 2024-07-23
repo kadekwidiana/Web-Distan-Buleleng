@@ -4,11 +4,14 @@ import { CategoryScale } from "chart.js";
 Chart.register(CategoryScale);
 
 export default function LineChartDetailAnalisis({ yearRange, dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {
-    console.log('YEAR', yearRange);
+    // console.log('YEAR', yearRange);
 
     let labels = monthLabel
-        .filter(data => data.year >= yearRange[0] && data.year <= yearRange[1])
-        .map(data => [data.month, data.month == 6 ? data.year : '']); // pake or karena response nya beda ada yang month dan Month
+        .filter(data => (data.year || data.Year) >= yearRange[0] && (data.year || data.Year) <= yearRange[1])
+        .map(data => [
+            (data.month || data.Month),
+            ((data.month || data.Month) == 6 ? (data.year || data.Year) : '')
+        ]); // pake or karena response nya beda ada yang month atau Month dan year atau Year
 
     let datasets = [];
 

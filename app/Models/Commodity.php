@@ -44,4 +44,12 @@ class Commodity extends Model
     {
         return $this->belongsToMany(LandAgriculture::class, 'land_agriculture_commodities');
     }
+
+    /**
+     * Get the land agricultures that have the commodity.
+     */
+    public function poktans()
+    {
+        return $this->belongsToMany(Poktan::class, 'poktan_commodities');
+    }
 }

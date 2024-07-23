@@ -8,8 +8,9 @@ import L from 'leaflet';
 // leaflet draw
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet-draw/dist/leaflet.draw'
+import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Utils/Constan/Basemap";
 
-const useMapInputGapoktan = () => {
+const useMapsInputData = (isEdit, data) => {
     const { locationInput, setLocationInput, addressInput, setAddressInput } = useStore(
         useShallow((state) => (
             {
@@ -21,49 +22,18 @@ const useMapInputGapoktan = () => {
         )),
     );
     useEffect(() => {
-        // Maps Leaflet
-        // List Basemap
-        const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '©OpenStreetMap Contributors',
-        });
-
-        const googleStreetMap = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
-            attribution: '©Google Street',
+        const GOOGLE_STREET_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+            attribution: ATRIBUTE_NAME,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
             maxZoom: 20
         });
-
-        const satelliteMap = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-            attribution: '©Google Satellite Map',
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            maxZoom: 20
-        });
-
-        const googleHibridMap = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
-            attribution: '©Google Hybrid Map',
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            maxZoom: 20
-        });
-
-        const googleTerrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            attribution: '©Google Terrain'
-        });
-
-        const googleTraffic = L.tileLayer('http://{s}.google.com/vt/lyrs=m,traffic&hl=en&x={x}&y={y}&z={z}&s=Ga', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            attribution: '©Google Traffic'
-        });
-
 
         // INIT MAP
         // Initialize the map with the default basemap
         const coorBali = [-8.198517680287658, 115.10051848149178];
 
-        const map = L.map('maps', {
-            layers: [googleStreetMap],
+        const map = L.map('maps-input', {
+            layers: [GOOGLE_STREET_MAP],
             center: coorBali,
             zoom: 10,
             // minZoom: ,
@@ -134,19 +104,27 @@ const useMapInputGapoktan = () => {
             }
         }
 
-        // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
-        setMapToUserLocation();
+        if (isEdit) {
+            L.marker(data?.location ?? coorBali).addTo(map)
+                .bindPopup(`
+                <div class='flex flex-col justify-center items-center gap-1'>
+                <span>Lokasi ${data?.name ?? ''}</span>
+                </div>
+                `)
+                .openPopup();
+        } else {
+            // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
+            setMapToUserLocation();
+        }
 
         const baseMaps = {
-            "OpenStreetMap": openStreetMap,
-            "Google Street": googleStreetMap,
-            "Google Satelite": satelliteMap,
-            "Google Hibrid": googleHibridMap,
-            "Google Terrain": googleTerrain,
-            "Google Traffic": googleTraffic,
+            "OpenStreetMap": OPEN_STREET_MAP,
+            "Google Street": GOOGLE_STREET_MAP,
+            "Google Satelite": SATELLITE_MAP,
+            "Google Hibrid": GOOGLE_HYBRID_MAP
         };
 
-        const layerControl = L.control.layers(baseMaps).addTo(map);
+        L.control.layers(baseMaps).addTo(map);
 
         // Custom zoom control
         const customZoomControl = L.control.zoom({
@@ -260,4 +238,4 @@ const useMapInputGapoktan = () => {
     }, [])
 }
 
-export default useMapInputGapoktan;
+export default useMapsInputData;

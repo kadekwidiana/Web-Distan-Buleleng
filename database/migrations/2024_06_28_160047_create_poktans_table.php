@@ -18,7 +18,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('villages')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('gapoktan_id');
+            $table->unsignedBigInteger('gapoktan_id')->nullable();
             $table->foreign('gapoktan_id')
                 ->references('id')
                 ->on('gapoktans')

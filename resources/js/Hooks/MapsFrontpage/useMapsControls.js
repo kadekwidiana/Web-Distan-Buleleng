@@ -1,7 +1,7 @@
 import React from 'react'
 import L from 'leaflet';
 
-export const useMapControls = (map) => {
+export const useMapsControls = (map) => {
     // Custom zoom control
     let customZoomControl = L.control.zoom({
         position: 'bottomright'  // Set the position to bottom right

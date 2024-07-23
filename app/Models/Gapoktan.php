@@ -65,7 +65,7 @@ class Gapoktan extends Model
         return $this->belongsTo(Village::class, 'village_id');
     }
 
-    /**
+    /** 
      * Get the layer group that owns the Gapoktan.
      */
     public function layerGroup()

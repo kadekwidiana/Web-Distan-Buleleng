@@ -51,7 +51,7 @@ class Ppl extends Model
         'provinsi',
         'regency',
         'post_code',
-        'no_telepon',
+        'phone_number',
         'email',
     ];
 

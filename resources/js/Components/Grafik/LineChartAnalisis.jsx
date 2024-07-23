@@ -7,7 +7,7 @@ import { eviAndMsiData } from "@/Utils/Data/evi"
 Chart.register(CategoryScale);
 
 export default function LineChartAnalisis({ dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {
-    console.log('MONTH LABEL', monthLabel);
+    // console.log('MONTH LABEL', monthLabel);
     let datasets = [];
 
     dataPrecipitation.length > 0 && datasets.push({

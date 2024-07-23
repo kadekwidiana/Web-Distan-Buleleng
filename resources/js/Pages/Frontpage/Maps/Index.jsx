@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { Head } from '@inertiajs/react';
 import { SidebarAnalisis, SidebarBasemap, SidebarLayer, SidebarLegend } from '@/Components/Sidebar/SidebarMap/Index';
 import FrontpageLayout from '@/Layouts/FrontpageLayout';
-import useInitializeMap from '@/Hooks/MapsFrontpage/useInitializeMap';
+import useInitializeMaps from '@/Hooks/MapsFrontpage/useInitializeMaps';
 
 export default function MapsPage() {
-    useInitializeMap();
+    useInitializeMaps();
 
     return (
         <>

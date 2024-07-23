@@ -18,7 +18,7 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                             <button className='block sm:hidden' onClick={handleShowSidebarMobile}>
                                 <i className="fa-solid fa-bars fa-xl"></i>
                             </button>
-                            <a href="/" className="flex ms-2 md:me-24">
+                            <a href="#" className="flex ms-2 md:me-24">
                                 <span className="self-center text-base sm:text-lg font-semibold  whitespace-nowrap">
                                     <div className="flex items-center">
                                         {navName}
@@ -46,7 +46,7 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                             <Dropdown label="" dismissOnClick={false} renderTrigger={() =>
                                 <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-300 :focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span className="sr-only">Open user menu</span>
-                                    <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
+                                    <img className="w-8 h-8 rounded-full" src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg" alt="user photo" />
                                 </button>
                             }>
                                 <DropdownItem>Kadek</DropdownItem>

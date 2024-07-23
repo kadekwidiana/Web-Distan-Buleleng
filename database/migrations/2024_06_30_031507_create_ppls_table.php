@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('provinsi', 50);
             $table->string('regency', 50);
             $table->string('post_code', 10);
-            $table->string('no_telepon', 15);
+            $table->string('phone_number', 15);
             $table->string('email', 50);
             $table->timestamps();
         });

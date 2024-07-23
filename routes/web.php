@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backpage\GapoktanController;
+use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
@@ -50,9 +51,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Backpage/PPL/Input');
     })->name('input.ppl');
 
+    /*
+    |--------------------------------------------------------------------------
+    | START ROUTE GAPOKTAN
+    |--------------------------------------------------------------------------
+    */
+    // back to list gapoktan
+    Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/back', [GapoktanController::class, 'backNav'])->name('gapoktans.back');
     // R gapoktan
     Route::get('/kelembagaan-pertanian/gapoktan', [GapoktanController::class, 'gapoktanRegency'])->name('list-gapoktan-regency');
     Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}', [GapoktanController::class, 'gapoktanDistrict'])->name('gapoktans.district');
+    Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/{gapoktanId}/detail', [GapoktanController::class, 'show'])->name('gapoktans.detail');
     // C gapoktan
     Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create-step-one', [GapoktanController::class, 'createStepOne'])->name('gapoktans.create.step.one');
     Route::post('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/create-step-one', [GapoktanController::class, 'storeStepOne'])->name('gapoktans.store.step.one');
@@ -63,6 +72,37 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/{gapoktanId}/edit-step-one', [GapoktanController::class, 'updateStepOne'])->name('gapoktans.update.step.one');
     Route::get('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/{gapoktanId}/edit-step-two', [GapoktanController::class, 'editStepTwo'])->name('gapoktans.edit.step.two');
     Route::post('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/{gapoktanId}/edit-step-two', [GapoktanController::class, 'updateStepTwo'])->name('gapoktans.update.step.two');
+    // D gapoktan
+    Route::delete('/kelembagaan-pertanian/gapoktan/kecamatan/{districtId}/{gapoktanId}/delete', [GapoktanController::class, 'destroy'])->name('gapoktans.delete');
+    /*
+    |--------------------------------------------------------------------------
+    | END ROUTE GAPOKTAN
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | START ROUTE POKTAN
+    |--------------------------------------------------------------------------
+    */
+    // back to list gapoktan
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/back', [PoktanController::class, 'backNav'])->name('poktans.back');
+    // R poktan
+    Route::get('/kelembagaan-pertanian/poktan', [PoktanController::class, 'poktanRegency'])->name('poktans.regency');
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}', [PoktanController::class, 'poktanDistrict'])->name('poktans.district');
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/detail', [PoktanController::class, 'show'])->name('poktans.detail');
+    // C gapoktan
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-one', [PoktanController::class, 'createStepOne'])->name('poktans.create.step.one');
+    Route::post('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-one', [PoktanController::class, 'storeStepOne'])->name('poktans.store.step.one');
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-two', [PoktanController::class, 'createStepTwo'])->name('poktans.create.step.two');
+    Route::post('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-two', [PoktanController::class, 'storeStepTwo'])->name('poktans.store.step.two');
+    // D poktan
+    Route::delete('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/delete', [PoktanController::class, 'destroy'])->name('poktans.delete');
+    /*
+    |--------------------------------------------------------------------------
+    | END ROUTE GAPOKTAN
+    |--------------------------------------------------------------------------
+    */
 });
 
 Route::middleware('auth')->group(function () {

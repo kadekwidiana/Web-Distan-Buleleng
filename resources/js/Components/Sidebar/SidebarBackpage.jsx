@@ -36,7 +36,7 @@ const SidebarMenus = () => {
                             label={'Gabungan Kelompok Tani'}
                         />
                         <SidebarMenu
-                            href={'#'}
+                            href={'/kelembagaan-pertanian/poktan'}
                             icon={<i className="fa-solid fa-users"></i>}
                             label={'Kelompok Tani'}
                         />

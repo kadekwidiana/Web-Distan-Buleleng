@@ -12,12 +12,12 @@ import Swal from 'sweetalert2';
 import { Toast } from '@/Components/Alert/Toast';
 import DetailGapoktan from '@/Components/Modal/DetailGapoktan';
 
-export default function ListGapoktansInDistrictPage() {
-    const { villagesByDistrictId, gapoktansInDiscrict, districtData, searchValue, villageIdValue } = usePage().props;
-    const perpage = useRef(gapoktansInDiscrict.per_page);
+export default function ListPoktansInDistrictPage() {
+    const { villagesByDistrictId, poktansInDiscrict, districtData, searchValue, villageIdValue } = usePage().props;
+    const perpage = useRef(poktansInDiscrict.per_page);
     const [isLoading, setIsLoading] = useState(false);
     const [search, setSearch] = useState('');
-    const villageId = useRef(gapoktansInDiscrict.villageId);
+    const villageId = useRef(poktansInDiscrict.villageId);
     const [openModal, setOpenModal] = useState(false);
     const [selectedGapoktan, setSelectedGapoktan] = useState({});
 
@@ -69,7 +69,7 @@ export default function ListGapoktansInDistrictPage() {
         }
 
         router.get(
-            route('gapoktans.district', { districtId: districtData.id }),
+            route('poktans.district', { districtId: districtData.id }),
             params,
             {
                 preserveScroll: true,
@@ -80,7 +80,7 @@ export default function ListGapoktansInDistrictPage() {
     }
 
     const deleteData = async (id) => {
-        await router.delete(`/kelembagaan-pertanian/gapoktan/kecamatan/${districtData.id}/${id}/delete`);
+        await router.delete(`/kelembagaan-pertanian/poktan/kecamatan/${districtData.id}/${id}/delete`);
     }
 
     const deteleDataConfirm = (id) => {
@@ -104,10 +104,10 @@ export default function ListGapoktansInDistrictPage() {
 
     return (
         <BackpageLayout>
-            <Head title="Gapoktan" />
+            <Head title="Poktan" />
             <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-2 md:px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
-                <ButtonBack url={`/kelembagaan-pertanian/gapoktan`} />
-                <h1 className='text-2xl font-semibold text-gray-800 mb-2 capitalize'>Daftar Gapoktan di Kecamatan {districtData.name}</h1>
+                <ButtonBack url={`/kelembagaan-pertanian/poktan`} />
+                <h1 className='text-2xl font-semibold text-gray-800 mb-2 capitalize'>Daftar Poktan di Kecamatan {districtData.name}</h1>
                 <div className="flex justify-between gap-2 sm:gap-10">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 hidden md:inline-flex items-center sm:py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
@@ -133,8 +133,8 @@ export default function ListGapoktansInDistrictPage() {
                             </div>
                         </form>
                     </div>
-                    {/* <ExcelExport data={gapoktansInDiscrict.data} fileName="Gapoktan" /> */}
-                    <ButtonAdd href={`/kelembagaan-pertanian/gapoktan/kecamatan/${districtData.id}/create-step-one`} />
+                    {/* <ExcelExport data={poktansInDiscrict.data} fileName="Gapoktan" /> */}
+                    <ButtonAdd href={`/kelembagaan-pertanian/poktan/kecamatan/${districtData.id}/create-step-one`} />
                 </div>
                 <div className="flex flex-col my-2 w-auto max-md:overflow-x-auto max-md:my-8">
                     <Table striped>
@@ -149,39 +149,38 @@ export default function ListGapoktansInDistrictPage() {
                             </Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            {!isLoading && gapoktansInDiscrict.data.map((gapoktan, index) => (
-                                <Table.Row key={gapoktan.id} className="bg-white">
+                            {!isLoading && poktansInDiscrict.data.map((poktan, index) => (
+                                <Table.Row key={poktan.id} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
                                         {index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
-                                        {gapoktan.name}
+                                        {poktan.name}
                                     </Table.Cell>
-                                    <Table.Cell>{gapoktan.leader}</Table.Cell>
-                                    <Table.Cell>{gapoktan.number_of_members}</Table.Cell>
+                                    <Table.Cell>{poktan.leader}</Table.Cell>
+                                    <Table.Cell>{poktan.number_of_members}</Table.Cell>
                                     <Table.Cell className='w-96'>
                                         <p className='line-clamp-1 mr-3'>
-                                            {gapoktan.address}
+                                            {poktan.address}
                                         </p>
                                     </Table.Cell>
                                     <Table.Cell className='flex justify-center items-center gap-3'>
                                         {/* <button onClick={() => {
                                             setOpenModal(true)
-                                            setSelectedGapoktan(gapoktan);
+                                            setSelectedGapoktan(poktan);
                                         }}>
                                             <i className="fa-solid fa-circle-info fa-2xl text-green-500"></i>
                                         </button> */}
-                                        <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${districtData.id}/${gapoktan.id}/detail`}>
+                                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${districtData.id}/${poktan.id}/detail`}>
                                             <i className="fa-solid fa-circle-info fa-2xl text-green-500"></i>
                                         </Link>
-                                        <DetailGapoktan openModal={openModal} setOpenModal={setOpenModal} gapoktan={selectedGapoktan} />
                                         <Dropdown placement="bottom-end" label="" dismissOnClick={false} renderTrigger={() =>
                                             <button>
                                                 <i className="fa-solid fa-ellipsis fa-2xl"></i>
                                             </button>
                                         }>
-                                            <Dropdown.Item><Link href={route('gapoktans.edit.step.one', { districtId: districtData.id, gapoktanId: gapoktan.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
-                                            <Dropdown.Item onClick={() => deteleDataConfirm(gapoktan.id)}><i className="mr-2 fa-solid fa-trash fa-xl text-red-500"></i>Hapus</Dropdown.Item>
+                                            <Dropdown.Item><Link href={route('gapoktans.edit.step.one', { districtId: districtData.id, gapoktanId: poktan.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
+                                            <Dropdown.Item onClick={() => deteleDataConfirm(poktan.id)}><i className="mr-2 fa-solid fa-trash fa-xl text-red-500"></i>Hapus</Dropdown.Item>
                                         </Dropdown>
                                     </Table.Cell>
                                 </Table.Row>
@@ -189,15 +188,15 @@ export default function ListGapoktansInDistrictPage() {
                         </Table.Body>
                     </Table>
                     {isLoading && <LoadData />}
-                    {gapoktansInDiscrict.data.length <= 0 && !isLoading && <DataNotFound />}
+                    {poktansInDiscrict.data.length <= 0 && !isLoading && <DataNotFound />}
                 </div>
-                {gapoktansInDiscrict.data.length > 0 && !isLoading &&
+                {poktansInDiscrict.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {gapoktansInDiscrict.from} to {gapoktansInDiscrict.from} total{" "} {gapoktansInDiscrict.total}
+                            Showing {poktansInDiscrict.from} to {poktansInDiscrict.from} total{" "} {poktansInDiscrict.total}
                         </div>
                         <div className="flex items-center gap-2">
-                            {gapoktansInDiscrict.links.map((link, index) => (
+                            {poktansInDiscrict.links.map((link, index) => (
                                 <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded' preserveScroll preserveState>
                                     <div dangerouslySetInnerHTML={
                                         {

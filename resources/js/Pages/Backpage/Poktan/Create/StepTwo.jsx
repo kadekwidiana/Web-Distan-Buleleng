@@ -14,19 +14,21 @@ import { useShallow } from 'zustand/react/shallow';
 import MapsInputData from '@/Components/Maps/MapsInputData';
 
 export default function StepOneCreateGapoktanPage() {
-    const { locationInput, addressInput } = useStore(
+    const { locationInput, addressInput, optionsSelected } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
                 addressInput: state.addressInput,
+                optionsSelected: state.optionsSelected,
             }
         )),
     );
 
     const { gapoktan, district, villages, layerGroup, errors } = usePage().props;
-
+    console.log(errors);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
+        commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
         layer_group_id: '',
         photos: [],
         location: '',
@@ -82,7 +84,7 @@ export default function StepOneCreateGapoktanPage() {
             formData.append('photos[]', photo);
         });
 
-        post(route('gapoktans.store.step.two', { districtId: district.id }), {
+        post(route('poktans.store.step.two', { districtId: district.id }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
@@ -119,7 +121,7 @@ export default function StepOneCreateGapoktanPage() {
 
     return (
         <BackpageLayout>
-            <Head title="Create Gapoktan" />
+            <Head title="Create Poktan" />
             <div className="mb-2">
                 <ol className="flex items-center w-full p-3 space-x-1 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse">
                     <li className="flex items-center text-blue-600">
@@ -186,7 +188,7 @@ export default function StepOneCreateGapoktanPage() {
                         </div>
                     </div>
                     <div className="flex justify-end gap-2 my-2">
-                        <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${district.id}/create-step-one`}>
+                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/create-step-one`}>
                             <Button type="button" className='bg-red-500 hover:bg-red-600'>Sebelumnya</Button>
                         </Link>
                         <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>

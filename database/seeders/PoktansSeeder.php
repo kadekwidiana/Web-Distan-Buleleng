@@ -17,7 +17,7 @@ class PoktansSeeder extends Seeder
             [
                 'id' => 1,
                 'village_id' => '5108050010',
-                'gapoktan_id' => 1,
+                'gapoktan_id' => null,
                 'layer_group_id' => 2,
                 'name' => 'Poktan Tani Sejahtera',
                 'leader' => 'I Ketut Sudiarsa',

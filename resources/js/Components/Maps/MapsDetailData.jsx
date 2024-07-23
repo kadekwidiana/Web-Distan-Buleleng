@@ -1,8 +1,8 @@
+import useMapsDetailData from '@/Hooks/MapsBackpage/useMapsDetailData';
 import React from 'react'
-import useMapInputGapoktan from './useMapInputGapoktan'
 
-export default function MapsInputGapoktan() {
-    useMapInputGapoktan();
+export default function MapsDetailData({ data }) {
+    useMapsDetailData(data);
     return (
         <div className="flex flex-col gap-9 lg:col-span-2">
             <div className="rounded-sm border border-stroke bg-white shadow-default">
@@ -11,7 +11,7 @@ export default function MapsInputGapoktan() {
                         Maps
                     </h3>
                 </div>
-                <div className="w-full h-96">
+                <div className="w-full h-96 lg:h-[400px]">
                     <div id='maps' className="h-full z-30"></div>
                 </div>
             </div>

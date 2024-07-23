@@ -33,7 +33,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('layer_grups')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->string('owner', 50);
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('farmers')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->json('location');
             $table->text('address');
             $table->json('area_json');

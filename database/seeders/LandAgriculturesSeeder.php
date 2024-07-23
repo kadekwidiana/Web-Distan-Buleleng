@@ -20,7 +20,7 @@ class LandAgriculturesSeeder extends Seeder
                 'subak_id' => 1,
                 'type_land_agriculture_id' => 1,
                 'layer_group_id' => 2,
-                'owner' => 'I Ketut Sudiana',
+                'owner_id' => 1,
                 'location' => json_encode([-8.1501923615788, 115.10028998387088]),
                 'address' => 'Jl. Raya Pertanian No.1, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -52,7 +52,7 @@ class LandAgriculturesSeeder extends Seeder
                 'subak_id' => 1,
                 'type_land_agriculture_id' => 2,
                 'layer_group_id' => 2,
-                'owner' => 'I Made Suwardana',
+                'owner_id' => 2,
                 'location' => json_encode([-8.15750846905577, 115.1020437383925]),
                 'address' => 'Jl. Raya Pertanian No.2, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -84,7 +84,7 @@ class LandAgriculturesSeeder extends Seeder
                 'subak_id' => 2,
                 'type_land_agriculture_id' => 1,
                 'layer_group_id' => 2,
-                'owner' => 'I Nyoman Suwartika',
+                'owner_id' => 3,
                 'location' => json_encode([-8.150564370273274, 115.09603086574704]),
                 'address' => 'Jl. Raya Pertanian No.3, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -116,7 +116,7 @@ class LandAgriculturesSeeder extends Seeder
                 'subak_id' => 2,
                 'type_land_agriculture_id' => 2,
                 'layer_group_id' => 2,
-                'owner' => 'I Wayan Sudarta',
+                'owner_id' => 4,
                 'location' => json_encode([-8.1762321339242, 115.10705446559706]),
                 'address' => 'Jl. Raya Pertanian No.4, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -148,7 +148,7 @@ class LandAgriculturesSeeder extends Seeder
                 'subak_id' => 1,
                 'type_land_agriculture_id' => 1,
                 'layer_group_id' => 2,
-                'owner' => 'I Gusti Putu Arta',
+                'owner_id' => 5,
                 'location' => json_encode([-8.191855181906336, 115.10943456118594]),
                 'address' => 'Jl. Raya Pertanian No.5, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(

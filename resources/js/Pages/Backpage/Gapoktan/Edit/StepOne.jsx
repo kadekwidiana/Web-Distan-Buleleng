@@ -6,7 +6,7 @@ import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 
 export default function StepOneCreateGapoktanPage() {
@@ -84,8 +84,6 @@ export default function StepOneCreateGapoktanPage() {
     });
   };
 
-  console.log(gapoktanById);
-
   return (
     <BackpageLayout>
       <Head title="Create Gapoktan" />
@@ -108,7 +106,7 @@ export default function StepOneCreateGapoktanPage() {
             <div className="flex flex-col gap-3">
               <div className="w-full">
                 <InputLabel>Kecamatan</InputLabel>
-                <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#eeeeee]" readOnly />
+                <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
               </div>
               <div className="">
                 <InputLabel>Desa</InputLabel>
@@ -308,8 +306,11 @@ export default function StepOneCreateGapoktanPage() {
               </div>
             </div>
           </div>
-          <div className="flex justify-end my-2">
-            <Button disabled={processing} type="submit">{processing ? 'Next...' : 'Next'}</Button>
+          <div className="flex justify-end gap-4 my-2">
+            <Link href={`/kelembagaan-pertanian/gapoktan/kecamatan/${district.id}/back`}>
+              <Button type="button" className='bg-red-500 hover:bg-red-600'>Batal</Button>
+            </Link>
+            <Button disabled={processing} type="submit">{processing ? 'Lanjut...' : 'Lanjut'}</Button>
           </div>
         </form>
       </div>
