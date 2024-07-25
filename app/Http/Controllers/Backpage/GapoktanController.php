@@ -73,7 +73,7 @@ class GapoktanController extends Controller
             $gapoktansQuery->where('name', 'like', '%' . $search . '%');
         }
 
-        $gapoktansInDiscrict = $gapoktansQuery->with('village')->paginate($perpage);
+        $gapoktansInDiscrict = $gapoktansQuery->with('village')->latest()->paginate($perpage);
 
         return Inertia::render('Backpage/Gapoktan/ListGapoktanDistrict', [
             'navName' => 'Gapoktan',

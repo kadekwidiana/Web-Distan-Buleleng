@@ -35,10 +35,6 @@ export default function StepOneCreateGapoktanPage() {
     });
 
     useEffect(() => {
-        setLocation(gapoktanById.location);
-    }, [gapoktanById?.location]);
-
-    useEffect(() => {
         setData(
             {
                 ...data,
@@ -50,6 +46,10 @@ export default function StepOneCreateGapoktanPage() {
 
     const [location, setLocation] = useState(data.location);
     const [address, setAddress] = useState(data.address);
+
+    useEffect(() => {
+        setLocation(gapoktanById.location);
+    }, [gapoktanById?.location]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;

@@ -62,7 +62,7 @@ class PoktanController extends Controller
             $poktansQuery->where('name', 'like', '%' . $search . '%');
         }
 
-        $poktansInDiscrict = $poktansQuery->with('village')->paginate($perpage);
+        $poktansInDiscrict = $poktansQuery->with('village')->latest()->paginate($perpage);
 
         return Inertia::render('Backpage/Poktan/ListPoktanDistrict', [
             'navName' => 'Poktan',
@@ -183,6 +183,149 @@ class PoktanController extends Controller
                 $photoPaths[] = Storage::url($path);
             }
         }
+        $validatedData['photo'] = json_encode($photoPaths);
+
+        $poktan = $request->session()->get('poktan');
+        if ($poktan) {
+
+            // Isi dan simpan data poktan
+            $poktan->fill($validatedData);
+            $poktan->save();
+
+            // menyimpan commodties poktan
+            $poktanById = Poktan::with('commodities')->find($poktan->id);
+            $commodities = $validatedData['commodities'];
+            $poktanById->commodities()->sync($commodities); // simpan relasi many to many
+
+            // Hapus data poktan dari sesi
+            $request->session()->forget('poktan');
+        }
+
+        return redirect()->route('poktans.district', ['districtId' => $districtId])->with('success', 'Poktan created successfully.');
+    }
+
+    public function editStepOne(Request $request)
+    {
+        $poktanById = Poktan::with('commodities')->findOrFail($request->poktanId); // dari request ambil
+        $commodityIds = $poktanById->commodities->pluck('id')->toArray(); //biar gampang olah di FE
+
+        $district = District::firstWhere('id', $request->districtId);
+        $villages = Village::where('district_id', $request->districtId)->get();
+        $villagesForGapoktans = Village::where('district_id', $request->districtId)->pluck('id');
+        $gapoktans = Gapoktan::whereIn('village_id', $villagesForGapoktans)->get();
+        $commodities = Commodity::all();
+
+        $poktan = $request->session()->get('poktan');
+
+        return Inertia::render('Backpage/Poktan/Edit/StepOne', [
+            'navName' => 'Edit Poktan',
+            'district' => $district,
+            'villages' => $villages,
+            'gapoktans' => $gapoktans,
+            'commodities' => $commodities,
+            'poktanById' => $poktanById,
+            'commodityIds' => $commodityIds,
+            'poktan' => $poktan
+        ]);
+    }
+
+    public function updateStepOne(Request $request)
+    {
+        $poktanById = Poktan::findOrFail($request->poktanId);
+
+        $districtId = $request->districtId;
+
+        $validatedData = $request->validate([
+            'village_id' => 'required|exists:villages,id',
+            'gapoktan_id' => 'nullable|exists:gapoktans,id',
+            'name' => 'required|string|max:50',
+            'leader' => 'required|string|max:50',
+            'secretary' => 'required|string|max:50',
+            'treasurer' => 'required|string|max:50',
+            'number_of_members' => 'required|integer',
+            'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'since' => 'required|string|max:4',
+            'status' => 'required|string',
+            'ability_class' => 'required|string',
+            'group_confirmation_status' => 'required|string',
+            'year_of_class_assignment' => 'required|string',
+        ]);
+
+        // dd($validatedData);
+        if (empty($request->session()->get('poktan'))) {
+            // $poktan = new Poktan();
+            $poktanById->fill($validatedData);
+            $request->session()->put('poktan', $poktanById);
+        } else {
+            $poktanById = $request->session()->get('poktan');
+            $poktanById->fill($validatedData);
+            $request->session()->put('poktan', $poktanById);
+        }
+        return redirect()->route('poktans.edit.step.two', ['districtId' => $districtId, 'poktanId' => $request->poktanId]);
+    }
+
+    public function editStepTwo(Request $request)
+    {
+        $poktanById = Poktan::with('commodities')->findOrFail($request->poktanId); // dari request ambil
+
+        $district = District::firstWhere('id', $request->districtId);
+        $layerGroup = LayerGrup::all();
+
+        return Inertia::render('Backpage/Poktan/Edit/StepTwo', [
+            'navName' => 'Edit Poktan',
+            'district' => $district,
+            'layerGroup' => $layerGroup,
+            'poktanById' => $poktanById
+        ]);
+    }
+
+    public function updateStepTwo(Request $request)
+    {
+        $poktanById = Poktan::findOrFail($request->poktanId); // Find the Gapoktan by ID from the request
+
+        $districtId = $request->districtId;
+
+        $validatedData = $request->validate([
+            'commodities' => 'nullable', //hanya validasi, di tabel poktan tidak ada, pkae nullable karna di step 1 sudah required
+            'layer_group_id' => 'required|exists:layer_grups,id',
+            'photos.*' => 'required',
+            'location' => 'required|json',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        // Mengonversi lokasi ke array
+        $validatedData['location'] = json_decode($request->location, true);
+
+        // Handle file uploads
+        $photoPaths = [];
+        $newPhotoPaths = [];
+        if ($poktanById->photo) {
+            $oldPhotos = json_decode($poktanById->photo, true);
+
+            // Compare old and new photos
+            $photosToKeep = array_intersect($oldPhotos, $request->photos ? $request->photos : []);
+            $photosToDelete = array_diff($oldPhotos, $photosToKeep);
+
+            // Delete removed photos from storage
+            foreach ($photosToDelete as $oldPhoto) {
+                $oldPhotoPath = str_replace('/storage', '', $oldPhoto); // Convert the URL to the storage path
+                Storage::delete($oldPhotoPath);
+            }
+
+            // Merge kept old photos with new photos
+            $photoPaths = array_merge($photosToKeep, $newPhotoPaths);
+        } else {
+            $photoPaths = $newPhotoPaths;
+        }
+
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('poktans-image');
+                $photoPaths[] = Storage::url($path);
+            }
+        }
+
         $validatedData['photo'] = json_encode($photoPaths);
 
         $poktan = $request->session()->get('poktan');

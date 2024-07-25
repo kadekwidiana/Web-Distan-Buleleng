@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import ReactQueryProvider from './Layouts/Providers/ReactQueryProvider';
+import ErrorPage from './Pages/Error/ErrorPage';
 
 const appName = import.meta.env.VITE_APP_NAME || 'SIG';
 
@@ -20,6 +21,7 @@ createInertiaApp({
             </ReactQueryProvider>
         );
     },
+    error: ({ statusCode }) => <ErrorPage status={statusCode} />,
     progress: {
         color: '#34D399',
         showSpinner: true

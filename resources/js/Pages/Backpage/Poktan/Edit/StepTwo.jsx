@@ -24,16 +24,16 @@ export default function StepOneCreateGapoktanPage() {
         )),
     );
 
-    const { district, layerGroup, errors } = usePage().props;
+    const { poktanById, district, layerGroup, errors } = usePage().props;
     console.log(errors);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
-        layer_group_id: '',
-        photos: [],
-        location: '',
-        address: '',
-        description: ''
+        layer_group_id: poktanById?.layer_group_id,
+        photos: JSON.parse(poktanById?.photo) ?? [],
+        location: locationInput,
+        address: poktanById?.address,
+        description: poktanById?.description
     });
 
     useEffect(() => {
@@ -48,6 +48,10 @@ export default function StepOneCreateGapoktanPage() {
 
     const [location, setLocation] = useState(data.location);
     const [address, setAddress] = useState(data.address);
+
+    useEffect(() => {
+        setLocation(poktanById.location);
+    }, [poktanById?.location]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -84,7 +88,7 @@ export default function StepOneCreateGapoktanPage() {
             formData.append('photos[]', photo);
         });
 
-        post(route('poktans.store.step.two', { districtId: district.id }), {
+        post(route('poktans.update.step.two', { districtId: district.id, poktanId: poktanById.id }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
@@ -100,7 +104,11 @@ export default function StepOneCreateGapoktanPage() {
             <div className="py-2 grid grid-cols-2 gap-2">
                 {data.photos.map((photo, index) => (
                     <div key={index} >
-                        <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
+                        {typeof photo === 'object' ?
+                            <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
+                            :
+                            <img src={photo} alt={`Preview ${photo}`} />
+                        }
                         <div className="flex justify-end mt-2">
                             <button type='button' onClick={() => removePhoto(index)} className='py-0.5 px-2 bg-red-500 text-white rounded-sm'>Hapus</button>
                         </div>
@@ -183,12 +191,12 @@ export default function StepOneCreateGapoktanPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData />
+                                <MapsInputData isEdit={true} data={poktanById} />
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-end gap-2 my-2">
-                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/create-step-one`}>
+                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/${poktanById.id}/edit-step-one`}>
                             <Button type="button" className='bg-red-500 hover:bg-red-600'>Sebelumnya</Button>
                         </Link>
                         <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>

@@ -34,7 +34,7 @@ const useMapsInputData = (isEdit, data) => {
 
         const map = L.map('maps-input', {
             layers: [GOOGLE_STREET_MAP],
-            center: coorBali,
+            center: data?.location ?? coorBali,
             zoom: 10,
             // minZoom: ,
             zoomControl: false
@@ -112,6 +112,7 @@ const useMapsInputData = (isEdit, data) => {
                 </div>
                 `)
                 .openPopup();
+            setLocationInput(`[${data?.location[0]}, ${data?.location[1]}]`);
         } else {
             // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
             setMapToUserLocation();

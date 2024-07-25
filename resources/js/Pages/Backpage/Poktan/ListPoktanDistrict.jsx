@@ -179,7 +179,7 @@ export default function ListPoktansInDistrictPage() {
                                                 <i className="fa-solid fa-ellipsis fa-2xl"></i>
                                             </button>
                                         }>
-                                            <Dropdown.Item><Link href={route('gapoktans.edit.step.one', { districtId: districtData.id, gapoktanId: poktan.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
+                                            <Dropdown.Item><Link href={route('poktans.edit.step.one', { districtId: districtData.id, poktanId: poktan.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
                                             <Dropdown.Item onClick={() => deteleDataConfirm(poktan.id)}><i className="mr-2 fa-solid fa-trash fa-xl text-red-500"></i>Hapus</Dropdown.Item>
                                         </Dropdown>
                                     </Table.Cell>

@@ -16,7 +16,7 @@ export const useStore = create(
             setLocationInput: (data) => set({ locationInput: data }),
             addressInput: '',
             setAddressInput: (data) => set({ addressInput: data }),
-            optionsSelected: [],
+            optionsSelected: null,
             setOptionsSelected: (data) => set({ optionsSelected: data }),
             clearStore: () => set({
                 precipitationData: null,
@@ -25,7 +25,7 @@ export const useStore = create(
                 MSIData: null,
                 locationInput: '',
                 addressInput: '',
-                optionsSelected: []
+                optionsSelected: null
             })
         }),
         {

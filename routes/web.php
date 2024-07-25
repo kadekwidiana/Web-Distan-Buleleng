@@ -96,6 +96,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-one', [PoktanController::class, 'storeStepOne'])->name('poktans.store.step.one');
     Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-two', [PoktanController::class, 'createStepTwo'])->name('poktans.create.step.two');
     Route::post('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/create-step-two', [PoktanController::class, 'storeStepTwo'])->name('poktans.store.step.two');
+    // U gapoktan
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/edit-step-one', [PoktanController::class, 'editStepOne'])->name('poktans.edit.step.one');
+    Route::post('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/edit-step-one', [PoktanController::class, 'updateStepOne'])->name('poktans.update.step.one');
+    Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/edit-step-two', [PoktanController::class, 'editStepTwo'])->name('poktans.edit.step.two');
+    Route::post('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/edit-step-two', [PoktanController::class, 'updateStepTwo'])->name('poktans.update.step.two');
     // D poktan
     Route::delete('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/{poktanId}/delete', [PoktanController::class, 'destroy'])->name('poktans.delete');
     /*
@@ -123,4 +128,11 @@ Route::post('/evi', [AnalisisGeospasial::class, 'evi'])->name('evi');
 
 Route::get('/about', function () {
     return view('about');
+});
+
+// Catch-all route to handle 404 errors
+Route::fallback(function () {
+    return Inertia::render('Error/ErrorPage', ['status' => 404])
+        ->toResponse(request())
+        ->setStatusCode(404);
 });

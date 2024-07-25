@@ -14,7 +14,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
 
-export default function StepOneCreateGapoktanPage() {
+export default function StepOneEditPoktanPage() {
   // use store supaya bisa tersimpan di session/storage dan nanti di gunakan di createStepTwo untuk simpan relasi poktan dan commodity nya, karena field commodities tidak ada di tabel poktan (many to many anntara poktan dan commodity)
   const { optionsSelected, setOptionsSelected } = useStore(
     useShallow((state) => (
@@ -25,23 +25,23 @@ export default function StepOneCreateGapoktanPage() {
     )),
   );
 
-  const { poktan, district, villages, gapoktans, commodities, errors } = usePage().props;
+  const { poktan, poktanById, commodityIds, district, villages, gapoktans, commodities, errors } = usePage().props;
   const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
-  const [selectedValues, setSelectedValues] = useState(optionsSelected ?? []); //value options yang di pilih
+  const [selectedValues, setSelectedValues] = useState(optionsSelected ?? commodityIds); //value options yang di pilih
   const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
-    village_id: poktan?.village_id ?? '',
-    gapoktan_id: poktan?.gapoktan_id ?? '',
-    name: poktan?.name ?? '',
-    leader: poktan?.leader ?? '',
-    secretary: poktan?.secretary ?? '',
-    treasurer: poktan?.treasurer ?? '',
-    number_of_members: poktan?.number_of_members ?? '',
+    village_id: poktan?.village_id ?? poktanById?.village_id,
+    gapoktan_id: poktan?.gapoktan_id ?? poktanById?.gapoktan_id,
+    name: poktan?.name ?? poktanById?.name,
+    leader: poktan?.leader ?? poktanById?.leader,
+    secretary: poktan?.secretary ?? poktanById?.secretary,
+    treasurer: poktan?.treasurer ?? poktanById?.treasurer,
+    number_of_members: poktan?.number_of_members ?? poktanById?.number_of_members,
     commodities: selectedValues, // data commodities guna bisa validasi ke BE
-    since: poktan?.since ?? '',
-    status: poktan?.status ?? 'ACTIVE',
-    ability_class: poktan?.ability_class ?? 'BEGINNER',
-    group_confirmation_status: poktan?.group_confirmation_status ?? 'CONFIRMED',
-    year_of_class_assignment: poktan?.year_of_class_assignment ?? '',
+    since: poktan?.since ?? poktanById?.since,
+    status: poktan?.status ?? poktanById?.status,
+    ability_class: poktan?.ability_class ?? poktanById?.ability_class,
+    group_confirmation_status: poktan?.group_confirmation_status ?? poktanById?.group_confirmation_status,
+    year_of_class_assignment: poktan?.year_of_class_assignment ?? poktanById?.year_of_class_assignment,
   });
 
   commodities.forEach((commodity) => {
@@ -83,7 +83,7 @@ export default function StepOneCreateGapoktanPage() {
     // simpan commodity yg di pilih ke store
     setOptionsSelected(data.commodities);
 
-    post(route('poktans.store.step.one', { districtId: district.id }), {
+    post(route('poktans.update.step.one', { districtId: district.id, poktanId: poktanById.id }), {
       data: formData
     });
   };

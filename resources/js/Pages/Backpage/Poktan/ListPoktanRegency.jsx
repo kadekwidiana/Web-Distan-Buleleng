@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react'
 
 export default function ListPoktanRegencyPage() {
     const { districtWithPoktans } = usePage().props;
-    console.log(districtWithPoktans);
 
     // Menghitung total jumlah Gapoktan
     const totalGapoktan = districtWithPoktans.reduce((total, district) => total + district.poktans_count, 0);
