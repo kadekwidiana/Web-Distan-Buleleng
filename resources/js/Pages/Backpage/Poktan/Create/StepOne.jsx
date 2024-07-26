@@ -164,6 +164,8 @@ export default function StepOneCreateGapoktanPage() {
                 <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                 <InputError message={errors.treasurer} />
               </div>
+            </div>
+            <div className="flex flex-col gap-3">
               <div className="">
                 <InputLabel>Jumlah Anggota</InputLabel>
                 <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
@@ -174,8 +176,6 @@ export default function StepOneCreateGapoktanPage() {
                 <TextInput error={errors.since} defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
                 <InputError message={errors.since} />
               </div>
-            </div>
-            <div className="flex flex-col gap-3">
               <div className="">
                 <InputLabel>Status</InputLabel>
                 <InputSelect

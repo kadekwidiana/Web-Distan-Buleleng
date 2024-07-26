@@ -14,8 +14,8 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
 
-export default function StepOneEditPoktanPage() {
-  // use store supaya bisa tersimpan di session/storage dan nanti di gunakan di createStepTwo untuk simpan relasi poktan dan commodity nya, karena field commodities tidak ada di tabel poktan (many to many anntara poktan dan commodity)
+export default function StepOneCreateGapoktanPage() {
+  // use store supaya bisa tersimpan di session/storage dan nanti di gunakan di createStepTwo untuk simpan relasi subak dan commodity nya, karena field commodities tidak ada di tabel subak (many to many anntara subak dan commodity)
   const { optionsSelected, setOptionsSelected } = useStore(
     useShallow((state) => (
       {
@@ -25,23 +25,20 @@ export default function StepOneEditPoktanPage() {
     )),
   );
 
-  const { poktan, poktanById, commodityIds, district, villages, gapoktans, commodities, errors } = usePage().props;
+  const { subak, district, villages, gapoktans, commodities, errors } = usePage().props;
   const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
-  const [selectedValues, setSelectedValues] = useState(optionsSelected ?? commodityIds); //value options yang di pilih
+  const [selectedValues, setSelectedValues] = useState(optionsSelected ?? []); //value options yang di pilih
   const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
-    village_id: poktan?.village_id ?? poktanById?.village_id,
-    gapoktan_id: poktan?.gapoktan_id ?? poktanById?.gapoktan_id,
-    name: poktan?.name ?? poktanById?.name,
-    leader: poktan?.leader ?? poktanById?.leader,
-    secretary: poktan?.secretary ?? poktanById?.secretary,
-    treasurer: poktan?.treasurer ?? poktanById?.treasurer,
-    number_of_members: poktan?.number_of_members ?? poktanById?.number_of_members,
+    village_id: subak?.village_id ?? '',
+    gapoktan_id: subak?.gapoktan_id ?? '',
+    name: subak?.name ?? '',
+    leader: subak?.leader ?? '',
+    secretary: subak?.secretary ?? '',
+    treasurer: subak?.treasurer ?? '',
+    number_of_members: subak?.number_of_members ?? '',
     commodities: selectedValues, // data commodities guna bisa validasi ke BE
-    since: poktan?.since ?? poktanById?.since,
-    status: poktan?.status ?? poktanById?.status,
-    ability_class: poktan?.ability_class ?? poktanById?.ability_class,
-    group_confirmation_status: poktan?.group_confirmation_status ?? poktanById?.group_confirmation_status,
-    year_of_class_assignment: poktan?.year_of_class_assignment ?? poktanById?.year_of_class_assignment,
+    since: subak?.since ?? '',
+    status: subak?.status ?? 'ACTIVE',
   });
 
   commodities.forEach((commodity) => {
@@ -83,14 +80,14 @@ export default function StepOneEditPoktanPage() {
     // simpan commodity yg di pilih ke store
     setOptionsSelected(data.commodities);
 
-    post(route('poktans.update.step.one', { districtId: district.id, poktanId: poktanById.id }), {
+    post(route('subaks.store.step.one', { districtId: district.id }), {
       data: formData
     });
   };
 
   return (
     <BackpageLayout>
-      <Head title="Create Poktan" />
+      <Head title="Create Subak" />
       <div className="mb-2">
         <ol className="flex items-center w-full p-3 space-x-1 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse">
           <li className="flex items-center text-blue-600">
@@ -129,24 +126,8 @@ export default function StepOneEditPoktanPage() {
                 <InputError message={errors.village_id} />
               </div>
               <div className="">
-                <InputLabel>Gapoktan (Pilih jika tergabung dalam gapoktan)</InputLabel>
-                <InputSelect
-                  error={errors.gapoktan_id}
-                  defaultValue={data.gapoktan_id}
-                  onChange={handleChange}
-                  id="gapoktan_id"
-                  name="gapoktan_id"
-                >
-                  <option value={null} defaultChecked>Pilih gapoktan</option>
-                  {gapoktans.length > 0 && gapoktans.map((gapoktan, index) => (
-                    <option key={index} value={gapoktan.id}>{gapoktan.name}</option>
-                  ))}
-                </InputSelect>
-                <InputError message={errors.gapoktan_id} />
-              </div>
-              <div className="">
-                <InputLabel>Nama Poktan</InputLabel>
-                <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama poktan..." />
+                <InputLabel>Nama Subak</InputLabel>
+                <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama subak..." />
                 <InputError message={errors.name} />
               </div>
               <div className="">
@@ -192,49 +173,14 @@ export default function StepOneEditPoktanPage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Kelas Kemampuan</InputLabel>
-                <InputSelect
-                  error={errors.ability_class}
-                  defaultValue={data.ability_class}
-                  onChange={handleChange}
-                  id="ability_class"
-                  name="ability_class"
-                >
-                  {ABILITY_CLASSES.map((ability_class, index) => (
-                    <option key={index} value={ability_class.value} >{ability_class.label}</option>
-                  ))}
-                </InputSelect>
-                <InputError message={errors.ability_class} />
-              </div>
-              <div className="">
-                <InputLabel>Status Konfirmasi</InputLabel>
-                <InputSelect
-                  error={errors.group_confirmation_status}
-                  defaultValue={data.group_confirmation_status}
-                  onChange={handleChange}
-                  id="group_confirmation_status"
-                  name="group_confirmation_status"
-                >
-                  {CONFIRMATION_STATUSES.map((confirm_status, index) => (
-                    <option key={index} value={confirm_status.value} >{confirm_status.label}</option>
-                  ))}
-                </InputSelect>
-                <InputError message={errors.group_confirmation_status} />
-              </div>
-              <div className="">
-                <InputLabel>Tahun Penetapan Kelas</InputLabel>
-                <TextInput error={errors.year_of_class_assignment} defaultValue={data.year_of_class_assignment} onChange={handleChange} type='number' id='year_of_class_assignment' name='year_of_class_assignment' placeholder="YYYY" />
-                <InputError message={errors.year_of_class_assignment} />
-              </div>
-              <div className="">
-                <InputLabel>Komoditas Yang Di Usahakan</InputLabel>
+                <InputLabel>Komoditas</InputLabel>
                 <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>
             </div>
           </div>
           <div className="flex justify-end gap-4 my-2">
-            <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/back`}>
+            <Link href={`/kelembagaan-pertanian/subak/kecamatan/${district.id}/back`}>
               <Button type="button" className='bg-red-500 hover:bg-red-600'>Batal</Button>
             </Link>
             <Button disabled={processing} type="submit">{processing ? 'Lanjut...' : 'Lanjut'}</Button>

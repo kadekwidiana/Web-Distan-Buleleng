@@ -24,16 +24,16 @@ export default function StepOneCreateGapoktanPage() {
         )),
     );
 
-    const { poktanById, district, layerGroup, errors } = usePage().props;
+    const { district, layerGroup, errors } = usePage().props;
     console.log(errors);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
-        layer_group_id: poktanById?.layer_group_id,
-        photos: JSON.parse(poktanById?.photo) ?? [],
-        location: locationInput,
-        address: poktanById?.address,
-        description: poktanById?.description
+        layer_group_id: '',
+        photos: [],
+        location: '',
+        address: '',
+        description: ''
     });
 
     useEffect(() => {
@@ -48,10 +48,6 @@ export default function StepOneCreateGapoktanPage() {
 
     const [location, setLocation] = useState(data.location);
     const [address, setAddress] = useState(data.address);
-
-    useEffect(() => {
-        setLocation(poktanById.location);
-    }, [poktanById?.location]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -88,12 +84,12 @@ export default function StepOneCreateGapoktanPage() {
             formData.append('photos[]', photo);
         });
 
-        post(route('poktans.update.step.two', { districtId: district.id, poktanId: poktanById.id }), {
+        post(route('subaks.store.step.two', { districtId: district.id }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
                     icon: "success",
-                    title: "Data berhasil di edit.",
+                    title: "Data berhasil di simpan.",
                 });
             }
         });
@@ -104,11 +100,7 @@ export default function StepOneCreateGapoktanPage() {
             <div className="py-2 grid grid-cols-2 gap-2">
                 {data.photos.map((photo, index) => (
                     <div key={index} >
-                        {typeof photo === 'object' ?
-                            <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
-                            :
-                            <img src={photo} alt={`Preview ${photo}`} />
-                        }
+                        <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
                         <div className="flex justify-end mt-2">
                             <button type='button' onClick={() => removePhoto(index)} className='py-0.5 px-2 bg-red-500 text-white rounded-sm'>Hapus</button>
                         </div>
@@ -154,9 +146,8 @@ export default function StepOneCreateGapoktanPage() {
                                     onChange={handleChange}
                                     id="layer_group_id"
                                     name="layer_group_id"
-                                    defaultValue={data.layer_group_id}
                                 >
-                                    <option value="">Pilih jenis layer</option>
+                                    <option value="" defaultChecked>Pilih jenis layer</option>
                                     {layerGroup.map((layer, index) => (
                                         <option key={index} value={layer.id}>{layer.name}</option>
                                     ))}
@@ -192,12 +183,12 @@ export default function StepOneCreateGapoktanPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData isEdit={true} data={poktanById} />
+                                <MapsInputData />
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-end gap-2 my-2">
-                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/${poktanById.id}/edit-step-one`}>
+                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/create-step-one`}>
                             <Button type="button" className='bg-red-500 hover:bg-red-600'>Sebelumnya</Button>
                         </Link>
                         <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>

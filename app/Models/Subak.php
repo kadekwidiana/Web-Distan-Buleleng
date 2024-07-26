@@ -30,6 +30,7 @@ class Subak extends Model
         'treasurer',
         'number_of_members',
         'since',
+        'status',
         'location',
         'address',
         'icon',
@@ -62,5 +63,10 @@ class Subak extends Model
     public function layerGroup()
     {
         return $this->belongsTo(LayerGrup::class, 'layer_group_id');
+    }
+
+    public function commodities()
+    {
+        return $this->belongsToMany(Commodity::class, 'subak_commodities');
     }
 }

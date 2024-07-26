@@ -41,7 +41,7 @@ const SidebarMenus = () => {
                             label={'Kelompok Tani'}
                         />
                         <SidebarMenu
-                            href={'/lololo'}
+                            href={'/kelembagaan-pertanian/subak'}
                             icon={<i className="fa-solid fa-users"></i>}
                             label={'Subak'}
                         />

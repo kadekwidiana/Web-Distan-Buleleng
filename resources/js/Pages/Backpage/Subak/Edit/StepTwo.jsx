@@ -24,16 +24,16 @@ export default function StepOneCreateGapoktanPage() {
         )),
     );
 
-    const { poktanById, district, layerGroup, errors } = usePage().props;
+    const { subakById, district, layerGroup, errors } = usePage().props;
     console.log(errors);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
-        layer_group_id: poktanById?.layer_group_id,
-        photos: JSON.parse(poktanById?.photo) ?? [],
+        layer_group_id: subakById?.layer_group_id,
+        photos: JSON.parse(subakById?.photo) ?? [],
         location: locationInput,
-        address: poktanById?.address,
-        description: poktanById?.description
+        address: subakById?.address,
+        description: subakById?.description
     });
 
     useEffect(() => {
@@ -50,8 +50,8 @@ export default function StepOneCreateGapoktanPage() {
     const [address, setAddress] = useState(data.address);
 
     useEffect(() => {
-        setLocation(poktanById.location);
-    }, [poktanById?.location]);
+        setLocation(subakById.location);
+    }, [subakById?.location]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -88,7 +88,7 @@ export default function StepOneCreateGapoktanPage() {
             formData.append('photos[]', photo);
         });
 
-        post(route('poktans.update.step.two', { districtId: district.id, poktanId: poktanById.id }), {
+        post(route('subaks.update.step.two', { districtId: district.id, subakId: subakById.id }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
@@ -192,12 +192,12 @@ export default function StepOneCreateGapoktanPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData isEdit={true} data={poktanById} />
+                                <MapsInputData isEdit={true} data={subakById} />
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-end gap-2 my-2">
-                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/${poktanById.id}/edit-step-one`}>
+                        <Link href={`/kelembagaan-pertanian/subak/kecamatan/${district.id}/${subakById.id}/edit-step-one`}>
                             <Button type="button" className='bg-red-500 hover:bg-red-600'>Sebelumnya</Button>
                         </Link>
                         <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>

@@ -55,4 +55,9 @@ class Village extends Model
     {
         return $this->hasMany(Poktan::class);
     }
+
+    public function subaks()
+    {
+        return $this->hasMany(Subak::class);
+    }
 }

@@ -91,7 +91,7 @@ export default function StepOneCreateGapoktanPage() {
             onSuccess: () => {
                 Toast.fire({
                     icon: "success",
-                    title: "Data berhasil di simpan.",
+                    title: "Data berhasil di edit.",
                 });
             }
         });

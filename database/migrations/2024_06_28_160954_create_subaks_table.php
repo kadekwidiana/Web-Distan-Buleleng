@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('treasurer', 50);
             $table->integer('number_of_members');
             $table->string('since', 4);
+            $table->string('status', 50);
             $table->json('location');
             $table->text('address');
             $table->string('icon')->default('/assets/icons/icon-layer/subak.png');

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\Backpage\PoktanController;
+use App\Http\Controllers\Backpage\SubakController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
@@ -85,7 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | START ROUTE POKTAN
     |--------------------------------------------------------------------------
     */
-    // back to list gapoktan
+    // back to list poktan
     Route::get('/kelembagaan-pertanian/poktan/kecamatan/{districtId}/back', [PoktanController::class, 'backNav'])->name('poktans.back');
     // R poktan
     Route::get('/kelembagaan-pertanian/poktan', [PoktanController::class, 'poktanRegency'])->name('poktans.regency');
@@ -106,6 +107,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
     /*
     |--------------------------------------------------------------------------
     | END ROUTE GAPOKTAN
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | START ROUTE SUBAK
+    |--------------------------------------------------------------------------
+    */
+    // back to list subak
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}/back', [SubakController::class, 'backNav'])->name('subaks.back');
+    // R subak
+    Route::get('/kelembagaan-pertanian/subak', [SubakController::class, 'subakRegency'])->name('subaks.regency');
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}', [SubakController::class, 'subakDistrict'])->name('subaks.district');
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}/{subakId}/detail', [SubakController::class, 'show'])->name('subaks.detail');
+    // C subak
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}/create-step-one', [SubakController::class, 'createStepOne'])->name('subaks.create.step.one');
+    Route::post('/kelembagaan-pertanian/subak/kecamatan/{districtId}/create-step-one', [SubakController::class, 'storeStepOne'])->name('subaks.store.step.one');
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}/create-step-two', [SubakController::class, 'createStepTwo'])->name('subaks.create.step.two');
+    Route::post('/kelembagaan-pertanian/subak/kecamatan/{districtId}/create-step-two', [SubakController::class, 'storeStepTwo'])->name('subaks.store.step.two');
+    // U subak
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}/{subakId}/edit-step-one', [SubakController::class, 'editStepOne'])->name('subaks.edit.step.one');
+    Route::post('/kelembagaan-pertanian/subak/kecamatan/{districtId}/{subakId}/edit-step-one', [SubakController::class, 'updateStepOne'])->name('subaks.update.step.one');
+    Route::get('/kelembagaan-pertanian/subak/kecamatan/{districtId}/{subakId}/edit-step-two', [SubakController::class, 'editStepTwo'])->name('subaks.edit.step.two');
+    Route::post('/kelembagaan-pertanian/subak/kecamatan/{districtId}/{subakId}/edit-step-two', [SubakController::class, 'updateStepTwo'])->name('subaks.update.step.two');
+    // D subak
+    Route::delete('/kelembagaan-pertanian/subak/kecamatan/{districtId}/{subakId}/delete', [SubakController::class, 'destroy'])->name('subaks.delete');
+    /*
+    |--------------------------------------------------------------------------
+    | END ROUTE SUBAK
     |--------------------------------------------------------------------------
     */
 });
