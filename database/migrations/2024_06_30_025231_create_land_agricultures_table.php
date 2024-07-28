@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('land_agricultures', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('poktan_id');
+            $table->string('village_id');
+            $table->foreign('village_id')
+                ->references('id')
+                ->on('villages')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('poktan_id')->nullable();
             $table->foreign('poktan_id')
                 ->references('id')
                 ->on('poktans')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('subak_id');
+            $table->unsignedBigInteger('subak_id')->nullable();
             $table->foreign('subak_id')
                 ->references('id')
                 ->on('subaks')
@@ -36,13 +41,13 @@ return new class extends Migration
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')
                 ->references('id')
-                ->on('farmers')
+                ->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->json('location');
             $table->text('address');
             $table->json('area_json');
             $table->string('land_area');
-            $table->boolean('is_active');
+            $table->string('status', 50);
             $table->string('icon')->default('/assets/icons/icon-layer/lahan-pertanian.png');
             $table->text('photo');
             $table->text('description')->nullable();

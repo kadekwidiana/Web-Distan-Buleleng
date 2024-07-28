@@ -71,7 +71,7 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
                             </span>
                         ))
                     ) : (
-                        <span className="text-gray-500 sm:text-sm">{title ?? 'Select options...'}</span>
+                        <span className="text-gray-900">{title ?? 'Select options...'}</span>
                     )}
                 </div>
                 <span className="ml-2">
@@ -79,29 +79,31 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
                 </span>
             </div>
             {isOpen && (
-                <div className="absolute left-0 right-0 z-10 mt-2 overflow-y-auto bg-white border rounded shadow max-h-60 border-gray-300">
+                <div className="absolute left-0 right-0 z-10 overflow-y-auto bg-white border rounded shadow max-h-60 border-gray-300">
                     <input
                         type="text"
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        className="w-full p-2 border-b border-gray-300 rounded-t-md focus:ring-blue-500 focus:border-blue-400 focus:outline-none focus-visible:outline-none"
+                        className="w-full p-2 border-b border-gray-300 rounded-t-sm focus:ring-blue-500 focus:border-blue-400 focus:outline-none focus-visible:outline-none"
                         placeholder="Search..."
                     />
-                    {filteredOptions.length > 0 ? (
-                        filteredOptions.map((option) => (
-                            <div
-                                key={option.value}
-                                className={`p-2 cursor-pointer capitalize ${value.includes(option.value) ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-                                onClick={() => handleOptionClick(option.value)}
-                                onKeyDown={(e) => handleKeyDown(e, option)}
-                                tabIndex={0}
-                            >
-                                {option.label}
-                            </div>
-                        ))
-                    ) : (
-                        <div className="p-2 text-gray-400">No options found</div>
-                    )}
+                    <div className="max-h-48 overflow-y-auto">
+                        {filteredOptions.length > 0 ? (
+                            filteredOptions.map((option) => (
+                                <div
+                                    key={option.value}
+                                    className={`p-2 cursor-pointer capitalize ${value.includes(option.value) ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+                                    onClick={() => handleOptionClick(option.value)}
+                                    onKeyDown={(e) => handleKeyDown(e, option)}
+                                    tabIndex={0}
+                                >
+                                    {option.label}
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-2 text-gray-500">Data tidak di temukan.</div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

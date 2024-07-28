@@ -60,4 +60,9 @@ class Village extends Model
     {
         return $this->hasMany(Subak::class);
     }
+
+    public function landAgricultures()
+    {
+        return $this->hasMany(LandAgriculture::class);
+    }
 }

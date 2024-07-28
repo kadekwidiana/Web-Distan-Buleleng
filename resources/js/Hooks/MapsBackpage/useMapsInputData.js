@@ -11,12 +11,11 @@ import 'leaflet-draw/dist/leaflet.draw'
 import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Utils/Constan/Basemap";
 
 const useMapsInputData = (isEdit, data) => {
-    const { locationInput, setLocationInput, addressInput, setAddressInput } = useStore(
+    const { setLocationInput, setAreaJsonInput, setAddressInput } = useStore(
         useShallow((state) => (
             {
-                locationInput: state.locationInput,
                 setLocationInput: state.setLocationInput,
-                addressInput: state.addressInput,
+                setAreaJsonInput: state.setAreaJsonInput,
                 setAddressInput: state.setAddressInput
             }
         )),
@@ -113,6 +112,7 @@ const useMapsInputData = (isEdit, data) => {
                 `)
                 .openPopup();
             setLocationInput(`[${data?.location[0]}, ${data?.location[1]}]`);
+            let polygon = L.geoJSON(data.area_json ?? []).addTo(map);
         } else {
             // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
             setMapToUserLocation();
@@ -196,6 +196,12 @@ const useMapsInputData = (isEdit, data) => {
                         drawnItems.removeLayer(existingLayer);
                     }
                 });
+            } else if (type === 'polygon') {
+                drawnItems.eachLayer(function (existingLayer) {
+                    if (existingLayer instanceof L.Polygon) {
+                        drawnItems.removeLayer(existingLayer);
+                    }
+                });
             }
 
             drawnItems.addLayer(layer);
@@ -208,6 +214,10 @@ const useMapsInputData = (isEdit, data) => {
                 getAddress(lat, lng);
 
                 setLocationInput(`[${lat}, ${lng}]`);
+            }
+            if (type === 'polygon') {
+                const aoi = layer.toGeoJSON().geometry;
+                setAreaJsonInput(JSON.stringify(aoi));
             }
         });
 
@@ -226,6 +236,10 @@ const useMapsInputData = (isEdit, data) => {
 
                     setLocationInput(`[${lat}, ${lng}]`);
                 }
+                if (type === 'polygon') {
+                    const aoi = layer.toGeoJSON().geometry;
+                    setAreaJsonInput(JSON.stringify(aoi));
+                }
             });
         });
 
@@ -234,6 +248,7 @@ const useMapsInputData = (isEdit, data) => {
             deletedLayers.eachLayer(function (layer) {
                 setLocationInput('');
                 setAddressInput('');
+                setAreaJsonInput('');
             });
         });
     }, [])

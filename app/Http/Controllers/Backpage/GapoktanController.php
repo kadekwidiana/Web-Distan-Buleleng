@@ -13,18 +13,46 @@ use Inertia\Inertia;
 
 class GapoktanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $dataGapoktans = Gapoktan::all();
-
-        return Inertia::render('Backpage/Gapoktan/Index', [
-            'navName' => 'Gabungan Kelompok Tani',
-            "dataGapoktans" => $dataGapoktans
-        ]);
-    }
+    private $validationMessages = [
+        'village_id.required' => 'Desa wajib diisi.',
+        'village_id.exists' => 'Desa yang dipilih tidak valid.',
+        'name.required' => 'Nama wajib diisi.',
+        'name.string' => 'Nama harus berupa teks.',
+        'name.max' => 'Nama tidak boleh lebih dari 50 karakter.',
+        'leader.required' => 'Ketua wajib diisi.',
+        'leader.string' => 'Ketua harus berupa teks.',
+        'leader.max' => 'Ketua tidak boleh lebih dari 50 karakter.',
+        'secretary.required' => 'Sekretaris wajib diisi.',
+        'secretary.string' => 'Sekretaris harus berupa teks.',
+        'secretary.max' => 'Sekretaris tidak boleh lebih dari 50 karakter.',
+        'treasurer.required' => 'Bendahara wajib diisi.',
+        'treasurer.string' => 'Bendahara harus berupa teks.',
+        'treasurer.max' => 'Bendahara tidak boleh lebih dari 50 karakter.',
+        'number_of_members.required' => 'Jumlah anggota wajib diisi.',
+        'number_of_members.integer' => 'Jumlah anggota harus berupa angka.',
+        'since.required' => 'Tahun berdiri wajib diisi.',
+        'since.string' => 'Tahun berdiri harus berupa teks.',
+        'since.max' => 'Tahun berdiri tidak boleh lebih dari 4 karakter.',
+        'confirmation_sk.required' => 'SK Konfirmasi wajib diisi.',
+        'confirmation_sk.string' => 'SK Konfirmasi harus berupa teks.',
+        'confirmation_sk_no.required' => 'Nomor SK Konfirmasi wajib diisi.',
+        'confirmation_sk_no.string' => 'Nomor SK Konfirmasi harus berupa teks.',
+        'farming_business.required' => 'Jenis usaha tani wajib diisi.',
+        'farming_business.string' => 'Jenis usaha tani harus berupa teks.',
+        'business_process.required' => 'Jenis usaha olah wajib diisi.',
+        'business_process.string' => 'Jenis usaha olah harus berupa teks.',
+        'business_unit.required' => 'Unit usaha wajib diisi.',
+        'tools_and_machines.required' => 'Peralatan dan mesin wajib diisi.',
+        'layer_group_id.required' => 'Kelompok lapisan wajib diisi.',
+        'layer_group_id.exists' => 'Kelompok lapisan yang dipilih tidak valid.',
+        'photos.*.required' => 'Setiap foto wajib diisi.',
+        'location.required' => 'Lokasi wajib diisi.',
+        'location.json' => 'Lokasi harus berupa format JSON yang valid.',
+        'address.required' => 'Alamat wajib diisi.',
+        'address.string' => 'Alamat harus berupa teks.',
+        'description.nullable' => 'Deskripsi boleh diisi atau dikosongkan.',
+        'description.string' => 'Deskripsi harus berupa teks.'
+    ];
 
     public function gapoktanRegency(Request $request)
     {
@@ -94,74 +122,6 @@ class GapoktanController extends Controller
         return redirect()->route('gapoktans.district', ['districtId' => $districtId]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        $district = District::firstWhere('id', $request->districtId);
-        $villages = Village::where('district_id', $request->districtId)->get();
-        $layerGroup = LayerGrup::all();
-
-        return Inertia::render('Backpage/Gapoktan/Create', [
-            'navName' => 'Tambah Gapoktan',
-            'district' => $district,
-            'villages' => $villages,
-            'layerGroup' => $layerGroup
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $districtId = $request->districtId;
-
-        $validated = $request->validate([
-            // step 1
-            'village_id' => 'required|exists:villages,id',
-            'name' => 'required|string|max:50',
-            'leader' => 'required|string|max:50',
-            'secretary' => 'required|string|max:50',
-            'treasurer' => 'required|string|max:50',
-            'number_of_members' => 'required|integer',
-            'since' => 'required|string|max:4',
-            'confirmation_sk' => 'required|string',
-            'confirmation_sk_no' => 'required|string',
-            'farming_business' => 'required|string',
-            'business_process' => 'required|string',
-            'business_unit' => 'required',
-            'tools_and_machines' => 'required',
-            // step 2
-            'layer_group_id' => 'required|exists:layer_grups,id',
-            'photos.*' => 'required',
-            'location' => 'required|json',
-            'address' => 'required|string',
-            'description' => 'required|string',
-        ]);
-
-        // ubah json ke string
-        $validated['business_unit'] = json_encode($validated['business_unit']);
-        $validated['tools_and_machines'] = json_encode($validated['tools_and_machines']);
-
-        // Handle file uploads
-        $photoPaths = [];
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('gapoktans-image');
-                $photoPaths[] = Storage::url($path);
-            }
-        }
-        $validated['photo'] = json_encode($photoPaths);
-
-        // echo($validated);
-
-        Gapoktan::create($validated);
-
-        return redirect()->route('gapoktans.district', ['districtId' => $districtId])->with('success', 'Gapoktan created successfully.');
-    }
-
     public function createStepOne(Request $request)
     {
         $district = District::firstWhere('id', $request->districtId);
@@ -195,7 +155,8 @@ class GapoktanController extends Controller
             'business_process' => 'required|string',
             'business_unit' => 'required',
             'tools_and_machines' => 'required',
-        ]);
+        ], $this->validationMessages);
+
 
         if (empty($request->session()->get('gapoktan'))) {
             $gapoktan = new Gapoktan();
@@ -237,7 +198,7 @@ class GapoktanController extends Controller
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
-        ]);
+        ], $this->validationMessages);
 
         // Mengonversi lokasi ke array
         $validatedData['location'] = json_decode($request->location, true);
@@ -314,7 +275,7 @@ class GapoktanController extends Controller
             'business_process' => 'required|string',
             'business_unit' => 'required',
             'tools_and_machines' => 'required',
-        ]);
+        ], $this->validationMessages);
 
         if (empty($request->session()->get('gapoktan'))) {
             // $gapoktanById->update($validatedData);
@@ -361,7 +322,7 @@ class GapoktanController extends Controller
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
-        ]);
+        ], $this->validationMessages);
 
         // Mengonversi lokasi ke array
         $validatedData['location'] = json_decode($request->location, true);
@@ -434,22 +395,6 @@ class GapoktanController extends Controller
             'gapoktanById' => $gapoktanById,
             'districtId' => $request->districtId
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
     }
 
     /**

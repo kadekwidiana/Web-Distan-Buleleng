@@ -15,6 +15,47 @@ use Inertia\Inertia;
 
 class PoktanController extends Controller
 {
+    private $validationMessages = [
+        'village_id.required' => 'Desa wajib diisi.',
+        'village_id.exists' => 'Desa tidak valid.',
+        'gapoktan_id.exists' => 'Gapoktan tidak valid.',
+        'name.required' => 'Nama wajib diisi.',
+        'name.string' => 'Nama harus berupa teks.',
+        'name.max' => 'Nama maksimal 50 karakter.',
+        'leader.required' => 'Ketua wajib diisi.',
+        'leader.string' => 'Ketua harus berupa teks.',
+        'leader.max' => 'Ketua maksimal 50 karakter.',
+        'secretary.required' => 'Sekretaris wajib diisi.',
+        'secretary.string' => 'Sekretaris harus berupa teks.',
+        'secretary.max' => 'Sekretaris maksimal 50 karakter.',
+        'treasurer.required' => 'Bendahara wajib diisi.',
+        'treasurer.string' => 'Bendahara harus berupa teks.',
+        'treasurer.max' => 'Bendahara maksimal 50 karakter.',
+        'number_of_members.required' => 'Jumlah anggota wajib diisi.',
+        'number_of_members.integer' => 'Jumlah anggota harus berupa angka.',
+        'commodities.required' => 'Komoditas wajib diisi.',
+        'since.required' => 'Tahun berdiri wajib diisi.',
+        'since.string' => 'Tahun berdiri harus berupa teks.',
+        'since.max' => 'Tahun berdiri maksimal 4 karakter.',
+        'status.required' => 'Status wajib diisi.',
+        'status.string' => 'Status harus berupa teks.',
+        'ability_class.required' => 'Kelas kemampuan wajib diisi.',
+        'ability_class.string' => 'Kelas kemampuan harus berupa teks.',
+        'group_confirmation_status.required' => 'Status konfirmasi kelompok wajib diisi.',
+        'group_confirmation_status.string' => 'Status konfirmasi kelompok harus berupa teks.',
+        'year_of_class_assignment.required' => 'Tahun penugasan kelas wajib diisi.',
+        'year_of_class_assignment.string' => 'Tahun penugasan kelas harus berupa teks.',
+        'layer_group_id.required' => 'Grup lapisan wajib diisi.',
+        'layer_group_id.exists' => 'Grup lapisan tidak valid.',
+        'photos.*.required' => 'Foto wajib diisi.',
+        'location.required' => 'Lokasi wajib diisi.',
+        'location.json' => 'Lokasi harus berupa format JSON.',
+        'address.required' => 'Alamat wajib diisi.',
+        'address.string' => 'Alamat harus berupa teks.',
+        'description.nullable' => 'Deskripsi harus berupa teks.',
+    ];
+
+
     public function poktanRegency(Request $request)
     {
         // regency_id buleleng
@@ -132,7 +173,7 @@ class PoktanController extends Controller
             'ability_class' => 'required|string',
             'group_confirmation_status' => 'required|string',
             'year_of_class_assignment' => 'required|string',
-        ]);
+        ], $this->validationMessages);
 
         // dd($validatedData);
         if (empty($request->session()->get('poktan'))) {
@@ -170,7 +211,7 @@ class PoktanController extends Controller
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
-        ]);
+        ], $this->validationMessages);
 
         // Mengonversi lokasi ke array
         $validatedData['location'] = json_decode($request->location, true);
@@ -249,7 +290,7 @@ class PoktanController extends Controller
             'ability_class' => 'required|string',
             'group_confirmation_status' => 'required|string',
             'year_of_class_assignment' => 'required|string',
-        ]);
+        ], $this->validationMessages);
 
         // dd($validatedData);
         if (empty($request->session()->get('poktan'))) {
@@ -292,7 +333,7 @@ class PoktanController extends Controller
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
-        ]);
+        ], $this->validationMessages);
 
         // Mengonversi lokasi ke array
         $validatedData['location'] = json_decode($request->location, true);

@@ -20,7 +20,6 @@ class CoreDatasSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(FarmersSeeder::class);
         $this->call(GapoktansSeeder::class);
         $this->call(PoktansSeeder::class);
         $this->call(SubaksSeeder::class);

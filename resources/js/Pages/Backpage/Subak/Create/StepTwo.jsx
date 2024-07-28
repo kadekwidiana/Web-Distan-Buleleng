@@ -167,19 +167,19 @@ export default function StepOneCreateGapoktanPage() {
                             </div>
                             <div className="">
                                 <InputLabel>Deskripsi</InputLabel>
-                                <TextInputArea defaultValue={data.description} onChange={handleChange} id='description' name='description' placeholder="Deskripsi.." />
+                                <TextInputArea defaultValue={data.description} onChange={handleChange} id='description' name='description' placeholder="Deskripsi..." />
                                 <InputError message={errors.description} />
                             </div>
                         </div>
                         <div className="flex flex-col gap-3">
                             <div className="">
                                 <InputLabel>Lokasi</InputLabel>
-                                <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi.." />
+                                <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi..." />
                                 <InputError message={errors.location} />
                             </div>
                             <div className="">
                                 <InputLabel>Alamat Lengkap</InputLabel>
-                                <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
+                                <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat..." />
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">

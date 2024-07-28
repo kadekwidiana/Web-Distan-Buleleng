@@ -4,6 +4,7 @@ import Checkbox from '@/Components/Input/Checkbox';
 import InputError from '@/Components/Input/InputError';
 import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
+import SelectTwo from '@/Components/Input/InputSelectTwo';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
@@ -111,18 +112,14 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Desa</InputLabel>
-                <InputSelect
+                <SelectTwo
+                  entities={villages}
+                  selectedEntityId={data.village_id}
+                  setSelectedEntityId={(id) => setData({ ...data, village_id: id })}
+                  label={'-- Pilih desa --'}
+                  placeholder={'Cari desa...'}
                   error={errors.village_id}
-                  defaultValue={data.village_id}
-                  onChange={handleChange}
-                  id="village_id"
-                  name="village_id"
-                >
-                  <option value="" defaultChecked>Pilih desa</option>
-                  {villages.map((village, index) => (
-                    <option key={index} value={village.id}>{village.name}</option>
-                  ))}
-                </InputSelect>
+                />
                 <InputError message={errors.village_id} />
               </div>
               <div className="">
@@ -140,13 +137,13 @@ export default function StepOneCreateGapoktanPage() {
                 <TextInput error={errors.secretary} defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris..." />
                 <InputError message={errors.secretary} />
               </div>
+            </div>
+            <div className="flex flex-col gap-3">
               <div className="">
                 <InputLabel>Nama Bendahara</InputLabel>
                 <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                 <InputError message={errors.treasurer} />
               </div>
-            </div>
-            <div className="flex flex-col gap-3">
               <div className="">
                 <InputLabel>Jumlah Anggota</InputLabel>
                 <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
@@ -174,7 +171,7 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Komoditas</InputLabel>
-                <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
+                <MultiSelect title={'-- Pilih komoditas --'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>
             </div>

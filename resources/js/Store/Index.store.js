@@ -14,6 +14,8 @@ export const useStore = create(
             setMSIData: (data) => set({ MSIData: data }),
             locationInput: '',
             setLocationInput: (data) => set({ locationInput: data }),
+            areaJsonInput: '',
+            setAreaJsonInput: (data) => set({ areaJsonInput: data }),
             addressInput: '',
             setAddressInput: (data) => set({ addressInput: data }),
             optionsSelected: null,
@@ -25,6 +27,7 @@ export const useStore = create(
                 MSIData: null,
                 locationInput: '',
                 addressInput: '',
+                areaJsonInput: '',
                 optionsSelected: null
             })
         }),

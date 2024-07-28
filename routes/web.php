@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backpage\GapoktanController;
+use App\Http\Controllers\Backpage\LandAgricultureController;
 use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\SubakController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
@@ -136,6 +137,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
     /*
     |--------------------------------------------------------------------------
     | END ROUTE SUBAK
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | START ROUTE LAND AGRICULTURE
+    |--------------------------------------------------------------------------
+    */
+    // back to list land agriculture
+    Route::get('/lahan_pertanian/kecamatan/{districtId}/back', [LandAgricultureController::class, 'backNav'])->name('landAgricultures.back');
+    // R land agriculture
+    Route::get('/lahan_pertanian', [LandAgricultureController::class, 'landAgricultureRegency'])->name('landAgricultures.regency');
+    Route::get('/lahan_pertanian/kecamatan/{districtId}', [LandAgricultureController::class, 'landAgricultureDistrict'])->name('landAgricultures.district');
+    Route::get('/lahan_pertanian/kecamatan/{districtId}/{landAgricultureId}/detail', [LandAgricultureController::class, 'show'])->name('landAgricultures.detail');
+    // C land agriculture
+    Route::get('/lahan_pertanian/kecamatan/{districtId}/create-step-one', [LandAgricultureController::class, 'createStepOne'])->name('landAgricultures.create.step.one');
+    Route::post('/lahan_pertanian/kecamatan/{districtId}/create-step-one', [LandAgricultureController::class, 'storeStepOne'])->name('landAgricultures.store.step.one');
+    Route::get('/lahan_pertanian/kecamatan/{districtId}/create-step-two', [LandAgricultureController::class, 'createStepTwo'])->name('landAgricultures.create.step.two');
+    Route::post('/lahan_pertanian/kecamatan/{districtId}/create-step-two', [LandAgricultureController::class, 'storeStepTwo'])->name('landAgricultures.store.step.two');
+    // U land agriculture
+    Route::get('/lahan_pertanian/kecamatan/{districtId}/{landAgricultureId}/edit-step-one', [LandAgricultureController::class, 'editStepOne'])->name('landAgricultures.edit.step.one');
+    Route::post('/lahan_pertanian/kecamatan/{districtId}/{landAgricultureId}/edit-step-one', [LandAgricultureController::class, 'updateStepOne'])->name('landAgricultures.update.step.one');
+    Route::get('/lahan_pertanian/kecamatan/{districtId}/{landAgricultureId}/edit-step-two', [LandAgricultureController::class, 'editStepTwo'])->name('landAgricultures.edit.step.two');
+    Route::post('/lahan_pertanian/kecamatan/{districtId}/{landAgricultureId}/edit-step-two', [LandAgricultureController::class, 'updateStepTwo'])->name('landAgricultures.update.step.two');
+    // D land agriculture
+    Route::delete('/lahan_pertanian/kecamatan/{districtId}/{landAgricultureId}/delete', [LandAgricultureController::class, 'destroy'])->name('landAgricultures.delete');
+    /*
+    |--------------------------------------------------------------------------
+    | END ROUTE LAND AGRICULTURE
     |--------------------------------------------------------------------------
     */
 });

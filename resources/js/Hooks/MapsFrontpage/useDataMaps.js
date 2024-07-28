@@ -310,7 +310,7 @@ const useDataMaps = (map, dataLayers) => {
     const setDataLandAgricultures = (dataLahan, layer) => {
         const iconUrl = dataLahan.icon; // URL ikon diambil dari dataLahan.icon
         const marker = L.marker(dataLahan.location, { icon: customIcon(iconUrl) });
-        var polygon = L.geoJSON(dataLahan.area_json).addTo(layer);
+        let polygon = L.geoJSON(dataLahan.area_json).addTo(layer);
 
         const swiperId = `swiper-${Math.random().toString(36).substring(7)}`;
 
@@ -341,8 +341,8 @@ const useDataMaps = (map, dataLayers) => {
                                 <strong>Luas lahan:</strong> ${dataLahan.land_area} m2</br >
                                 <strong>Jenis lahan:</strong> ${dataLahan.type_land_agriculture.name}</br >
                                 <strong>Komoditas lahan:</strong> ${dataLahan.commodities.map((commodity => commodity.name + ', '))}</br >
-                                <strong>Poktan:</strong> ${dataLahan.poktan.name}</br >
-                                <strong>Subak:</strong> ${dataLahan.subak.name}</br >
+                                <strong>Poktan:</strong> ${dataLahan?.poktan?.name ?? '-'}</br >
+                                <strong>Subak:</strong> ${dataLahan?.subak?.name ?? '-'}</br >
                                 <strong>Deskripsi:</strong> ${dataLahan.description}</br >
                             </div>
                         `;

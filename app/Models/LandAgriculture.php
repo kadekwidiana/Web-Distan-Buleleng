@@ -22,16 +22,17 @@ class LandAgriculture extends Model
      * @var array
      */
     protected $fillable = [
+        'village_id',
         'poktan_id',
         'subak_id',
         'type_land_agriculture_id',
+        'owner_id',
         'layer_group_id',
-        'owner',
         'location',
         'address',
         'area_json',
         'land_area',
-        'is_active',
+        'status',
         'icon',
         'photo',
         'description',
@@ -88,5 +89,15 @@ class LandAgriculture extends Model
     public function commodities()
     {
         return $this->belongsToMany(Commodity::class, 'land_agriculture_commodities');
+    }
+
+    public function village()
+    {
+        return $this->belongsTo(Village::class, 'village_id');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
     }
 }

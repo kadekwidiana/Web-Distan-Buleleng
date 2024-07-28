@@ -16,33 +16,6 @@ export default function DetailGapoktanPage() {
         photos = [];
     }
 
-    const options = {
-        method: 'POST',
-        url: 'https://indonesia-ktp-parser-validator.p.rapidapi.com/ktp_validator',
-        headers: {
-            'x-rapidapi-key': '4b054dde98msh97da94139fa576ep1a0ea4jsn9c3559679671',
-            'x-rapidapi-host': 'indonesia-ktp-parser-validator.p.rapidapi.com',
-            'Content-Type': 'application/json'
-        },
-        data: {
-            nik: '5107073112030001'
-        }
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.request(options);
-                console.log(response.data);
-                console.log(response.status);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchData();
-    }, [])
-
-
     return (
         <BackpageLayout>
             <Head title="Detail Gapoktan" />

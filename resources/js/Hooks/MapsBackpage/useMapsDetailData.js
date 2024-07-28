@@ -20,7 +20,7 @@ const useMapsDetailData = (data) => {
         const map = L.map('maps', {
             layers: [GOOGLE_STREET_MAP],
             center: data.location ?? coorBali,
-            zoom: 13,
+            zoom: 18,
             // minZoom: ,
             zoomControl: false
         });
@@ -36,11 +36,13 @@ const useMapsDetailData = (data) => {
         const marker = L.marker(data.location ?? coorBali, { icon: locationIcon }).addTo(map)
             .bindPopup(`
                 <div class='flex flex-col justify-center items-center gap-1'>
-                <span>Lokasi ${data.name}</span>
+                <span>Lokasi ${data.name ?? ''}</span>
                 <a href='http://maps.google.com/maps?q=&layer=c&cbll=${data.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a>
                 </div>
                 `)
             .openPopup();
+
+        let polygon = L.geoJSON(data.area_json ?? []).addTo(map);
 
         const baseMaps = {
             "OpenStreetMap": OPEN_STREET_MAP,

@@ -44,4 +44,9 @@ class TypeLandAgriculture extends Model
     {
         return $this->belongsTo(LayerGrup::class, 'layer_group_id');
     }
+
+    public function landAgricultures()
+    {
+        return $this->belongsToMany(TypeLandAgriculture::class, 'type_land_agriculture_id');
+    }
 }

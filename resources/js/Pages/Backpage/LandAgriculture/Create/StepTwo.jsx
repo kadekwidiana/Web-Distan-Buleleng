@@ -13,27 +13,30 @@ import { useStore } from '@/Store/Index.store';
 import { useShallow } from 'zustand/react/shallow';
 import MapsInputData from '@/Components/Maps/MapsInputData';
 
-export default function StepOneCreateGapoktanPage() {
-    const { locationInput, addressInput, optionsSelected } = useStore(
+export default function StepOneCreateLandAgriculturePage() {
+    const { locationInput, addressInput, areaJsonInput, optionsSelected } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
+                areaJsonInput: state.areaJsonInput,
                 addressInput: state.addressInput,
                 optionsSelected: state.optionsSelected,
             }
         )),
     );
 
-    const { poktanById, district, layerGroup, errors } = usePage().props;
-    // console.log(errors);
+    const { district, layerGroup, errors } = usePage().props;
+    console.log(errors);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
-        layer_group_id: poktanById?.layer_group_id,
-        photos: JSON.parse(poktanById?.photo) ?? [],
-        location: locationInput,
-        address: poktanById?.address,
-        description: poktanById?.description
+        layer_group_id: '',
+        photos: [],
+        location: '',
+        area_json: '',
+        land_area: '',
+        address: '',
+        description: ''
     });
 
     useEffect(() => {
@@ -45,13 +48,18 @@ export default function StepOneCreateGapoktanPage() {
             }
         )
     }, [locationInput, addressInput]);
+    useEffect(() => {
+        setData(
+            {
+                ...data,
+                area_json: areaJsonInput,
+            }
+        )
+    }, [areaJsonInput]);
 
     const [location, setLocation] = useState(data.location);
+    const [areaJson, setAreaJson] = useState(data.area_json);
     const [address, setAddress] = useState(data.address);
-
-    useEffect(() => {
-        setLocation(poktanById.location);
-    }, [poktanById?.location]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -71,13 +79,16 @@ export default function StepOneCreateGapoktanPage() {
             setLocation(value);
         } else if (name === 'address') {
             setAddress(value);
+        } else if (name === 'area_json') {
+            setAreaJson(value);
         }
     };
 
     useEffect(() => {
         setData({ ...data, location: location });
+        setData({ ...data, area_json: areaJson });
         setData({ ...data, address: address });
-    }, [location, address]);
+    }, [location, areaJson, address]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -88,12 +99,12 @@ export default function StepOneCreateGapoktanPage() {
             formData.append('photos[]', photo);
         });
 
-        post(route('poktans.update.step.two', { districtId: district.id, poktanId: poktanById.id }), {
+        post(route('landAgricultures.store.step.two', { districtId: district.id }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
                     icon: "success",
-                    title: "Data berhasil di edit.",
+                    title: "Data berhasil di simpan.",
                 });
             }
         });
@@ -104,11 +115,7 @@ export default function StepOneCreateGapoktanPage() {
             <div className="py-2 grid grid-cols-2 gap-2">
                 {data.photos.map((photo, index) => (
                     <div key={index} >
-                        {typeof photo === 'object' ?
-                            <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
-                            :
-                            <img src={photo} alt={`Preview ${photo}`} />
-                        }
+                        <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
                         <div className="flex justify-end mt-2">
                             <button type='button' onClick={() => removePhoto(index)} className='py-0.5 px-2 bg-red-500 text-white rounded-sm'>Hapus</button>
                         </div>
@@ -154,9 +161,8 @@ export default function StepOneCreateGapoktanPage() {
                                     onChange={handleChange}
                                     id="layer_group_id"
                                     name="layer_group_id"
-                                    defaultValue={data.layer_group_id}
                                 >
-                                    <option value="">Pilih jenis layer</option>
+                                    <option value="" defaultChecked>Pilih jenis layer</option>
                                     {layerGroup.map((layer, index) => (
                                         <option key={index} value={layer.id}>{layer.name}</option>
                                     ))}
@@ -182,9 +188,19 @@ export default function StepOneCreateGapoktanPage() {
                         </div>
                         <div className="flex flex-col gap-3">
                             <div className="">
+                                <InputLabel>Luas Lahan</InputLabel>
+                                <TextInput textRight={'are (m2)'} error={errors.land_area} value={data.land_area} onChange={handleChange} type='number' id='land_area' name='land_area' placeholder="00" />
+                                <InputError message={errors.land_area} />
+                            </div>
+                            <div className="">
                                 <InputLabel>Lokasi</InputLabel>
                                 <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi.." />
                                 <InputError message={errors.location} />
+                            </div>
+                            <div className="">
+                                <InputLabel>Area Json</InputLabel>
+                                <TextInputArea defaultValue={data.area_json} onChange={handleChange} id='area_json' name='area_json' placeholder="Area json.." />
+                                <InputError message={errors.area_json} />
                             </div>
                             <div className="">
                                 <InputLabel>Alamat Lengkap</InputLabel>
@@ -192,12 +208,12 @@ export default function StepOneCreateGapoktanPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData isEdit={true} data={poktanById} />
+                                <MapsInputData />
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-end gap-2 my-2">
-                        <Link href={`/kelembagaan-pertanian/poktan/kecamatan/${district.id}/${poktanById.id}/edit-step-one`}>
+                        <Link href={`/lahan_pertanian/kecamatan/${district.id}/create-step-one`}>
                             <Button type="button" className='bg-red-500 hover:bg-red-600'>Sebelumnya</Button>
                         </Link>
                         <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>

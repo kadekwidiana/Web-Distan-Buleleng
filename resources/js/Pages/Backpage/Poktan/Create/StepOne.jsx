@@ -4,6 +4,7 @@ import Checkbox from '@/Components/Input/Checkbox';
 import InputError from '@/Components/Input/InputError';
 import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
+import SelectTwo from '@/Components/Input/InputSelectTwo';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
@@ -114,34 +115,26 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Desa</InputLabel>
-                <InputSelect
+                <SelectTwo
+                  entities={villages}
+                  selectedEntityId={data.village_id}
+                  setSelectedEntityId={(id) => setData({ ...data, village_id: id })}
+                  label={'-- Pilih desa --'}
+                  placeholder={'Cari desa...'}
                   error={errors.village_id}
-                  defaultValue={data.village_id}
-                  onChange={handleChange}
-                  id="village_id"
-                  name="village_id"
-                >
-                  <option value="" defaultChecked>Pilih desa</option>
-                  {villages.map((village, index) => (
-                    <option key={index} value={village.id}>{village.name}</option>
-                  ))}
-                </InputSelect>
+                />
                 <InputError message={errors.village_id} />
               </div>
               <div className="">
                 <InputLabel>Gapoktan (Pilih jika tergabung dalam gapoktan)</InputLabel>
-                <InputSelect
+                <SelectTwo
+                  entities={gapoktans}
+                  selectedEntityId={data.gapoktan_id}
+                  setSelectedEntityId={(id) => setData({ ...data, gapoktan_id: id })}
+                  label={'-- Pilih gapoktan --'}
+                  placeholder={'Cari gapoktan...'}
                   error={errors.gapoktan_id}
-                  defaultValue={data.gapoktan_id}
-                  onChange={handleChange}
-                  id="gapoktan_id"
-                  name="gapoktan_id"
-                >
-                  <option value={null} defaultChecked>Pilih gapoktan</option>
-                  {gapoktans.length > 0 && gapoktans.map((gapoktan, index) => (
-                    <option key={index} value={gapoktan.id}>{gapoktan.name}</option>
-                  ))}
-                </InputSelect>
+                />
                 <InputError message={errors.gapoktan_id} />
               </div>
               <div className="">

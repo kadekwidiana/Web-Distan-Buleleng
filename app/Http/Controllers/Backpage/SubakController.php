@@ -14,13 +14,39 @@ use Inertia\Inertia;
 
 class SubakController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    private $validationMessages = [
+        'village_id.required' => 'Desa wajib diisi.',
+        'village_id.exists' => 'Desa tidak valid.',
+        'name.required' => 'Nama wajib diisi.',
+        'name.string' => 'Nama harus berupa teks.',
+        'name.max' => 'Nama maksimal 50 karakter.',
+        'leader.required' => 'Ketua wajib diisi.',
+        'leader.string' => 'Ketua harus berupa teks.',
+        'leader.max' => 'Ketua maksimal 50 karakter.',
+        'secretary.required' => 'Sekretaris wajib diisi.',
+        'secretary.string' => 'Sekretaris harus berupa teks.',
+        'secretary.max' => 'Sekretaris maksimal 50 karakter.',
+        'treasurer.required' => 'Bendahara wajib diisi.',
+        'treasurer.string' => 'Bendahara harus berupa teks.',
+        'treasurer.max' => 'Bendahara maksimal 50 karakter.',
+        'number_of_members.required' => 'Jumlah anggota wajib diisi.',
+        'number_of_members.integer' => 'Jumlah anggota harus berupa angka.',
+        'commodities.required' => 'Komoditas wajib diisi.',
+        'commodities.nullable' => 'Komoditas harus berupa teks.',
+        'since.required' => 'Tahun berdiri wajib diisi.',
+        'since.string' => 'Tahun berdiri harus berupa teks.',
+        'since.max' => 'Tahun berdiri maksimal 4 karakter.',
+        'status.required' => 'Status wajib diisi.',
+        'status.string' => 'Status harus berupa teks.',
+        'layer_group_id.required' => 'Grup lapisan wajib diisi.',
+        'layer_group_id.exists' => 'Grup lapisan tidak valid.',
+        'photos.*.required' => 'Foto wajib diisi.',
+        'location.required' => 'Lokasi wajib diisi.',
+        'location.json' => 'Lokasi harus berupa format JSON.',
+        'address.required' => 'Alamat wajib diisi.',
+        'address.string' => 'Alamat harus berupa teks.',
+        'description.nullable' => 'Deskripsi harus berupa teks.',
+    ];
 
     public function subakRegency(Request $request)
     {
@@ -132,7 +158,7 @@ class SubakController extends Controller
             'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'since' => 'required|string|max:4',
             'status' => 'required|string',
-        ]);
+        ], $this->validationMessages);
 
         // dd($validatedData);
         if (empty($request->session()->get('subak'))) {
@@ -170,7 +196,7 @@ class SubakController extends Controller
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
-        ]);
+        ], $this->validationMessages);
 
         // Mengonversi lokasi ke array
         $validatedData['location'] = json_decode($request->location, true);
@@ -242,7 +268,7 @@ class SubakController extends Controller
             'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'since' => 'required|string|max:4',
             'status' => 'required|string'
-        ]);
+        ], $this->validationMessages);
 
         // dd($validatedData);
         if (empty($request->session()->get('subak'))) {
@@ -285,7 +311,7 @@ class SubakController extends Controller
             'location' => 'required|json',
             'address' => 'required|string',
             'description' => 'nullable|string',
-        ]);
+        ], $this->validationMessages);
 
         // Mengonversi lokasi ke array
         $validatedData['location'] = json_decode($request->location, true);

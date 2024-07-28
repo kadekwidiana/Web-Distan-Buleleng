@@ -4,6 +4,7 @@ import Checkbox from '@/Components/Input/Checkbox';
 import InputError from '@/Components/Input/InputError';
 import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
+import SelectTwo from '@/Components/Input/InputSelectTwo';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
@@ -110,42 +111,39 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Desa</InputLabel>
-                <InputSelect
-                  defaultValue={data.village_id}
-                  onChange={handleChange}
-                  id="village_id"
-                  name="village_id"
-                >
-                  <option value="" defaultChecked>Pilih desa</option>
-                  {villages.map((village, index) => (
-                    <option key={index} value={village.id}>{village.name}</option>
-                  ))}
-                </InputSelect>
+                <SelectTwo
+                  entities={villages}
+                  selectedEntityId={data.village_id}
+                  setSelectedEntityId={(id) => setData({ ...data, village_id: id })}
+                  label={'-- Pilih desa --'}
+                  placeholder={'Cari desa...'}
+                  error={errors.village_id}
+                />
                 <InputError message={errors.village_id} />
               </div>
               <div className="">
                 <InputLabel>Nama Gapoktan</InputLabel>
-                <TextInput defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama gapoktan.." />
+                <TextInput defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama gapoktan..." />
                 <InputError message={errors.name} />
               </div>
               <div className="">
                 <InputLabel>Ketua</InputLabel>
-                <TextInput defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua.." />
+                <TextInput defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua..." />
                 <InputError message={errors.leader} />
               </div>
               <div className="">
                 <InputLabel>Sekretaris</InputLabel>
-                <TextInput defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris.." />
+                <TextInput defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris..." />
                 <InputError message={errors.secretary} />
               </div>
               <div className="">
                 <InputLabel>Bendahara</InputLabel>
-                <TextInput defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara.." />
+                <TextInput defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                 <InputError message={errors.treasurer} />
               </div>
               <div className="">
                 <InputLabel>Jumlah Anggota</InputLabel>
-                <TextInput defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="Jumlah anggota.." />
+                <TextInput defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="Jumlah anggota..." />
                 <InputError message={errors.number_of_members} />
               </div>
               <div className="">
@@ -155,12 +153,12 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>SK Pengukuhan</InputLabel>
-                <TextInput defaultValue={data.confirmation_sk} onChange={handleChange} id='confirmation_sk' name='confirmation_sk' placeholder="SK Pengukuhan.." />
+                <TextInput defaultValue={data.confirmation_sk} onChange={handleChange} id='confirmation_sk' name='confirmation_sk' placeholder="SK Pengukuhan..." />
                 <InputError message={errors.confirmation_sk} />
               </div>
               <div className="">
                 <InputLabel>No. SK Pengukuhan</InputLabel>
-                <TextInput defaultValue={data.confirmation_sk_no} onChange={handleChange} id='confirmation_sk_no' name='confirmation_sk_no' placeholder="No. SK Pengukuhan.." />
+                <TextInput defaultValue={data.confirmation_sk_no} onChange={handleChange} id='confirmation_sk_no' name='confirmation_sk_no' placeholder="No. SK Pengukuhan..." />
                 <InputError message={errors.confirmation_sk_no} />
               </div>
             </div>
@@ -203,7 +201,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="jasa_lainnya"
                       name="jasa_lainnya"
                       value={data.business_unit.jasa_lainnya}
-                      placeholder="Jasa lainnya.."
+                      placeholder="Jasa lainnya..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -213,12 +211,12 @@ export default function StepOneCreateGapoktanPage() {
               </div>
               <div className="">
                 <InputLabel>Usaha Tani</InputLabel>
-                <TextInput defaultValue={data.farming_business} onChange={handleChange} id='farming_business' name='farming_business' placeholder="Bisnis pertanian.." />
+                <TextInput defaultValue={data.farming_business} onChange={handleChange} id='farming_business' name='farming_business' placeholder="Bisnis pertanian..." />
                 <InputError message={errors.farming_business} />
               </div>
               <div className="">
                 <InputLabel>Usaha Olah</InputLabel>
-                <TextInput defaultValue={data.business_process} onChange={handleChange} id='business_process' name='business_process' placeholder="Proses bisnis.." />
+                <TextInput defaultValue={data.business_process} onChange={handleChange} id='business_process' name='business_process' placeholder="Usaha olah..." />
                 <InputError message={errors.business_process} />
               </div>
               <div className="">
@@ -231,7 +229,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="traktor"
                       name="traktor"
                       value={data.tools_and_machines.traktor}
-                      placeholder="Traktor.."
+                      placeholder="Jumlah Traktor..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -242,7 +240,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="hand_traktor"
                       name="hand_traktor"
                       value={data.tools_and_machines.hand_traktor}
-                      placeholder="Hand Traktor.."
+                      placeholder="Jumlah Hand Traktor..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -253,7 +251,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="pompa_air"
                       name="pompa_air"
                       value={data.tools_and_machines.pompa_air}
-                      placeholder="Pompa Air.."
+                      placeholder="Jumlah Pompa Air..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -264,7 +262,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="mesin_penggiling_padi"
                       name="mesin_penggiling_padi"
                       value={data.tools_and_machines.mesin_penggiling_padi}
-                      placeholder="Mesin Penggiling Padi.."
+                      placeholder="Jumlah Mesin Penggiling Padi..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -275,7 +273,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="mesin_pengering"
                       name="mesin_pengering"
                       value={data.tools_and_machines.mesin_pengering}
-                      placeholder="Mesin Pengering.."
+                      placeholder="Jumlah Mesin Pengering..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -286,7 +284,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="mesin_pencacah"
                       name="mesin_pencacah"
                       value={data.tools_and_machines.mesin_pencacah}
-                      placeholder="Mesin Pencacah.."
+                      placeholder="Jumlah Mesin Pencacah..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>
@@ -297,7 +295,7 @@ export default function StepOneCreateGapoktanPage() {
                       id="lainnya"
                       name="lainnya"
                       value={data.tools_and_machines.lainnya}
-                      placeholder="Lainnya.."
+                      placeholder="Lainnya..."
                       className="py-1 px-2 border-s-0 rounded-s-none"
                     />
                   </label>

@@ -48,6 +48,11 @@ const SidebarMenus = () => {
                     </>
                 }
             />
+            <SidebarMenu
+                href={'/lahan_pertanian'}
+                icon={<i className="fa-solid fa-chart-area"></i>}
+                label={'Lahan Pertanian'}
+            />
         </ul>
     )
 }

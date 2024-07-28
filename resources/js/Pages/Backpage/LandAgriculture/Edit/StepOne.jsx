@@ -12,11 +12,12 @@ import { useStore } from '@/Store/Index.store';
 import { ABILITY_CLASSES } from '@/Utils/Constan/Class';
 import { CONFIRMATION_STATUSES, GROUP_STATUSES } from '@/Utils/Constan/Status';
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
-import React, { useEffect, useState } from 'react'
+import { Banner } from 'flowbite-react';
+import React, { useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
 
-export default function StepOneEditSubakPage() {
-  // use store supaya bisa tersimpan di session/storage dan nanti di gunakan di createStepTwo untuk simpan relasi subak dan commodity nya, karena field commodities tidak ada di tabel subak (many to many anntara subak dan commodity)
+export default function StepOneCreateLandAgriculturePage() {
+  // use store supaya bisa tersimpan di session/storage dan nanti di gunakan di createStepTwo untuk simpan relasi landAgriculture dan commodity nya, karena field commodities tidak ada di tabel landAgriculture (many to many anntara landAgriculture dan commodity)
   const { optionsSelected, setOptionsSelected } = useStore(
     useShallow((state) => (
       {
@@ -26,20 +27,20 @@ export default function StepOneEditSubakPage() {
     )),
   );
 
-  const { subak, subakById, commodityIds, district, villages, commodities, errors } = usePage().props;
+  const { landAgriculture, landAgricultureById, commodityIds, district, villages, poktans, subaks, typeLandAgricultures, owners, commodities, errors } = usePage().props;
   const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
   const [selectedValues, setSelectedValues] = useState(optionsSelected ?? commodityIds); //value options yang di pilih
   const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
-    village_id: subak?.village_id ?? subakById?.village_id,
-    name: subak?.name ?? subakById?.name,
-    leader: subak?.leader ?? subakById?.leader,
-    secretary: subak?.secretary ?? subakById?.secretary,
-    treasurer: subak?.treasurer ?? subakById?.treasurer,
-    number_of_members: subak?.number_of_members ?? subakById?.number_of_members,
+    village_id: landAgriculture?.village_id ?? landAgricultureById?.village_id,
+    poktan_id: landAgriculture?.poktan_id ?? landAgricultureById?.poktan_id,
+    subak_id: landAgriculture?.subak_id ?? landAgricultureById?.subak_id,
+    type_land_agriculture_id: landAgriculture?.type_land_agriculture_id ?? landAgricultureById?.type_land_agriculture_id,
+    owner_id: landAgriculture?.owner_id ?? landAgricultureById?.owner_id,
     commodities: selectedValues, // data commodities guna bisa validasi ke BE
-    since: subak?.since ?? subakById?.since,
-    status: subak?.status ?? subakById?.status,
+    status: landAgriculture?.status ?? landAgricultureById?.status,
   });
+
+  console.log(landAgricultureById?.owner_id);
 
   commodities.forEach((commodity) => {
     if (!options.some(option => option.value === commodity.id)) {
@@ -80,14 +81,14 @@ export default function StepOneEditSubakPage() {
     // simpan commodity yg di pilih ke store
     setOptionsSelected(data.commodities);
 
-    post(route('subaks.update.step.one', { districtId: district.id, subakId: subakById.id }), {
+    post(route('landAgricultures.update.step.one', { districtId: district.id, landAgricultureId: landAgricultureById.id }), {
       data: formData
     });
   };
 
   return (
     <BackpageLayout>
-      <Head title="Edit Subak" />
+      <Head title="Edit Lahan Pertanian" />
       <div className="mb-2">
         <ol className="flex items-center w-full p-3 space-x-1 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse">
           <li className="flex items-center text-blue-600">
@@ -105,6 +106,35 @@ export default function StepOneEditSubakPage() {
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
+              <div className="">
+                <Banner>
+                  <div className="flex w-full flex-col justify-between rounded-md border-t-4 border-blue-500 bg-blue-100 p-4 shadow-sm md:flex-row lg:max-w-7xl">
+                    <div className="mb-3 mr-4 flex flex-col">
+                      <h3>Petunjuk.</h3>
+                      <p className="flex items-center text-sm font-normal text-gray-600">
+                        Tambah data owner/pemilik lahan jika belum terdaftar dalam sistem.
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center">
+                      <Button href="#">Tambah Pemilik</Button>
+                    </div>
+                  </div>
+                </Banner>
+              </div>
+              <div className="">
+                <InputLabel>Pemilik</InputLabel>
+                <SelectTwo
+                  entities={owners}
+                  selectedEntityId={data.owner_id}
+                  setSelectedEntityId={(id) => setData({ ...data, owner_id: id })}
+                  otherEntity={'nik'}
+                  label={'-- Pilih pemilik --'}
+                  placeholder={'Cari pemilik berdasarkan nama/nik...'}
+                  error={errors.owner_id}
+                />
+                <InputError message={errors.owner_id} />
+              </div>
+
               <div className="w-full">
                 <InputLabel>Kecamatan</InputLabel>
                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
@@ -121,38 +151,49 @@ export default function StepOneEditSubakPage() {
                 />
                 <InputError message={errors.village_id} />
               </div>
-              <div className="">
-                <InputLabel>Nama Subak</InputLabel>
-                <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama subak..." />
-                <InputError message={errors.name} />
-              </div>
-              <div className="">
-                <InputLabel>Nama Ketua</InputLabel>
-                <TextInput error={errors.leader} defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua..." />
-                <InputError message={errors.leader} />
-              </div>
-              <div className="">
-                <InputLabel>Nama Sekretaris</InputLabel>
-                <TextInput error={errors.secretary} defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris..." />
-                <InputError message={errors.secretary} />
-              </div>
             </div>
             <div className="flex flex-col gap-3">
               <div className="">
-                <InputLabel>Nama Bendahara</InputLabel>
-                <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
-                <InputError message={errors.treasurer} />
+                <InputLabel>Poktan (Pilih jika tergabung dalam poktan)</InputLabel>
+                <SelectTwo
+                  entities={poktans}
+                  selectedEntityId={data.poktan_id}
+                  setSelectedEntityId={(id) => setData({ ...data, poktan_id: id })}
+                  label={'-- Pilih poktan --'}
+                  placeholder={'Cari poktan...'}
+                  error={errors.poktan_id}
+                />
+                <InputError message={errors.poktan_id} />
               </div>
               <div className="">
-                <InputLabel>Jumlah Anggota</InputLabel>
-                <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
-                <InputError message={errors.number_of_members} />
+                <InputLabel>Subak (Pilih jika tergabung dalam subak)</InputLabel>
+                <SelectTwo
+                  entities={subaks}
+                  selectedEntityId={data.subak_id}
+                  setSelectedEntityId={(id) => setData({ ...data, subak_id: id })}
+                  label={'-- Pilih subak --'}
+                  placeholder={'Cari subak...'}
+                  error={errors.subak_id}
+                />
+                <InputError message={errors.subak_id} />
               </div>
               <div className="">
-                <InputLabel>Tahun Pembentukan</InputLabel>
-                <TextInput error={errors.since} defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
-                <InputError message={errors.since} />
+                <InputLabel>Jenis Lahan</InputLabel>
+                <InputSelect
+                  error={errors.type_land_agriculture_id}
+                  defaultValue={data.type_land_agriculture_id}
+                  onChange={handleChange}
+                  id="type_land_agriculture_id"
+                  name="type_land_agriculture_id"
+                >
+                  <option value={null} defaultChecked>-- Pilih jenis lahan --</option>
+                  {typeLandAgricultures.length > 0 && typeLandAgricultures.map((typeLandAgriculture, index) => (
+                    <option key={index} value={typeLandAgriculture.id}>{typeLandAgriculture.name}</option>
+                  ))}
+                </InputSelect>
+                <InputError message={errors.type_land_agriculture_id} />
               </div>
+
               <div className="">
                 <InputLabel>Status</InputLabel>
                 <InputSelect
@@ -169,14 +210,14 @@ export default function StepOneEditSubakPage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Komoditas</InputLabel>
+                <InputLabel>Komoditas Lahan</InputLabel>
                 <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>
             </div>
           </div>
           <div className="flex justify-end gap-4 my-2">
-            <Link href={`/kelembagaan-pertanian/subak/kecamatan/${district.id}/back`}>
+            <Link href={`/lahan_pertanian/kecamatan/${district.id}/back`}>
               <Button type="button" className='bg-red-500 hover:bg-red-600'>Batal</Button>
             </Link>
             <Button disabled={processing} type="submit">{processing ? 'Lanjut...' : 'Lanjut'}</Button>
