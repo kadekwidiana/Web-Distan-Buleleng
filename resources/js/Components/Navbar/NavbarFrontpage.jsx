@@ -1,9 +1,12 @@
 // import { a } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react';
+import { Dropdown, DropdownItem } from 'flowbite-react';
 import React, { useState } from 'react'
 
 export default function NavbarFrontpage() {
+    const { auth } = usePage().props;
     const [showNavbar, setShowNavbar] = useState(false);
-    // console.log(showNavbar)
+
     return (
         <nav className="navbar-top text-white h-[10dvh] fixed top-0 w-full z-20 border-gray-200 sm:px-6 lg:px-2">
             <div className={`${showNavbar && 'navbar-top'} max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2`}>
@@ -34,8 +37,44 @@ export default function NavbarFrontpage() {
                                 aria-current="page">Peta Geografis</a>
                         </li>
                         <li>
-                            <a href="/login" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0`}
-                                aria-current="page">Login</a>
+
+                            <Dropdown placement='bottom-end' dismissOnClick={false} renderTrigger={() =>
+                                <div className={`w-fit block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 cursor-pointer`}
+                                    aria-current="page">
+                                    <i className="fa-solid fa-user mr-1"></i>
+                                    <i className="fa-solid fa-chevron-down"></i>
+                                </div>
+                            }>
+                                {auth?.user ?
+                                    <>
+                                        <DropdownItem>
+                                            <Link href={'/profile'}>
+                                                <i className="fa-solid fa-user mr-2"></i>
+                                                {auth?.user?.name}
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link href={'/dashboard'}>
+                                                <i className="fa-solid fa-gauge mr-2"></i>
+                                                Dashboard
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link href={route('logout')} method="post" as="button">
+                                                <i className="fa-solid fa-arrow-left mr-2"></i>
+                                                Log Out
+                                            </Link>
+                                        </DropdownItem>
+                                    </>
+                                    :
+                                    <DropdownItem>
+                                        <Link href={'/login'}>
+                                            <i className="fa-solid fa-arrow-right mr-2"></i>
+                                            Login
+                                        </Link>
+                                    </DropdownItem>
+                                }
+                            </Dropdown>
                         </li>
                     </ul>
                 </div>

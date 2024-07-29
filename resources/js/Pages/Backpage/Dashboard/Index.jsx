@@ -1,13 +1,14 @@
 import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import React from 'react'
 
 export default function Dashboard() {
+    const { auth } = usePage().props;
     return (
         <BackpageLayout>
             <Head title="Dashboard" />
             {/* <!-- Alerts Item --> */}
-            <div className="flex w-full border-l-6 border-[#34D399] bg-[#34D399] bg-opacity-[15%] px-7 py-8 shadow-md md:p-9">
+            <div className="flex w-full border-l-4 border-[#34D399] bg-[#34D399] bg-opacity-[15%] px-4 py-8 shadow-md">
                 <div className="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-[#34D399]">
                     <svg
                         width="16"
@@ -25,7 +26,7 @@ export default function Dashboard() {
                 </div>
                 <div className="w-full">
                     <h5 className="mb-3 text-lg text-black">
-                        Selamat Datang <span className='font-semibold'>Kadek</span>, anda login sebagai <span className='font-semibold'>Pegawai</span>
+                        Selamat Datang <span className='font-semibold'>{auth.user.name}</span>, anda login sebagai <span className='font-semibold'>{auth.user.role}</span>
                     </h5>
                     <p className="text-base leading-relaxed text-body">
                         Selalu jaga kerahasiaan username dan password anda.

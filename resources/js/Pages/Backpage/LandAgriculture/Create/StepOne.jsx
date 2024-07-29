@@ -1,4 +1,5 @@
 import { Toast } from '@/Components/Alert/Toast';
+import BannerInfoAddOwnerLand from '@/Components/Banner/InfoAddOwnerLand';
 import Button from '@/Components/Button/Button';
 import Checkbox from '@/Components/Input/Checkbox';
 import InputError from '@/Components/Input/InputError';
@@ -105,19 +106,7 @@ export default function StepOneCreateLandAgriculturePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
               <div className="">
-                <Banner>
-                  <div className="flex w-full flex-col justify-between rounded-md border-t-4 border-blue-500 bg-blue-100 p-4 shadow-sm md:flex-row lg:max-w-7xl">
-                    <div className="mb-3 mr-4 flex flex-col">
-                      <h3>Petunjuk.</h3>
-                      <p className="flex items-center text-sm font-normal text-gray-600">
-                        Tambah data owner/pemilik lahan jika belum terdaftar dalam sistem.
-                      </p>
-                    </div>
-                    <div className="flex shrink-0 items-center">
-                      <Button href="#">Tambah Pemilik</Button>
-                    </div>
-                  </div>
-                </Banner>
+                <BannerInfoAddOwnerLand />
               </div>
               <div className="">
                 <InputLabel>Pemilik</InputLabel>

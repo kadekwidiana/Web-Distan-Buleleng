@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\Backpage\LandAgricultureController;
+use App\Http\Controllers\Backpage\OwnerLandController;
 use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\SubakController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
@@ -168,11 +169,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | END ROUTE LAND AGRICULTURE
     |--------------------------------------------------------------------------
     */
+    // Route untuk store data owner
+    Route::post('/owner', [OwnerLandController::class, 'store'])->name('owner.store');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
