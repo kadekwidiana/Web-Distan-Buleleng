@@ -1,6 +1,7 @@
 import Checkbox from '@/Components/Input/Checkbox';
 import InputError from '@/Components/Input/InputError';
 import { Head, Link, useForm } from '@inertiajs/react'
+import { Alert } from 'flowbite-react';
 import React, { FormEventHandler, useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 
@@ -193,14 +194,19 @@ export default function Login({ status, canResetPassword }) {
                         <div className="w-full border-stroke xl:w-1/2 xl:border-l-2">
                             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
                                 <Link className="mb-5.5 inline-block xl:hidden" href="/">
-                                    {/* <img className="hidden" src={Logo} alt="Logo" /> */}
-                                    <img src="/assets/images/logo-buleleng.png" width={100} height={100} alt="Picture of the author" className='w-32' />
+                                    <img src="/assets/images/logo-distan-buleleng-1.png" width={100} height={100} alt="Picture of the author" className='w-32' />
                                 </Link>
-                                <span className="mb-1.5 hidden xl:block font-medium">Login User</span>
-                                <span className="mb-1.5 block xl:hidden font-medium">Login User, Sistem Informasi Geografis Dinas Pertanian Kabupaten Buleleng</span>
+                                <span className="mb-1.5 hidden xl:block font-medium">Login Pengguna</span>
+                                <span className="mb-1.5 block xl:hidden font-medium">Login Pengguna, Sistem Informasi Geografis Dinas Pertanian Kabupaten Buleleng</span>
                                 <h2 className="mb-9 text-xl font-bold text-black sm:text-title-xl2">
                                     Masukkan akun anda untuk login
                                 </h2>
+                                {errors.email
+                                    &&
+                                    <Alert color="failure">
+                                        <span className="font-semibold">Email atau password salah!</span>
+                                    </Alert>
+                                }
                                 <form onSubmit={submit}>
                                     <div className="mb-4">
                                         <label htmlFor="email" className="mb-2.5 block font-medium text-black">
@@ -223,8 +229,6 @@ export default function Login({ status, canResetPassword }) {
                                                 <i className="fa-regular fa-envelope"></i>
                                             </span>
                                         </div>
-                                        {/* <InputError message={errors.email} className="mt-2" /> */}
-                                        <InputError message={errors.email && 'Email atau password salah!'} className="mt-2" />
                                     </div>
 
                                     <div className="mb-6">
@@ -301,7 +305,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
                 <div className="w-full mb-1 mt-14 flex justify-center">
                     <a href='#'>
-                        <p className='text-blue-500'>Copyright © 2024</p>
+                        <p className='text-blue-500'>©2024 Dinas Pertanian Kabupaten Buleleng.</p>
                     </a>
                 </div>
             </div>
