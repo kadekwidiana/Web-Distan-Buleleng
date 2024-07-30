@@ -59,7 +59,7 @@ export default function Login({ status, canResetPassword }) {
                             <div className="py-16 px-26 text-center">
                                 <Link className="mb-5.5 inline-block" href="/">
                                     {/* <img className="hidden" src={Logo} alt="Logo" /> */}
-                                    <img src="/assets/images/logo-buleleng.png" width={100} height={100} alt="Picture of the author" className='w-36' />
+                                    <img src="./assets/images/logo-distan-buleleng-1.png" width={100} height={100} alt="Picture of the author" className='w-36' />
                                 </Link>
                                 <p className="px-20 pb-1">
                                     Sistem Informasi Geografis Dinas Pertanian Kabupaten Buleleng

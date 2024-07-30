@@ -11,7 +11,7 @@ export default function NavbarFrontpage() {
         <nav className="navbar-top text-white h-[10dvh] fixed top-0 w-full z-20 border-gray-200 sm:px-6 lg:px-2">
             <div className={`${showNavbar && 'navbar-top'} max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2`}>
                 <a href="/" className="flex items-center space-x-1 sm:space-x-3 rtl:space-x-reverse">
-                    <img src="./assets/images/logo-buleleng.png" className="h-14"
+                    <img src="./assets/images/logo-distan-buleleng-1.png" className="h-14"
                         alt="Logo" />
                     <div className="flex flex-col gap-0">
                         <span className="self-start text-xs sm:text-lg sm:font-medium">Sistem Informasi Geografis</span>
