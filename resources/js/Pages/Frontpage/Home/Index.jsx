@@ -26,7 +26,7 @@ export default function LandingPage() {
                                 <i className="ml-2 fa-solid fa-right-to-bracket"></i>
                             </a>
                         </div>
-                        <div className="mt-8 flex flex-col gap-2">
+                        <div className="mt-12 flex flex-col gap-2">
                             <h3 className='font-semibold text-gray-800 text-3xl'>Layanan</h3>
                             <p className="mb-2 text-lg font-normal text-gray-600 lg:text-xl sm:px-16 lg:px-36">
                                 Layanan/Fitur yang terdapat dalam sistem
@@ -108,7 +108,7 @@ export default function LandingPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-8 flex flex-col gap-5">
+                        <div className="mt-14 flex flex-col gap-5">
                             <h3 className='font-semibold text-gray-800 text-3xl'>Link Terkait</h3>
                             <div className="flex flex-row gap-6 space-y-0 justify-center">
                                 <div className="max-w-32 flex flex-col items-center gap-2 justify-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-200">
