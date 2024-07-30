@@ -48,16 +48,16 @@ export default function NavbarFrontpage() {
                                 {auth?.user ?
                                     <>
                                         <DropdownItem>
-                                            <Link href={'/profile'}>
+                                            <a href={'/profile'}>
                                                 <i className="fa-solid fa-user mr-2"></i>
                                                 {auth?.user?.name}
-                                            </Link>
+                                            </a>
                                         </DropdownItem>
                                         <DropdownItem>
-                                            <Link href={'/dashboard'}>
+                                            <a href={'/dashboard'}>
                                                 <i className="fa-solid fa-gauge mr-2"></i>
                                                 Dashboard
-                                            </Link>
+                                            </a>
                                         </DropdownItem>
                                         <DropdownItem>
                                             <Link href={route('logout')} method="post" as="button">
@@ -68,10 +68,10 @@ export default function NavbarFrontpage() {
                                     </>
                                     :
                                     <DropdownItem>
-                                        <Link href={'/login'}>
+                                        <a href={'/login'}>
                                             <i className="fa-solid fa-arrow-right mr-2"></i>
                                             Login
-                                        </Link>
+                                        </a>
                                     </DropdownItem>
                                 }
                             </Dropdown>
