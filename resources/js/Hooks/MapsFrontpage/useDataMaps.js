@@ -336,7 +336,7 @@ const useDataMaps = (map, dataLayers) => {
                                     <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
                                     <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                 </div>
-                                <strong>Pemilik:</strong> ${dataLahan.owner}</br >
+                                <strong>Pemilik:</strong> ${dataLahan?.owner?.name}</br >
                                 <strong>Alamat:</strong> ${dataLahan.address}</br >
                                 <strong>Luas lahan:</strong> ${dataLahan.land_area} m2</br >
                                 <strong>Jenis lahan:</strong> ${dataLahan.type_land_agriculture.name}</br >
@@ -473,7 +473,6 @@ const useDataMaps = (map, dataLayers) => {
         checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
         fetchDataGeoJson(dataSpatial.file_spatial, layerGroups[dataSpatial.name]);
     });
-
 }
 
 export default useDataMaps;

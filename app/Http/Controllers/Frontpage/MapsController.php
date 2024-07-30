@@ -26,7 +26,7 @@ class MapsController extends Controller
         $gapoktans = Gapoktan::all();
         $poktans = Poktan::all();
         $subaks = Subak::all();
-        $landAgricultures = LandAgriculture::with(['typeLandAgriculture', 'poktan', 'subak', 'commodities'])->get();
+        $landAgricultures = LandAgriculture::with(['owner', 'typeLandAgriculture', 'poktan', 'subak', 'commodities'])->get();
         $commodities = Commodity::with(['landAgricultures'])->get();
 
         $data = [
