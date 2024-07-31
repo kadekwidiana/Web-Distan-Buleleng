@@ -4,6 +4,7 @@ use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\Backpage\LandAgricultureController;
 use App\Http\Controllers\Backpage\OwnerLandController;
 use App\Http\Controllers\Backpage\PoktanController;
+use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\Backpage\SubakController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
@@ -29,10 +30,6 @@ Route::get('/', function () {
     return Inertia::render('Frontpage/Home/Index');
 })->name('landing-page');
 
-// Route::get('/maps', function () {
-//     return Inertia::render('Frontpage/Maps/Index');
-// })->name('maps-frontpage');
-
 Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
 
 Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
@@ -43,7 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Backpage/Dashboard/Index');
+        return Inertia::render('Backpage/Dashboard/Index', [
+            'navName' => 'Dashboard'
+        ]);
     })->name('index.dashboard');
 
     Route::get('/ppl', function () {
@@ -171,6 +170,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
     // Route untuk store data owner
     Route::post('/owner', [OwnerLandController::class, 'store'])->name('owner.store');
+
+    // DATA PENYULUH
+    Route::resource('/ppl', PPLController::class);
 });
 
 Route::middleware('auth')->group(function () {

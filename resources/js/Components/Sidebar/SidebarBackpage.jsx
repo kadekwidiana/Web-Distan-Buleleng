@@ -12,18 +12,6 @@ const SidebarMenus = () => {
                 icon={<i className="fa-solid fa-gauge"></i>}
                 label={'Dashboard'}
             />
-            {/* <DropdownMenu
-                icon={<i className="fa-solid fa-person-chalkboard"></i>}
-                label={'PPL'}
-                url={'/ppl'}
-                subMenus={
-                    <SidebarMenu
-                        href={'/ppl'}
-                        // icon={<i className="fa-solid fa-gauge"></i>}
-                        label={'Index'}
-                    />
-                }
-            /> */}
             <DropdownMenu
                 icon={<i className="fa-solid fa-building-columns"></i>}
                 label={'Kelembagaan Pertanian'}
@@ -32,17 +20,17 @@ const SidebarMenus = () => {
                     <>
                         <SidebarMenu
                             href={'/kelembagaan-pertanian/gapoktan'}
-                            icon={<i className="fa-solid fa-users"></i>}
+                            icon={<i className="fa-solid fa-building-columns"></i>}
                             label={'Gabungan Kelompok Tani'}
                         />
                         <SidebarMenu
                             href={'/kelembagaan-pertanian/poktan'}
-                            icon={<i className="fa-solid fa-users"></i>}
+                            icon={<i className="fa-solid fa-building-columns"></i>}
                             label={'Kelompok Tani'}
                         />
                         <SidebarMenu
                             href={'/kelembagaan-pertanian/subak'}
-                            icon={<i className="fa-solid fa-users"></i>}
+                            icon={<i className="fa-solid fa-building-columns"></i>}
                             label={'Subak'}
                         />
                     </>
@@ -52,6 +40,16 @@ const SidebarMenus = () => {
                 href={'/lahan_pertanian'}
                 icon={<i className="fa-solid fa-chart-area"></i>}
                 label={'Lahan Pertanian'}
+            />
+            <SidebarMenu
+                href={'/ppl'}
+                icon={<i className="fa-solid fa-users"></i>}
+                label={'Data Penyuluh'}
+            />
+            <SidebarMenu
+                href={'/penyuluhan'}
+                icon={<i className="fa-solid fa-clipboard"></i>}
+                label={'Kegiatan Penyuluhan'}
             />
         </ul>
     )

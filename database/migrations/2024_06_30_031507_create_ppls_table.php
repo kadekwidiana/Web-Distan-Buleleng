@@ -19,11 +19,12 @@ return new class extends Migration
                 ->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 50);
+            $table->string('employee_status', 50);
             $table->string('front_title', 50);
             $table->string('back_title', 50);
             $table->string('place_of_birth', 255);
             $table->date('date_of_birth');
-            $table->enum('gender', ['Laki-laki', 'Perempuan']);
+            $table->string('gender', 20);
             $table->string('religion', 50);
             $table->string('areas_of_expertise', 50);
             $table->string('last_education', 50);
@@ -34,7 +35,7 @@ return new class extends Migration
             $table->date('date_sk');
             $table->date('date_spmt');
             $table->string('position', 255);
-            $table->string('home_address');
+            $table->string('address', 255);
             $table->string('provinsi', 50);
             $table->string('regency', 50);
             $table->string('post_code', 10);

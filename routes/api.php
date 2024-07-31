@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
 use Illuminate\Http\Request;
@@ -27,3 +28,6 @@ Route::get('/data-layer', [LayerController::class, 'dataLayer'])->name('dataLaye
 Route::post('/precipitation', [AnalisisGeospasial::class, 'precipitation'])->name('precipitation');
 Route::post('/vci', [AnalisisGeospasial::class, 'vci'])->name('vci');
 Route::post('/evi', [AnalisisGeospasial::class, 'evi'])->name('evi');
+
+// DATA PENYULUH
+Route::resource('ppl', PPLController::class);
