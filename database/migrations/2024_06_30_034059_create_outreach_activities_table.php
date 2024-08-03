@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('outreach_activities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('built_area_id');
-            $table->foreign('built_area_id')
+            $table->string('village_id');
+            $table->foreign('village_id')
                 ->references('id')
-                ->on('built_areas')
+                ->on('villages')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('title', 255);
             $table->json('location');

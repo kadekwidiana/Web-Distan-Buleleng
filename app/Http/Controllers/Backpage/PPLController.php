@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backpage;
 use App\Http\Controllers\Controller;
 use App\Models\Ppl;
 use App\Models\User;
+use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -123,6 +124,8 @@ class PPLController extends Controller
         'post_code.required' => 'Kode pos wajib diisi.',
         'post_code.string' => 'Kode pos harus berupa string.',
         'post_code.max' => 'Kode pos tidak boleh lebih dari 10 karakter.',
+
+        'villages.required' => 'Wilayah binaan wajib diisi.',
     ];
 
     /**
@@ -141,18 +144,19 @@ class PPLController extends Controller
         }
 
         if ($search) {
-            $pplsQuery->where('name', 'like', '%' . $search . '%');
+            $pplsQuery->where('name', 'like', '%' . $search . '%')
+                ->orWhere('nip', 'like', '%' . $search . '%');
         }
 
         $ppls = $pplsQuery->paginate($perpage);
 
-        // return Inertia::render('Backpage/Penyuluh/Index', [
-        //     'navName' => 'Data Penyuluh',
-        //     'searchValue' => $request->search ?? '',
-        //     'employeeStatusValue' => $request->employeeStatus ?? '',
-        //     'ppls' => $ppls,
-        // ]);
-        return response()->json($ppls);
+        return Inertia::render('Backpage/Penyuluh/Index', [
+            'navName' => 'Data Penyuluh',
+            'searchValue' => $request->search ?? '',
+            'employeeStatusValue' => $request->employeeStatus ?? '',
+            'ppls' => $ppls,
+        ]);
+        // return response()->json($ppls);
     }
 
     /**
@@ -160,8 +164,13 @@ class PPLController extends Controller
      */
     public function create()
     {
+        $villages = Village::whereHas('district', function ($query) {
+            $query->where('regency_id', 5108);
+        })->get();
+
         return Inertia::render('Backpage/Penyuluh/Create', [
             'navName' => 'Tambah Penyuluh',
+            'villages' => $villages
         ]);
     }
 
@@ -178,7 +187,7 @@ class PPLController extends Controller
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
             'role' => 'required|string|max:50',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
 
             'nip' => 'required|string|max:18|unique:ppls,nip',
             'employee_status' => 'required|string|max:50',
@@ -200,6 +209,7 @@ class PPLController extends Controller
             'provinsi' => 'required|string|max:50',
             'regency' => 'required|string|max:50',
             'post_code' => 'required|string|max:10',
+            'villages' => 'required'
         ], $this->validationMessages);
 
         // Save User data
@@ -252,7 +262,13 @@ class PPLController extends Controller
         $pplData['account_id'] = $user->id;
         Ppl::create($pplData);
 
-        return response()->json(['message' => 'User and PPL data saved successfully']);
+        // menyimpan wilayah binaan
+        $pplById = Ppl::with('villages')->find($pplData['nip']);
+        $villages = $validatedData['villages'];
+        $pplById->villages()->sync($villages); // simpan relasi many to many
+
+        // return response()->json(['message' => 'User and PPL data saved successfully']);
+        return redirect()->route('ppl.index')->with('success', 'PPL created successfully.');
     }
 
     /**
@@ -260,7 +276,11 @@ class PPLController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pplById = Ppl::with(['account', 'villages'])->findOrFail($id);
+        return Inertia::render('Backpage/Penyuluh/Detail', [
+            'navName' => 'Detail ' . $pplById->name,
+            'pplById' => $pplById,
+        ]);
     }
 
     /**
@@ -268,7 +288,18 @@ class PPLController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $pplById = Ppl::with('account')->findOrFail($id);
+        $villageIds = $pplById->villages->pluck('id')->toArray(); //biar gampang olah di FE
+        $villages = Village::whereHas('district', function ($query) {
+            $query->where('regency_id', 5108);
+        })->get();
+
+        return Inertia::render('Backpage/Penyuluh/Edit', [
+            'navName' => 'Edit Penyuluh',
+            'pplById' => $pplById,
+            'villageIds' => $villageIds,
+            'villages' => $villages
+        ]);
     }
 
     /**
@@ -288,7 +319,7 @@ class PPLController extends Controller
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
             'role' => 'required|string|max:50',
-            'password' => 'nullable|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8',
 
             'nip' => 'required|string|max:18|unique:ppls,nip,' . $ppl->nip . ',nip',
             'employee_status' => 'required|string|max:50',
@@ -310,6 +341,7 @@ class PPLController extends Controller
             'provinsi' => 'required|string|max:50',
             'regency' => 'required|string|max:50',
             'post_code' => 'required|string|max:10',
+            'villages' => 'required'
         ], $this->validationMessages);
 
         // return response()->json($validatedData);
@@ -371,7 +403,13 @@ class PPLController extends Controller
         $pplData = array_intersect_key($validatedData, array_flip($pplDataKeys));
         $ppl->update($pplData);
 
-        return response()->json(['message' => 'User and PPL data updated successfully']);
+        // menyimpan wilayah binaan
+        $pplById = Ppl::with('villages')->find($pplData['nip']);
+        $villages = $validatedData['villages'];
+        $pplById->villages()->sync($villages); // simpan relasi many to many
+
+        // return response()->json(['message' => 'User and PPL data updated successfully']);
+        return redirect()->route('ppl.index')->with('success', 'PPL updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -389,6 +427,7 @@ class PPLController extends Controller
         $user->delete();
         $ppl->delete();
 
-        return response()->json(['message' => 'User and PPL data deleted successfully']);
+        // return response()->json(['message' => 'User and PPL data deleted successfully']);
+        return redirect()->route('ppl.index')->with('success', 'PPL updated successfully.');
     }
 }

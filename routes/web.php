@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\Backpage\LandAgricultureController;
+use App\Http\Controllers\Backpage\OutreachActivitiesController;
 use App\Http\Controllers\Backpage\OwnerLandController;
 use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\PPLController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
 use App\Http\Controllers\Frontpage\TestDataController;
 use App\Http\Controllers\ProfileController;
+use App\Models\OutreachActivities;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -172,7 +174,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/owner', [OwnerLandController::class, 'store'])->name('owner.store');
 
     // DATA PENYULUH
-    Route::resource('/ppl', PPLController::class);
+    Route::resource('ppl', PPLController::class);
+
+    // KEGIATAN PENYULUHAN
+    Route::get('/penyuluhan', [OutreachActivitiesController::class, 'outreachActivitiesRegency'])->name('outreachActivities.regency');
+    Route::get('/penyuluhan/kecamatan/{districtId}', [OutreachActivitiesController::class, 'outreachActivitiesDistrict'])->name('outreachActivities.district');
 });
 
 Route::middleware('auth')->group(function () {

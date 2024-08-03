@@ -52,3 +52,16 @@ export const CONFIRMATION_STATUSES = [
     { value: "PENDING", label: "Menunggu" },
     { value: "REJECTED", label: "Ditolak" }
 ];
+
+export const EMPLOYEE_STATUSES = [
+    'PNS',           // Pegawai Negeri Sipil
+    'PPPK',          // Pegawai Pemerintah dengan Perjanjian Kerja
+    'KONTRAK',       // Pegawai Kontrak
+    'HONORER',       // Pegawai Honor
+    'OUTSOURCING',   // Pegawai Outsourcing
+    'KARYAWAN_TETAP', // Karyawan Tetap
+    'KARYAWAN_TIDAK_TETAP', // Karyawan Tidak Tetap
+    'MAGANG',         // Pegawai Magang
+    'LAINNYA'
+];
+

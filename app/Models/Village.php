@@ -65,4 +65,14 @@ class Village extends Model
     {
         return $this->hasMany(LandAgriculture::class);
     }
+
+    public function outreachActivities()
+    {
+        return $this->hasMany(OutreachActivities::class);
+    }
+
+    public function ppls()
+    {
+        return $this->belongsToMany(Ppl::class, 'built_areas');
+    }
 }

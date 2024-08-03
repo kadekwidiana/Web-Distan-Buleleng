@@ -12,42 +12,44 @@ import { EMPLOYEE_STATUSES } from "@/Utils/Constan/Status";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function CreatePenyuluhPage() {
+export default function EditPenyuluhPage() {
+    const { pplById, villageIds, villages, errors } = usePage().props;
     const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
-    const [selectedValues, setSelectedValues] = useState([]); //value options yang di pilih
-    const { villages, errors } = usePage().props;
-    console.log(villages);
-    const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
-        nik: "",
-        name: "",
-        email: "",
-        foto: null,
-        address: "",
-        phone_number: "",
+    const [selectedValues, setSelectedValues] = useState(villageIds); //value options yang di pilih
+    console.log(villageIds);
+    const { data, setData, put, progress, processing, recentlySuccessful } = useForm({
+        nik: pplById.account.nik,
+        name: pplById.name,
+        email: pplById.email,
+        foto: pplById.foto,
+        address: pplById.address,
+        phone_number: pplById.phone_number,
         role: "PPL",
-        password: "",
-        nip: "",
-        employee_status: "",
-        front_title: "",
-        back_title: "",
-        place_of_birth: "",
-        date_of_birth: "",
-        gender: "",
-        religion: "",
-        areas_of_expertise: "",
-        last_education: "",
-        field_of_education: "",
-        major: "",
-        school_name: "",
-        work_location: "",
-        date_sk: "",
-        date_spmt: "",
-        position: "",
-        provinsi: "",
-        regency: "",
-        post_code: "",
-        villages: []
+        password: null,
+        nip: pplById.nip,
+        employee_status: pplById.employee_status,
+        front_title: pplById.front_title,
+        back_title: pplById.back_title,
+        place_of_birth: pplById.place_of_birth,
+        date_of_birth: pplById.date_of_birth.split('T')[0],
+        gender: pplById.gender,
+        religion: pplById.religion,
+        areas_of_expertise: pplById.areas_of_expertise,
+        last_education: pplById.last_education,
+        field_of_education: pplById.field_of_education,
+        major: pplById.major,
+        school_name: pplById.school_name,
+        work_location: pplById.work_location,
+        date_sk: pplById.date_sk.split('T')[0],
+        date_spmt: pplById.date_spmt.split('T')[0],
+        position: pplById.position,
+        provinsi: pplById.provinsi,
+        regency: pplById.regency,
+        post_code: pplById.post_code,
+        villages: pplById
     });
+
+    console.log(pplById.date_spmt);
 
     villages.forEach((village) => {
         if (!options.some(option => option.value === village.id)) {
@@ -95,12 +97,12 @@ export default function CreatePenyuluhPage() {
             formData.append(key, data[key]);
         });
 
-        post(route('ppl.store'), {
+        put(route('ppl.update', { ppl: pplById.nip }), {
             data: formData,
             onSuccess: () => {
                 Toast.fire({
                     icon: "success",
-                    title: "Data berhasil di simpan.",
+                    title: "Data berhasil di edit.",
                 });
             }
         });
@@ -138,7 +140,7 @@ export default function CreatePenyuluhPage() {
                             { label: 'Kabupaten*', name: 'regency', type: 'text', placeholder: 'Kabupaten...' },
                             { label: 'Kode Pos*', name: 'post_code', type: 'number', placeholder: 'Kode Pos...' },
                             { label: 'Email*', name: 'email', type: 'email', placeholder: 'Email...' },
-                            { label: 'Kata Sandi* (default menggunakan NIP)', name: 'password', type: 'text', placeholder: 'Kata Sandi...' },
+                            { label: 'Kata Sandi* (masukan kata sandi baru untuk update)', name: 'password', type: 'text', placeholder: 'Kata Sandi...' },
                         ].map((input, index) => (
                             <>
                                 {input.name === 'employee_status' &&
@@ -209,7 +211,6 @@ export default function CreatePenyuluhPage() {
                                         <InputError message={errors[input.name]} />
                                     </div>
                                 }
-
                             </>
                         ))}
 

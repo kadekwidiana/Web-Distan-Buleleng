@@ -76,4 +76,9 @@ class Ppl extends Model
     {
         return $this->belongsTo(User::class, 'account_id');
     }
+
+    public function villages()
+    {
+        return $this->belongsToMany(Village::class, 'built_areas')->withTimestamps();
+    }
 }

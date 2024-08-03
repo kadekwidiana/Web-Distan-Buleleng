@@ -79,6 +79,6 @@ class Poktan extends Model
 
     public function commodities()
     {
-        return $this->belongsToMany(Commodity::class, 'poktan_commodities');
+        return $this->belongsToMany(Commodity::class, 'poktan_commodities')->withTimestamps();
     }
 }

@@ -67,6 +67,6 @@ class Subak extends Model
 
     public function commodities()
     {
-        return $this->belongsToMany(Commodity::class, 'subak_commodities');
+        return $this->belongsToMany(Commodity::class, 'subak_commodities')->withTimestamps();
     }
 }

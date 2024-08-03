@@ -88,7 +88,7 @@ class LandAgriculture extends Model
      */
     public function commodities()
     {
-        return $this->belongsToMany(Commodity::class, 'land_agriculture_commodities');
+        return $this->belongsToMany(Commodity::class, 'land_agriculture_commodities')->withTimestamps();
     }
 
     public function village()

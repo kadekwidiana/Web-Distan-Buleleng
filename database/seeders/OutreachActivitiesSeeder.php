@@ -17,7 +17,7 @@ class OutreachActivitiesSeeder extends Seeder
         $data = [
             [
                 'id' => 1,
-                'built_area_id' => 1,
+                'village_id' => 5108050010,
                 'title' => 'Pertemuan Masyarakat Desa Sambangan',
                 'location' => json_encode([-8.1501923615788, 115.10028998387088]),
                 'address' => 'Jl. Raya Pertanian No.1, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -30,7 +30,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'built_area_id' => 2,
+                'village_id' => 5108050010,
                 'title' => 'Pelatihan Pertanian Organik',
                 'location' => json_encode([-8.15750846905577, 115.1020437383925]),
                 'address' => 'Jl. Raya Pertanian No.2, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -43,7 +43,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'built_area_id' => 3,
+                'village_id' => 5108050010,
                 'title' => 'Kunjungan Lapangan ke Lahan Budidaya Hortikultura',
                 'location' => json_encode([-8.150564370273274, 115.09603086574704]),
                 'address' => 'Jl. Raya Pertanian No.3, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -56,7 +56,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'built_area_id' => 4,
+                'village_id' => 5108050010,
                 'title' => 'Pelatihan Pemeliharaan Tanaman Kopi',
                 'location' => json_encode([-8.1762321339242, 115.10705446559706]),
                 'address' => 'Jl. Raya Pertanian No.4, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -69,7 +69,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 5,
-                'built_area_id' => 1,
+                'village_id' => 5108050010,
                 'title' => 'Diskusi Lingkungan Hidup Desa Sambangan',
                 'location' => json_encode([-8.191855181906336, 115.10943456118594]),
                 'address' => 'Jl. Raya Pertanian No.5, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -82,7 +82,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'built_area_id' => 2,
+                'village_id' => 5108050010,
                 'title' => 'Pelatihan Penggunaan Teknologi Irigasi Modern',
                 'location' => json_encode([-8.1501923615788, 115.10028998387088]),
                 'address' => 'Jl. Raya Pertanian No.1, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -95,7 +95,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 7,
-                'built_area_id' => 3,
+                'village_id' => 5108050010,
                 'title' => 'Kampanye Penanaman Pohon',
                 'location' => json_encode([-8.15750846905577, 115.1020437383925]),
                 'address' => 'Jl. Raya Pertanian No.2, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -108,7 +108,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 8,
-                'built_area_id' => 4,
+                'village_id' => 5108050010,
                 'title' => 'Pelatihan Pemanfaatan Pupuk Organik',
                 'location' => json_encode([-8.150564370273274, 115.09603086574704]),
                 'address' => 'Jl. Raya Pertanian No.3, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -121,7 +121,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 9,
-                'built_area_id' => 1,
+                'village_id' => 5108050010,
                 'title' => 'Diskusi Penyuluhan Pertanian Berkelanjutan',
                 'location' => json_encode([-8.1762321339242, 115.10705446559706]),
                 'address' => 'Jl. Raya Pertanian No.4, Sambangan, Kec. Sukasada, Kab. Buleleng',
@@ -134,7 +134,7 @@ class OutreachActivitiesSeeder extends Seeder
             ],
             [
                 'id' => 10,
-                'built_area_id' => 2,
+                'village_id' => 5108050010,
                 'title' => 'Pelatihan Pemeliharaan Tanaman Hortikultura',
                 'location' => json_encode([-8.191855181906336, 115.10943456118594]),
                 'address' => 'Jl. Raya Pertanian No.5, Sambangan, Kec. Sukasada, Kab. Buleleng',

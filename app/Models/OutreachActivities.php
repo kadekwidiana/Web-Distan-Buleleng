@@ -41,4 +41,9 @@ class OutreachActivities extends Model
     {
         return $this->belongsTo(BuiltArea::class);
     }
+
+    public function village()
+    {
+        return $this->belongsTo(Village::class, 'village_id');
+    }
 }
