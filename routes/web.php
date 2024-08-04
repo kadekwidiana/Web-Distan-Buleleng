@@ -179,6 +179,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // KEGIATAN PENYULUHAN
     Route::get('/penyuluhan', [OutreachActivitiesController::class, 'outreachActivitiesRegency'])->name('outreachActivities.regency');
     Route::get('/penyuluhan/kecamatan/{districtId}', [OutreachActivitiesController::class, 'outreachActivitiesDistrict'])->name('outreachActivities.district');
+    Route::get('/penyuluhan/kecamatan/{districtId}/{id}/detail', [OutreachActivitiesController::class, 'show'])->name('outreachActivities.detail');
+    // C 
+    Route::get('/penyuluhan/kecamatan/{districtId}/create', [OutreachActivitiesController::class, 'create'])->name('outreachActivities.create');
+    Route::post('/penyuluhan/kecamatan/{districtId}/create', [OutreachActivitiesController::class, 'store'])->name('outreachActivities.store');
+    // U 
+    Route::get('/penyuluhan/kecamatan/{districtId}/{id}/edit', [OutreachActivitiesController::class, 'edit'])->name('outreachActivities.edit');
+    Route::post('/penyuluhan/kecamatan/{districtId}/{id}/edit', [OutreachActivitiesController::class, 'update'])->name('outreachActivities.update');
+    // D 
+    Route::delete('/penyuluhan/kecamatan/{districtId}/{id}/delete', [OutreachActivitiesController::class, 'destroy'])->name('outreachActivities.delete');
 });
 
 Route::middleware('auth')->group(function () {

@@ -80,7 +80,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
     }
 
     const deleteData = async (id) => {
-        await router.delete(`/kelembagaan-pertanian/gapoktan/kecamatan/${districtData.id}/${id}/delete`);
+        await router.delete(`/penyuluhan/kecamatan/${districtData.id}/${id}/delete`);
     }
 
     const deteleDataConfirm = (id) => {
@@ -134,7 +134,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                         </form>
                     </div>
                     {/* <ExcelExport data={outreachActivitiesInDiscrict.data} fileName="Gapoktan" /> */}
-                    <ButtonAdd href={`/kelembagaan-pertanian/gapoktan/kecamatan/${districtData.id}/create-step-one`} />
+                    <ButtonAdd href={`/penyuluhan/kecamatan/${districtData.id}/create`} />
                 </div>
                 <div className="flex flex-col my-2 w-auto max-md:overflow-x-auto max-md:my-8">
                     <Table striped>
@@ -167,7 +167,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                                                 <i className="fa-solid fa-ellipsis fa-2xl"></i>
                                             </button>
                                         }>
-                                            {/* <Dropdown.Item><Link href={route('outreachActivities.edit', { districtId: districtData.id, gapoktanId: outreachActivity.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item> */}
+                                            <Dropdown.Item><Link href={route('outreachActivities.edit', { districtId: districtData.id, id: outreachActivity.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
                                             <Dropdown.Item onClick={() => deteleDataConfirm(outreachActivity.id)}><i className="mr-2 fa-solid fa-trash fa-xl text-red-500"></i>Hapus</Dropdown.Item>
                                         </Dropdown>
                                     </Table.Cell>

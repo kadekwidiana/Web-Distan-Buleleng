@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Carousel } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 
-export default function DetailGapoktanPage() {
+export default function DetailPenyuluhPage() {
     const { pplById } = usePage().props;
 
     // let photos = [];
@@ -81,7 +81,9 @@ export default function DetailGapoktanPage() {
                                         <tr key={index} className="bg-white">
                                             <td className="pr-2 py-2 w-1/5">{field.label}</td>
                                             <td className="px-2 py-2 w-3">:</td>
-                                            <td className="px-2 py-2 w-full">{pplById[field.name]}</td>
+                                            <td className="px-2 py-2 w-full">
+                                                {['date_of_birth', 'date_sk', 'date_spmt'].includes(field.name) ? pplById[field.name].split('T')[0] : pplById[field.name]}
+                                            </td>
                                         </tr>
                                     ))}
                                     <tr className="bg-white">
@@ -92,7 +94,7 @@ export default function DetailGapoktanPage() {
                                                 <span key={index}>
                                                     {village.name}{index < pplById?.villages?.length - 1 ? ', ' : ''}
                                                 </span>
-                                            )) : 'No villages'}
+                                            )) : '-'}
                                         </td>
                                     </tr>
                                 </tbody>

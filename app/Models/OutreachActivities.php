@@ -15,7 +15,7 @@ class OutreachActivities extends Model
      * @var array
      */
     protected $fillable = [
-        'built_area_id',
+        'village_id',
         'title',
         'location',
         'address',
@@ -37,13 +37,28 @@ class OutreachActivities extends Model
     /**
      * Get the built area associated with the outreach activity.
      */
-    public function builtArea()
-    {
-        return $this->belongsTo(BuiltArea::class);
-    }
+    // public function builtArea()
+    // {
+    //     return $this->belongsTo(BuiltArea::class);
+    // }
 
     public function village()
     {
         return $this->belongsTo(Village::class, 'village_id');
+    }
+
+    public function gapoktanOutreachActivities()
+    {
+        return $this->belongsToMany(Gapoktan::class, 'gapoktan_outreach_activities')->withTimestamps();
+    }
+
+    public function poktanOutreachActivities()
+    {
+        return $this->belongsToMany(Poktan::class, 'poktan_outreach_activities')->withTimestamps();
+    }
+
+    public function subakOutreachActivities()
+    {
+        return $this->belongsToMany(Subak::class, 'subak_outreach_activities')->withTimestamps();
     }
 }

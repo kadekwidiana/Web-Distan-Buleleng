@@ -5,8 +5,11 @@ import { usePage } from '@inertiajs/react';
 import React, { useEffect, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
 
+// ini untuk yg menggunakan global state
 const includesUrl = [
     '/maps',
+    '/edit',
+    '/create',
     '/create-step-one',
     '/create-step-two',
     '/edit-step-one',

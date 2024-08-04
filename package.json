@@ -21,6 +21,7 @@
     "dependencies": {
         "@tanstack/react-query": "^5.45.1",
         "chart.js": "^4.4.3",
+        "date-fns": "^3.6.0",
         "flowbite-react": "^0.8.0",
         "leaflet": "^1.9.4",
         "leaflet-draw": "^1.0.4",

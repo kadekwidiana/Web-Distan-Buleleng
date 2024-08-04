@@ -49,6 +49,8 @@ export default function CreatePenyuluhPage() {
         villages: []
     });
 
+    console.log(data.foto);
+
     villages.forEach((village) => {
         if (!options.some(option => option.value === village.id)) {
             options.push({

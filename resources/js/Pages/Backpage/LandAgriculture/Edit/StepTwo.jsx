@@ -39,8 +39,6 @@ export default function StepOneCreateLandAgriculturePage() {
         description: landAgricultureById?.description
     });
 
-    console.log(landAgricultureById.location);
-
     useEffect(() => {
         setData(
             {

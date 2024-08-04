@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('poktan_outreach_activities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('outreach_activity_id');
-            $table->foreign('outreach_activity_id')
+            $table->unsignedBigInteger('outreach_activities_id');
+            $table->foreign('outreach_activities_id')
                 ->references('id')
                 ->on('outreach_activities')
                 ->onUpdate('cascade')->onDelete('cascade');
