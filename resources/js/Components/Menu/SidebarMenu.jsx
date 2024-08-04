@@ -6,7 +6,9 @@ export default function SidebarMenu({ href, icon, label, routeName }) {
     return (
         <li>
             <Link href={href} className={`flex items-center p-2 text-gray-50 rounded-sm hover:bg-gray-700 group ${pathname.startsWith(href) && 'bg-gray-700'}`}>
-                {icon}
+                <div className="w-4 flex justify-start">
+                    {icon}
+                </div>
                 <span className="ms-2 text-gray-50">{label}</span>
             </Link>
         </li>

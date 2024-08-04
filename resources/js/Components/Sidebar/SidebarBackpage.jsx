@@ -13,6 +13,35 @@ const SidebarMenus = () => {
                 label={'Dashboard'}
             />
             <DropdownMenu
+                icon={<i className="fa-solid fa-database"></i>}
+                label={'Master Data'}
+                url={'#'}
+                subMenus={
+                    <>
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-database"></i>}
+                            label={'Data?'}
+                        />
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-database"></i>}
+                            label={'Data?'}
+                        />
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-database"></i>}
+                            label={'Data?'}
+                        />
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-database"></i>}
+                            label={'Data?'}
+                        />
+                    </>
+                }
+            />
+            <DropdownMenu
                 icon={<i className="fa-solid fa-building-columns"></i>}
                 label={'Kelembagaan Pertanian'}
                 url={'/kelembagaan-pertanian'}
@@ -50,6 +79,40 @@ const SidebarMenus = () => {
                 href={'/penyuluhan'}
                 icon={<i className="fa-solid fa-clipboard"></i>}
                 label={'Kegiatan Penyuluhan'}
+            />
+            <SidebarMenu
+                href={'#'}
+                icon={<i className="fa-solid fa-map"></i>}
+                label={'Data Spasial'}
+            />
+            <DropdownMenu
+                icon={<i className="fa-solid fa-file"></i>}
+                label={'Management Laporan'}
+                url={'#'}
+                subMenus={
+                    <>
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-file"></i>}
+                            label={'Laporan?'}
+                        />
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-file"></i>}
+                            label={'Laporan?'}
+                        />
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-file"></i>}
+                            label={'Laporan?'}
+                        />
+                        <SidebarMenu
+                            href={'#'}
+                            icon={<i className="fa-solid fa-file"></i>}
+                            label={'Laporan?'}
+                        />
+                    </>
+                }
             />
         </ul>
     )
