@@ -148,7 +148,7 @@ export default function StepOneCreateGapoktanPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-3">
                             <div className="">
-                                <InputLabel>Layer Grup</InputLabel>
+                                <InputLabel>Layer Grup*</InputLabel>
                                 <InputSelect
                                     error={errors.layer_group_id}
                                     onChange={handleChange}
@@ -182,12 +182,12 @@ export default function StepOneCreateGapoktanPage() {
                         </div>
                         <div className="flex flex-col gap-3">
                             <div className="">
-                                <InputLabel>Lokasi</InputLabel>
+                                <InputLabel>Lokasi Koordinat*</InputLabel>
                                 <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi..." />
                                 <InputError message={errors.location} />
                             </div>
                             <div className="">
-                                <InputLabel>Alamat Lengkap</InputLabel>
+                                <InputLabel>Alamat Lengkap*</InputLabel>
                                 <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat..." />
                                 <InputError message={errors.address} />
                             </div>

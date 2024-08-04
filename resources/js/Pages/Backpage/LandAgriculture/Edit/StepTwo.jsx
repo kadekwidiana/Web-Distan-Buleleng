@@ -163,7 +163,7 @@ export default function StepOneCreateLandAgriculturePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-3">
                             <div className="">
-                                <InputLabel>Layer Grup</InputLabel>
+                                <InputLabel>Layer Grup*</InputLabel>
                                 <InputSelect
                                     error={errors.layer_group_id}
                                     onChange={handleChange}
@@ -197,22 +197,22 @@ export default function StepOneCreateLandAgriculturePage() {
                         </div>
                         <div className="flex flex-col gap-3">
                             <div className="">
-                                <InputLabel>Luas Lahan</InputLabel>
+                                <InputLabel>Luas Lahan*</InputLabel>
                                 <TextInput textRight={'are (m2)'} error={errors.land_area} value={data.land_area} onChange={handleChange} type='number' id='land_area' name='land_area' placeholder="00" />
                                 <InputError message={errors.land_area} />
                             </div>
                             <div className="">
-                                <InputLabel>Lokasi</InputLabel>
+                                <InputLabel>Lokasi Koordinat*</InputLabel>
                                 <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi.." />
                                 <InputError message={errors.location} />
                             </div>
                             <div className="">
-                                <InputLabel>Area Json</InputLabel>
+                                <InputLabel>Area Json*</InputLabel>
                                 <TextInputArea defaultValue={data.area_json} onChange={handleChange} id='area_json' name='area_json' placeholder="Area json.." />
                                 <InputError message={errors.area_json} />
                             </div>
                             <div className="">
-                                <InputLabel>Alamat Lengkap</InputLabel>
+                                <InputLabel>Alamat Lengkap*</InputLabel>
                                 <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
                                 <InputError message={errors.address} />
                             </div>

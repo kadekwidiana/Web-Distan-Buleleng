@@ -202,7 +202,7 @@ export default function EditOutreachActivityPage() {
                                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
                             </div>
                             <div className="">
-                                <InputLabel>Desa</InputLabel>
+                                <InputLabel>Desa*</InputLabel>
                                 <SelectTwo
                                     entities={villages}
                                     selectedEntityId={data.village_id}
@@ -214,30 +214,30 @@ export default function EditOutreachActivityPage() {
                                 <InputError message={errors.village_id} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Judul Penyuluhan</InputLabel>
+                                <InputLabel>Judul Penyuluhan*</InputLabel>
                                 <TextInput error={errors.title} value={data.title} onChange={handleChange} id='title' name='title' placeholder="Judul.." />
                                 <InputError message={errors.title} />
                             </div>
                             <div className="w-full">
                                 <InputLabel>File/Dokumen</InputLabel>
                                 {outreachActivityById.file &&
-                                    <a href={`/storage/${outreachActivityById.file}`} target='_blank' className="w-28 px-1 border rounded-md text-white bg-cyan-800">Cek File</a>
+                                    <a href={`/storage/${outreachActivityById.file}`} target='_blank' className="w-28 p-1 border rounded-md text-white bg-cyan-800">Cek File</a>
                                 }
                                 <input
                                     type="file"
                                     name="file"
                                     onChange={handleChange}
-                                    className="w-full rounded-md bg-white border border-gray-400 text-black transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter focus:outline-none focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full rounded-md mt-1.5 bg-white border border-gray-400 text-black transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter focus:outline-none focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500"
                                 />
                                 <InputError message={errors.file} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Catatan</InputLabel>
+                                <InputLabel>Catatan*</InputLabel>
                                 <TextInputArea error={errors.notes} value={data.notes} onChange={handleChange} id='notes' name='notes' placeholder="Catatan.." />
                                 <InputError message={errors.notes} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Laporan Kegiatan</InputLabel>
+                                <InputLabel>Laporan Kegiatan*</InputLabel>
                                 <TextInputArea error={errors.activity_report} value={data.activity_report} onChange={handleChange} id='activity_report' name='activity_report' placeholder="Lapoaran.." />
                                 <InputError message={errors.activity_report} />
                             </div>
@@ -270,12 +270,12 @@ export default function EditOutreachActivityPage() {
                                 ))}
                             </div>
                             <div className="w-full">
-                                <InputLabel>Lokasi</InputLabel>
+                                <InputLabel>Lokasi Koordinat*</InputLabel>
                                 <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi koordinat.." />
                                 <InputError message={errors.location} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Alamat</InputLabel>
+                                <InputLabel>Alamat*</InputLabel>
                                 <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
                                 <InputError message={errors.address} />
                             </div>

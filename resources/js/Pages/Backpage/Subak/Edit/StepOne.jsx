@@ -110,7 +110,7 @@ export default function StepOneEditSubakPage() {
                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
               </div>
               <div className="">
-                <InputLabel>Desa</InputLabel>
+                <InputLabel>Desa*</InputLabel>
                 <SelectTwo
                   entities={villages}
                   selectedEntityId={data.village_id}
@@ -122,39 +122,39 @@ export default function StepOneEditSubakPage() {
                 <InputError message={errors.village_id} />
               </div>
               <div className="">
-                <InputLabel>Nama Subak</InputLabel>
+                <InputLabel>Nama Subak*</InputLabel>
                 <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama subak..." />
                 <InputError message={errors.name} />
               </div>
               <div className="">
-                <InputLabel>Nama Ketua</InputLabel>
+                <InputLabel>Ketua*</InputLabel>
                 <TextInput error={errors.leader} defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua..." />
                 <InputError message={errors.leader} />
               </div>
               <div className="">
-                <InputLabel>Nama Sekretaris</InputLabel>
+                <InputLabel>Sekretaris*</InputLabel>
                 <TextInput error={errors.secretary} defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris..." />
                 <InputError message={errors.secretary} />
               </div>
             </div>
             <div className="flex flex-col gap-3">
               <div className="">
-                <InputLabel>Nama Bendahara</InputLabel>
+                <InputLabel>Bendahara*</InputLabel>
                 <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                 <InputError message={errors.treasurer} />
               </div>
               <div className="">
-                <InputLabel>Jumlah Anggota</InputLabel>
+                <InputLabel>Jumlah Anggota*</InputLabel>
                 <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
                 <InputError message={errors.number_of_members} />
               </div>
               <div className="">
-                <InputLabel>Tahun Pembentukan</InputLabel>
+                <InputLabel>Tahun Pembentukan*</InputLabel>
                 <TextInput error={errors.since} defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
                 <InputError message={errors.since} />
               </div>
               <div className="">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>Status*</InputLabel>
                 <InputSelect
                   error={errors.status}
                   defaultValue={data.status}
@@ -169,7 +169,7 @@ export default function StepOneEditSubakPage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Komoditas</InputLabel>
+                <InputLabel>Komoditas*</InputLabel>
                 <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>

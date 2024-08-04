@@ -111,7 +111,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 <BannerInfoAddOwnerLand />
               </div>
               <div className="">
-                <InputLabel>Pemilik</InputLabel>
+                <InputLabel>Pemilik*</InputLabel>
                 <SelectTwo
                   entities={owners}
                   selectedEntityId={data.owner_id}
@@ -129,7 +129,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
               </div>
               <div className="">
-                <InputLabel>Desa</InputLabel>
+                <InputLabel>Desa*</InputLabel>
                 <SelectTwo
                   entities={villages}
                   selectedEntityId={data.village_id}
@@ -167,7 +167,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 <InputError message={errors.subak_id} />
               </div>
               <div className="">
-                <InputLabel>Jenis Lahan</InputLabel>
+                <InputLabel>Jenis Lahan*</InputLabel>
                 <InputSelect
                   error={errors.type_land_agriculture_id}
                   defaultValue={data.type_land_agriculture_id}
@@ -184,7 +184,7 @@ export default function StepOneCreateLandAgriculturePage() {
               </div>
 
               <div className="">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>Status*</InputLabel>
                 <InputSelect
                   error={errors.status}
                   defaultValue={data.status}
@@ -199,7 +199,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Komoditas Lahan</InputLabel>
+                <InputLabel>Komoditas Lahan*</InputLabel>
                 <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>

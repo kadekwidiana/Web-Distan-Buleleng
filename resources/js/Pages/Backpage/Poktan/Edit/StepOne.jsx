@@ -114,7 +114,7 @@ export default function StepOneEditPoktanPage() {
                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
               </div>
               <div className="">
-                <InputLabel>Desa</InputLabel>
+                <InputLabel>Desa*</InputLabel>
                 <SelectTwo
                   entities={villages}
                   selectedEntityId={data.village_id}
@@ -138,39 +138,39 @@ export default function StepOneEditPoktanPage() {
                 <InputError message={errors.gapoktan_id} />
               </div>
               <div className="">
-                <InputLabel>Nama Poktan</InputLabel>
+                <InputLabel>Nama Poktan*</InputLabel>
                 <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama poktan..." />
                 <InputError message={errors.name} />
               </div>
               <div className="">
-                <InputLabel>Nama Ketua</InputLabel>
+                <InputLabel>Ketua*</InputLabel>
                 <TextInput error={errors.leader} defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua..." />
                 <InputError message={errors.leader} />
               </div>
               <div className="">
-                <InputLabel>Nama Sekretaris</InputLabel>
+                <InputLabel>Sekretaris*</InputLabel>
                 <TextInput error={errors.secretary} defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris..." />
                 <InputError message={errors.secretary} />
               </div>
               <div className="">
-                <InputLabel>Nama Bendahara</InputLabel>
+                <InputLabel>Bendahara*</InputLabel>
                 <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                 <InputError message={errors.treasurer} />
               </div>
             </div>
             <div className="flex flex-col gap-3">
               <div className="">
-                <InputLabel>Jumlah Anggota</InputLabel>
+                <InputLabel>Jumlah Anggota*</InputLabel>
                 <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
                 <InputError message={errors.number_of_members} />
               </div>
               <div className="">
-                <InputLabel>Tahun Pembentukan</InputLabel>
+                <InputLabel>Tahun Pembentukan*</InputLabel>
                 <TextInput error={errors.since} defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
                 <InputError message={errors.since} />
               </div>
               <div className="">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>Status*</InputLabel>
                 <InputSelect
                   error={errors.status}
                   defaultValue={data.status}
@@ -185,7 +185,7 @@ export default function StepOneEditPoktanPage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Kelas Kemampuan</InputLabel>
+                <InputLabel>Kelas Kemampuan*</InputLabel>
                 <InputSelect
                   error={errors.ability_class}
                   defaultValue={data.ability_class}
@@ -200,7 +200,7 @@ export default function StepOneEditPoktanPage() {
                 <InputError message={errors.ability_class} />
               </div>
               <div className="">
-                <InputLabel>Status Konfirmasi</InputLabel>
+                <InputLabel>Status Konfirmasi*</InputLabel>
                 <InputSelect
                   error={errors.group_confirmation_status}
                   defaultValue={data.group_confirmation_status}
@@ -215,12 +215,12 @@ export default function StepOneEditPoktanPage() {
                 <InputError message={errors.group_confirmation_status} />
               </div>
               <div className="">
-                <InputLabel>Tahun Penetapan Kelas</InputLabel>
+                <InputLabel>Tahun Penetapan Kelas*</InputLabel>
                 <TextInput error={errors.year_of_class_assignment} defaultValue={data.year_of_class_assignment} onChange={handleChange} type='number' id='year_of_class_assignment' name='year_of_class_assignment' placeholder="YYYY" />
                 <InputError message={errors.year_of_class_assignment} />
               </div>
               <div className="">
-                <InputLabel>Komoditas Yang Di Usahakan</InputLabel>
+                <InputLabel>Komoditas Yang Di Usahakan*</InputLabel>
                 <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>

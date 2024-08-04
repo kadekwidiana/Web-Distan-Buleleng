@@ -191,7 +191,7 @@ export default function CreateOutreachActivityPage() {
                                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
                             </div>
                             <div className="">
-                                <InputLabel>Desa</InputLabel>
+                                <InputLabel>Desa*</InputLabel>
                                 <SelectTwo
                                     entities={villages}
                                     selectedEntityId={data.village_id}
@@ -203,7 +203,7 @@ export default function CreateOutreachActivityPage() {
                                 <InputError message={errors.village_id} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Judul Penyuluhan</InputLabel>
+                                <InputLabel>Judul Penyuluhan*</InputLabel>
                                 <TextInput error={errors.title} value={data.title} onChange={handleChange} id='title' name='title' placeholder="Judul.." />
                                 <InputError message={errors.title} />
                             </div>
@@ -218,12 +218,12 @@ export default function CreateOutreachActivityPage() {
                                 <InputError message={errors.file} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Catatan</InputLabel>
+                                <InputLabel>Catatan*</InputLabel>
                                 <TextInputArea error={errors.notes} value={data.notes} onChange={handleChange} id='notes' name='notes' placeholder="Catatan.." />
                                 <InputError message={errors.notes} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Laporan Kegiatan</InputLabel>
+                                <InputLabel>Laporan Kegiatan*</InputLabel>
                                 <TextInputArea error={errors.activity_report} value={data.activity_report} onChange={handleChange} id='activity_report' name='activity_report' placeholder="Lapoaran.." />
                                 <InputError message={errors.activity_report} />
                             </div>
@@ -256,12 +256,12 @@ export default function CreateOutreachActivityPage() {
                                 ))}
                             </div>
                             <div className="w-full">
-                                <InputLabel>Lokasi</InputLabel>
+                                <InputLabel>Lokasi Koordinat*</InputLabel>
                                 <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi koordinat.." />
                                 <InputError message={errors.location} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Alamat</InputLabel>
+                                <InputLabel>Alamat*</InputLabel>
                                 <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
                                 <InputError message={errors.address} />
                             </div>

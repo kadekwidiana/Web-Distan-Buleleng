@@ -110,7 +110,7 @@ export default function StepOneCreateGapoktanPage() {
                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
               </div>
               <div className="">
-                <InputLabel>Desa</InputLabel>
+                <InputLabel>Desa*</InputLabel>
                 <SelectTwo
                   entities={villages}
                   selectedEntityId={data.village_id}
@@ -122,42 +122,42 @@ export default function StepOneCreateGapoktanPage() {
                 <InputError message={errors.village_id} />
               </div>
               <div className="">
-                <InputLabel>Nama Gapoktan</InputLabel>
+                <InputLabel>Nama Gapoktan*</InputLabel>
                 <TextInput defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama gapoktan..." />
                 <InputError message={errors.name} />
               </div>
               <div className="">
-                <InputLabel>Ketua</InputLabel>
+                <InputLabel>Ketua*</InputLabel>
                 <TextInput defaultValue={data.leader} onChange={handleChange} id='leader' name='leader' placeholder="Ketua..." />
                 <InputError message={errors.leader} />
               </div>
               <div className="">
-                <InputLabel>Sekretaris</InputLabel>
+                <InputLabel>Sekretaris*</InputLabel>
                 <TextInput defaultValue={data.secretary} onChange={handleChange} id='secretary' name='secretary' placeholder="Sekretaris..." />
                 <InputError message={errors.secretary} />
               </div>
               <div className="">
-                <InputLabel>Bendahara</InputLabel>
+                <InputLabel>Bendahara*</InputLabel>
                 <TextInput defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                 <InputError message={errors.treasurer} />
               </div>
               <div className="">
-                <InputLabel>Jumlah Anggota</InputLabel>
+                <InputLabel>Jumlah Anggota*</InputLabel>
                 <TextInput defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="Jumlah anggota..." />
                 <InputError message={errors.number_of_members} />
               </div>
               <div className="">
-                <InputLabel>Tahun Pembentukan</InputLabel>
+                <InputLabel>Tahun Pembentukan*</InputLabel>
                 <TextInput defaultValue={data.since} type="number" placeholder="YYYY" onChange={handleChange} id='since' name='since' />
                 <InputError message={errors.since} />
               </div>
               <div className="">
-                <InputLabel>SK Pengukuhan</InputLabel>
+                <InputLabel>SK Pengukuhan*</InputLabel>
                 <TextInput defaultValue={data.confirmation_sk} onChange={handleChange} id='confirmation_sk' name='confirmation_sk' placeholder="SK Pengukuhan..." />
                 <InputError message={errors.confirmation_sk} />
               </div>
               <div className="">
-                <InputLabel>No. SK Pengukuhan</InputLabel>
+                <InputLabel>No. SK Pengukuhan*</InputLabel>
                 <TextInput defaultValue={data.confirmation_sk_no} onChange={handleChange} id='confirmation_sk_no' name='confirmation_sk_no' placeholder="No. SK Pengukuhan..." />
                 <InputError message={errors.confirmation_sk_no} />
               </div>
@@ -165,7 +165,7 @@ export default function StepOneCreateGapoktanPage() {
             <div className="flex flex-col gap-3">
 
               <div className="">
-                <InputLabel>Unit Usaha</InputLabel>
+                <InputLabel>Unit Usaha*</InputLabel>
                 <div className="">
                   <label className="flex items-center">
                     <Checkbox
@@ -210,17 +210,17 @@ export default function StepOneCreateGapoktanPage() {
                 <InputError message={errors.business_unit} />
               </div>
               <div className="">
-                <InputLabel>Usaha Tani</InputLabel>
+                <InputLabel>Usaha Tani*</InputLabel>
                 <TextInput defaultValue={data.farming_business} onChange={handleChange} id='farming_business' name='farming_business' placeholder="Bisnis pertanian..." />
                 <InputError message={errors.farming_business} />
               </div>
               <div className="">
-                <InputLabel>Usaha Olah</InputLabel>
+                <InputLabel>Usaha Olah*</InputLabel>
                 <TextInput defaultValue={data.business_process} onChange={handleChange} id='business_process' name='business_process' placeholder="Usaha olah..." />
                 <InputError message={errors.business_process} />
               </div>
               <div className="">
-                <InputLabel>Alat dan Mesin</InputLabel>
+                <InputLabel>Alat dan Mesin*</InputLabel>
                 <div className='grid grid-cols-1 gap-1'>
                   <label className="flex items-center gap-2">
                     <InputLabel className="text-nowrap text-sm font-normal">Traktor</InputLabel>
