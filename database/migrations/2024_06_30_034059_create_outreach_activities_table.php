@@ -22,7 +22,7 @@ return new class extends Migration
             $table->json('location');
             $table->text('address');
             $table->text('photo');
-            $table->text('file');
+            $table->text('file')->nullable();
             $table->text('notes');
             $table->text('activity_report');
             $table->timestamps();
