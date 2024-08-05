@@ -1,5 +1,6 @@
 import React from 'react'
 import L from 'leaflet';
+import { defaultIcon } from '@/Utils/Constan/CustomMarker';
 
 export const useDrawTools = (map) => {
     // MAP DRAW
@@ -22,6 +23,9 @@ export const useDrawTools = (map) => {
                 showArea: true, // Show polygon area when draw
                 metric: false,
                 repeatMode: true
+            },
+            marker: {
+                icon: defaultIcon // Menggunakan defaultIcon yang telah Anda definisikan
             },
             // Disable features
             polyline: false,

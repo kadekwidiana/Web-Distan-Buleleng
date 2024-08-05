@@ -9,6 +9,7 @@ import L from 'leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet-draw/dist/leaflet.draw'
 import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Utils/Constan/Basemap";
+import { defaultIcon, locationIcon } from "@/Utils/Constan/CustomMarker";
 
 const useMapsInputData = (isEdit, data) => {
     const { setLocationInput, setAreaJsonInput, setAddressInput } = useStore(
@@ -39,18 +40,10 @@ const useMapsInputData = (isEdit, data) => {
             zoomControl: false
         });
 
-        // custom marker Baresoil
-        let locationIcon = L.icon({
-            iconUrl: '/assets/icons/icon-marker/location-pin.png',
-            iconSize: [40, 47], // ukuran ikon
-            iconAnchor: [16, 32], // anchor point pada ikon
-            popupAnchor: [3, -20]
-        });
-
         // Fungsi untuk menambahkan marker ke peta
         function addMarkerToMap(lat, lng) {
             // Membuat marker dengan koordinat yang diberikan
-            const marker = L.marker([lat, lng], { icon: locationIcon }).addTo(map)
+            L.marker([lat, lng], { icon: locationIcon }).addTo(map)
                 .bindPopup('Lokasi anda saat ini.')
                 .openPopup();
         }
@@ -104,7 +97,7 @@ const useMapsInputData = (isEdit, data) => {
         }
 
         if (isEdit) {
-            L.marker(data?.location ?? coorBali).addTo(map)
+            L.marker(data?.location ?? coorBali, { icon: defaultIcon }).addTo(map)
                 .bindPopup(`
                 <div class='flex flex-col justify-center items-center gap-1'>
                 <span>Lokasi ${data?.name ?? ''}</span>
@@ -172,6 +165,9 @@ const useMapsInputData = (isEdit, data) => {
                     showArea: true, //Show polygon area when draw
                     metric: false,
                     repeatMode: true
+                },
+                marker: {
+                    icon: defaultIcon // Menggunakan defaultIcon yang telah Anda definisikan
                 },
                 // Fitur non aktif
                 polyline: false,
