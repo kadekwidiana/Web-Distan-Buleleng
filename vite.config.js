@@ -12,5 +12,8 @@ export default defineConfig({
     ],
     server: {
         cors: true,
+        mimeTypes: {
+            'js': 'application/javascript',
+        }
     },
 });

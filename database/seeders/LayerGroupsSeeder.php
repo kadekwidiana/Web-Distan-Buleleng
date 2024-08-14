@@ -16,6 +16,7 @@ class LayerGroupsSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'Kewilayahan',
+                'status' => 'ACTIVE',
                 'description' => 'Deskripsi mengenai kewilayahn.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -23,6 +24,7 @@ class LayerGroupsSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => 'Pertanian',
+                'status' => 'ACTIVE',
                 'description' => 'Deskripsi mengenai pertanian.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -30,6 +32,7 @@ class LayerGroupsSeeder extends Seeder
             [
                 'id' => 3,
                 'name' => 'Komoditas',
+                'status' => 'ACTIVE',
                 'description' => 'Deskripsi mengenai komoditas.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -37,6 +40,7 @@ class LayerGroupsSeeder extends Seeder
             [
                 'id' => 4,
                 'name' => 'Data Spasial',
+                'status' => 'ACTIVE',
                 'description' => 'Deskripsi mengenai spasial.',
                 'created_at' => now(),
                 'updated_at' => now(),

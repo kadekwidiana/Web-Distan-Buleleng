@@ -1,5 +1,6 @@
 import { AxiosInstance } from "@/Services/AxiosConfig";
 import L from 'leaflet';
+import shp from 'shpjs';
 
 const useDataMaps = (map, dataLayers) => {
     const {
@@ -38,7 +39,7 @@ const useDataMaps = (map, dataLayers) => {
     }
 
     // fetch data geojson
-    const fetchDataGeoJson = async (dataGeoJson, layer) => {
+    const fetchDataGeoJsonRegion = async (dataGeoJson, layer) => {
         try {
             const response = await AxiosInstance({
                 method: "GET",
@@ -463,16 +464,73 @@ const useDataMaps = (map, dataLayers) => {
         // data.forEach(item => {
         setDataCommodities(commodity, layerGroups[commodity.name]);
         // });
-    })
+    });
 
+    const createPopupContent = (properties) => {
+        let popupContent = "<div><h4>Feature Information</h4><ul>";
+        for (const key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                popupContent += `<li><strong>${key}:</strong> ${properties[key] ?? '-'}</li>`;
+            }
+        }
+        popupContent += "</ul></div>";
+        return popupContent;
+    };
 
-    // Loop data lalu buat layerGroup, checkboxEventListenerLayer, dan fetchDataGeoJson
+    const onEachFeatureTwo = (feature, layer) => {
+        if (feature.properties) {
+            const popupContent = createPopupContent(feature.properties);
+            layer.bindPopup(popupContent);
+        }
+    };
+
+    const fetchDataGeoJson = async (dataGeoJson, layer) => {
+        try {
+            const response = await axios.get(dataGeoJson);
+
+            L.geoJSON(response.data, {
+                onEachFeature: onEachFeatureTwo
+            }).addTo(layer);
+
+        } catch (error) {
+            console.error(`Error fetching GeoJSON: ${error.message}`);
+        }
+    };
+
+    const fetchShapefileFromZip = async (url, layer) => {
+        try {
+            const response = await axios({
+                method: "GET",
+                url,
+                responseType: 'arraybuffer'
+            });
+
+            const geojsonConvert = await shp(response.data);
+
+            L.geoJSON(geojsonConvert, {
+                onEachFeature: onEachFeatureTwo
+            }).addTo(layer);
+
+        } catch (error) {
+            console.error(`Error fetching Shapefile: ${error.message}`);
+        }
+    };
+
     dataSpatials.forEach(dataSpatial => {
-        // Create a new layer group
         layerGroups[dataSpatial.name] = L.layerGroup();
         checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
-        fetchDataGeoJson(dataSpatial.file_spatial, layerGroups[dataSpatial.name]);
+        // 123 adalah data kewilayahan yang function nya udah di set custom
+        if ([1, 2, 3].includes(dataSpatial.id)) {
+            fetchDataGeoJsonRegion(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
+        } else {
+            if (dataSpatial.file.endsWith('.geojson')) {
+                fetchDataGeoJson(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
+            } else if (dataSpatial.file.endsWith('.zip')) {
+                fetchShapefileFromZip(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
+            }
+        }
     });
+
 }
 
 export default useDataMaps;

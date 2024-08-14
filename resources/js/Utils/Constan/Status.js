@@ -65,3 +65,7 @@ export const EMPLOYEE_STATUSES = [
     'LAINNYA'
 ];
 
+export const DATA_STATUSES = [
+    { value: "ACTIVE", label: "Aktif" },
+    { value: "INACTIVE", label: "Tidak Aktif" },
+];

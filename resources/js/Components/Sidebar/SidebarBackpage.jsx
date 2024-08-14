@@ -81,7 +81,7 @@ const SidebarMenus = () => {
                 label={'Kegiatan Penyuluhan'}
             />
             <SidebarMenu
-                href={'#'}
+                href={'/data-spasial'}
                 icon={<i className="fa-solid fa-map"></i>}
                 label={'Data Spasial'}
             />

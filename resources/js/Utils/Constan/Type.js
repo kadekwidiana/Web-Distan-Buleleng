@@ -10,3 +10,11 @@ export const FARMING_BUSSINESES = [
     'Pengolahan Hasil Pertanian',
     'Lain-lain'
 ];
+
+export const TYPE_DATA_SPATIALS = [
+    'geojson',
+    'shp',
+    // 'tiff',
+    // 'tif',
+    // 'wms',
+];

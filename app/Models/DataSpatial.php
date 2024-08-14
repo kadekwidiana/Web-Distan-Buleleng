@@ -24,8 +24,10 @@ class DataSpatial extends Model
     protected $fillable = [
         'layer_group_id',
         'name',
-        'url_spatial',
-        'file_spatial',
+        'url',
+        'file',
+        'type',
+        'status',
         'attribute',
         'description',
     ];

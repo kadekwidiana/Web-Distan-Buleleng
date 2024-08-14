@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backpage\DataSpatialController;
 use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\Backpage\LandAgricultureController;
 use App\Http\Controllers\Backpage\OutreachActivitiesController;
@@ -188,6 +189,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/penyuluhan/kecamatan/{districtId}/{id}/edit', [OutreachActivitiesController::class, 'update'])->name('outreachActivities.update');
     // D 
     Route::delete('/penyuluhan/kecamatan/{districtId}/{id}/delete', [OutreachActivitiesController::class, 'destroy'])->name('outreachActivities.delete');
+
+    // DATA SPASIAL
+    Route::resource('data-spasial', DataSpatialController::class);
+    Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update');
 });
 
 Route::middleware('auth')->group(function () {

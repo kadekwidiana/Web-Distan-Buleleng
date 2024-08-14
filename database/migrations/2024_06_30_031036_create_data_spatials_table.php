@@ -19,8 +19,10 @@ return new class extends Migration
                 ->on('layer_grups')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 50);
-            $table->string('url_spatial');
-            $table->string('file_spatial');
+            $table->text('url')->nullable();
+            $table->text('file')->nullable();
+            $table->string('type');
+            $table->string('status');
             $table->string('attribute');
             $table->text('description')->nullable();
             $table->timestamps();
