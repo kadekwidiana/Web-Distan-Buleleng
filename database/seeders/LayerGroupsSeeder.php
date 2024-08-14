@@ -45,6 +45,14 @@ class LayerGroupsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'id' => 5,
+                'name' => 'Kelembagaan Ekonomi Petani',
+                'status' => 'ACTIVE',
+                'description' => 'Deskripsi mengenai KEP.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
