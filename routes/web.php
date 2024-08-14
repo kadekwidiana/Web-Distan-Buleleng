@@ -192,7 +192,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // DATA SPASIAL
     Route::resource('data-spasial', DataSpatialController::class);
-    Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update');
+    Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update'); //pake ini karena resource tidak bisa up file (i don't no what this problem #males-ngulik, intinya apa guyss?? ya benar... intinya bisa...)
 });
 
 Route::middleware('auth')->group(function () {
