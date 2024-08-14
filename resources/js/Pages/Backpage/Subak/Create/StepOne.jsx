@@ -170,7 +170,7 @@ export default function StepOneCreateGapoktanPage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Komoditas*</InputLabel>
+                <InputLabel>Komoditas</InputLabel>
                 <MultiSelect title={'-- Pilih komoditas --'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>

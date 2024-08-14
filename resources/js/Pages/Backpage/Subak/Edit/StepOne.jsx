@@ -169,8 +169,8 @@ export default function StepOneEditSubakPage() {
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Komoditas*</InputLabel>
-                <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
+                <InputLabel>Komoditas</InputLabel>
+                <MultiSelect title={'-- Pilih komoditas --'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>
             </div>

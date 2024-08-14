@@ -155,7 +155,7 @@ class SubakController extends Controller
             'secretary' => 'required|string|max:50',
             'treasurer' => 'required|string|max:50',
             'number_of_members' => 'required|integer',
-            'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'commodities' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'since' => 'required|string|max:4',
             'status' => 'required|string',
         ], $this->validationMessages);
@@ -265,7 +265,7 @@ class SubakController extends Controller
             'secretary' => 'required|string|max:50',
             'treasurer' => 'required|string|max:50',
             'number_of_members' => 'required|integer',
-            'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'commodities' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'since' => 'required|string|max:4',
             'status' => 'required|string'
         ], $this->validationMessages);
