@@ -107,6 +107,7 @@ export default function EditDataSpatialPage() {
                                     onChange={handleChange}
                                     className="mt-1 w-full rounded-md bg-white border border-gray-400 text-black transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter focus:outline-none focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500"
                                 />
+                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">GEOJSON or ZIP (MAX. 50MB).</p>
                                 <InputError message={errors.file} />
                             </div>
                         </div>

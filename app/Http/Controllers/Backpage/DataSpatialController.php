@@ -129,7 +129,7 @@ class DataSpatialController extends Controller
                         $fail("File shp harus berupa file ZIP.");
                     }
                 },
-                'max:50720',
+                'max:51200',
             ],
             'attribute' => 'required|string',
             'description' => 'nullable|string',
@@ -202,7 +202,7 @@ class DataSpatialController extends Controller
             ],
             'file' => [
                 'nullable',
-                'max:50720',
+                'max:51200',
                 function ($attribute, $value, $fail) use ($request) {
                     $type = $request->input('type');
 
