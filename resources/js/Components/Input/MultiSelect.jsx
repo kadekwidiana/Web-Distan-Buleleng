@@ -3,7 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 const MultiSelect = ({ title, options, value, onChange, error, className = '' }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [focusedOptionIndex, setFocusedOptionIndex] = useState(0);
     const ref = useRef(null);
+    const toggleButtonRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -18,7 +20,14 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
         };
     }, [ref]);
 
-    const toggleDropdown = () => setIsOpen(!isOpen);
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+        if (!isOpen) {
+            setTimeout(() => {
+                ref.current.querySelector('input').focus();
+            }, 0);
+        }
+    };
 
     const handleOptionClick = (selectedValue) => {
         const newSelectedValues = value.includes(selectedValue)
@@ -34,12 +43,27 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
+        setFocusedOptionIndex(0); // Reset focus when search term changes
     };
 
-    const handleKeyDown = (e, option) => {
-        if (e.key === 'Enter') {
+    const handleKeyDown = (e) => {
+        const filteredOptions = options.filter((option) =>
+            option.label.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        if (e.key === 'ArrowDown') {
             e.preventDefault();
-            handleOptionClick(option.value);
+            setFocusedOptionIndex((prevIndex) =>
+                prevIndex === filteredOptions.length - 1 ? 0 : prevIndex + 1
+            );
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setFocusedOptionIndex((prevIndex) =>
+                prevIndex === 0 ? filteredOptions.length - 1 : prevIndex - 1
+            );
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            handleOptionClick(filteredOptions[focusedOptionIndex].value);
         }
     };
 
@@ -49,9 +73,12 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
 
     return (
         <div ref={ref} className="relative w-full">
-            <div
+            <button
+                type="button"
+                ref={toggleButtonRef}
                 className={`flex items-center justify-between w-full appearance-none rounded-md bg-transparent py-2 px-2 bg-white border cursor-pointer ${error ? 'border-red-500' : 'border-gray-400'} ${className}`}
                 onClick={toggleDropdown}
+                tabIndex={0}
             >
                 <div className="flex justify-start items-center gap-2 overflow-auto">
                     {value.length > 0 ? (
@@ -77,7 +104,7 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
                 <span className="ml-2">
                     {isOpen ? <i className="fa-solid fa-chevron-up text-gray-500"></i> : <i className="fa-solid fa-chevron-down text-gray-500"></i>}
                 </span>
-            </div>
+            </button>
             {isOpen && (
                 <div className="absolute left-0 right-0 z-10 overflow-y-auto bg-white border rounded shadow max-h-60 border-gray-300">
                     <input
@@ -86,22 +113,24 @@ const MultiSelect = ({ title, options, value, onChange, error, className = '' })
                         onChange={handleSearchChange}
                         className="w-full p-2 border-b border-gray-300 rounded-t-sm focus:ring-blue-500 focus:border-blue-400 focus:outline-none focus-visible:outline-none"
                         placeholder="Search..."
+                        onKeyDown={handleKeyDown}
+                        tabIndex={0}
                     />
                     <div className="max-h-48 overflow-y-auto">
                         {filteredOptions.length > 0 ? (
-                            filteredOptions.map((option) => (
+                            filteredOptions.map((option, index) => (
                                 <div
                                     key={option.value}
-                                    className={`p-2 cursor-pointer capitalize ${value.includes(option.value) ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+                                    className={`p-2 cursor-pointer capitalize ${value.includes(option.value) ? 'bg-gray-200' : 'hover:bg-gray-100'
+                                        } ${index === focusedOptionIndex ? 'bg-blue-100' : ''}`}
                                     onClick={() => handleOptionClick(option.value)}
-                                    onKeyDown={(e) => handleKeyDown(e, option)}
                                     tabIndex={0}
                                 >
                                     {option.label}
                                 </div>
                             ))
                         ) : (
-                            <div className="p-2 text-gray-500">Data tidak di temukan.</div>
+                            <div className="p-2 text-gray-500">Data tidak ditemukan.</div>
                         )}
                     </div>
                 </div>

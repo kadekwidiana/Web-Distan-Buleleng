@@ -4,6 +4,7 @@ const SelectTwo = ({ entities, selectedEntityId, setSelectedEntityId, otherEntit
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredEntities, setFilteredEntities] = useState(entities);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [focusedOptionIndex, setFocusedOptionIndex] = useState(0);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -15,8 +16,20 @@ const SelectTwo = ({ entities, selectedEntityId, setSelectedEntityId, otherEntit
         );
     }, [searchTerm, entities, otherEntity]);
 
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
     const handleDropdownToggle = () => {
         setIsDropdownOpen(!isDropdownOpen);
+        if (!isDropdownOpen) {
+            setTimeout(() => {
+                dropdownRef.current.querySelector('input').focus();
+            }, 0);
+        }
     };
 
     const handleOptionSelect = (id) => {
@@ -30,12 +43,24 @@ const SelectTwo = ({ entities, selectedEntityId, setSelectedEntityId, otherEntit
         }
     };
 
-    useEffect(() => {
-        document.addEventListener('click', handleOutsideClick);
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, []);
+    const handleKeyDown = (e) => {
+        if (!isDropdownOpen) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setFocusedOptionIndex((prevIndex) =>
+                prevIndex === filteredEntities.length - 1 ? 0 : prevIndex + 1
+            );
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setFocusedOptionIndex((prevIndex) =>
+                prevIndex === 0 ? filteredEntities.length - 1 : prevIndex - 1
+            );
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            handleOptionSelect(filteredEntities[focusedOptionIndex].id);
+        }
+    };
 
     const selectedEntity = entities.find((entity) => Number(entity.id) === Number(selectedEntityId));
 
@@ -44,8 +69,9 @@ const SelectTwo = ({ entities, selectedEntityId, setSelectedEntityId, otherEntit
         : label ?? '-- Select entity --';
 
     return (
-        <div className="relative" ref={dropdownRef}>
-            <div
+        <div className="relative" ref={dropdownRef} onKeyDown={handleKeyDown}>
+            <button
+                type='button'
                 className={`flex items-center justify-between w-full appearance-none rounded-md bg-transparent py-2 px-2 bg-white border cursor-pointer ${error ? 'border-red-500' : 'border-gray-400'}`}
                 onClick={handleDropdownToggle}
             >
@@ -53,7 +79,7 @@ const SelectTwo = ({ entities, selectedEntityId, setSelectedEntityId, otherEntit
                 <span className="ml-2">
                     {isDropdownOpen ? <i className="fa-solid fa-chevron-up text-gray-500"></i> : <i className="fa-solid fa-chevron-down text-gray-500"></i>}
                 </span>
-            </div>
+            </button>
             {isDropdownOpen && (
                 <div className="absolute left-0 right-0 z-10 overflow-y-auto bg-white border rounded shadow max-h-60 border-gray-300">
                     <input
@@ -65,10 +91,11 @@ const SelectTwo = ({ entities, selectedEntityId, setSelectedEntityId, otherEntit
                     />
                     <div className="max-h-48 overflow-y-auto">
                         {filteredEntities.length > 0 ? (
-                            filteredEntities.map((entity) => (
+                            filteredEntities.map((entity, index) => (
                                 <div
                                     key={entity.id}
-                                    className={`p-2 cursor-pointer ${Number(entity.id) === Number(selectedEntityId) ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
+                                    className={`p-2 cursor-pointer ${Number(entity.id) === Number(selectedEntityId) ? 'bg-gray-200' : 'hover:bg-gray-200'
+                                        } ${index === focusedOptionIndex ? 'bg-blue-100' : ''}`}
                                     onClick={() => handleOptionSelect(entity.id)}
                                 >
                                     {`${entity.name}${otherEntity && entity[otherEntity] ? ` (${entity[otherEntity]})` : ''}`}
