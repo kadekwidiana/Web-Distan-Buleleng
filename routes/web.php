@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Backpage\DashboardController;
 use App\Http\Controllers\Backpage\DataSpatialController;
 use App\Http\Controllers\Backpage\GapoktanController;
 use App\Http\Controllers\Backpage\LandAgricultureController;
+use App\Http\Controllers\Backpage\MasterData\CommodityController;
+use App\Http\Controllers\Backpage\MasterData\LayerGroupController;
+use App\Http\Controllers\Backpage\MasterData\TypeAgricultureController;
+use App\Http\Controllers\Backpage\MasterData\TypeLandAgricultureController;
 use App\Http\Controllers\Backpage\OutreachActivitiesController;
 use App\Http\Controllers\Backpage\OwnerLandController;
 use App\Http\Controllers\Backpage\PoktanController;
@@ -38,23 +43,19 @@ Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
 Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin', function () {
-        return Inertia::render('Admin');
-    });
+    // Route::get('/admin', function () {
+    //     return Inertia::render('Admin');
+    // });
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Backpage/Dashboard/Index', [
-            'navName' => 'Dashboard'
-        ]);
-    })->name('index.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('index.dashboard');
 
-    Route::get('/ppl', function () {
-        return Inertia::render('Backpage/PPL/Index');
-    })->name('index.ppl');
+    // Route::get('/ppl', function () {
+    //     return Inertia::render('Backpage/PPL/Index');
+    // })->name('index.ppl');
 
-    Route::get('/ppl/input', function () {
-        return Inertia::render('Backpage/PPL/Input');
-    })->name('input.ppl');
+    // Route::get('/ppl/input', function () {
+    //     return Inertia::render('Backpage/PPL/Input');
+    // })->name('input.ppl');
 
     /*
     |--------------------------------------------------------------------------
@@ -193,6 +194,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // DATA SPASIAL
     Route::resource('data-spasial', DataSpatialController::class);
     Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update'); //pake ini karena resource tidak bisa up file (i don't no what this problem #males-ngulik, intinya apa guyss?? ya benar... intinya bisa...)
+
+    // MASTER DATA
+    Route::resource('/master-data/komoditas', CommodityController::class);
+    Route::post('/master-data/komoditas/{id}/update', [CommodityController::class, 'update'])->name('komoditas.update');
+
+    Route::resource('/master-data/layer-grup', LayerGroupController::class);
+    Route::post('/master-data/layer-grup/{id}/update', [LayerGroupController::class, 'update'])->name('layer-group.update');
+
+    Route::resource('/master-data/jenis-pertanian', TypeAgricultureController::class);
+    Route::post('/master-data/jenis-pertanian/{id}/update', [TypeAgricultureController::class, 'update'])->name('jenis-pertanian.update');
+
+    Route::resource('/master-data/jenis-lahan-pertanian', TypeLandAgricultureController::class);
+    Route::post('/master-data/jenis-lahan-pertanian/{id}/update', [TypeLandAgricultureController::class, 'update'])->name('jenis-lahan-pertanian.update');
 });
 
 Route::middleware('auth')->group(function () {

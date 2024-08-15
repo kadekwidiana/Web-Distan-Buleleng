@@ -15,28 +15,28 @@ const SidebarMenus = () => {
             <DropdownMenu
                 icon={<i className="fa-solid fa-database"></i>}
                 label={'Master Data'}
-                url={'#'}
+                url={'/master-data'}
                 subMenus={
                     <>
                         <SidebarMenu
-                            href={'#'}
+                            href={'/master-data/komoditas'}
                             icon={<i className="fa-solid fa-database"></i>}
-                            label={'Data?'}
+                            label={'Komoditas'}
                         />
                         <SidebarMenu
-                            href={'#'}
+                            href={'/master-data/layer-grup'}
                             icon={<i className="fa-solid fa-database"></i>}
-                            label={'Data?'}
+                            label={'Layer Grup'}
                         />
                         <SidebarMenu
-                            href={'#'}
+                            href={'/master-data/jenis-pertanian'}
                             icon={<i className="fa-solid fa-database"></i>}
-                            label={'Data?'}
+                            label={'Jenis Pertanian'}
                         />
                         <SidebarMenu
-                            href={'#'}
+                            href={'/master-data/jenis-lahan-pertanian'}
                             icon={<i className="fa-solid fa-database"></i>}
-                            label={'Data?'}
+                            label={'Jenis Lahan Pertanian'}
                         />
                     </>
                 }

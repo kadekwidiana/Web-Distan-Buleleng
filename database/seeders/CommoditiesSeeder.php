@@ -18,7 +18,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 1,
                 'type_agriculture_id' => 1, // Pertanian Hortikultura
                 'name' => 'Sayuran',
-                'icon' => '/assets/icons/icon-layer/sayur.png',
+                'icon' => 'master-data-commodity-icon/sayur.png',
                 'description' => 'Deskripsi mengenai sayuran.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -27,7 +27,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 2,
                 'type_agriculture_id' => 2, // Pertanian Perkebunan
                 'name' => 'Kopi',
-                'icon' => '/assets/icons/icon-layer/kopi.png',
+                'icon' => 'master-data-commodity-icon/kopi.png',
                 'description' => 'Deskripsi mengenai kopi.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -36,7 +36,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 3,
                 'type_agriculture_id' => 2, // Pertanian Perkebunan
                 'name' => 'Tebu',
-                'icon' => '/assets/icons/icon-layer/tebu.png',
+                'icon' => 'master-data-commodity-icon/tebu.png',
                 'description' => 'Deskripsi mengenai tepu.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -45,7 +45,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 4,
                 'type_agriculture_id' => 2, // Pertanian Perkebunan
                 'name' => 'Kedelai',
-                'icon' => '/assets/icons/icon-layer/kedelai.png',
+                'icon' => 'master-data-commodity-icon/kedelai.png',
                 'description' => 'Deskripsi mengenai kedelai.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -54,7 +54,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 5,
                 'type_agriculture_id' => 2, // Pertanian Perkebunan
                 'name' => 'Kacang',
-                'icon' => '/assets/icons/icon-layer/kacang.png',
+                'icon' => 'master-data-commodity-icon/kacang.png',
                 'description' => 'Deskripsi mengenai kacang.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -63,7 +63,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 6,
                 'type_agriculture_id' => 2, // Pertanian Perkebunan
                 'name' => 'Cabai',
-                'icon' => '/assets/icons/icon-layer/cabai.png',
+                'icon' => 'master-data-commodity-icon/cabai.png',
                 'description' => 'Deskripsi mengenai cabai.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -72,7 +72,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 7,
                 'type_agriculture_id' => 3, // Pertanian Tanaman Pangan
                 'name' => 'Padi',
-                'icon' => '/assets/icons/icon-layer/padi.png',
+                'icon' => 'master-data-commodity-icon/padi.png',
                 'description' => 'Deskripsi mengenai tanaman padi.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -81,7 +81,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 8,
                 'type_agriculture_id' => 3, // Pertanian Tanaman Pangan
                 'name' => 'Jagung',
-                'icon' => '/assets/icons/icon-layer/jagung.png',
+                'icon' => 'master-data-commodity-icon/jagung.png',
                 'description' => 'Deskripsi mengenai tanaman jagung.',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -90,7 +90,7 @@ class CommoditiesSeeder extends Seeder
                 'id' => 9,
                 'type_agriculture_id' => 1, // Pertanian Hortikultura
                 'name' => 'Buah',
-                'icon' => '/assets/icons/icon-layer/buah.png',
+                'icon' => 'master-data-commodity-icon/buah.png',
                 'description' => 'Deskripsi mengenai buah.',
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -63,7 +63,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
             <Modal.Body>
                 <form onSubmit={handleSubmit} className="space-y-2">
                     <div>
-                        <InputLabel htmlFor="nik">NIK</InputLabel>
+                        <InputLabel htmlFor="nik">NIK*</InputLabel>
                         <TextInput
                             id="nik"
                             value={nik}
@@ -75,7 +75,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                         {errors.nik && <p className="text-red-500 text-sm">{errors.nik}</p>}
                     </div>
                     <div>
-                        <InputLabel htmlFor="name">Nama</InputLabel>
+                        <InputLabel htmlFor="name">Nama*</InputLabel>
                         <TextInput
                             id="name"
                             value={name}
@@ -87,7 +87,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                     </div>
                     <div>
-                        <InputLabel htmlFor="phone_number">Nomor Telepon</InputLabel>
+                        <InputLabel htmlFor="phone_number">Nomor Telepon*</InputLabel>
                         <TextInput
                             id="phone_number"
                             value={phoneNumber}
@@ -99,7 +99,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                         {errors.phone_number && <p className="text-red-500 text-sm">{errors.phone_number}</p>}
                     </div>
                     <div>
-                        <InputLabel htmlFor="address">Alamat</InputLabel>
+                        <InputLabel htmlFor="address">Alamat*</InputLabel>
                         <TextInputArea
                             id="address"
                             value={address}
@@ -120,7 +120,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                     Batal
                 </Button>
                 <Button onClick={handleSubmit} disabled={loading}>
-                    {loading ? 'Menyimpan...' : 'Simpan'}
+                    {loading ? 'Simpan...' : 'Simpan'}
                 </Button>
             </Modal.Footer>
         </Modal>

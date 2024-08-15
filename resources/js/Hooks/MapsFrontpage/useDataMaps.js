@@ -370,7 +370,7 @@ const useDataMaps = (map, dataLayers) => {
     };
 
     const setDataCommodities = (dataCommodity, layer) => {
-        const iconUrl = dataCommodity.icon; // URL ikon diambil dari dataCommodity.icon
+        const iconUrl = `/storage/${dataCommodity.icon}`; // URL ikon diambil dari dataCommodity.icon
         dataCommodity.land_agricultures.forEach(landAgriculture => {
             const marker = L.marker(landAgriculture.location, { icon: customIcon(iconUrl) });
 

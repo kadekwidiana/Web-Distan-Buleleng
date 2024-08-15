@@ -69,3 +69,8 @@ export const DATA_STATUSES = [
     { value: "ACTIVE", label: "Aktif" },
     { value: "INACTIVE", label: "Tidak Aktif" },
 ];
+
+export const DATA_STATUSES_FOR_OPTIONS = [
+    { id: "ACTIVE", name: "Aktif" },
+    { id: "INACTIVE", name: "Tidak Aktif" },
+];

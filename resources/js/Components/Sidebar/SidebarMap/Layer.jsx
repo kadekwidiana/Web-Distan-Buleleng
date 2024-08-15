@@ -16,9 +16,6 @@ export const SidebarLayer = () => {
         landAgricultures,
     } = usePage().props;
 
-    // console.log(gapoktans[0].name);
-    // console.log(usePage().props);
-
     return (
         <div className="max-h-[90dvh] sidebar-layer bg-white mt-0 pb-5 px-2" id="sidebar-layer">
             <h1 className="text-center font-semibold text-gray-700 text-lg my-1">Layers</h1>
@@ -40,7 +37,7 @@ export const SidebarLayer = () => {
                                 <DropdownSubLayers key={typeAgriculture.id} subLayerName={typeAgriculture.name} showingSubLayer={true}>
                                     {commodities.map((commodity) => (
                                         commodity.type_agriculture_id === typeAgriculture.id ?
-                                            <CheckboxLayer key={commodity.name} id={commodity.name} icon={commodity.icon} label={commodity.name} />
+                                            <CheckboxLayer key={commodity.name} id={commodity.name} icon={`/storage/${commodity.icon}`} label={commodity.name} />
                                             :
                                             null
                                     ))}

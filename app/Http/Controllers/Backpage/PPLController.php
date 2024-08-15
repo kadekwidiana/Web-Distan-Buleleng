@@ -428,6 +428,6 @@ class PPLController extends Controller
         $ppl->delete();
 
         // return response()->json(['message' => 'User and PPL data deleted successfully']);
-        return redirect()->route('ppl.index')->with('success', 'PPL updated successfully.');
+        return redirect()->route('ppl.index')->with('success', 'PPL deleted successfully.');
     }
 }
