@@ -6,9 +6,9 @@ import InputSelect from "@/Components/Input/InputSelect";
 import MultiSelect from "@/Components/Input/MultiSelect";
 import TextInput from "@/Components/Input/TextInput";
 import BackpageLayout from "@/Layouts/BackpageLayout";
-import { GENDERS } from "@/Utils/Constan/Gender";
-import { RELIGIONS } from "@/Utils/Constan/Religion";
-import { EMPLOYEE_STATUSES } from "@/Utils/Constan/Status";
+import { GENDERS } from "@/Constant/Gender";
+import { RELIGIONS } from "@/Constant/Religion";
+import { EMPLOYEE_STATUSES } from "@/Constant/Status";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 

@@ -11,11 +11,11 @@ export default function BannerInfoAddOwnerLand() {
                 <div className="mb-3 mr-4 flex flex-col">
                     <h3>Petunjuk.</h3>
                     <p className="flex items-center text-sm font-normal text-gray-600">
-                        Tambah data owner/pemilik lahan jika belum terdaftar dalam sistem.
+                        Tambah data Pemilik/Penggarap lahan jika belum terdaftar dalam sistem.
                     </p>
                 </div>
                 <div className="flex shrink-0 items-center">
-                    <Button onClick={() => setOpenModal(true)} type='button' href="#">Tambah pemilik</Button>
+                    <Button onClick={() => setOpenModal(true)} type='button' href="#">Tambah data</Button>
                 </div>
                 <ModalInputUserOwnerLand openModal={openModal} setOpenModal={setOpenModal} />
             </div>

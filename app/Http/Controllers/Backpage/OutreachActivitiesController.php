@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\Gapoktan;
 use App\Models\OutreachActivities;
 use App\Models\Poktan;
+use App\Models\Ppl;
 use App\Models\Subak;
 use App\Models\Village;
 use Illuminate\Http\Request;
@@ -18,9 +19,8 @@ class OutreachActivitiesController extends Controller
     private $validationMessages = [
         'village_id.required' => 'Desa wajib diisi.',
         'village_id.exists' => 'Desa yang dipilih tidak valid.',
-        'name.required' => 'Nama wajib diisi.',
-        'village_id.required' => 'Desa wajib diisi.',
-        'village_id.exists' => 'Desa yang dipilih tidak valid.',
+        'ppl_nip.required' => 'PPL wajib diisi.',
+        'ppl_nip.exists' => 'PPL yang dipilih tidak valid.',
         'title.required' => 'Judul wajib diisi.',
         'title.string' => 'Judul harus berupa teks.',
         'title.max' => 'Judul maksimal 255 karakter.',
@@ -35,6 +35,7 @@ class OutreachActivitiesController extends Controller
         'notes.string' => 'Catatan harus berupa teks.',
         'activity_report.required' => 'Laporan kegiatan wajib diisi.',
         'activity_report.string' => 'Laporan kegiatan harus berupa teks.',
+        'others_involved.string' => 'Laporan kegiatan harus berupa teks.',
     ];
 
     public function outreachActivitiesRegency(Request $request)
@@ -62,7 +63,10 @@ class OutreachActivitiesController extends Controller
         $villageId = $request->villageId;
         $perpage = $request->perpage ?? 10;
         $search = $request->search;
+        $startDate = $request->startDate; // Tanggal awal
+        $endDate = $request->endDate;     // Tanggal akhir
 
+        // Ambil data distrik dengan kegiatan penyuluhan QUERY GA PENTYING KAYAKNYA INI
         $districtWithOutreachActivities = District::where('regency_id', 5108)->with(['villages' => function ($query) {
             $query->with('landAgricultures');
         }])->get();
@@ -71,7 +75,7 @@ class OutreachActivitiesController extends Controller
 
         $villagesByDistrictId = Village::where('district_id', $districtId)->get();
 
-        // Filter landAgricultures berdasarkan district_id
+        // Filter outreach activities berdasarkan district_id
         $outreachActivityQuery = OutreachActivities::whereHas('village', function ($query) use ($districtId) {
             $query->where('district_id', $districtId);
         });
@@ -80,12 +84,28 @@ class OutreachActivitiesController extends Controller
             $outreachActivityQuery->where('village_id', $villageId);
         }
 
-        if ($search) {
-            $outreachActivityQuery->where('title', 'like', '%' . $search . '%');
+        if ($startDate && $endDate) {
+            if ($startDate == $endDate) {
+                // Jika tanggalnya sama, gunakan whereDate untuk mencocokkan tanggal tersebut secara tepat
+                $outreachActivityQuery->whereDate('created_at', $startDate);
+            } else {
+                // Jika berbeda, gunakan whereBetween
+                $outreachActivityQuery->whereBetween('created_at', [$startDate, $endDate]);
+            }
         }
 
-        $outreachActivitiesInDiscrict = $outreachActivityQuery->with(['village'])->latest()->paginate($perpage);
-        // dd($outreachActivitiesInDiscrict);
+        if ($search) {
+            $outreachActivityQuery->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhereHas('ppl', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        // Paginate hasil pencarian
+        $outreachActivitiesInDiscrict = $outreachActivityQuery->with(['village', 'ppl'])->latest()->paginate($perpage);
+
         return Inertia::render('Backpage/OutreachActivity/ListOutreachActivityDistrict', [
             'navName' => 'Kegiatan Penyuluhan',
             'districtData' => $districtData,
@@ -113,6 +133,7 @@ class OutreachActivitiesController extends Controller
 
         $district = District::firstWhere('id', $districtId);
         $villages = Village::where('district_id', $districtId)->get();
+        $ppls = Ppl::all();
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
@@ -124,6 +145,7 @@ class OutreachActivitiesController extends Controller
             'navName' => 'Tambah Kegiatan Penyuluhan',
             'district' => $district,
             'villages' => $villages,
+            'ppls' => $ppls,
             'gapoktans' => $gapoktans,
             'poktans' => $poktans,
             'subaks' => $subaks,
@@ -139,6 +161,7 @@ class OutreachActivitiesController extends Controller
 
         $validatedData = $request->validate([
             'village_id' => 'required|exists:villages,id',
+            'ppl_nip' => 'required|exists:ppls,nip',
             'title' => 'required|string|max:255',
             'photos.*' => 'required',
             'location' => 'required|json',
@@ -146,6 +169,7 @@ class OutreachActivitiesController extends Controller
             'file' => 'nullable|file|max:10240', // max 10MB
             'notes' => 'required|string',
             'activity_report' => 'required|string',
+            'others_involved' => 'nullable|string',
         ], $this->validationMessages);
 
         $validatedDataRelational = $request->validate([
@@ -200,7 +224,7 @@ class OutreachActivitiesController extends Controller
     public function show(Request $request, string $id)
     {
         $districtId = $request->districtId;
-        $outreachActivityById = OutreachActivities::with(['gapoktanOutreachActivities', 'poktanOutreachActivities', 'subakOutreachActivities', 'village'])->firstWhere('id', $request->id);
+        $outreachActivityById = OutreachActivities::with(['gapoktanOutreachActivities', 'poktanOutreachActivities', 'subakOutreachActivities', 'village', 'ppl'])->firstWhere('id', $request->id);
 
         return Inertia::render('Backpage/OutreachActivity/Detail', [
             'navName' => 'Detail Kegiatan Penyuluhan',
@@ -222,6 +246,7 @@ class OutreachActivitiesController extends Controller
 
         $district = District::firstWhere('id', $districtId);
         $villages = Village::where('district_id', $districtId)->get();
+        $ppls = Ppl::all();
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
@@ -233,6 +258,7 @@ class OutreachActivitiesController extends Controller
             'navName' => 'Edit Kegiatan Penyuluhan',
             'district' => $district,
             'villages' => $villages,
+            'ppls' => $ppls,
             'gapoktans' => $gapoktans,
             'poktans' => $poktans,
             'subaks' => $subaks,
@@ -254,6 +280,7 @@ class OutreachActivitiesController extends Controller
 
         $validatedData = $request->validate([
             'village_id' => 'required|exists:villages,id',
+            'ppl_nip' => 'required|exists:ppls,nip',
             'title' => 'required|string|max:255',
             'photos.*' => 'required',
             'location' => 'required|json',
@@ -261,6 +288,7 @@ class OutreachActivitiesController extends Controller
             'file' => 'nullable|max:10240', // max 10MB
             'notes' => 'required|string',
             'activity_report' => 'required|string',
+            'others_involved' => 'nullable|string',
         ], $this->validationMessages);
 
         $validatedDataRelational = $request->validate([

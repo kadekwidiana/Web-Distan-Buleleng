@@ -2,6 +2,7 @@ import { Toast } from '@/Components/Alert/Toast';
 import Button from '@/Components/Button/Button';
 import InputError from '@/Components/Error/InputError';
 import InputLabel from '@/Components/Input/InputLabel';
+import InputSelect from '@/Components/Input/InputSelect';
 import SelectTwo from '@/Components/Input/InputSelectTwo';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
@@ -22,7 +23,7 @@ export default function EditOutreachActivityPage() {
             }
         )),
     );
-    const { outreachActivityById, gapoktanOutreachActivityIds, poktanOutreachActivityIds, subakOutreachActivityIds, district, villages, gapoktans, poktans, subaks, errors } = usePage().props;
+    const { outreachActivityById, gapoktanOutreachActivityIds, poktanOutreachActivityIds, subakOutreachActivityIds, district, villages, ppls, gapoktans, poktans, subaks, errors } = usePage().props;
 
     const [optionsGapoktan, setOptionsGapoktan] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
     const [selectedValuesGapoktan, setSelectedValuesGapoktan] = useState(gapoktanOutreachActivityIds ?? []); //value options yang di pilih
@@ -32,6 +33,7 @@ export default function EditOutreachActivityPage() {
     const [selectedValuesSubak, setSelectedValuesSubak] = useState(subakOutreachActivityIds ?? []); //value options yang di pilih
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         village_id: outreachActivityById?.village_id,
+        ppl_nip: outreachActivityById?.ppl_nip,
         title: outreachActivityById?.title,
         location: locationInput,
         address: outreachActivityById?.address,
@@ -39,6 +41,7 @@ export default function EditOutreachActivityPage() {
         file: outreachActivityById.file,
         notes: outreachActivityById?.notes,
         activity_report: outreachActivityById?.activity_report,
+        others_involved: outreachActivityById?.others_involved,
         gapoktan_outreach_activities: selectedValuesGapoktan ?? [],
         poktan_outreach_activities: selectedValuesPoktan ?? [],
         subak_outreach_activities: selectedValuesSubak ?? [],
@@ -213,6 +216,22 @@ export default function EditOutreachActivityPage() {
                                 />
                                 <InputError message={errors.village_id} />
                             </div>
+                            <div className="">
+                                <InputLabel>Penyuluh*</InputLabel>
+                                <InputSelect
+                                    error={errors.ppl_nip}
+                                    onChange={handleChange}
+                                    id="ppl_nip"
+                                    name="ppl_nip"
+                                    defaultValue={data.ppl_nip}
+                                >
+                                    <option value="">-- Pilih PPL --</option>
+                                    {ppls.map((ppl, index) => (
+                                        <option key={index} value={ppl.nip}>{ppl.name}</option>
+                                    ))}
+                                </InputSelect>
+                                <InputError message={errors.ppl_nip} />
+                            </div>
                             <div className="w-full">
                                 <InputLabel>Judul Penyuluhan*</InputLabel>
                                 <TextInput error={errors.title} value={data.title} onChange={handleChange} id='title' name='title' placeholder="Judul.." />
@@ -255,6 +274,11 @@ export default function EditOutreachActivityPage() {
                                 <InputLabel>Subak yang terlibat</InputLabel>
                                 <MultiSelect title={'-- Pilih subak --'} onChange={setSelectedValuesSubak} options={optionsSubak} value={selectedValuesSubak} error={errors.subak_outreach_activities} />
                                 <InputError message={errors.subak_outreach_activities} />
+                            </div>
+                            <div className="w-full">
+                                <InputLabel>Lainnya yang terlibat</InputLabel>
+                                <TextInput error={errors.others_involved} value={data.others_involved} onChange={handleChange} id='others_involved' name='others_involved' placeholder="Lainnya.." />
+                                <InputError message={errors.others_involved} />
                             </div>
                         </div>
                         <div className="flex flex-col gap-3">

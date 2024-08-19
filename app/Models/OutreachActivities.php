@@ -16,6 +16,7 @@ class OutreachActivities extends Model
      */
     protected $fillable = [
         'village_id',
+        'ppl_nip',
         'title',
         'location',
         'address',
@@ -23,6 +24,7 @@ class OutreachActivities extends Model
         'file',
         'notes',
         'activity_report',
+        'others_involved',
     ];
 
     /**
@@ -32,6 +34,8 @@ class OutreachActivities extends Model
      */
     protected $casts = [
         'location' => 'json',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
@@ -45,6 +49,11 @@ class OutreachActivities extends Model
     public function village()
     {
         return $this->belongsTo(Village::class, 'village_id');
+    }
+
+    public function ppl()
+    {
+        return $this->belongsTo(Ppl::class);
     }
 
     public function gapoktanOutreachActivities()

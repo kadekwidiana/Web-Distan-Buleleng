@@ -9,8 +9,8 @@ import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
 import { useStore } from '@/Store/Index.store';
-import { ABILITY_CLASSES } from '@/Utils/Constan/Class';
-import { CONFIRMATION_STATUSES, GROUP_STATUSES } from '@/Utils/Constan/Status';
+import { ABILITY_CLASSES } from '@/Constant/Class';
+import { CONFIRMATION_STATUSES, GROUP_STATUSES } from '@/Constant/Status';
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
@@ -220,8 +220,8 @@ export default function StepOneCreateGapoktanPage() {
                 <InputError message={errors.year_of_class_assignment} />
               </div>
               <div className="">
-                <InputLabel>Komoditas Yang Di Usahakan*</InputLabel>
-                <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
+                <InputLabel>Komoditas Yang Di Usahakan</InputLabel>
+                <MultiSelect title={'-- Pilih komoditas --'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>
             </div>

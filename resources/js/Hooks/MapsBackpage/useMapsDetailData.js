@@ -5,11 +5,11 @@ import L from 'leaflet';
 // leaflet draw
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet-draw/dist/leaflet.draw'
-import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Utils/Constan/Basemap";
+import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, GOOGLE_STREET_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Constant/Basemap";
 
 const useMapsDetailData = (data) => {
     useEffect(() => {
-        const GOOGLE_STREET_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+        const GOOGLE_HYBRID_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
             attribution: ATRIBUTE_NAME,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
             maxZoom: 20
@@ -18,7 +18,7 @@ const useMapsDetailData = (data) => {
         const coorBali = [-8.198517680287658, 115.10051848149178];
 
         const map = L.map('maps', {
-            layers: [GOOGLE_STREET_MAP],
+            layers: [GOOGLE_HYBRID_MAP],
             center: data.location ?? coorBali,
             zoom: 18,
             // minZoom: ,

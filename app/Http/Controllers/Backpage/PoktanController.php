@@ -167,7 +167,7 @@ class PoktanController extends Controller
             'secretary' => 'required|string|max:50',
             'treasurer' => 'required|string|max:50',
             'number_of_members' => 'required|integer',
-            'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'commodities' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'since' => 'required|string|max:4',
             'status' => 'required|string',
             'ability_class' => 'required|string',
@@ -284,7 +284,7 @@ class PoktanController extends Controller
             'secretary' => 'required|string|max:50',
             'treasurer' => 'required|string|max:50',
             'number_of_members' => 'required|integer',
-            'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'commodities' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'since' => 'required|string|max:4',
             'status' => 'required|string',
             'ability_class' => 'required|string',

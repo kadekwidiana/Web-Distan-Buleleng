@@ -4,8 +4,8 @@ import DataNotFound from '@/Components/Error/DataNotFound';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
 import BackpageLayout from '@/Layouts/BackpageLayout'
-import { EMPLOYEE_STATUSES } from '@/Utils/Constan/Status';
-import { TYPE_DATA_SPATIALS } from '@/Utils/Constan/Type';
+import { EMPLOYEE_STATUSES } from '@/Constant/Status';
+import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
@@ -138,7 +138,7 @@ export default function DatSpatialPage() {
                             <Table.HeadCell className='w-5'>NO</Table.HeadCell>
                             <Table.HeadCell>NAMA</Table.HeadCell>
                             <Table.HeadCell>TIPE SPASIAL</Table.HeadCell>
-                            <Table.HeadCell>FILE</Table.HeadCell>
+                            <Table.HeadCell>WARNA</Table.HeadCell>
                             <Table.HeadCell className='flex justify-center'>
                                 AKSI
                             </Table.HeadCell>
@@ -156,11 +156,10 @@ export default function DatSpatialPage() {
                                         {dataSpatial.type}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
-                                        {dataSpatial.file ?
-                                            <a href={`/storage/${dataSpatial.file}`} target='_blank' className="w-28 p-1 border rounded-md text-white bg-cyan-800">Cek File</a>
-                                            :
-                                            '-'
-                                        }
+                                        <div
+                                            className="w-5 h-5"
+                                            style={{ backgroundColor: dataSpatial.color }}
+                                        ></div>
                                     </Table.Cell>
                                     <Table.Cell className='flex justify-center items-center gap-3'>
                                         <Link href={`/data-spasial/${dataSpatial.id}`}>

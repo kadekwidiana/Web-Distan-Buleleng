@@ -19,16 +19,6 @@ const SidebarMenus = () => {
                 subMenus={
                     <>
                         <SidebarMenu
-                            href={'/master-data/komoditas'}
-                            icon={<i className="fa-solid fa-database"></i>}
-                            label={'Komoditas'}
-                        />
-                        <SidebarMenu
-                            href={'/master-data/layer-grup'}
-                            icon={<i className="fa-solid fa-database"></i>}
-                            label={'Layer Grup'}
-                        />
-                        <SidebarMenu
                             href={'/master-data/jenis-pertanian'}
                             icon={<i className="fa-solid fa-database"></i>}
                             label={'Jenis Pertanian'}
@@ -38,6 +28,16 @@ const SidebarMenus = () => {
                             icon={<i className="fa-solid fa-database"></i>}
                             label={'Jenis Lahan Pertanian'}
                         />
+                        <SidebarMenu
+                            href={'/master-data/komoditas'}
+                            icon={<i className="fa-solid fa-database"></i>}
+                            label={'Komoditas'}
+                        />
+                        {/* <SidebarMenu
+                            href={'/master-data/layer-grup'}
+                            icon={<i className="fa-solid fa-database"></i>}
+                            label={'Layer Grup'}
+                        /> */}
                     </>
                 }
             />
@@ -66,6 +66,11 @@ const SidebarMenus = () => {
                 }
             />
             <SidebarMenu
+                href={'/pemilik-penggarap'}
+                icon={<i className="fa-solid fa-user"></i>}
+                label={'Pemilik/Penggarap Lahan'}
+            />
+            <SidebarMenu
                 href={'/lahan_pertanian'}
                 icon={<i className="fa-solid fa-chart-area"></i>}
                 label={'Lahan Pertanian'}
@@ -88,28 +93,13 @@ const SidebarMenus = () => {
             <DropdownMenu
                 icon={<i className="fa-solid fa-file"></i>}
                 label={'Management Laporan'}
-                url={'#'}
+                url={'/management-report'}
                 subMenus={
                     <>
                         <SidebarMenu
-                            href={'#'}
+                            href={'/management-report/penyuluhan'}
                             icon={<i className="fa-solid fa-file"></i>}
-                            label={'Laporan?'}
-                        />
-                        <SidebarMenu
-                            href={'#'}
-                            icon={<i className="fa-solid fa-file"></i>}
-                            label={'Laporan?'}
-                        />
-                        <SidebarMenu
-                            href={'#'}
-                            icon={<i className="fa-solid fa-file"></i>}
-                            label={'Laporan?'}
-                        />
-                        <SidebarMenu
-                            href={'#'}
-                            icon={<i className="fa-solid fa-file"></i>}
-                            label={'Laporan?'}
+                            label={'Penyuluhan'}
                         />
                     </>
                 }

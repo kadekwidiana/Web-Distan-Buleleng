@@ -20,9 +20,13 @@
     },
     "dependencies": {
         "@tanstack/react-query": "^5.45.1",
+        "@turf/turf": "^7.1.0",
         "chart.js": "^4.4.3",
         "date-fns": "^3.6.0",
         "flowbite-react": "^0.8.0",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.8.2",
         "leaflet": "^1.9.4",
         "leaflet-draw": "^1.0.4",
         "lodash": "^4.17.21",

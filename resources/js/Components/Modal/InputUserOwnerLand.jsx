@@ -1,20 +1,34 @@
 import { Modal } from 'flowbite-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import TextInputArea from '../Input/TextInputArea';
 import TextInput from '../Input/TextInput';
 import Button from '../Button/Button';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { Toast } from '../Alert/Toast';
 import InputLabel from '../Input/InputLabel';
+import Swal from 'sweetalert2';
 
-export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
+export default function ModalInputUserOwnerLand({ openModal, setOpenModal, personById, isUpdate }) {
+    const { auth } = usePage().props;
+    const isAdmin = auth.user.role === 'ADMIN';
     const [nik, setNik] = useState('');
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        if (isUpdate && personById) {
+            setNik(personById.nik);
+            setName(personById.name);
+            setAddress(personById.address);
+            setPhoneNumber(personById.phone_number);
+        } else {
+            resetForm();
+        }
+    }, [isUpdate, personById]);
 
     const resetForm = () => {
         setNik('');
@@ -25,24 +39,37 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
         setLoading(false);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         setLoading(true);
         setErrors({});
         try {
-            const response = await axios.post('/owner', {
-                nik,
-                name,
-                address,
-                phone_number: phoneNumber,
-            });
+            if (isUpdate && personById) {
+                console.log('calll')
+                await axios.post(`/pemilik-penggarap/${personById.id}/update`, {
+                    nik,
+                    name,
+                    address,
+                    phone_number: phoneNumber,
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Data berhasil di edit.",
+                });
+            } else {
+                await axios.post('/pemilik-penggarap', {
+                    nik,
+                    name,
+                    address,
+                    phone_number: phoneNumber,
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Data berhasil di simpan.",
+                });
+            }
             resetForm();
             setOpenModal(false);
             router.reload();
-            Toast.fire({
-                icon: "success",
-                title: "Data berhasil di simpan.",
-            });
         } catch (error) {
             if (error.response && error.response.data && error.response.data.errors) {
                 setErrors(error.response.data.errors);
@@ -54,14 +81,32 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
         }
     };
 
+    const submitConfirmation = (e) => {
+        e.preventDefault(); // Pastikan form tidak submit secara otomatis
+        Swal.fire({
+            title: "Konfirmasi Data",
+            text: "Apakah Anda yakin data yang diinput sudah benar? Setelah disimpan, data ini hanya dapat diubah oleh ADMIN.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Simpan",
+            cancelButtonText: "Periksa Kembali",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleSubmit();
+            }
+        });
+    };
+
     return (
         <Modal show={openModal} onClose={() => {
             resetForm();
             setOpenModal(false);
         }}>
-            <Modal.Header>Tambah Data Pemilik Lahan</Modal.Header>
+            <Modal.Header>Tambah Data Pemilik/Penggarap Lahan</Modal.Header>
             <Modal.Body>
-                <form onSubmit={handleSubmit} className="space-y-2">
+                <form onSubmit={submitConfirmation} className="space-y-2">
                     <div>
                         <InputLabel htmlFor="nik">NIK*</InputLabel>
                         <TextInput
@@ -70,7 +115,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                             onChange={(e) => setNik(e.target.value)}
                             required
                             error={errors.nik}
-                            placeholder="Masukkan NIK"
+                            placeholder="NIK..."
                         />
                         {errors.nik && <p className="text-red-500 text-sm">{errors.nik}</p>}
                     </div>
@@ -82,19 +127,18 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                             onChange={(e) => setName(e.target.value)}
                             required
                             error={errors.name}
-                            placeholder="Masukkan Nama"
+                            placeholder="Nama..."
                         />
                         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                     </div>
                     <div>
-                        <InputLabel htmlFor="phone_number">Nomor Telepon*</InputLabel>
+                        <InputLabel htmlFor="phone_number">Nomor Telepon</InputLabel>
                         <TextInput
                             id="phone_number"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
-                            required
                             error={errors.phone_number}
-                            placeholder="Masukkan Nomor Telepon"
+                            placeholder="Nomor Telepon..."
                         />
                         {errors.phone_number && <p className="text-red-500 text-sm">{errors.phone_number}</p>}
                     </div>
@@ -105,8 +149,8 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             required
-                            placeholder="Masukkan Alamat"
-                            error={errors.address ? errors.address : ''}
+                            placeholder="Alamat..."
+                            error={errors.address}
                         />
                         {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
                     </div>
@@ -119,7 +163,7 @@ export default function ModalInputUserOwnerLand({ openModal, setOpenModal }) {
                 }} disabled={loading}>
                     Batal
                 </Button>
-                <Button onClick={handleSubmit} disabled={loading}>
+                <Button onClick={isAdmin ? handleSubmit : submitConfirmation} disabled={loading}>
                     {loading ? 'Simpan...' : 'Simpan'}
                 </Button>
             </Modal.Footer>

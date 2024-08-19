@@ -140,8 +140,9 @@ export default function ListOutreachActivitiesInDistrictPage() {
                     <Table striped>
                         <Table.Head>
                             <Table.HeadCell className='w-5'>NO</Table.HeadCell>
+                            <Table.HeadCell>PENYULUH</Table.HeadCell>
                             <Table.HeadCell>JUDUL</Table.HeadCell>
-                            <Table.HeadCell>LOKASI</Table.HeadCell>
+                            <Table.HeadCell>DESA</Table.HeadCell>
                             <Table.HeadCell className='flex justify-center'>
                                 AKSI
                             </Table.HeadCell>
@@ -153,10 +154,13 @@ export default function ListOutreachActivitiesInDistrictPage() {
                                         {index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                                        {outreachActivity.ppl.name}
+                                    </Table.Cell>
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {outreachActivity.title}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
-                                        {outreachActivity.address}
+                                        {outreachActivity.village.name}
                                     </Table.Cell>
                                     <Table.Cell className='flex justify-center items-center gap-3'>
                                         <Link href={`/penyuluhan/kecamatan/${districtData.id}/${outreachActivity.id}/detail`}>

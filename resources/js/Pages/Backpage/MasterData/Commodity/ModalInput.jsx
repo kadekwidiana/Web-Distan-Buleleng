@@ -10,7 +10,7 @@ import { Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 
 export default function ModalInputCommodity({ openModal, setOpenModal, typeAgricultures, commodityById, isUpdate }) {
-    console.log(isUpdate);
+    // console.log(isUpdate);
     const [typeAgricultureId, setTypeAgricultureId] = useState('');
     const [name, setName] = useState('');
     const [icon, setIcon] = useState(null);

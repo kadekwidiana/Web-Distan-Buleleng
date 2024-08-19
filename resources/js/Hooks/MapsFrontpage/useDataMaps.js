@@ -1,4 +1,6 @@
 import { AxiosInstance } from "@/Services/AxiosConfig";
+import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
+import { generateCommoditiesCycleHtml } from "@/Utils/generateCommoditiesCycleHtml";
 import L from 'leaflet';
 import shp from 'shpjs';
 
@@ -138,6 +140,7 @@ const useDataMaps = (map, dataLayers) => {
     const setDataGapoktans = (dataGapoktan, layer) => {
         const iconUrl = dataGapoktan.icon; // URL ikon diambil dari dataGapoktan.icon
         const marker = L.marker(dataGapoktan.location, { icon: customIcon(iconUrl) });
+        // console.log(dataGapoktan.created_at);
 
         const swiperId = `swiper-${Math.random().toString(36).substring(7)}`;
 
@@ -170,6 +173,9 @@ const useDataMaps = (map, dataLayers) => {
                             <strong>Usaha pertanian:</strong> ${dataGapoktan.farming_business}</br >
                             <strong>Proses bisnis:</strong> ${dataGapoktan.business_process}</br >
                             <strong>Deskripsi:</strong> ${dataGapoktan.description}</br >
+                            <strong>Lihat lokasi:</strong><a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataGapoktan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
+                            <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataGapoktan.created_at)}</br >
+                            <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataGapoktan.updated_at)}</br >
                         </div >
                     `;
 
@@ -227,6 +233,9 @@ const useDataMaps = (map, dataLayers) => {
                                 <strong>Tahun berdiri:</strong> ${dataPoktan.since}</br >
                                 <strong>Alamat:</strong> ${dataPoktan.address}</br >
                                 <strong>Deskripsi:</strong> ${dataPoktan.description}</br >
+                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataPoktan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
+                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataPoktan.created_at)}</br >
+                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataPoktan.updated_at)}</br >
                             </div>
                         `;
 
@@ -284,6 +293,9 @@ const useDataMaps = (map, dataLayers) => {
                                 <strong>Tahun berdiri:</strong> ${dataSubak.since}</br >
                                 <strong>Alamat:</strong> ${dataSubak.address}</br >
                                 <strong>Deskripsi:</strong> ${dataSubak.description}</br >
+                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataSubak.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
+                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataSubak.created_at)}</br >
+                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataSubak.updated_at)}</br >
                             </div >
                         `;
 
@@ -312,6 +324,7 @@ const useDataMaps = (map, dataLayers) => {
         const iconUrl = dataLahan.icon; // URL ikon diambil dari dataLahan.icon
         const marker = L.marker(dataLahan.location, { icon: customIcon(iconUrl) });
         let polygon = L.geoJSON(dataLahan.area_json).addTo(layer);
+        // console.log(dataLahan.commodities_cycle);
 
         const swiperId = `swiper-${Math.random().toString(36).substring(7)}`;
 
@@ -338,13 +351,18 @@ const useDataMaps = (map, dataLayers) => {
                                     <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                 </div>
                                 <strong>Pemilik:</strong> ${dataLahan?.owner?.name}</br >
+                                <strong>Pemilik:</strong> ${dataLahan?.cultivator?.name}</br >
                                 <strong>Alamat:</strong> ${dataLahan.address}</br >
-                                <strong>Luas lahan:</strong> ${dataLahan.land_area} m2</br >
+                                <strong>Luas lahan:</strong> ${dataLahan.land_area} are (m²)</br >
                                 <strong>Jenis lahan:</strong> ${dataLahan.type_land_agriculture.name}</br >
-                                <strong>Komoditas lahan:</strong> ${dataLahan.commodities.map((commodity => commodity.name + ', '))}</br >
-                                <strong>Poktan:</strong> ${dataLahan?.poktan?.name ?? '-'}</br >
-                                <strong>Subak:</strong> ${dataLahan?.subak?.name ?? '-'}</br >
+                                <strong>Komoditas lahan:</strong> ${dataLahan.commodities.map(commodity => commodity.name).join(', ')}<br />
+                                <strong>Siklus Komoditas:</strong> ${generateCommoditiesCycleHtml(JSON.parse(dataLahan.commodities_cycle))}<br />
+                                <strong>Tergabung di Poktan:</strong> ${dataLahan?.poktan?.name ?? '-'}</br >
+                                <strong>Tergabung di Subak:</strong> ${dataLahan?.subak?.name ?? '-'}</br >
                                 <strong>Deskripsi:</strong> ${dataLahan.description}</br >
+                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataLahan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
+                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataLahan.created_at)}</br >
+                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataLahan.updated_at)}</br >
                             </div>
                         `;
 
@@ -374,7 +392,6 @@ const useDataMaps = (map, dataLayers) => {
         dataCommodity.land_agricultures.forEach(landAgriculture => {
             const marker = L.marker(landAgriculture.location, { icon: customIcon(iconUrl) });
 
-            // console.log(landAgriculture.area_json);  
             // Generate unique ID for the swiper container
             const swiperId = `swiper-${Math.random().toString(36).substring(7)}`;
 
@@ -385,25 +402,37 @@ const useDataMaps = (map, dataLayers) => {
                 console.error("Invalid JSON string for photos", e);
             }
 
+            let commoditiesCycle = [];
+            try {
+                // Parse and filter the commodities_cycle for the current commodity
+                commoditiesCycle = JSON.parse(landAgriculture.commodities_cycle).filter(cycle => cycle.name === dataCommodity.name);
+            } catch (e) {
+                console.error("Invalid JSON string for commodities_cycle", e);
+            }
+
             const popupContent = `
-                                <div>
-                                    <strong>Komoditas ${dataCommodity.name}</strong>
-                                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
-                                        <div class="swiper-wrapper">
-                                            ${photos.map(photo => `
-                                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
-                                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
-                                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
-                                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
-                                    </div>
-                                    <strong>Luas lahan:</strong> ${landAgriculture.land_area} m2</br>
-                                    <strong>Alamat:</strong> ${landAgriculture.address} </br>
+                <div>
+                    <strong>Komoditas ${dataCommodity.name}</strong>
+                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                        <div class="swiper-wrapper">
+                            ${photos.map(photo => `
+                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
                                 </div>
-                            `;
+                            `).join('')}
+                        </div>
+                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
+                    </div>
+                    <strong>Luas lahan:</strong> ${landAgriculture.land_area} are (m2)</br>
+                    <strong>Siklus Komoditas:</strong> ${generateCommoditiesCycleHtml(commoditiesCycle)}<br />
+                    <strong>Alamat:</strong> ${landAgriculture.address} </br>
+                    <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${landAgriculture.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
+                    <strong>Data dibuat:</strong> ${formatDateToIndonesian(landAgriculture.created_at)}</br >
+                    <strong>Data diupdate:</strong> ${formatDateToIndonesian(landAgriculture.updated_at)}</br >
+                </div>
+            `;
 
             marker.bindPopup(popupContent);
             marker.addTo(layer);
@@ -484,11 +513,21 @@ const useDataMaps = (map, dataLayers) => {
         }
     };
 
-    const fetchDataGeoJson = async (dataGeoJson, layer) => {
+    const fetchDataGeoJson = async (dataGeoJson, layer, color) => {
         try {
             const response = await axios.get(dataGeoJson);
+            const geojsonData = response.data;
 
-            L.geoJSON(response.data, {
+            L.geoJSON(geojsonData, {
+                style: (feature) => {
+                    // Mengatur warna berdasarkan properti `color` pada dataSpatial atau fitur GeoJSON
+                    // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
+                    return {
+                        color: color,
+                        weight: 2,
+                        opacity: 1
+                    };
+                },
                 onEachFeature: onEachFeatureTwo
             }).addTo(layer);
 
@@ -497,17 +536,30 @@ const useDataMaps = (map, dataLayers) => {
         }
     };
 
-    const fetchShapefileFromZip = async (url, layer) => {
+
+    const fetchShapefileFromZip = async (url, layer, color) => {
         try {
+            // Ambil file shapefile dari URL
             const response = await axios({
                 method: "GET",
                 url,
                 responseType: 'arraybuffer'
             });
 
+            // Konversi shapefile ke GeoJSON
             const geojsonConvert = await shp(response.data);
 
+            // Tambahkan GeoJSON ke layer dengan style yang dikonfigurasi
             L.geoJSON(geojsonConvert, {
+                style: (feature) => {
+                    // Ambil warna dari properti atau tetapkan warna default
+                    // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
+                    return {
+                        color: color,
+                        weight: 2,
+                        opacity: 1
+                    };
+                },
                 onEachFeature: onEachFeatureTwo
             }).addTo(layer);
 
@@ -520,15 +572,15 @@ const useDataMaps = (map, dataLayers) => {
         layerGroups[dataSpatial.name] = L.layerGroup();
         checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
         // 123 adalah data kewilayahan yang function nya udah di set custom
-        if ([1, 2, 3].includes(dataSpatial.id)) {
-            fetchDataGeoJsonRegion(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
-        } else {
-            if (dataSpatial.file.endsWith('.geojson')) {
-                fetchDataGeoJson(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
-            } else if (dataSpatial.file.endsWith('.zip')) {
-                fetchShapefileFromZip(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
-            }
+        // if ([1, 2, 3].includes(dataSpatial.id)) {
+        //     fetchDataGeoJsonRegion(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
+        // } else {
+        if (dataSpatial.file.endsWith('.geojson')) {
+            fetchDataGeoJson(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name], dataSpatial.color);
+        } else if (dataSpatial.file.endsWith('.zip')) {
+            fetchShapefileFromZip(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name], dataSpatial.color);
         }
+        // }
     });
 
 }

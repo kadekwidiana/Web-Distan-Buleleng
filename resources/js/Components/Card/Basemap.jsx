@@ -6,7 +6,7 @@ export default function CardBasemap({ value, img, basemapName }) {
             <div className="">
                 <img src={img} alt={basemapName} className="w-32 h-28 object-cover border rounded-md border-gray-400" />
                 <div className="flex justify-start items-center gap-1">
-                    <input className="form-check-input" type="radio" name="basemap" id={value} value={value} defaultChecked={basemapName === 'Street'} />
+                    <input className="form-check-input" type="radio" name="basemap" id={value} value={value} defaultChecked={basemapName === 'Hybrid'} />
                     <span>
                         {basemapName}
                     </span>

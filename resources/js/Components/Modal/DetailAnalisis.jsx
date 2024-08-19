@@ -6,7 +6,7 @@ import { useState } from "react";
 import LineChartDetailAnalisis from "../Grafik/LineChartDetailAnalisis";
 import InputLabel from "../Input/InputLabel";
 import InputSelect from "../Input/InputSelect";
-import { YEARRANGE } from "@/Utils/Constan/Index";
+import { YEARRANGE } from "@/Constant/Index";
 
 export default function DetailAnalisis({ yearRange, dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {
     const [openModal, setOpenModal] = useState(false);

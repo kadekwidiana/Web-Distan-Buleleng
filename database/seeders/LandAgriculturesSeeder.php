@@ -20,8 +20,9 @@ class LandAgriculturesSeeder extends Seeder
                 'poktan_id' => 1,
                 'subak_id' => 1,
                 'type_land_agriculture_id' => 1,
-                'layer_group_id' => 2,
+                'layer_group_id' => 3,
                 'owner_id' => 8, // ID of I Made Wardana
+                'cultivator_id' => 8, // ID of I Made Wardana
                 'location' => json_encode([-8.1501923615788, 115.10028998387088]),
                 'address' => 'Jl. Raya Pertanian No.1, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -44,6 +45,7 @@ class LandAgriculturesSeeder extends Seeder
                 'icon' => '/assets/icons/icon-layer/lahan-pertanian.png',
                 'photo' => json_encode(['/assets/images/lahan/lahan-1.jpg', '/assets/images/lahan/lahan-2.jpg', '/assets/images/lahan/lahan-3.jpg']),
                 'description' => 'Lahan ini digunakan untuk budidaya padi dengan sistem irigasi tradisional.',
+                'commodities_cycle' => json_encode([]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -53,8 +55,9 @@ class LandAgriculturesSeeder extends Seeder
                 'poktan_id' => 2,
                 'subak_id' => 1,
                 'type_land_agriculture_id' => 2,
-                'layer_group_id' => 2,
+                'layer_group_id' => 3,
                 'owner_id' => 9, // ID of Ni Ketut Purnami
+                'cultivator_id' => 9,
                 'location' => json_encode([-8.15750846905577, 115.1020437383925]),
                 'address' => 'Jl. Raya Pertanian No.2, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -77,6 +80,7 @@ class LandAgriculturesSeeder extends Seeder
                 'icon' => '/assets/icons/icon-layer/lahan-pertanian.png',
                 'photo' => json_encode(['/assets/images/lahan/lahan-1.jpg', '/assets/images/lahan/lahan-2.jpg', '/assets/images/lahan/lahan-3.jpg']),
                 'description' => 'Lahan ini digunakan untuk budidaya sayuran dengan metode pertanian organik.',
+                'commodities_cycle' => json_encode([]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -86,8 +90,9 @@ class LandAgriculturesSeeder extends Seeder
                 'poktan_id' => 1,
                 'subak_id' => 2,
                 'type_land_agriculture_id' => 1,
-                'layer_group_id' => 2,
+                'layer_group_id' => 3,
                 'owner_id' => 8, // ID of I Made Wardana
+                'cultivator_id' => 8,
                 'location' => json_encode([-8.150564370273274, 115.09603086574704]),
                 'address' => 'Jl. Raya Pertanian No.3, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -110,6 +115,7 @@ class LandAgriculturesSeeder extends Seeder
                 'icon' => '/assets/icons/icon-layer/lahan-pertanian.png',
                 'photo' => json_encode(['/assets/images/lahan/lahan-1.jpg', '/assets/images/lahan/lahan-2.jpg', '/assets/images/lahan/lahan-3.jpg']),
                 'description' => 'Lahan ini digunakan untuk budidaya tanaman hortikultura.',
+                'commodities_cycle' => json_encode([]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -119,8 +125,9 @@ class LandAgriculturesSeeder extends Seeder
                 'poktan_id' => 2,
                 'subak_id' => 2,
                 'type_land_agriculture_id' => 2,
-                'layer_group_id' => 2,
+                'layer_group_id' => 3,
                 'owner_id' => 8, // ID of I Made Wardana
+                'cultivator_id' => 8,
                 'location' => json_encode([-8.1762321339242, 115.10705446559706]),
                 'address' => 'Jl. Raya Pertanian No.4, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -143,6 +150,7 @@ class LandAgriculturesSeeder extends Seeder
                 'icon' => '/assets/icons/icon-layer/lahan-pertanian.png',
                 'photo' => json_encode(['/assets/images/lahan/lahan-1.jpg', '/assets/images/lahan/lahan-2.jpg', '/assets/images/lahan/lahan-3.jpg']),
                 'description' => 'Lahan ini digunakan untuk budidaya kopi.',
+                'commodities_cycle' => json_encode([]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -152,8 +160,9 @@ class LandAgriculturesSeeder extends Seeder
                 'poktan_id' => 1,
                 'subak_id' => 1,
                 'type_land_agriculture_id' => 1,
-                'layer_group_id' => 2,
+                'layer_group_id' => 3,
                 'owner_id' => 9, // ID of Ni Ketut Purnami
+                'cultivator_id' => 9,
                 'location' => json_encode([-8.191855181906336, 115.10943456118594]),
                 'address' => 'Jl. Raya Pertanian No.5, Sambangan, Kec. Sukasada, Kab. Buleleng',
                 'area_json' => json_encode(
@@ -176,6 +185,7 @@ class LandAgriculturesSeeder extends Seeder
                 'icon' => '/assets/icons/icon-layer/lahan-pertanian.png',
                 'photo' => json_encode(['/assets/images/lahan/lahan-1.jpg', '/assets/images/lahan/lahan-2.jpg', '/assets/images/lahan/lahan-3.jpg']),
                 'description' => 'Lahan ini digunakan untuk budidaya tanaman perkebunan.',
+                'commodities_cycle' => json_encode([]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

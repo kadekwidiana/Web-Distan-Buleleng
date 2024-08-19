@@ -43,6 +43,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('cultivator_id');
+            $table->foreign('cultivator_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->json('location');
             $table->text('address');
             $table->json('area_json');
@@ -51,6 +56,7 @@ return new class extends Migration
             $table->string('icon')->default('/assets/icons/icon-layer/lahan-pertanian.png');
             $table->text('photo');
             $table->text('description')->nullable();
+            $table->json('commodities_cycle')->nullable();
             $table->timestamps();
         });
     }

@@ -24,15 +24,26 @@ export const SidebarLayer = () => {
                 {/* LAYER GROUP */}
                 {layerGroups && layerGroups.map((layerGroup) => (
                     <DropdownLayer key={layerGroup.name} layerName={layerGroup.name} showLayers={true}>
-                        {/* DATA SPATIAL */}
-                        {dataSpatials.map((dataSpatial) => (
-                            dataSpatial.layer_group_id === layerGroup.id ?
-                                <CheckboxLayer key={dataSpatial.id} id={dataSpatial.name} icon={dataSpatial.icon} label={dataSpatial.name} />
-                                :
-                                null
-                        ))}
-                        {/* TYPE AGRICULTURE */}
-                        {layerGroup.name === 'Komoditas' ?
+                        {/* ORGANISASI PERTANIAN */}
+                        {layerGroup.name === 'Kelembagaan Pertanian' ?
+                            <div>
+                                <CheckboxLayer id={'layer_gapoktan'} icon={gapoktans[0].icon} label={'Gabungan Kelompok Tani'} />
+                                <CheckboxLayer id={'layer_poktan'} icon={poktans[0].icon} label={'Kelompok Tani'} />
+                                <CheckboxLayer id={'layer_subak'} icon={subaks[0].icon} label={'Subak'} />
+                            </div>
+                            :
+                            null
+                        }
+                        {/* LAHAN */}
+                        {layerGroup.name === 'Lahan' ?
+                            <div>
+                                <CheckboxLayer id={'layer_lahan_pertanian'} icon={landAgricultures[0].icon} label={'Lahan Pertanian'} />
+                            </div>
+                            :
+                            null
+                        }
+                        {/* KOMODITAS LAHAN */}
+                        {layerGroup.name === 'Komoditas Lahan' ?
                             typeAgricultures.map((typeAgriculture) => (
                                 <DropdownSubLayers key={typeAgriculture.id} subLayerName={typeAgriculture.name} showingSubLayer={true}>
                                     {commodities.map((commodity) => (
@@ -46,18 +57,13 @@ export const SidebarLayer = () => {
                             :
                             null
                         }
-
-                        {/* ORGANISASI PERTANIAN */}
-                        {layerGroup.name === 'Pertanian' ?
-                            <div>
-                                <CheckboxLayer id={'layer_gapoktan'} icon={gapoktans[0].icon} label={'Gabungan Kelompok Tani'} />
-                                <CheckboxLayer id={'layer_poktan'} icon={poktans[0].icon} label={'Kelompok Tani'} />
-                                <CheckboxLayer id={'layer_subak'} icon={subaks[0].icon} label={'Subak'} />
-                                <CheckboxLayer id={'layer_lahan_pertanian'} icon={landAgricultures[0].icon} label={'Lahan Pertanian'} />
-                            </div>
-                            :
-                            null
-                        }
+                        {/* DATA SPATIAL */}
+                        {dataSpatials.map((dataSpatial) => (
+                            dataSpatial.layer_group_id === layerGroup.id ?
+                                <CheckboxLayer key={dataSpatial.id} id={dataSpatial.name} icon={dataSpatial.icon} color={dataSpatial.color} label={dataSpatial.name} />
+                                :
+                                null
+                        ))}
                     </DropdownLayer>
                 ))}
             </div>

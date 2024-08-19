@@ -7,10 +7,10 @@ import MultiSelect from "@/Components/Input/MultiSelect";
 import TextInput from "@/Components/Input/TextInput";
 import TextInputArea from "@/Components/Input/TextInputArea";
 import BackpageLayout from "@/Layouts/BackpageLayout";
-import { GENDERS } from "@/Utils/Constan/Gender";
-import { RELIGIONS } from "@/Utils/Constan/Religion";
-import { DATA_STATUSES, EMPLOYEE_STATUSES } from "@/Utils/Constan/Status";
-import { TYPE_DATA_SPATIALS } from "@/Utils/Constan/Type";
+import { GENDERS } from "@/Constant/Gender";
+import { RELIGIONS } from "@/Constant/Religion";
+import { DATA_STATUSES, EMPLOYEE_STATUSES } from "@/Constant/Status";
+import { TYPE_DATA_SPATIALS } from "@/Constant/Type";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { Banner } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -19,13 +19,13 @@ export default function CreateDataSpatialPage() {
     const { layerGroup, errors } = usePage().props;
 
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
-        layer_group_id: "",
+        layer_group_id: 5,
         name: "",
         url: "",
         file: null,
         type: "",
         status: "ACTIVE",
-        attribute: "",
+        color: "#000000",
         description: "",
     });
 
@@ -89,11 +89,11 @@ export default function CreateDataSpatialPage() {
                                 <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama data spasial..." />
                                 <InputError message={errors.name} />
                             </div>
-                            <div className="">
+                            {/* <div className="">
                                 <InputLabel>Url</InputLabel>
                                 <TextInput error={errors.url} defaultValue={data.url} onChange={handleChange} id='url' name='url' placeholder="Url..." />
                                 <InputError message={errors.url} />
-                            </div>
+                            </div> */}
                             <div className="w-full">
                                 <InputLabel>File</InputLabel>
                                 <input
@@ -107,13 +107,15 @@ export default function CreateDataSpatialPage() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-3">
-                            <div className="">
+                            {/* <div className="">
                                 <InputLabel>Layer Grup*</InputLabel>
                                 <InputSelect
                                     error={errors.layer_group_id}
                                     onChange={handleChange}
                                     id="layer_group_id"
                                     name="layer_group_id"
+                                    defaultValue={data.layer_group_id}
+                                    disabled
                                 >
                                     <option value="" defaultChecked>-- Pilih jenis layer --</option>
                                     {layerGroup.map((layer, index) => (
@@ -121,7 +123,7 @@ export default function CreateDataSpatialPage() {
                                     ))}
                                 </InputSelect>
                                 <InputError message={errors.layer_group_id} />
-                            </div>
+                            </div> */}
                             <div className="">
                                 <InputLabel>Status*</InputLabel>
                                 <InputSelect
@@ -138,9 +140,9 @@ export default function CreateDataSpatialPage() {
                                 <InputError message={errors.status} />
                             </div>
                             <div className="">
-                                <InputLabel>Attribute*</InputLabel>
-                                <TextInput error={errors.attribute} defaultValue={data.attribute} onChange={handleChange} id='attribute' name='attribute' placeholder="Atributte..." />
-                                <InputError message={errors.attribute} />
+                                <InputLabel>Warna*</InputLabel>
+                                <TextInput error={errors.color} defaultValue={data.color} onChange={handleChange} type="color" id='color' name='color' placeholder="Warna..." />
+                                <InputError message={errors.color} />
                             </div>
                             <div className="">
                                 <InputLabel>Deskripsi</InputLabel>

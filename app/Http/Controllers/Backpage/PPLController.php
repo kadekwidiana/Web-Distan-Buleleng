@@ -9,6 +9,7 @@ use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule;
 
 class PPLController extends Controller
 {
@@ -180,7 +181,14 @@ class PPLController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nik' => 'required|string|max:16|unique:users,nik',
+            'nik' => [
+                'required',
+                'string',
+                'max:16',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->where('role', 'PPL');
+                })
+            ],
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users,email',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -312,7 +320,16 @@ class PPLController extends Controller
         // return response()->json($user);
 
         $validatedData = $request->validate([
-            'nik' => 'required|string|max:16|unique:users,nik,' . $user->id,
+            'nik' => [
+                'required',
+                'string',
+                'max:16',
+                Rule::unique('users', 'nik')
+                    ->ignore($user->id)
+                    ->where(function ($query) {
+                        return $query->where('role', 'PPL');
+                    }),
+            ],
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

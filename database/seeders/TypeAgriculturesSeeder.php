@@ -16,7 +16,7 @@ class TypeAgriculturesSeeder extends Seeder
         $data = [
             [
                 "id" => 1,
-                'layer_group_id' => 3,
+                'layer_group_id' => 4,
                 'name' => 'Hortikultura',
                 'description' => 'Deskripsi mengenai pertanian hortikultura.',
                 'created_at' => now(),
@@ -24,7 +24,7 @@ class TypeAgriculturesSeeder extends Seeder
             ],
             [
                 "id" => 2,
-                'layer_group_id' => 3,
+                'layer_group_id' => 4,
                 'name' => 'Perkebunan',
                 'description' => 'Deskripsi mengenai pertanian perkebunan.',
                 'created_at' => now(),
@@ -32,7 +32,7 @@ class TypeAgriculturesSeeder extends Seeder
             ],
             [
                 "id" => 3,
-                'layer_group_id' => 3,
+                'layer_group_id' => 4,
                 'name' => 'Tanaman Pangan',
                 'description' => 'Deskripsi mengenai pertanian tanaman pangan.',
                 'created_at' => now(),

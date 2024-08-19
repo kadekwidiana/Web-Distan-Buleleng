@@ -28,6 +28,8 @@ class DataSpatialController extends Controller
         'file.max' => 'Ukuran file tidak boleh lebih dari 50 MB.', // Pesan untuk batas ukuran file
         'attribute.required' => 'Atribut harus diisi.',
         'attribute.string' => 'Atribut harus berupa teks.',
+        'color.required' => 'Warna harus diisi.',
+        'color.string' => 'Warna harus berupa teks.',
         'description.string' => 'Deskripsi harus berupa teks.',
     ];
 
@@ -103,7 +105,7 @@ class DataSpatialController extends Controller
 
                     // Jika tipe bukan WMS, file harus diisi
                     if ($type !== 'wms' && !$value) {
-                        $fail('File harus diunggah ketika tipe bukan WMS.');
+                        $fail('File harus diunggah.');
                         return;
                     }
 
@@ -131,7 +133,7 @@ class DataSpatialController extends Controller
                 },
                 'max:51200',
             ],
-            'attribute' => 'required|string',
+            'color' => 'required|string',
             'description' => 'nullable|string',
         ], $this->validationMessages);
 
@@ -234,7 +236,7 @@ class DataSpatialController extends Controller
                     }
                 },
             ],
-            'attribute' => 'required|string',
+            'color' => 'required|string',
             'description' => 'nullable|string',
         ], $this->validationMessages);
 

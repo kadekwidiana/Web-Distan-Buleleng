@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('file')->nullable();
             $table->string('type');
             $table->string('status');
-            $table->string('attribute');
+            $table->string('color');
             $table->text('description')->nullable();
             $table->timestamps();
         });

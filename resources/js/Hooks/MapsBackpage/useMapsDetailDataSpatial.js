@@ -4,12 +4,12 @@ import L from 'leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
 import axios from 'axios';
-import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Utils/Constan/Basemap";
+import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, GOOGLE_STREET_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Constant/Basemap";
 import shp from 'shpjs';
 
 const useMapsDetailDataSpatial = (data) => {
     useEffect(() => {
-        const GOOGLE_STREET_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+        const GOOGLE_HYBRID_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
             attribution: ATRIBUTE_NAME,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
             maxZoom: 20
@@ -18,7 +18,7 @@ const useMapsDetailDataSpatial = (data) => {
         const coorBali = [-8.198517680287658, 115.10051848149178];
 
         const map = L.map('maps', {
-            layers: [GOOGLE_STREET_MAP],
+            layers: [GOOGLE_HYBRID_MAP],
             center: data.location ?? coorBali,
             zoom: 10,
             zoomControl: false
@@ -58,11 +58,20 @@ const useMapsDetailDataSpatial = (data) => {
             }
         };
 
-        const fetchDataGeoJson = async (dataGeoJson) => {
+        const fetchDataGeoJson = async (dataGeoJson, color) => {
             try {
                 const response = await axios.get(dataGeoJson);
 
                 L.geoJSON(response.data, {
+                    style: (feature) => {
+                        // Mengatur warna berdasarkan properti `color` pada dataSpatial atau fitur GeoJSON
+                        // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
+                        return {
+                            color: color,
+                            weight: 2,
+                            opacity: 1
+                        };
+                    },
                     onEachFeature: onEachFeature
                 }).addTo(layerGroup);
 
@@ -74,7 +83,7 @@ const useMapsDetailDataSpatial = (data) => {
             }
         };
 
-        const fetchShapefileFromZip = async (url) => {
+        const fetchShapefileFromZip = async (url, color) => {
             try {
                 const response = await axios({
                     method: "GET",
@@ -85,6 +94,15 @@ const useMapsDetailDataSpatial = (data) => {
                 const geojsonConvert = await shp(response.data);
 
                 L.geoJSON(geojsonConvert, {
+                    style: (feature) => {
+                        // Ambil warna dari properti atau tetapkan warna default
+                        // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
+                        return {
+                            color: color,
+                            weight: 2,
+                            opacity: 1
+                        };
+                    },
                     onEachFeature: onEachFeature
                 }).addTo(layerGroup);
 
@@ -98,9 +116,9 @@ const useMapsDetailDataSpatial = (data) => {
 
         if (data.file) {
             if (data.file.endsWith('.geojson')) {
-                fetchDataGeoJson(`/storage/${data.file}`);
+                fetchDataGeoJson(`/storage/${data.file}`, data.color);
             } else if (data.file.endsWith('.zip')) {
-                fetchShapefileFromZip(`/storage/${data.file}`);
+                fetchShapefileFromZip(`/storage/${data.file}`, data.color);
             }
         }
 

@@ -28,7 +28,7 @@ class DataSpatial extends Model
         'file',
         'type',
         'status',
-        'attribute',
+        'color',
         'description',
     ];
 

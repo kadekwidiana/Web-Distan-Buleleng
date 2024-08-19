@@ -4,8 +4,8 @@ import DataNotFound from '@/Components/Error/DataNotFound';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
 import BackpageLayout from '@/Layouts/BackpageLayout'
-import { DATA_STATUSES, EMPLOYEE_STATUSES } from '@/Utils/Constan/Status';
-import { TYPE_DATA_SPATIALS } from '@/Utils/Constan/Type';
+import { DATA_STATUSES, EMPLOYEE_STATUSES } from '@/Constant/Status';
+import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
@@ -88,7 +88,7 @@ export default function MasterDataLayerGroupPage() {
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
-            title: "Apakah Anda yakin ingin menghapus data ini?",
+            title: "Apakah Anda yakin ingin menghapus DATA MASTER ini?",
             text: "Data yang terkait dengan ini juga akan dihapus dan tidak dapat dipulihkan.",
             icon: "warning",
             showCancelButton: true,

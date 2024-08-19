@@ -27,6 +27,7 @@ class LandAgriculture extends Model
         'subak_id',
         'type_land_agriculture_id',
         'owner_id',
+        'cultivator_id',
         'layer_group_id',
         'location',
         'address',
@@ -36,6 +37,7 @@ class LandAgriculture extends Model
         'icon',
         'photo',
         'description',
+        'commodities_cycle',
     ];
 
     /**
@@ -99,5 +101,10 @@ class LandAgriculture extends Model
     public function owner()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cultivator()
+    {
+        return $this->belongsTo(User::class, 'cultivator_id');
     }
 }

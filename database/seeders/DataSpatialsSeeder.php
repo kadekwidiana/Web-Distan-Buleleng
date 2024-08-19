@@ -16,39 +16,39 @@ class DataSpatialsSeeder extends Seeder
         $data = [
             [
                 'id' => 1,
-                'layer_group_id' => 1, // Kewilayahan
+                'layer_group_id' => 5, // Data Spasial
                 'name' => 'Batas Kabupaten',
                 'url' => '/data-spatial-file/batas-kabupaten-buleleng.geojson',
                 'file' => '/data-spatial-file/batas-kabupaten-buleleng.geojson',
                 'type' => 'geojson',
                 'status' => 'ACTIVE',
-                'attribute' => json_encode(['color' => '#FF0000']), // Example attribute
+                'color' => '#000000',
                 'description' => 'Batas wilayah Kabupaten Buleleng',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => 2,
-                'layer_group_id' => 1, // Kewilayahan
+                'layer_group_id' => 5, // Data Spasial
                 'name' => 'Batas Kecamatan',
                 'url' => '/data-spatial-file/batas-kecamatan-buleleng.geojson',
                 'file' => '/data-spatial-file/batas-kecamatan-buleleng.geojson',
                 'type' => 'geojson',
                 'status' => 'ACTIVE',
-                'attribute' => json_encode(['color' => '#00FF00']), // Example attribute
+                'color' => '#000000',
                 'description' => 'Batas wilayah Kecamatan di Buleleng',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => 3,
-                'layer_group_id' => 1, // Kewilayahan
+                'layer_group_id' => 5, // Data Spasial
                 'name' => 'Batas Desa',
                 'url' => '/data-spatial-file/batas-desa-buleleng.geojson',
                 'file' => '/data-spatial-file/batas-desa-buleleng.geojson',
                 'type' => 'geojson',
                 'status' => 'ACTIVE',
-                'attribute' => json_encode(['color' => '#0000FF']), // Example attribute
+                'color' => '#000000',
                 'description' => 'Batas wilayah Desa di Buleleng',
                 'created_at' => now(),
                 'updated_at' => now(),

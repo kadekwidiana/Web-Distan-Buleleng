@@ -27,8 +27,10 @@ class LandAgricultureController extends Controller
         'type_land_agriculture_id.exists' => 'Jenis lahan pertanian tidak valid.',
         'owner_id.required' => 'Pemilik wajib diisi.',
         'owner_id.exists' => 'Pemilik tidak valid.',
+        'cultivator_id.required' => 'Penggarap wajib diisi.',
+        'cultivator_id.exists' => 'Penggarap tidak valid.',
         'commodities.required' => 'Komoditas wajib diisi.',
-        'commodities.nullable' => 'Komoditas harus berupa teks.',
+        'commodities_cycle.json' => 'Siklus Komoditas harus berupa format JSON.',
         'status.required' => 'Status wajib diisi.',
         'status.string' => 'Status harus berupa teks.',
         'layer_group_id.required' => 'Grup lapisan wajib diisi.',
@@ -92,7 +94,7 @@ class LandAgricultureController extends Controller
         if ($search) {
             $landAgriculturesQuery->whereHas('owner', function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
-                    ->where('role', 'LAND_OWNER');
+                    ->where('role', 'LAND_OWNER_CULTIVATOR');
             });
         }
 
@@ -110,7 +112,7 @@ class LandAgricultureController extends Controller
 
     public function show(Request $request)
     {
-        $landAgricultureById = LandAgriculture::with(['commodities', 'village', 'owner', 'typeLandAgriculture', 'poktan', 'subak'])->findOrFail($request->landAgricultureId);
+        $landAgricultureById = LandAgriculture::with(['commodities', 'village', 'owner', 'cultivator', 'typeLandAgriculture', 'poktan', 'subak'])->findOrFail($request->landAgricultureId);
         // dd($landAgricultureById->typeLandAgriculture->name);
         return Inertia::render('Backpage/LandAgriculture/Detail/Index', [
             'navName' => 'Detail ' . $landAgricultureById->owner->name,
@@ -143,7 +145,7 @@ class LandAgricultureController extends Controller
         $commodities = Commodity::all();
         $typeLandAgricultures = TypeLandAgriculture::all();
 
-        $owners = User::where('role', 'LAND_OWNER')->get();
+        $owners = User::where('role', 'LAND_OWNER_CULTIVATOR')->get();
 
         $landAgriculture = $request->session()->get('landAgriculture');
 
@@ -170,7 +172,9 @@ class LandAgricultureController extends Controller
             'subak_id' => 'nullable|exists:subaks,id',
             'type_land_agriculture_id' => 'required|exists:type_land_agricultures,id',
             'owner_id' => 'required|exists:users,id',
+            'cultivator_id' => 'required|exists:users,id',
             'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'commodities_cycle' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'status' => 'required|string',
         ], $this->validationMessages);
 
@@ -230,6 +234,9 @@ class LandAgricultureController extends Controller
 
         $landAgriculture = $request->session()->get('landAgriculture');
         if ($landAgriculture) {
+            if (isset($landAgriculture['commodities_cycle'])) {
+                $validatedData['commodities_cycle'] = json_encode($landAgriculture['commodities_cycle']);
+            }
 
             // Isi dan simpan data landAgriculture
             $landAgriculture->fill($validatedData);
@@ -265,7 +272,7 @@ class LandAgricultureController extends Controller
         $commodities = Commodity::all();
         $typeLandAgricultures = TypeLandAgriculture::all();
 
-        $owners = User::where('role', 'LAND_OWNER')->get();
+        $owners = User::where('role', 'LAND_OWNER_CULTIVATOR')->get();
 
         $landAgriculture = $request->session()->get('landAgriculture');
 
@@ -296,7 +303,9 @@ class LandAgricultureController extends Controller
             'subak_id' => 'nullable|exists:subaks,id',
             'type_land_agriculture_id' => 'required|exists:type_land_agricultures,id',
             'owner_id' => 'required|exists:users,id',
+            'cultivator_id' => 'required|exists:users,id',
             'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
+            'commodities_cycle' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'status' => 'required|string',
         ], $this->validationMessages);
 

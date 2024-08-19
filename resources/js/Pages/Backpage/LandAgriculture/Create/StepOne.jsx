@@ -10,12 +10,14 @@ import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
 import { useStore } from '@/Store/Index.store';
-import { ABILITY_CLASSES } from '@/Utils/Constan/Class';
-import { CONFIRMATION_STATUSES, GROUP_STATUSES } from '@/Utils/Constan/Status';
+import { ABILITY_CLASSES } from '@/Constant/Class';
+import { CONFIRMATION_STATUSES, DATA_STATUSES, DATA_STATUSES_FOR_OPTIONS, GROUP_STATUSES } from '@/Constant/Status';
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import { Banner } from 'flowbite-react';
 import React, { useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
+import AgriculturalCycleInputs from '../AgriculturalCycleInputs';
+import { MONTHS } from '@/Constant/Month';
 
 export default function StepOneCreateLandAgriculturePage() {
   // use store supaya bisa tersimpan di session/storage dan nanti di gunakan di createStepTwo untuk simpan relasi landAgriculture dan commodity nya, karena field commodities tidak ada di tabel landAgriculture (many to many anntara landAgriculture dan commodity)
@@ -31,15 +33,25 @@ export default function StepOneCreateLandAgriculturePage() {
   const { landAgriculture, district, villages, poktans, subaks, typeLandAgricultures, owners, commodities, errors } = usePage().props;
   const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
   const [selectedValues, setSelectedValues] = useState(optionsSelected ?? []); //value options yang di pilih
+  const [commoditiesCycleData, setCommoditiesCycleData] = useState(landAgriculture?.commodities_cycle ?? []);
   const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
     village_id: landAgriculture?.village_id ?? '',
     poktan_id: landAgriculture?.poktan_id ?? '',
     subak_id: landAgriculture?.subak_id ?? '',
     type_land_agriculture_id: landAgriculture?.type_land_agriculture_id ?? '',
     owner_id: landAgriculture?.owner_id ?? '',
-    commodities: selectedValues, // data commodities guna bisa validasi ke BE
+    cultivator_id: landAgriculture?.cultivator_id ?? '',
     status: landAgriculture?.status ?? 'ACTIVE',
+    commodities: selectedValues, // data commodities guna bisa validasi ke BE
+    commodities_cycle: commoditiesCycleData,
   });
+
+  useEffect(() => {
+    setData({
+      ...data,
+      commodities_cycle: commoditiesCycleData
+    })
+  }, [commoditiesCycleData])
 
   commodities.forEach((commodity) => {
     if (!options.some(option => option.value === commodity.id)) {
@@ -57,6 +69,21 @@ export default function StepOneCreateLandAgriculturePage() {
       commodities: selectedValues,
     });
   }, [selectedValues]);
+
+  useEffect(() => {
+    // Create a map for quick lookup
+    const datasMap = new Map(commoditiesCycleData.map(item => [item.name, item]));
+    const selectedMonthIds = new Set(selectedValues);
+
+    const updatedDatas = commodities
+      .filter(commodity => selectedMonthIds.has(commodity.id))
+      .map(commodity => {
+        return datasMap.get(commodity.name) || { name: commodity.name, months: [] };
+      });
+
+    // Set the updated commoditiesCycleData state
+    setCommoditiesCycleData(updatedDatas);
+  }, [selectedValues, commodities]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -116,12 +143,24 @@ export default function StepOneCreateLandAgriculturePage() {
                   setSelectedEntityId={(id) => setData({ ...data, owner_id: id })}
                   otherEntity={'nik'}
                   label={'-- Pilih pemilik --'}
-                  placeholder={'Cari pemilik berdasarkan nama/nik...'}
+                  placeholder={'Cari berdasarkan nama/nik...'}
                   error={errors.owner_id}
                 />
                 <InputError message={errors.owner_id} />
               </div>
-
+              <div className="">
+                <InputLabel>Penggarap*</InputLabel>
+                <SelectTwo
+                  entities={owners}
+                  selectedEntityId={data.cultivator_id}
+                  setSelectedEntityId={(id) => setData({ ...data, cultivator_id: id })}
+                  otherEntity={'nik'}
+                  label={'-- Pilih penggarap --'}
+                  placeholder={'Cari berdasarkan nama/nik...'}
+                  error={errors.cultivator_id}
+                />
+                <InputError message={errors.cultivator_id} />
+              </div>
               <div className="w-full">
                 <InputLabel>Kecamatan</InputLabel>
                 <TextInput id='kecamatan' name='kecamatan' value={district.name} className="bg-[#e1e1e1]" readOnly />
@@ -191,17 +230,26 @@ export default function StepOneCreateLandAgriculturePage() {
                   id="status"
                   name="status"
                 >
-                  {GROUP_STATUSES.map((group_status, index) => (
-                    <option key={index} value={group_status.value} >{group_status.label}</option>
+                  {DATA_STATUSES.map((status, index) => (
+                    <option key={index} value={status.value} >{status.label}</option>
                   ))}
                 </InputSelect>
                 <InputError message={errors.status} />
               </div>
               <div className="">
-                <InputLabel>Komoditas Lahan*</InputLabel>
-                <MultiSelect title={'Pilih komoditas'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
+                <InputLabel>Komoditas*</InputLabel>
+                <MultiSelect title={'-- Pilih komoditas --'} onChange={setSelectedValues} options={options} value={selectedValues} error={errors.commodities} />
                 <InputError message={errors.commodities} />
               </div>
+              {selectedValues.length > 0 &&
+                <>
+                  <InputLabel>Siklus Komoditas</InputLabel>
+                  <AgriculturalCycleInputs
+                    datas={commoditiesCycleData}
+                    setDatas={setCommoditiesCycleData}
+                  />
+                </>
+              }
             </div>
           </div>
           <div className="flex justify-end gap-4 my-2">

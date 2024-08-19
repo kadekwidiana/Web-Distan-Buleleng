@@ -18,6 +18,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('villages')
                 ->onUpdate('cascade')->onDelete('cascade');
+            $table->string('ppl_nip');
+            $table->foreign('ppl_nip')
+                ->references('nip')
+                ->on('ppls')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('title', 255);
             $table->json('location');
             $table->text('address');
@@ -25,6 +30,7 @@ return new class extends Migration
             $table->text('file')->nullable();
             $table->text('notes');
             $table->text('activity_report');
+            $table->string('others_involved', 255)->nullable();
             $table->timestamps();
         });
     }

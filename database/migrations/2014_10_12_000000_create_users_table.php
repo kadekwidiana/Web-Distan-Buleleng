@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->text('foto')->nullable();
             $table->text('address');
-            $table->string('phone_number', 20);
-            $table->string('role')->default('PPL'); //pake string karna nanti role nya belum tentu apa saja
+            $table->string('phone_number', 20)->nullable();
+            $table->string('role'); //pake string karna nanti role nya belum tentu apa saja
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable(); // bisa null tergantung role nya
             $table->rememberToken();

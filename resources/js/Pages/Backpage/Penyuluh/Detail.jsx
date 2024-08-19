@@ -1,6 +1,7 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
 import BackpageLayout from '@/Layouts/BackpageLayout'
+import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
@@ -96,6 +97,16 @@ export default function DetailPenyuluhPage() {
                                                 </span>
                                             )) : '-'}
                                         </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data dibuat</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(pplById.created_at)}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data diupdate</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(pplById.updated_at)}</td>
                                     </tr>
                                 </tbody>
                             </table>

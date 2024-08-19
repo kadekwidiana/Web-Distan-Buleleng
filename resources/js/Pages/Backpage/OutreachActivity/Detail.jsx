@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Carousel } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns';
+import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 
 export default function DetailOutreachActivityPage() {
     const { outreachActivityById, districtId } = usePage().props;
@@ -31,6 +32,11 @@ export default function DetailOutreachActivityPage() {
                                         <td className="pr-2 py-2 w-1/5">Judul</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{outreachActivityById.title}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Penyuluh</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{outreachActivityById.ppl.name}</td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Alamat/Lokasi</td>
@@ -94,6 +100,21 @@ export default function DetailOutreachActivityPage() {
                                                 </span>
                                             )) : '-'}
                                         </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Lainnya yang terlibat</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{outreachActivityById.others_involved}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data dibuat</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(outreachActivityById.created_at)}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data diupdate</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(outreachActivityById.updated_at)}</td>
                                     </tr>
                                 </tbody>
                             </table>

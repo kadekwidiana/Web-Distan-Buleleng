@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Carousel } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns';
+import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 
 export default function DetailDataSpatialPage() {
     const { dataSpatialById, districtId } = usePage().props;
@@ -51,16 +52,20 @@ export default function DetailDataSpatialPage() {
                                         }
                                     </tr>
                                     <tr className="bg-white">
-                                        <td className="pr-2 py-2 w-1/5">Attribute</td>
-                                        <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{dataSpatialById.attribute ?? '-'}</td>
-                                    </tr>
-                                    <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Deskripsi</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{dataSpatialById.description ?? '-'}</td>
                                     </tr>
-
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data dibuat</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(dataSpatialById.created_at)}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data diupdate</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(dataSpatialById.updated_at)}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

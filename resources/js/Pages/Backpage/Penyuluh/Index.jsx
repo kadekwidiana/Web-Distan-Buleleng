@@ -4,12 +4,14 @@ import DataNotFound from '@/Components/Error/DataNotFound';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
 import BackpageLayout from '@/Layouts/BackpageLayout'
-import { EMPLOYEE_STATUSES } from '@/Utils/Constan/Status';
+import { EMPLOYEE_STATUSES } from '@/Constant/Status';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Swal from 'sweetalert2';
+import Button from '@/Components/Button/Button';
+import { handleExportExcel } from '@/Utils/exportExcel';
 
 export default function PenyuluhPage() {
     const { ppls, employeeStatusValue, searchValue } = usePage().props;
@@ -82,7 +84,8 @@ export default function PenyuluhPage() {
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
-            title: "Apakah anda yakin ingin menghapus data ini?",
+            title: "Apakah Anda yakin ingin menghapus data ini?",
+            text: "Data yang terkait dengan ini juga akan dihapus dan tidak dapat dipulihkan.",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -103,7 +106,7 @@ export default function PenyuluhPage() {
         <BackpageLayout>
             <Head title="Data Penyuluh" />
             <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
-                <div className="flex justify-between gap-2 sm:gap-10">
+                <div className="flex justify-between gap-2 sm:gap-6">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value={10} defaultChecked>10</option>
@@ -129,6 +132,7 @@ export default function PenyuluhPage() {
                             </div>
                         </form>
                     </div>
+                    <Button type="button" onClick={() => handleExportExcel(`Penyuluh`, ppls.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
                     <ButtonAdd href={'/ppl/create'} />
                 </div>
                 <div className="flex flex-col my-2">

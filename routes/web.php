@@ -9,7 +9,8 @@ use App\Http\Controllers\Backpage\MasterData\LayerGroupController;
 use App\Http\Controllers\Backpage\MasterData\TypeAgricultureController;
 use App\Http\Controllers\Backpage\MasterData\TypeLandAgricultureController;
 use App\Http\Controllers\Backpage\OutreachActivitiesController;
-use App\Http\Controllers\Backpage\OwnerLandController;
+use App\Http\Controllers\Backpage\LandOwnerOrCultivatorController;
+use App\Http\Controllers\Backpage\ManagementReportController;
 use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\Backpage\SubakController;
@@ -173,7 +174,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     |--------------------------------------------------------------------------
     */
     // Route untuk store data owner
-    Route::post('/owner', [OwnerLandController::class, 'store'])->name('owner.store');
+    // Route::post('/owner', [LandOwnerOrCultivatorController::class, 'store'])->name('owner.store');
 
     // DATA PENYULUH
     Route::resource('ppl', PPLController::class);
@@ -207,6 +208,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('/master-data/jenis-lahan-pertanian', TypeLandAgricultureController::class);
     Route::post('/master-data/jenis-lahan-pertanian/{id}/update', [TypeLandAgricultureController::class, 'update'])->name('jenis-lahan-pertanian.update');
+
+    Route::resource('/pemilik-penggarap', LandOwnerOrCultivatorController::class);
+    Route::post('/pemilik-penggarap/{id}/update', [LandOwnerOrCultivatorController::class, 'update'])->name('pemilik-penggarap.update');
+
+    // management report
+    Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivityView'])->name('managementReport.outreachActivityView');
+    Route::get('/management-report/penyuluhan/data', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
 });
 
 Route::middleware('auth')->group(function () {

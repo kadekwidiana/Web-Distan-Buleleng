@@ -1,9 +1,9 @@
 import Chart from "chart.js/auto";
 import { Line } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
-import { precipitationData } from "@/Utils/Data/precipitation"
-import { vciData } from "@/Utils/Data/vci"
-import { eviAndMsiData } from "@/Utils/Data/evi"
+import { precipitationData } from "@/Data/precipitation"
+import { vciData } from "@/Data/vci"
+import { eviAndMsiData } from "@/Data/evi"
 Chart.register(CategoryScale);
 
 export default function LineChartAnalisis({ dataPrecipitation, dataVCI, dataEviAndMSI, monthLabel }) {

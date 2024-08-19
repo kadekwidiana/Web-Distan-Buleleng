@@ -5,7 +5,7 @@ import InputSelect from "@/Components/Input/InputSelect";
 import SelectTwo from "@/Components/Input/InputSelectTwo";
 import TextInput from "@/Components/Input/TextInput";
 import TextInputArea from "@/Components/Input/TextInputArea";
-import { DATA_STATUSES } from "@/Utils/Constan/Status";
+import { DATA_STATUSES } from "@/Constant/Status";
 import { router } from "@inertiajs/react";
 import axios from "axios";
 import { Modal } from "flowbite-react";

@@ -14,11 +14,12 @@ import { useShallow } from 'zustand/react/shallow';
 import MapsInputData from '@/Components/Maps/MapsInputData';
 
 export default function StepOneCreateLandAgriculturePage() {
-    const { locationInput, addressInput, areaJsonInput, optionsSelected } = useStore(
+    const { locationInput, addressInput, areaJsonInput, wideLandInput, optionsSelected } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
                 areaJsonInput: state.areaJsonInput,
+                wideLandInput: state.wideLandInput,
                 addressInput: state.addressInput,
                 optionsSelected: state.optionsSelected,
             }
@@ -30,7 +31,7 @@ export default function StepOneCreateLandAgriculturePage() {
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
-        layer_group_id: '',
+        layer_group_id: 3,
         photos: [],
         location: '',
         area_json: '',
@@ -53,9 +54,10 @@ export default function StepOneCreateLandAgriculturePage() {
             {
                 ...data,
                 area_json: areaJsonInput,
+                land_area: wideLandInput,
             }
         )
-    }, [areaJsonInput]);
+    }, [areaJsonInput, wideLandInput]);
 
     const [location, setLocation] = useState(data.location);
     const [areaJson, setAreaJson] = useState(data.area_json);
@@ -154,7 +156,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-3">
-                            <div className="">
+                            {/* <div className="">
                                 <InputLabel>Layer Grup*</InputLabel>
                                 <InputSelect
                                     error={errors.layer_group_id}
@@ -168,7 +170,7 @@ export default function StepOneCreateLandAgriculturePage() {
                                     ))}
                                 </InputSelect>
                                 <InputError message={errors.layer_group_id} />
-                            </div>
+                            </div> */}
                             <div>
                                 <InputLabel>Foto</InputLabel>
                                 <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
@@ -189,7 +191,7 @@ export default function StepOneCreateLandAgriculturePage() {
                         <div className="flex flex-col gap-3">
                             <div className="">
                                 <InputLabel>Luas Lahan*</InputLabel>
-                                <TextInput textRight={'are (m2)'} error={errors.land_area} value={data.land_area} onChange={handleChange} type='number' id='land_area' name='land_area' placeholder="00" />
+                                <TextInput textRight={'are (m²)'} error={errors.land_area} value={data.land_area} onChange={handleChange} type='number' id='land_area' name='land_area' placeholder="00" />
                                 <InputError message={errors.land_area} />
                             </div>
                             <div className="">

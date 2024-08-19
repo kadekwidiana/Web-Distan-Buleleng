@@ -8,7 +8,7 @@ import { CategoryScale } from "chart.js";
 Chart.register(CategoryScale);
 import { useEffect, useState } from "react";
 import Checkbox from "@/Components/Input/Checkbox"
-import { YEARRANGE } from "@/Utils/Constan/Index"
+import { YEARRANGE } from "@/Constant/Index"
 import DetailAnalisis from "@/Components/Modal/DetailAnalisis"
 import LineChartAnalisis from "@/Components/Grafik/LineChartAnalisis"
 import InputError from "@/Components/Input/InputError"

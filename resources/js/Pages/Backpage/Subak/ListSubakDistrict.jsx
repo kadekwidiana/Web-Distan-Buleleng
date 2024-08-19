@@ -11,6 +11,8 @@ import ButtonBack from '@/Components/Button/Back';
 import Swal from 'sweetalert2';
 import { Toast } from '@/Components/Alert/Toast';
 import DetailGapoktan from '@/Components/Modal/DetailGapoktan';
+import { handleExportExcel } from '@/Utils/exportExcel';
+import Button from '@/Components/Button/Button';
 
 export default function ListPoktansInDistrictPage() {
     const { villagesByDistrictId, subaksInDiscrict, districtData, searchValue, villageIdValue } = usePage().props;
@@ -85,7 +87,8 @@ export default function ListPoktansInDistrictPage() {
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
-            title: "Apakah anda yakin ingin menghapus data ini?",
+            title: "Apakah Anda yakin ingin menghapus data ini?",
+            text: "Data yang terkait dengan ini juga akan dihapus dan tidak dapat dipulihkan.",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -108,7 +111,7 @@ export default function ListPoktansInDistrictPage() {
             <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-2 md:px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
                 <ButtonBack url={`/kelembagaan-pertanian/subak`} />
                 <h1 className='text-2xl font-semibold text-gray-800 mb-2 capitalize'>Daftar Subak di Kecamatan {districtData.name}</h1>
-                <div className="flex justify-between gap-2 sm:gap-10">
+                <div className="flex justify-between gap-2 sm:gap-6">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 hidden md:inline-flex items-center sm:py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value={10} defaultChecked>10</option>
@@ -134,6 +137,7 @@ export default function ListPoktansInDistrictPage() {
                         </form>
                     </div>
                     {/* <ExcelExport data={subaksInDiscrict.data} fileName="Gapoktan" /> */}
+                    <Button type="button" onClick={() => handleExportExcel(`Subak ${districtData?.name}`, subaksInDiscrict.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
                     <ButtonAdd href={`/kelembagaan-pertanian/subak/kecamatan/${districtData.id}/create-step-one`} />
                 </div>
                 <div className="flex flex-col my-2 w-auto max-md:overflow-x-auto max-md:my-8">

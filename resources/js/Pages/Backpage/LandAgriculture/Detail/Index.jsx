@@ -1,6 +1,8 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
 import BackpageLayout from '@/Layouts/BackpageLayout'
+import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
+import { generateCommoditiesCycleHtml } from '@/Utils/generateCommoditiesCycleHtml';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
@@ -32,6 +34,11 @@ export default function DetailLandAgriculturePage() {
                                         <td className="px-2 py-2 w-full">{landAgricultureById.owner.name}</td>
                                     </tr>
                                     <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Penggarap</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{landAgricultureById.cultivator.name}</td>
+                                    </tr>
+                                    <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Poktan</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{landAgricultureById?.poktan?.name ?? '-'}</td>
@@ -49,7 +56,7 @@ export default function DetailLandAgriculturePage() {
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Luas</td>
                                         <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{landAgricultureById.land_area} m2</td>
+                                        <td className="px-2 py-2 w-full">{landAgricultureById.land_area} are (m²)</td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Komoditas Lahan</td>
@@ -64,6 +71,11 @@ export default function DetailLandAgriculturePage() {
 
                                     </tr>
                                     <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Siklus Komoditas</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full" dangerouslySetInnerHTML={{ __html: generateCommoditiesCycleHtml(JSON.parse(landAgricultureById.commodities_cycle)) }}></td>
+                                    </tr>
+                                    <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Alamat</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{landAgricultureById.address}</td>
@@ -72,6 +84,16 @@ export default function DetailLandAgriculturePage() {
                                         <td className="pr-2 py-2 w-1/5">Deskripsi</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{landAgricultureById.description ?? '-'}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data dibuat</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(landAgricultureById.created_at)}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Data diupdate</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{formatDateToIndonesian(landAgricultureById.updated_at)}</td>
                                     </tr>
                                 </tbody>
                             </table>

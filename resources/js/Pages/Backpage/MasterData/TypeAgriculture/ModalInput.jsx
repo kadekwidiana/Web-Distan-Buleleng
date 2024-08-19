@@ -5,14 +5,14 @@ import InputSelect from "@/Components/Input/InputSelect";
 import SelectTwo from "@/Components/Input/InputSelectTwo";
 import TextInput from "@/Components/Input/TextInput";
 import TextInputArea from "@/Components/Input/TextInputArea";
-import { DATA_STATUSES } from "@/Utils/Constan/Status";
+import { DATA_STATUSES } from "@/Constant/Status";
 import { router } from "@inertiajs/react";
 import axios from "axios";
 import { Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 
 export default function ModalInputTypeAgriculture({ openModal, setOpenModal, layerGroups, typeAgricultureById, isUpdate }) {
-    const [layerGroupId, setLayerGroupId] = useState('');
+    const [layerGroupId, setLayerGroupId] = useState(4); // set default ke layer group komoditas lahan
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function ModalInputTypeAgriculture({ openModal, setOpenModal, lay
 
     const resetForm = () => {
         setName('');
-        setLayerGroupId('');
+        setLayerGroupId(4);
         setDescription('');
         setErrors({});
         setLoading(false);
@@ -84,7 +84,7 @@ export default function ModalInputTypeAgriculture({ openModal, setOpenModal, lay
             <Modal.Header>{isUpdate ? 'Edit Jenis Pertanian' : 'Tambah Jenis Pertanian'}</Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit} className="space-y-2" encType="multipart/form-data">
-                    <div className="">
+                    {/* <div className="">
                         <InputLabel>Layer Grup*</InputLabel>
                         <SelectTwo
                             entities={layerGroups}
@@ -95,7 +95,7 @@ export default function ModalInputTypeAgriculture({ openModal, setOpenModal, lay
                             error={errors.layer_group_id}
                         />
                         {errors.layer_group_id && <p className="text-red-500 text-sm">{errors.layer_group_id}</p>}
-                    </div>
+                    </div> */}
                     <div>
                         <InputLabel htmlFor="name">Nama*</InputLabel>
                         <TextInput

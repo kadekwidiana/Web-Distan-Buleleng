@@ -27,7 +27,7 @@ export default function StepOneCreateGapoktanPage() {
 
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
-        layer_group_id: '',
+        layer_group_id: 2,
         photos: [],
         location: '',
         address: '',
@@ -137,13 +137,14 @@ export default function StepOneCreateGapoktanPage() {
                 <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-3">
-                            <div className="">
+                            {/* <div className="">
                                 <InputLabel>Layer Grup*</InputLabel>
                                 <InputSelect
                                     error={errors.layer_group_id}
                                     onChange={handleChange}
                                     id="layer_group_id"
                                     name="layer_group_id"
+                                    defaultValue={data.layer_group_id}
                                 >
                                     <option value="" defaultChecked>Pilih jenis layer</option>
                                     {layerGroup.map((layer, index) => (
@@ -151,7 +152,7 @@ export default function StepOneCreateGapoktanPage() {
                                     ))}
                                 </InputSelect>
                                 <InputError message={errors.layer_group_id} />
-                            </div>
+                            </div>   */}
                             <div>
                                 <InputLabel>Foto</InputLabel>
                                 <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />

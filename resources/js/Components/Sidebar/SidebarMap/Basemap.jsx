@@ -1,5 +1,5 @@
 import CardBasemap from "@/Components/Card/Basemap"
-import { DATA_BASEMAPS } from "@/Utils/Constan/Index"
+import { DATA_BASEMAPS } from "@/Constant/Index"
 
 export const SidebarBasemap = () => {
     return (
