@@ -51,7 +51,7 @@ export default function UpdateFotoUser({ mustVerifyEmail, status, className = ''
             <header>
                 <h2 className="text-lg font-semibold text-gray-900">Foto Profil</h2>
                 <p className="mt-1 text-sm text-gray-600">
-                    Unggah dan perbarui foto profil Anda, foto harus dalam format SVG, PNG, JPG.
+                    Unggah dan perbarui foto profil Anda, foto harus dalam format SVG, PNG, JPG (MAX.2MB)
                 </p>
             </header>
             <div className="flex justify-center mt-2">
@@ -61,9 +61,9 @@ export default function UpdateFotoUser({ mustVerifyEmail, status, className = ''
                 <div className="">
                     <div className="flex justify-between gap-2">
                         <input type="file" onChange={handleChange} id='foto' name='foto' className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
-                        <InputError message={errors.foto} />
                         <Button disabled={processing} type="submit">{processing ? 'Simpan...' : 'Simpan'}</Button>
                     </div>
+                    <InputError message={errors.foto} />
                 </div>
             </form>
         </section>

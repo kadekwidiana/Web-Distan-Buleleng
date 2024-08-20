@@ -45,6 +45,12 @@ export default function NavbarFrontpage() {
                                     <i className="fa-solid fa-chevron-down"></i>
                                 </div>
                             }>
+                                <DropdownItem>
+                                    <a href={'/assets/panduan/a9b7c3d2e5f1g8h6i4j0k2l7m9n3o5p4q8r1s6t0u7v3w9x4y5z0a1b2c3d4e6f7g8h9i0j.pdf'}>
+                                        <i className="fa-solid fa-book mr-2"></i>
+                                        Panduan
+                                    </a>
+                                </DropdownItem>
                                 {auth?.user ?
                                     <>
                                         <DropdownItem>
@@ -67,12 +73,14 @@ export default function NavbarFrontpage() {
                                         </DropdownItem>
                                     </>
                                     :
-                                    <DropdownItem>
-                                        <a href={'/login'}>
-                                            <i className="fa-solid fa-arrow-right mr-2"></i>
-                                            Login
-                                        </a>
-                                    </DropdownItem>
+                                    <>
+                                        <DropdownItem>
+                                            <a href={'/login'}>
+                                                <i className="fa-solid fa-arrow-right mr-2"></i>
+                                                Login
+                                            </a>
+                                        </DropdownItem>
+                                    </>
                                 }
                             </Dropdown>
                         </li>

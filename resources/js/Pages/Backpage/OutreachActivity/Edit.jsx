@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow';
 
 export default function EditOutreachActivityPage() {
+    const { auth } = usePage().props;
     const { locationInput, addressInput } = useStore(
         useShallow((state) => (
             {
@@ -224,6 +225,7 @@ export default function EditOutreachActivityPage() {
                                     id="ppl_nip"
                                     name="ppl_nip"
                                     defaultValue={data.ppl_nip}
+                                    disabled={auth.user.role === 'PPL'}
                                 >
                                     <option value="">-- Pilih PPL --</option>
                                     {ppls.map((ppl, index) => (

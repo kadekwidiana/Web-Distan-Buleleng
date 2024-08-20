@@ -16,7 +16,6 @@ export default function CreatePenyuluhPage() {
     const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
     const [selectedValues, setSelectedValues] = useState([]); //value options yang di pilih
     const { villages, errors } = usePage().props;
-    console.log(villages);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         nik: "",
         name: "",
@@ -48,8 +47,6 @@ export default function CreatePenyuluhPage() {
         post_code: "",
         villages: []
     });
-
-    console.log(data.foto);
 
     villages.forEach((village) => {
         if (!options.some(option => option.value === village.id)) {

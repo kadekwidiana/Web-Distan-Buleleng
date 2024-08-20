@@ -49,8 +49,6 @@ export default function EditPenyuluhPage() {
         villages: pplById
     });
 
-    console.log(pplById.date_spmt);
-
     villages.forEach((village) => {
         if (!options.some(option => option.value === village.id)) {
             options.push({

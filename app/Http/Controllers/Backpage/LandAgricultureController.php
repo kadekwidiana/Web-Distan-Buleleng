@@ -13,6 +13,7 @@ use App\Models\TypeLandAgriculture;
 use App\Models\User;
 use App\Models\Village;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -50,10 +51,29 @@ class LandAgricultureController extends Controller
 
     public function landAgricultureRegency(Request $request)
     {
-        // regency_id buleleng
-        $districtWithLandAgricultures = District::where('regency_id', 5108)->with(['villages' => function ($query) {
-            $query->withCount('landAgricultures');
-        }])->get();
+        $userSession = Auth::user();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+
+            $districtWithLandAgricultures = District::whereHas('villages', function ($query) use ($villageIds) {
+                $query->whereIn('id', $villageIds);
+            })
+                ->where('id', '!=', '6301040')  // Exclude the district with ID '6301040' anomali data kecamatan nya, malah tampil 6301040 = BATI - BATI
+                ->with(['villages' => function ($query) use ($villageIds) {
+                    $query->whereIn('id', $villageIds)
+                        ->withCount('landAgricultures');
+                }])->get();
+        } else {
+            // regency_id buleleng
+            $districtWithLandAgricultures = District::where('regency_id', 5108)->with(['villages' => function ($query) {
+                $query->withCount('landAgricultures');
+            }])->get();
+        }
 
         $districtWithLandAgricultures = $districtWithLandAgricultures->map(function ($district) {
             $districtLandAgriculturesCount = $district->villages->sum('land_agricultures_count'); // ternyata nama atribute nya harus sama (misal land_agricultures_count untuk landAgricultures) dan pake snake case
@@ -69,6 +89,7 @@ class LandAgricultureController extends Controller
 
     public function landAgricultureDistrict(Request $request)
     {
+        $userSession = Auth::user();
         $districtId = $request->districtId;
         $villageId = $request->villageId;
         $perpage = $request->perpage ?? 10;
@@ -80,12 +101,32 @@ class LandAgricultureController extends Controller
 
         $districtData = $districtWithLandAgricultures->firstWhere('id', $districtId);
 
-        $villagesByDistrictId = Village::where('district_id', $districtId)->get();
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
 
-        // Filter landAgricultures berdasarkan district_id
-        $landAgriculturesQuery = LandAgriculture::whereHas('village', function ($query) use ($districtId) {
-            $query->where('district_id', $districtId);
-        });
+            // Filter villages by both village IDs and district ID
+            $villagesByDistrictId = Village::whereIn('id', $villageIds)
+                ->where('district_id', $districtId)
+                ->distinct()
+                ->get(); // anomali cuyy,, desa sambangan malah duplikat, pake distinct() belum fix. #biarkan saja yg penting bisa jalan 😐
+
+            // Filter Gapoktans based on the specific village IDs
+            $landAgriculturesQuery = LandAgriculture::whereIn('village_id', $villageIds)
+                ->whereHas('village', function ($query) use ($districtId) {
+                    $query->where('district_id', $districtId);
+                });
+        } else {
+            $villagesByDistrictId = Village::where('district_id', $districtId)->get();
+
+            // Filter landAgricultures berdasarkan district_id
+            $landAgriculturesQuery = LandAgriculture::whereHas('village', function ($query) use ($districtId) {
+                $query->where('district_id', $districtId);
+            });
+        }
 
         if ($villageId) {
             $landAgriculturesQuery->where('village_id', $villageId);
@@ -132,10 +173,10 @@ class LandAgricultureController extends Controller
 
     public function createStepOne(Request $request)
     {
+        $userSession = Auth::user();
         $districtId = $request->districtId;
 
         $district = District::firstWhere('id', $districtId);
-        $villages = Village::where('district_id', $districtId)->get();
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
@@ -146,6 +187,21 @@ class LandAgricultureController extends Controller
         $typeLandAgricultures = TypeLandAgriculture::all();
 
         $owners = User::where('role', 'LAND_OWNER_CULTIVATOR')->get();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+
+            // Fetch villages based on the extracted IDs and district ID
+            $villages = Village::whereIn('id', $villageIds)
+                ->where('district_id', $request->districtId)
+                ->get();
+        } else {
+            $villages = Village::where('district_id', $request->districtId)->get();
+        }
 
         $landAgriculture = $request->session()->get('landAgriculture');
 
@@ -256,13 +312,13 @@ class LandAgricultureController extends Controller
 
     public function editStepOne(Request $request)
     {
+        $userSession = Auth::user();
         $landAgricultureById = LandAgriculture::with('commodities')->findOrFail($request->landAgricultureId); // dari request ambil
         $commodityIds = $landAgricultureById->commodities->pluck('id')->toArray(); //biar gampang olah di FE
 
         $districtId = $request->districtId;
 
         $district = District::firstWhere('id', $districtId);
-        $villages = Village::where('district_id', $districtId)->get();
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
@@ -273,6 +329,20 @@ class LandAgricultureController extends Controller
         $typeLandAgricultures = TypeLandAgriculture::all();
 
         $owners = User::where('role', 'LAND_OWNER_CULTIVATOR')->get();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+            // Fetch villages based on the extracted IDs and district ID
+            $villages = Village::whereIn('id', $villageIds)
+                ->where('district_id', $request->districtId)
+                ->get();
+        } else {
+            $villages = Village::where('district_id', $request->districtId)->get();
+        }
 
         $landAgriculture = $request->session()->get('landAgriculture');
 

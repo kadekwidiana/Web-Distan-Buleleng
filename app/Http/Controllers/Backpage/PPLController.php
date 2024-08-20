@@ -296,16 +296,22 @@ class PPLController extends Controller
      */
     public function edit(string $id)
     {
+        // Retrieve the Ppl model with its associated account
         $pplById = Ppl::with('account')->findOrFail($id);
-        $villageIds = $pplById->villages->pluck('id')->toArray(); //biar gampang olah di FE
+
+        // Extract unique village IDs into an array
+        $villageIds = $pplById->villages->pluck('id')->unique()->values()->toArray();
+        // dd($villageIds); // Should show array format aneh banget, malah object jadi nya, harus nya array
+        // Retrieve all villages within the specified regency
         $villages = Village::whereHas('district', function ($query) {
             $query->where('regency_id', 5108);
         })->get();
 
+        // Pass data to the view
         return Inertia::render('Backpage/Penyuluh/Edit', [
             'navName' => 'Edit Penyuluh',
             'pplById' => $pplById,
-            'villageIds' => $villageIds,
+            'villageIds' => $villageIds, // Ensure this is an array
             'villages' => $villages
         ]);
     }

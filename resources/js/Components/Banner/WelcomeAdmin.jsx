@@ -2,11 +2,11 @@ import { usePage } from '@inertiajs/react';
 import { Banner } from 'flowbite-react'
 import React from 'react'
 
-export default function BannerWelcomeAdmin() {
+export default function BannerWelcomeAdmin({ builtAreasPpl }) {
     const { auth } = usePage().props;
     return (
         <Banner>
-            <div className="flex w-full border-l-4 border-[#34D399] bg-[#34D399] bg-opacity-[15%] px-4 py-8 shadow-md">
+            <div className="flex w-full border-l-4 border-[#34D399] bg-[#34D399] bg-opacity-[15%] px-4 py-6 shadow-md">
                 <div className="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-[#34D399]">
                     <svg
                         width="16"
@@ -23,12 +23,22 @@ export default function BannerWelcomeAdmin() {
                     </svg>
                 </div>
                 <div className="w-full">
-                    <h5 className="mb-3 text-lg text-black">
-                        Selamat Datang <span className='font-semibold'>{auth.user.name}</span>, anda login sebagai <span className='font-semibold'>{auth.user.role}</span>
+                    <h5 className="mb-1 text-lg text-black">
+                        Selamat datang, <span className='font-semibold'>{auth.user.name}</span>. Anda login sebagai <span className='font-semibold'>{auth.user.role}</span>.
                     </h5>
                     <p className="text-base leading-relaxed text-body">
-                        Selalu jaga kerahasiaan username dan password anda.
+                        Pastikan untuk menjaga kerahasiaan Email dan Password Anda.
                     </p>
+                    {builtAreasPpl.length > 0 &&
+                        <p className="text-base leading-relaxed text-body">
+                            Wilayah binaan Anda meliputi: {' '}
+                            {builtAreasPpl.map((builtArea, index) => (
+                                <span key={index} className='font-semibold'>
+                                    {builtArea.name}{index < builtAreasPpl.length - 1 ? ', ' : ''}
+                                </span>
+                            ))}
+                        </p>
+                    }
                 </div>
                 <Banner.CollapseButton color="gray" className="border-0 bg-transparent text-gray-500 items-center">
                     <i className="fa-solid fa-x"></i>

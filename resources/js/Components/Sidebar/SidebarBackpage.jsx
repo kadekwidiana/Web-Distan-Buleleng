@@ -1,10 +1,11 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import React, { useState, useRef, useEffect } from 'react';
 import HeaderSidebarBackpage from '../Header/SidebarBackpage';
 import SidebarMenu from '../Menu/SidebarMenu';
 import DropdownMenu from '../Menu/DropdownMenu';
 
 const SidebarMenus = () => {
+    const { auth } = usePage().props;
     return (
         <ul className="space-y-2 font-medium">
             <SidebarMenu
@@ -12,35 +13,37 @@ const SidebarMenus = () => {
                 icon={<i className="fa-solid fa-gauge"></i>}
                 label={'Dashboard'}
             />
-            <DropdownMenu
-                icon={<i className="fa-solid fa-database"></i>}
-                label={'Master Data'}
-                url={'/master-data'}
-                subMenus={
-                    <>
-                        <SidebarMenu
-                            href={'/master-data/jenis-pertanian'}
-                            icon={<i className="fa-solid fa-database"></i>}
-                            label={'Jenis Pertanian'}
-                        />
-                        <SidebarMenu
-                            href={'/master-data/jenis-lahan-pertanian'}
-                            icon={<i className="fa-solid fa-database"></i>}
-                            label={'Jenis Lahan Pertanian'}
-                        />
-                        <SidebarMenu
-                            href={'/master-data/komoditas'}
-                            icon={<i className="fa-solid fa-database"></i>}
-                            label={'Komoditas'}
-                        />
-                        {/* <SidebarMenu
+            {auth.user.role === 'ADMIN' &&
+                <DropdownMenu
+                    icon={<i className="fa-solid fa-database"></i>}
+                    label={'Master Data'}
+                    url={'/master-data'}
+                    subMenus={
+                        <>
+                            <SidebarMenu
+                                href={'/master-data/jenis-pertanian'}
+                                icon={<i className="fa-solid fa-database"></i>}
+                                label={'Jenis Pertanian'}
+                            />
+                            <SidebarMenu
+                                href={'/master-data/jenis-lahan-pertanian'}
+                                icon={<i className="fa-solid fa-database"></i>}
+                                label={'Jenis Lahan Pertanian'}
+                            />
+                            <SidebarMenu
+                                href={'/master-data/komoditas'}
+                                icon={<i className="fa-solid fa-database"></i>}
+                                label={'Komoditas'}
+                            />
+                            {/* <SidebarMenu
                             href={'/master-data/layer-grup'}
                             icon={<i className="fa-solid fa-database"></i>}
                             label={'Layer Grup'}
                         /> */}
-                    </>
-                }
-            />
+                        </>
+                    }
+                />
+            }
             <DropdownMenu
                 icon={<i className="fa-solid fa-building-columns"></i>}
                 label={'Kelembagaan Pertanian'}
@@ -65,45 +68,53 @@ const SidebarMenus = () => {
                     </>
                 }
             />
-            <SidebarMenu
-                href={'/pemilik-penggarap'}
-                icon={<i className="fa-solid fa-user"></i>}
-                label={'Pemilik/Penggarap Lahan'}
-            />
+            {auth.user.role === 'ADMIN' &&
+                <SidebarMenu
+                    href={'/pemilik-penggarap'}
+                    icon={<i className="fa-solid fa-user"></i>}
+                    label={'Pemilik/Penggarap Lahan'}
+                />
+            }
             <SidebarMenu
                 href={'/lahan_pertanian'}
                 icon={<i className="fa-solid fa-chart-area"></i>}
                 label={'Lahan Pertanian'}
             />
-            <SidebarMenu
-                href={'/ppl'}
-                icon={<i className="fa-solid fa-users"></i>}
-                label={'Data Penyuluh'}
-            />
+            {auth.user.role === 'ADMIN' &&
+                <SidebarMenu
+                    href={'/ppl'}
+                    icon={<i className="fa-solid fa-users"></i>}
+                    label={'Data Penyuluh'}
+                />
+            }
             <SidebarMenu
                 href={'/penyuluhan'}
                 icon={<i className="fa-solid fa-clipboard"></i>}
                 label={'Kegiatan Penyuluhan'}
             />
-            <SidebarMenu
-                href={'/data-spasial'}
-                icon={<i className="fa-solid fa-map"></i>}
-                label={'Data Spasial'}
-            />
-            <DropdownMenu
-                icon={<i className="fa-solid fa-file"></i>}
-                label={'Management Laporan'}
-                url={'/management-report'}
-                subMenus={
-                    <>
-                        <SidebarMenu
-                            href={'/management-report/penyuluhan'}
-                            icon={<i className="fa-solid fa-file"></i>}
-                            label={'Penyuluhan'}
-                        />
-                    </>
-                }
-            />
+            {auth.user.role === 'ADMIN' &&
+                <>
+                    <SidebarMenu
+                        href={'/data-spasial'}
+                        icon={<i className="fa-solid fa-map"></i>}
+                        label={'Data Spasial'}
+                    />
+                    <DropdownMenu
+                        icon={<i className="fa-solid fa-file"></i>}
+                        label={'Management Laporan'}
+                        url={'/management-report'}
+                        subMenus={
+                            <>
+                                <SidebarMenu
+                                    href={'/management-report/penyuluhan'}
+                                    icon={<i className="fa-solid fa-file"></i>}
+                                    label={'Penyuluhan'}
+                                />
+                            </>
+                        }
+                    />
+                </>
+            }
         </ul>
     )
 }

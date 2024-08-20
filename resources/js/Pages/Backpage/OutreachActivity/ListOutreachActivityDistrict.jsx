@@ -11,13 +11,19 @@ import ButtonBack from '@/Components/Button/Back';
 import Swal from 'sweetalert2';
 import { Toast } from '@/Components/Alert/Toast';
 import DetailGapoktan from '@/Components/Modal/DetailGapoktan';
+import Button from '@/Components/Button/Button';
+import { handleExportExcel } from '@/Utils/exportExcel';
+import TextInput from '@/Components/Input/TextInput';
+import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 
 export default function ListOutreachActivitiesInDistrictPage() {
-    const { villagesByDistrictId, outreachActivitiesInDiscrict, districtData, searchValue, villageIdValue } = usePage().props;
+    const { villagesByDistrictId, outreachActivitiesInDiscrict, districtData, searchValue, villageIdValue, startDateValue, endDateValue } = usePage().props;
     const perpage = useRef(outreachActivitiesInDiscrict.per_page);
     const [isLoading, setIsLoading] = useState(false);
     const [search, setSearch] = useState('');
     const villageId = useRef(outreachActivitiesInDiscrict.villageId);
+    const startDate = useRef(outreachActivitiesInDiscrict.startDate);
+    const endDate = useRef(outreachActivitiesInDiscrict.endDate);
     const [openModal, setOpenModal] = useState(false);
     const [selectedGapoktan, setSelectedGapoktan] = useState({});
 
@@ -28,6 +34,16 @@ export default function ListOutreachActivitiesInDistrictPage() {
 
     const handleFilter = (e) => {
         villageId.current = e.target.value;
+        getData();
+    }
+
+    const handleFilterStartDate = (e) => {
+        startDate.current = e.target.value;
+        getData();
+    }
+
+    const handleFilterEndDate = (e) => {
+        endDate.current = e.target.value;
         getData();
     }
 
@@ -61,7 +77,9 @@ export default function ListOutreachActivitiesInDistrictPage() {
         const params = pickBy({
             perpage: perpage.current,
             search: search ?? searchValue,
-            villageId: villageId.current ?? villageIdValue
+            villageId: villageId.current ?? villageIdValue,
+            startDate: startDate.current ?? startDateValue,
+            endDate: endDate.current ?? endDateValue,
         });
 
         if (isSearchCleared) {
@@ -108,7 +126,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
             <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-2 md:px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
                 <ButtonBack url={`/penyuluhan`} />
                 <h1 className='text-2xl font-semibold text-gray-800 mb-2 capitalize'>Daftar Kegiatan Penyuluhan di Kecamatan {districtData.name}</h1>
-                <div className="flex justify-between gap-2 sm:gap-10">
+                <div className="flex justify-between gap-2">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 hidden md:inline-flex items-center sm:py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value={10} defaultChecked>10</option>
@@ -133,7 +151,23 @@ export default function ListOutreachActivitiesInDistrictPage() {
                             </div>
                         </form>
                     </div>
-                    {/* <ExcelExport data={outreachActivitiesInDiscrict.data} fileName="Gapoktan" /> */}
+                    <div className="flex justify-start gap-1 items-center w-1/2">
+                        <TextInput
+                            type={'date'}
+                            name={'startDate'}
+                            placeholder={'Tanggal Mulai'}
+                            onChange={handleFilterStartDate}
+                            defaultValue={startDateValue}
+                        />
+                        <TextInput
+                            type={'date'}
+                            name={'endDate'}
+                            placeholder={'Tanggal Akhir'}
+                            onChange={handleFilterEndDate}
+                            defaultValue={endDateValue}
+                        />
+                    </div>
+                    <Button type="button" onClick={() => handleExportExcel(`Kegiatan Penyuluhan ${districtData?.name}`, outreachActivitiesInDiscrict.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
                     <ButtonAdd href={`/penyuluhan/kecamatan/${districtData.id}/create`} />
                 </div>
                 <div className="flex flex-col my-2 w-auto max-md:overflow-x-auto max-md:my-8">
@@ -143,6 +177,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                             <Table.HeadCell>PENYULUH</Table.HeadCell>
                             <Table.HeadCell>JUDUL</Table.HeadCell>
                             <Table.HeadCell>DESA</Table.HeadCell>
+                            <Table.HeadCell>TANGGAL</Table.HeadCell>
                             <Table.HeadCell className='flex justify-center'>
                                 AKSI
                             </Table.HeadCell>
@@ -161,6 +196,9 @@ export default function ListOutreachActivitiesInDistrictPage() {
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {outreachActivity.village.name}
+                                    </Table.Cell>
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                                        {formatDateToIndonesian(outreachActivity.created_at) ?? ''}
                                     </Table.Cell>
                                     <Table.Cell className='flex justify-center items-center gap-3'>
                                         <Link href={`/penyuluhan/kecamatan/${districtData.id}/${outreachActivity.id}/detail`}>

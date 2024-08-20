@@ -29,7 +29,7 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                     </div>
                     <div className="flex items-center">
                         <div className="flex items-center ms-3">
-                            <span className='px-2 text-gray-800 text-sm'>{auth.user.name}</span>
+                            <span className='px-2 text-gray-800 text-sm font-medium'>{auth.user.name}</span>
                             <Dropdown label="" dismissOnClick={false} renderTrigger={() =>
                                 <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-300 :focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span className="sr-only">Open user menu</span>
@@ -41,6 +41,17 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                                         <i className="fa-solid fa-user mr-2"></i>
                                         Profile
                                     </Link>
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <a href={
+                                        auth.user.role === 'ADMIN' ?
+                                            '/assets/panduan/m5n7o3p1q2r8s9t4u6v0w3x7y8z1a2b4c5d6e7f8g9h0i1j2k3l4m5n6o7p8q9r0s1t.pdf'
+                                            :
+                                            '/assets/panduan/a4b8c1d7e2f6g9h3i0j5k4l8m2n7o1p6q9r0s3t4u5v8w1x2y7z6a0b9c1d4e3f5g7h.pdf'
+                                    }>
+                                        <i className="fa-solid fa-book mr-2"></i>
+                                        Panduan
+                                    </a>
                                 </DropdownItem>
                                 <DropdownItem>
                                     <Link href={route('logout')} method="post" as="button">

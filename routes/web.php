@@ -44,19 +44,7 @@ Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
 Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::get('/admin', function () {
-    //     return Inertia::render('Admin');
-    // });
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('index.dashboard');
-
-    // Route::get('/ppl', function () {
-    //     return Inertia::render('Backpage/PPL/Index');
-    // })->name('index.ppl');
-
-    // Route::get('/ppl/input', function () {
-    //     return Inertia::render('Backpage/PPL/Input');
-    // })->name('input.ppl');
 
     /*
     |--------------------------------------------------------------------------
@@ -176,9 +164,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route untuk store data owner
     // Route::post('/owner', [LandOwnerOrCultivatorController::class, 'store'])->name('owner.store');
 
-    // DATA PENYULUH
-    Route::resource('ppl', PPLController::class);
-
     // KEGIATAN PENYULUHAN
     Route::get('/penyuluhan', [OutreachActivitiesController::class, 'outreachActivitiesRegency'])->name('outreachActivities.regency');
     Route::get('/penyuluhan/kecamatan/{districtId}', [OutreachActivitiesController::class, 'outreachActivitiesDistrict'])->name('outreachActivities.district');
@@ -192,29 +177,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // D 
     Route::delete('/penyuluhan/kecamatan/{districtId}/{id}/delete', [OutreachActivitiesController::class, 'destroy'])->name('outreachActivities.delete');
 
-    // DATA SPASIAL
-    Route::resource('data-spasial', DataSpatialController::class);
-    Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update'); //pake ini karena resource tidak bisa up file (i don't no what this problem #males-ngulik, intinya apa guyss?? ya benar... intinya bisa...)
+    Route::group(['middleware' => 'checkRole:ADMIN'], function () {
+        // DATA PENYULUH
+        Route::resource('ppl', PPLController::class);
 
-    // MASTER DATA
-    Route::resource('/master-data/komoditas', CommodityController::class);
-    Route::post('/master-data/komoditas/{id}/update', [CommodityController::class, 'update'])->name('komoditas.update');
+        // DATA SPASIAL
+        Route::resource('data-spasial', DataSpatialController::class);
+        Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update'); //pake ini karena resource tidak bisa up file (i don't no what this problem #males-ngulik, intinya apa guyss?? ya benar... intinya bisa...)
 
-    Route::resource('/master-data/layer-grup', LayerGroupController::class);
-    Route::post('/master-data/layer-grup/{id}/update', [LayerGroupController::class, 'update'])->name('layer-group.update');
-
-    Route::resource('/master-data/jenis-pertanian', TypeAgricultureController::class);
-    Route::post('/master-data/jenis-pertanian/{id}/update', [TypeAgricultureController::class, 'update'])->name('jenis-pertanian.update');
-
-    Route::resource('/master-data/jenis-lahan-pertanian', TypeLandAgricultureController::class);
-    Route::post('/master-data/jenis-lahan-pertanian/{id}/update', [TypeLandAgricultureController::class, 'update'])->name('jenis-lahan-pertanian.update');
-
-    Route::resource('/pemilik-penggarap', LandOwnerOrCultivatorController::class);
-    Route::post('/pemilik-penggarap/{id}/update', [LandOwnerOrCultivatorController::class, 'update'])->name('pemilik-penggarap.update');
-
-    // management report
-    Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivityView'])->name('managementReport.outreachActivityView');
-    Route::get('/management-report/penyuluhan/data', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+        // MASTER DATA
+        // komoditas
+        Route::resource('/master-data/komoditas', CommodityController::class);
+        Route::post('/master-data/komoditas/{id}/update', [CommodityController::class, 'update'])->name('komoditas.update');
+        // layer group
+        Route::resource('/master-data/layer-grup', LayerGroupController::class);
+        Route::post('/master-data/layer-grup/{id}/update', [LayerGroupController::class, 'update'])->name('layer-group.update');
+        // jenis pertanian
+        Route::resource('/master-data/jenis-pertanian', TypeAgricultureController::class);
+        Route::post('/master-data/jenis-pertanian/{id}/update', [TypeAgricultureController::class, 'update'])->name('jenis-pertanian.update');
+        // jenis lahan pertanian
+        Route::resource('/master-data/jenis-lahan-pertanian', TypeLandAgricultureController::class);
+        Route::post('/master-data/jenis-lahan-pertanian/{id}/update', [TypeLandAgricultureController::class, 'update'])->name('jenis-lahan-pertanian.update');
+        // pemilik/penggarap
+        Route::resource('/pemilik-penggarap', LandOwnerOrCultivatorController::class);
+        Route::post('/pemilik-penggarap/{id}/update', [LandOwnerOrCultivatorController::class, 'update'])->name('pemilik-penggarap.update');
+        // management report
+        Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivityView'])->name('managementReport.outreachActivityView');
+        Route::get('/management-report/penyuluhan/data', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+    });
 });
 
 Route::middleware('auth')->group(function () {

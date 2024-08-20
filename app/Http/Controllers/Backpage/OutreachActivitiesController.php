@@ -9,8 +9,10 @@ use App\Models\OutreachActivities;
 use App\Models\Poktan;
 use App\Models\Ppl;
 use App\Models\Subak;
+use App\Models\User;
 use App\Models\Village;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -40,13 +42,33 @@ class OutreachActivitiesController extends Controller
 
     public function outreachActivitiesRegency(Request $request)
     {
-        // regency_id buleleng
-        $districtWithOutreachActivities = District::where('regency_id', 5108)->with(['villages' => function ($query) {
-            $query->withCount('outreachActivities');
-        }])->get();
+        $userSession = Auth::user();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            $villages = $user->ppl->villages;
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+
+            $districtWithOutreachActivities = District::whereHas('villages', function ($query) use ($villageIds) {
+                $query->whereIn('id', $villageIds);
+            })
+                ->where('id', '!=', '6301040') // Exclude the district with ID '6301040'
+                ->with(['villages' => function ($query) use ($villageIds, $user) {
+                    $query->whereIn('id', $villageIds)
+                        ->withCount(['outreachActivities' => function ($query) use ($user) {
+                            $query->where('ppl_nip', $user->ppl->nip);
+                        }]);
+                }])->get();
+        } else {
+            // If the user is not PPL, retrieve all villages with outreach activities in Buleleng regency
+            $districtWithOutreachActivities = District::where('regency_id', 5108)
+                ->with(['villages' => function ($query) {
+                    $query->withCount('outreachActivities');
+                }])->get();
+        }
 
         $districtWithOutreachActivities = $districtWithOutreachActivities->map(function ($district) {
-            $districtOutreachActivityCount = $district->villages->sum('outreach_activities_count'); // ternyata nama atribute nya harus sama (misal land_agricultures_count untuk landAgricultures) dan pake snake case
+            $districtOutreachActivityCount = $district->villages->sum('outreach_activities_count');
             $district->outreach_activities_count = $districtOutreachActivityCount;
             return $district;
         });
@@ -57,8 +79,10 @@ class OutreachActivitiesController extends Controller
         ]);
     }
 
+
     public function outreachActivitiesDistrict(Request $request)
     {
+        $userSession = Auth::user();
         $districtId = $request->districtId;
         $villageId = $request->villageId;
         $perpage = $request->perpage ?? 10;
@@ -73,12 +97,33 @@ class OutreachActivitiesController extends Controller
 
         $districtData = $districtWithOutreachActivities->firstWhere('id', $districtId);
 
-        $villagesByDistrictId = Village::where('district_id', $districtId)->get();
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
 
-        // Filter outreach activities berdasarkan district_id
-        $outreachActivityQuery = OutreachActivities::whereHas('village', function ($query) use ($districtId) {
-            $query->where('district_id', $districtId);
-        });
+            // Filter villages by both village IDs and district ID
+            $villagesByDistrictId = Village::whereIn('id', $villageIds)
+                ->where('district_id', $districtId)
+                ->distinct()
+                ->get(); // anomali cuyy,, desa sambangan malah duplikat, pake distinct() belum fix. #biarkan saja yg penting bisa jalan 😐
+
+            // Filter OutreachActivities based on the specific village IDs, district ID, and ppl_nip
+            $outreachActivityQuery = OutreachActivities::whereIn('village_id', $villageIds)
+                ->whereHas('village', function ($query) use ($districtId) {
+                    $query->where('district_id', $districtId);
+                })
+                ->where('ppl_nip', $user->ppl->nip);
+        } else {
+            $villagesByDistrictId = Village::where('district_id', $districtId)->get();
+
+            // Filter outreach activities berdasarkan district_id
+            $outreachActivityQuery = OutreachActivities::whereHas('village', function ($query) use ($districtId) {
+                $query->where('district_id', $districtId);
+            });
+        }
 
         if ($villageId) {
             $outreachActivityQuery->where('village_id', $villageId);
@@ -111,6 +156,8 @@ class OutreachActivitiesController extends Controller
             'districtData' => $districtData,
             'searchValue' => $request->search ?? '',
             'villageIdValue' => $request->villageId ?? '',
+            'startDateValue' => $request->startDate ?? '',
+            'endDateValue' => $request->endDate ?? '',
             'villagesByDistrictId' => $villagesByDistrictId,
             'outreachActivitiesInDiscrict' => $outreachActivitiesInDiscrict
         ]);
@@ -129,17 +176,33 @@ class OutreachActivitiesController extends Controller
      */
     public function create(Request $request)
     {
+        $userSession = Auth::user();
         $districtId = $request->districtId;
 
         $district = District::firstWhere('id', $districtId);
-        $villages = Village::where('district_id', $districtId)->get();
-        $ppls = Ppl::all();
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
         $gapoktans = Gapoktan::whereIn('village_id', $villageIds)->get();
         $poktans = Poktan::whereIn('village_id', $villageIds)->get();
         $subaks = Subak::whereIn('village_id', $villageIds)->get();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            $ppls = Ppl::where('nip', $user->ppl->nip)->get();
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+
+            // Fetch villages based on the extracted IDs and district ID
+            $villages = Village::whereIn('id', $villageIds)
+                ->where('district_id', $request->districtId)
+                ->get();
+        } else {
+            $villages = Village::where('district_id', $request->districtId)->get();
+            $ppls = Ppl::all();
+        }
 
         return Inertia::render('Backpage/OutreachActivity/Create', [
             'navName' => 'Tambah Kegiatan Penyuluhan',
@@ -238,6 +301,7 @@ class OutreachActivitiesController extends Controller
      */
     public function edit(Request $request, string $id)
     {
+        $userSession = Auth::user();
         $districtId = $request->districtId;
         $outreachActivityById = OutreachActivities::firstWhere('id', $request->id);
         $gapoktanOutreachActivityIds = $outreachActivityById->gapoktanOutreachActivities->pluck('id')->toArray(); //biar gampang olah di FE
@@ -245,7 +309,6 @@ class OutreachActivitiesController extends Controller
         $subakOutreachActivityIds = $outreachActivityById->subakOutreachActivities->pluck('id')->toArray(); //biar gampang olah di FE
 
         $district = District::firstWhere('id', $districtId);
-        $villages = Village::where('district_id', $districtId)->get();
         $ppls = Ppl::all();
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
@@ -253,6 +316,20 @@ class OutreachActivitiesController extends Controller
         $gapoktans = Gapoktan::whereIn('village_id', $villageIds)->get();
         $poktans = Poktan::whereIn('village_id', $villageIds)->get();
         $subaks = Subak::whereIn('village_id', $villageIds)->get();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+            // Fetch villages based on the extracted IDs and district ID
+            $villages = Village::whereIn('id', $villageIds)
+                ->where('district_id', $request->districtId)
+                ->get();
+        } else {
+            $villages = Village::where('district_id', $request->districtId)->get();
+        }
 
         return Inertia::render('Backpage/OutreachActivity/Edit', [
             'navName' => 'Edit Kegiatan Penyuluhan',

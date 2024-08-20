@@ -158,9 +158,7 @@ const useScriptSidebarMaps = (map) => {
         }
     });
     // Add the custom button to the map
-    map.addControl(new customControlLegend());
-
-
+    // map.addControl(new customControlLegend());
 
     // END SIDEBAR RIGTH
 

@@ -9,64 +9,85 @@ import { id } from 'date-fns/locale';
 
 
 export default function Dashboard() {
-    const { gapoktanCount, poktanCount, subakCount, pplCount, landAgricultureCount, outreachActivityCount, outreachActivitiesThisMonthCount, dataSpatialCount } = usePage().props;
+    const { auth } = usePage().props;
+    const { gapoktanCount, poktanCount, subakCount, pplCount, landAgricultureCount, outreachActivityCount, outreachActivitiesThisMonthCount, builtAreasPpl, dataSpatialCount } = usePage().props;
     const currentMonth = format(new Date(), 'MMMM yyyy', { locale: id });
-
     return (
         <BackpageLayout>
             <Head title="Dashboard" />
-            <BannerWelcomeAdmin />
+            <BannerWelcomeAdmin builtAreasPpl={builtAreasPpl} />
             <div className="flex flex-col gap-4">
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-users fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={'Data Penyuluh'}
-                        count={pplCount}
-                        url={'/ppl'}
-                    />
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-clipboard fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={`Kegiatan Penyuluhan Bulan ${currentMonth}`}
-                        count={outreachActivitiesThisMonthCount}
-                        url={'/management-report/penyuluhan'}
-                    />
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={'Gapoktan'}
-                        count={gapoktanCount}
-                        url={'/kelembagaan-pertanian/gapoktan'}
-                    />
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={'Poktan'}
-                        count={poktanCount}
-                        url={'/kelembagaan-pertanian/poktan'}
-                    />
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={'Subak'}
-                        count={subakCount}
-                        url={'/kelembagaan-pertanian/subak'}
-                    />
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-chart-area fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={'Lahan Pertanian'}
-                        count={landAgricultureCount}
-                        url={'/lahan_pertanian'}
-                    />
-                    <CardMenuDashboard
-                        icon={<i className="fa-solid fa-map fa-lg"></i>}
-                        bgIcon={'blue'}
-                        label={'Data Spasial'}
-                        count={dataSpatialCount}
-                        url={'/data-spasial'}
-                    />
+                    {auth.user.role === 'PPL' ?
+                        <>
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-earth-americas fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Wilayah Binaan'}
+                                count={builtAreasPpl.length}
+                                url={'#'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-clipboard fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={`Kegiatan Penyuluhan Anda pada Bulan ${currentMonth}`}
+                                count={outreachActivitiesThisMonthCount}
+                                url={'/penyuluhan'}
+                            />
+                        </>
+                        :
+                        <>
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-users fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Data Penyuluh'}
+                                count={pplCount}
+                                url={'/ppl'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-clipboard fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={`Kegiatan Penyuluhan Bulan ${currentMonth}`}
+                                count={outreachActivitiesThisMonthCount}
+                                url={'/management-report/penyuluhan'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Gapoktan'}
+                                count={gapoktanCount}
+                                url={'/kelembagaan-pertanian/gapoktan'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Poktan'}
+                                count={poktanCount}
+                                url={'/kelembagaan-pertanian/poktan'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Subak'}
+                                count={subakCount}
+                                url={'/kelembagaan-pertanian/subak'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-chart-area fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Lahan Pertanian'}
+                                count={landAgricultureCount}
+                                url={'/lahan_pertanian'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-map fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Data Spasial'}
+                                count={dataSpatialCount}
+                                url={'/data-spasial'}
+                            />
+                        </>
+                    }
                 </div>
                 {/* <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
                     <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden xl:col-span-2">

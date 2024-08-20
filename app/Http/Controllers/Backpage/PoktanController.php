@@ -8,8 +8,10 @@ use App\Models\District;
 use App\Models\Gapoktan;
 use App\Models\LayerGrup;
 use App\Models\Poktan;
+use App\Models\User;
 use App\Models\Village;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -58,10 +60,29 @@ class PoktanController extends Controller
 
     public function poktanRegency(Request $request)
     {
-        // regency_id buleleng
-        $districtWithPoktans = District::where('regency_id', 5108)->with(['villages' => function ($query) {
-            $query->withCount('poktans');
-        }])->get();
+        $userSession = Auth::user();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+
+            $districtWithPoktans = District::whereHas('villages', function ($query) use ($villageIds) {
+                $query->whereIn('id', $villageIds);
+            })
+                ->where('id', '!=', '6301040')  // Exclude the district with ID '6301040' anomali data kecamatan nya, malah tampil 6301040 = BATI - BATI
+                ->with(['villages' => function ($query) use ($villageIds) {
+                    $query->whereIn('id', $villageIds)
+                        ->withCount('poktans');
+                }])->get();
+        } else {
+            // regency_id buleleng
+            $districtWithPoktans = District::where('regency_id', 5108)->with(['villages' => function ($query) {
+                $query->withCount('poktans');
+            }])->get();
+        }
 
         $districtWithPoktans = $districtWithPoktans->map(function ($district) {
             $districtPoktansCount = $district->villages->sum('poktans_count'); // ternyata nama atribute nya harus sama (misal poktans_count untuk poktans)
@@ -77,6 +98,7 @@ class PoktanController extends Controller
 
     public function poktanDistrict(Request $request)
     {
+        $userSession = Auth::user();
         $districtId = $request->districtId;
         $villageId = $request->villageId;
         $perpage = $request->perpage ?? 10;
@@ -88,12 +110,30 @@ class PoktanController extends Controller
 
         $districtData = $districtWithPoktans->firstWhere('id', $districtId);
 
-        $villagesByDistrictId = Village::where('district_id', $districtId)->get();
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
 
-        // Filter gapoktans berdasarkan village_id jika village_id diberikan
-        $poktansQuery = Poktan::whereHas('village', function ($query) use ($districtId) {
-            $query->where('district_id', $districtId);
-        });
+            $villagesByDistrictId = Village::whereIn('id', $villageIds)
+                ->where('district_id', $districtId)
+                ->distinct()
+                ->get(); // anomali cuyy,, desa sambangan malah duplikat, pake distinct() belum fix solusinya. #biarkan saja yg penting bisa jalan 😐
+
+            $poktansQuery = Poktan::whereIn('village_id', $villageIds)
+                ->whereHas('village', function ($query) use ($districtId) {
+                    $query->where('district_id', $districtId);
+                });
+        } else {
+            $villagesByDistrictId = Village::where('district_id', $districtId)->get();
+
+            // Filter gapoktans berdasarkan village_id jika village_id diberikan
+            $poktansQuery = Poktan::whereHas('village', function ($query) use ($districtId) {
+                $query->where('district_id', $districtId);
+            });
+        }
 
         if ($villageId) {
             $poktansQuery->where('village_id', $villageId);
@@ -137,11 +177,26 @@ class PoktanController extends Controller
 
     public function createStepOne(Request $request)
     {
+        $userSession = Auth::user();
         $district = District::firstWhere('id', $request->districtId);
-        $villages = Village::where('district_id', $request->districtId)->get();
         $villagesForGapoktans = Village::where('district_id', $request->districtId)->pluck('id');
         $gapoktans = Gapoktan::whereIn('village_id', $villagesForGapoktans)->get();
         $commodities = Commodity::all();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+
+            // Fetch villages based on the extracted IDs and district ID
+            $villages = Village::whereIn('id', $villageIds)
+                ->where('district_id', $request->districtId)
+                ->get();
+        } else {
+            $villages = Village::where('district_id', $request->districtId)->get();
+        }
 
         $poktan = $request->session()->get('poktan');
 
@@ -247,14 +302,28 @@ class PoktanController extends Controller
 
     public function editStepOne(Request $request)
     {
+        $userSession = Auth::user();
         $poktanById = Poktan::with('commodities')->findOrFail($request->poktanId); // dari request ambil
         $commodityIds = $poktanById->commodities->pluck('id')->toArray(); //biar gampang olah di FE
 
         $district = District::firstWhere('id', $request->districtId);
-        $villages = Village::where('district_id', $request->districtId)->get();
         $villagesForGapoktans = Village::where('district_id', $request->districtId)->pluck('id');
         $gapoktans = Gapoktan::whereIn('village_id', $villagesForGapoktans)->get();
         $commodities = Commodity::all();
+
+        if ($userSession->role === 'PPL') {
+            $user = User::with(['ppl.villages'])->findOrFail($userSession->id);
+            // Get the villages associated with the Ppl model
+            $villages = $user->ppl->villages;
+            // Extract the IDs into an array
+            $villageIds = $villages->pluck('id')->unique()->values()->toArray();
+            // Fetch villages based on the extracted IDs and district ID
+            $villages = Village::whereIn('id', $villageIds)
+                ->where('district_id', $request->districtId)
+                ->get();
+        } else {
+            $villages = Village::where('district_id', $request->districtId)->get();
+        }
 
         $poktan = $request->session()->get('poktan');
 
