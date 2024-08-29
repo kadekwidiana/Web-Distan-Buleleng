@@ -149,7 +149,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 <InputError message={errors.owner_id} />
               </div>
               <div className="">
-                <InputLabel>Penggarap*</InputLabel>
+                <InputLabel>Penggarap</InputLabel>
                 <SelectTwo
                   entities={owners}
                   selectedEntityId={data.cultivator_id}

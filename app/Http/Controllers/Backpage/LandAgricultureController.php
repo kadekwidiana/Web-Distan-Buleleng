@@ -228,7 +228,7 @@ class LandAgricultureController extends Controller
             'subak_id' => 'nullable|exists:subaks,id',
             'type_land_agriculture_id' => 'required|exists:type_land_agricultures,id',
             'owner_id' => 'required|exists:users,id',
-            'cultivator_id' => 'required|exists:users,id',
+            'cultivator_id' => 'nullable|exists:users,id',
             'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'commodities_cycle' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'status' => 'required|string',
@@ -373,7 +373,7 @@ class LandAgricultureController extends Controller
             'subak_id' => 'nullable|exists:subaks,id',
             'type_land_agriculture_id' => 'required|exists:type_land_agricultures,id',
             'owner_id' => 'required|exists:users,id',
-            'cultivator_id' => 'required|exists:users,id',
+            'cultivator_id' => 'nullable|exists:users,id',
             'commodities' => 'required', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'commodities_cycle' => 'nullable', // hanya bisa di validasi saja, tidak bisa di simpan di session
             'status' => 'required|string',

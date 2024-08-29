@@ -43,7 +43,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('cultivator_id');
+            $table->unsignedBigInteger('cultivator_id')->nullable();
             $table->foreign('cultivator_id')
                 ->references('id')
                 ->on('users')
