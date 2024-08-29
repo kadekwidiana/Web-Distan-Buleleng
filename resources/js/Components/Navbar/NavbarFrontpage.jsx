@@ -46,7 +46,7 @@ export default function NavbarFrontpage() {
                                 </div>
                             }>
                                 <DropdownItem>
-                                    <a href={'/assets/panduan/a9b7c3d2e5f1g8h6i4j0k2l7m9n3o5p4q8r1s6t0u7v3w9x4y5z0a1b2c3d4e6f7g8h9i0j.pdf'}>
+                                    <a href={'/assets/panduan/Buku Panduan SIG Distan Buleleng.pdf'}>
                                         <i className="fa-solid fa-book mr-2"></i>
                                         Panduan
                                     </a>

@@ -43,12 +43,7 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                                     </Link>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <a href={
-                                        auth.user.role === 'ADMIN' ?
-                                            '/assets/panduan/m5n7o3p1q2r8s9t4u6v0w3x7y8z1a2b4c5d6e7f8g9h0i1j2k3l4m5n6o7p8q9r0s1t.pdf'
-                                            :
-                                            '/assets/panduan/a4b8c1d7e2f6g9h3i0j5k4l8m2n7o1p6q9r0s3t4u5v8w1x2y7z6a0b9c1d4e3f5g7h.pdf'
-                                    }>
+                                    <a href={'/assets/panduan/Buku Panduan SIG Distan Buleleng.pdf'}>
                                         <i className="fa-solid fa-book mr-2"></i>
                                         Panduan
                                     </a>
