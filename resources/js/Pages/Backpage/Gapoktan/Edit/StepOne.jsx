@@ -6,6 +6,7 @@ import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
 import SelectTwo from '@/Components/Input/InputSelectTwo';
 import TextInput from '@/Components/Input/TextInput';
+import { GROUP_STATUSES } from '@/Constant/Status';
 import BackpageLayout from '@/Layouts/BackpageLayout'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
@@ -20,6 +21,7 @@ export default function StepOneCreateGapoktanPage() {
     treasurer: gapoktan?.treasurer ?? gapoktanById.treasurer,
     number_of_members: gapoktan?.number_of_members ?? gapoktanById?.number_of_members,
     since: gapoktan?.since ?? gapoktanById?.since,
+    status: gapoktan?.status ?? gapoktanById?.status,
     confirmation_sk: gapoktan?.confirmation_sk ?? gapoktanById.confirmation_sk,
     confirmation_sk_no: gapoktan?.confirmation_sk_no ?? gapoktanById.confirmation_sk_no,
     business_unit: gapoktan?.business_unit ?? JSON.parse(gapoktanById.business_unit),
@@ -163,7 +165,21 @@ export default function StepOneCreateGapoktanPage() {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-
+              <div className="">
+                <InputLabel>Status*</InputLabel>
+                <InputSelect
+                  error={errors.status}
+                  defaultValue={data.status}
+                  onChange={handleChange}
+                  id="status"
+                  name="status"
+                >
+                  {GROUP_STATUSES.map((group_status, index) => (
+                    <option key={index} value={group_status.value} >{group_status.label}</option>
+                  ))}
+                </InputSelect>
+                <InputError message={errors.status} />
+              </div>
               <div className="">
                 <InputLabel>Unit Usaha*</InputLabel>
                 <div className="">

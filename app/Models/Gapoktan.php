@@ -30,6 +30,7 @@ class Gapoktan extends Model
         'treasurer',
         'number_of_members',
         'since',
+        'status',
         'location',
         'address',
         'icon',

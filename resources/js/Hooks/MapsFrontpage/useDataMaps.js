@@ -580,14 +580,12 @@ const useDataMaps = (map, dataLayers) => {
     };
 
     dataSpatials.forEach(dataSpatial => {
-        if (dataSpatial.status === 'ACTIVE') {
-            layerGroups[dataSpatial.name] = L.layerGroup();
-            checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
-            if (dataSpatial.file.endsWith('.geojson')) {
-                fetchDataGeoJson(dataSpatial, layerGroups[dataSpatial.name]);
-            } else if (dataSpatial.file.endsWith('.zip')) {
-                fetchShapefileFromZip(dataSpatial, layerGroups[dataSpatial.name]);
-            }
+        layerGroups[dataSpatial.name] = L.layerGroup();
+        checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
+        if (dataSpatial.file.endsWith('.geojson')) {
+            fetchDataGeoJson(dataSpatial, layerGroups[dataSpatial.name]);
+        } else if (dataSpatial.file.endsWith('.zip')) {
+            fetchShapefileFromZip(dataSpatial, layerGroups[dataSpatial.name]);
         }
     });
 

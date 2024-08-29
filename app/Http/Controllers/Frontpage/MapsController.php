@@ -19,16 +19,39 @@ class MapsController extends Controller
 {
     public function index()
     {
+        // Fetch all layer groups
         $layerGroups = LayerGrup::all();
-        $typeAgricultures = TypeAgriculture::all();
-        $typeLandAgricultures = TypeLandAgriculture::all();
-        $dataSpatials = DataSpatial::all();
-        $gapoktans = Gapoktan::all();
-        $poktans = Poktan::all();
-        $subaks = Subak::all();
-        $landAgricultures = LandAgriculture::with(['owner', 'cultivator', 'typeLandAgriculture', 'poktan', 'subak', 'commodities'])->get();
-        $commodities = Commodity::with(['landAgricultures'])->get();
 
+        // Fetch type agricultures
+        $typeAgricultures = TypeAgriculture::all();
+
+        // Fetch type land agricultures
+        $typeLandAgricultures = TypeLandAgriculture::all();
+
+        // Fetch data spatials with ACTIVE status
+        $dataSpatials = DataSpatial::where('status', 'ACTIVE')->get();
+
+        // Fetch gapoktans with ACTIVE status
+        $gapoktans = Gapoktan::where('status', 'ACTIVE')->get();
+
+        // Fetch poktans with ACTIVE status
+        $poktans = Poktan::where('status', 'ACTIVE')->get();
+
+        // Fetch subaks with ACTIVE status
+        $subaks = Subak::where('status', 'ACTIVE')->get();
+
+        // Fetch land agricultures with ACTIVE status and their related data
+        $landAgricultures = LandAgriculture::with(['owner', 'cultivator', 'typeLandAgriculture', 'poktan', 'subak', 'commodities'])
+            ->where('status', 'ACTIVE')
+            ->get();
+
+        // Fetch commodities with ACTIVE land agricultures
+        $commodities = Commodity::with(['landAgricultures' => function ($query) {
+            $query->where('status', 'ACTIVE');
+        }])
+            ->get();
+
+        // Prepare data for the view
         $data = [
             'layerGroups' => $layerGroups,
             'typeAgricultures' => $typeAgricultures,
