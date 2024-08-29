@@ -264,8 +264,8 @@ export default function CreateOutreachActivityPage() {
                                 <InputError message={errors.subak_outreach_activities} />
                             </div>
                             <div className="w-full">
-                                <InputLabel>Lainnya yang terlibat</InputLabel>
-                                <TextInput error={errors.others_involved} value={data.others_involved} onChange={handleChange} id='others_involved' name='others_involved' placeholder="Lainnya.." />
+                                <InputLabel>Pihak lainnya yang terlibat</InputLabel>
+                                <TextInput error={errors.others_involved} value={data.others_involved} onChange={handleChange} id='others_involved' name='others_involved' placeholder="Pihak lainnya.." />
                                 <InputError message={errors.others_involved} />
                             </div>
                         </div>

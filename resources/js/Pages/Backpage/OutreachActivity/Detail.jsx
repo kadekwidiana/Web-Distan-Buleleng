@@ -102,9 +102,9 @@ export default function DetailOutreachActivityPage() {
                                         </td>
                                     </tr>
                                     <tr className="bg-white">
-                                        <td className="pr-2 py-2 w-1/5">Lainnya yang terlibat</td>
+                                        <td className="pr-2 py-2 w-1/5">Pihak lainnya yang terlibat</td>
                                         <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{outreachActivityById.others_involved}</td>
+                                        <td className="px-2 py-2 w-full">{outreachActivityById.others_involved ?? '-'}</td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Data dibuat</td>
