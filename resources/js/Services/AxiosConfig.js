@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const createInstance = () => {
-    const instance = axios.create();
+    const instance = axios.create({
+        timeout: 60000, // Set timeout menjadi 1 menit (60.000 milidetik)
+    });
 
     instance.interceptors.request.use(async (request) => {
         request.headers["Content-Type"] = 'application/json';
