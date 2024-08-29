@@ -14,6 +14,7 @@ import LoadData from "@/Components/Loading/LoadData";
 import DataNotFound from "@/Components/Error/DataNotFound";
 import { HTTP_STATUS_MESSAGES } from "@/Constant/HTTPStartusMessages";
 import FetchError from "@/Components/Error/FetchError";
+import Swal from "sweetalert2";
 
 // Define table columns and data
 const tableColumns = [
@@ -51,94 +52,135 @@ export default function ReportOutreachActivityPage() {
     const [villageNameForPDF, setVillageNameForPDF] = useState('');
 
     const handlePrintPDF = () => {
-        setIsLoading(true);
-        const doc = new jsPDF('l', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' size
+        Swal.fire({
+            title: 'Masukkan Nama File',
+            input: 'text',
+            inputLabel: 'Nama File',
+            inputPlaceholder: 'Laporan Kegiatan Penyuluhan',
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: 'Export',
+            cancelButtonText: 'Batal',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Nama file tidak boleh kosong!';
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setIsLoading(true);
+                const doc = new jsPDF('l', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' size
 
-        // Add logo
-        doc.addImage('/assets/images/logo-distan-buleleng-1.png', 'PNG', 5, 5, 40, 40); // x, y, width, height
+                // Add logo
+                doc.addImage('/assets/images/logo-distan-buleleng-1.png', 'PNG', 5, 5, 40, 40); // x, y, width, height
 
-        // Title and headers
-        doc.setFontSize(18);
-        doc.text('Laporan Kegiatan Penyuluhan', 50, 15); // x, y
-        doc.setFontSize(13);
-        doc.text(`Tanggal: ${startDateForPDF} - ${endDateForPDF}`, 50, 22); // x, y
-        doc.text(`Penyuluh: ${pplNameForPDF}`, 50, 28); // x, y
-        doc.text(`Kecamatan: ${districtNameForPDF}`, 50, 34); // x, y
-        doc.text(`Desa: ${villageNameForPDF}`, 50, 40); // x, y
-        doc.text(`Total Data: ${tableData.length}`, 50, 46); // x, y
+                // Title and headers
+                doc.setFontSize(18);
+                doc.text('Laporan Kegiatan Penyuluhan', 50, 15); // x, y
+                doc.setFontSize(13);
+                doc.text(`Tanggal: ${startDateForPDF} - ${endDateForPDF}`, 50, 22); // x, y
+                doc.text(`Penyuluh: ${pplNameForPDF}`, 50, 28); // x, y
+                doc.text(`Kecamatan: ${districtNameForPDF}`, 50, 34); // x, y
+                doc.text(`Desa: ${villageNameForPDF}`, 50, 40); // x, y
+                doc.text(`Total Data: ${tableData.length}`, 50, 46); // x, y
 
-        // Draw horizontal line above table
-        const lineY = 50; // y position where you want the line to be drawn
-        doc.setDrawColor(0, 0, 0); // Set the line color to black
-        doc.setLineWidth(0.50); // Set the line width
-        const pageWidth = doc.internal.pageSize.width; // Get the page width
-        doc.line(10, lineY, pageWidth - 10, lineY); // Draw line from x=10 to x=pageWidth-10
-        doc.line(10, lineY + 1, pageWidth - 10, lineY + 1); // Draw line from x=10 to x=pageWidth-10
+                // Draw horizontal line above table
+                const lineY = 50; // y position where you want the line to be drawn
+                doc.setDrawColor(0, 0, 0); // Set the line color to black
+                doc.setLineWidth(0.50); // Set the line width
+                const pageWidth = doc.internal.pageSize.width; // Get the page width
+                doc.line(10, lineY, pageWidth - 10, lineY); // Draw line from x=10 to x=pageWidth-10
+                doc.line(10, lineY + 1, pageWidth - 10, lineY + 1); // Draw line from x=10 to x=pageWidth-10
 
-        // Generate table
-        doc.autoTable({
-            startY: lineY + 5, // Position the table below the header
-            columns: tableColumns,
-            body: tableData,
-            margin: { top: 10, bottom: 10, right: 10, left: 10 },
-            styles: {
-                fontSize: 12,
-                lineColor: 'black',
-            },
-            headStyles: {
-                fillColor: 'gray', // Gray color for header background
-                textColor: 'black',
-                lineColor: 'black', // Border color black
-                lineWidth: 0.25, // Border width
-            },
-            alternateRowStyles: {
-                fillColor: 'white', // White color for body rows
-                textColor: 'black',
-            },
-            theme: 'grid', // Grid theme to include borders
+                // Generate table
+                doc.autoTable({
+                    startY: lineY + 5, // Position the table below the header
+                    columns: tableColumns,
+                    body: tableData,
+                    margin: { top: 10, bottom: 10, right: 10, left: 10 },
+                    styles: {
+                        fontSize: 12,
+                        lineColor: 'black',
+                    },
+                    headStyles: {
+                        fillColor: 'gray', // Gray color for header background
+                        textColor: 'black',
+                        lineColor: 'black', // Border color black
+                        lineWidth: 0.25, // Border width
+                    },
+                    alternateRowStyles: {
+                        fillColor: 'white', // White color for body rows
+                        textColor: 'black',
+                    },
+                    theme: 'grid', // Grid theme to include borders
+                });
+
+                // Define the footer position
+                const footerY = doc.internal.pageSize.height - 10; // Adjust the Y position as needed
+
+                // Add the footer text
+                doc.setFontSize(12);
+                doc.text(`Singaraja, ${formatDateToIndonesian(new Date().toLocaleDateString())}`, doc.internal.pageSize.width - 14, footerY, { align: 'right' });
+                doc.text(`${auth.user.name} | Dinas Pertanian Kabupaten Buleleng`, doc.internal.pageSize.width - 14, footerY + 5, { align: 'right' });
+
+                // Save the PDF with the entered file name
+                doc.save(`${result.value}.pdf`);
+                setIsLoading(false);
+            }
         });
-
-        // Define the footer position
-        const footerY = doc.internal.pageSize.height - 10; // Adjust the Y position as needed
-
-        // Add the footer text
-        doc.setFontSize(12);
-        doc.text(`Singaraja, ${formatDateToIndonesian(new Date().toLocaleDateString())}`, doc.internal.pageSize.width - 14, footerY, { align: 'right' });
-        doc.text(`${auth.user.name} | Dinas Pertanian Kabupaten Buleleng`, doc.internal.pageSize.width - 14, footerY + 5, { align: 'right' });
-
-        // Save the PDF
-        doc.save('Laporan Kegiatan Penyuluhan.pdf');
-        setIsLoading(false);
     };
 
     const handleExportExcel = () => {
-        setIsLoading(true);
-        const dataExportExcel = tableData.map((data) => ({
-            NO: data.no,
-            PENYULUH: data.ppl_name,
-            JUDUL: data.title,
-            KECAMATAN: data.district,
-            DESA: data.village,
-            LOKASI: data.address,
-            CATATAN: data.notes,
-            LAPORAN_KEGIATAN: data.activity_report,
-            YANG_TERLIBAT: data.which_are_involved,
-            DIBUAT: data.created_at,
-            DIUPDATE: data.updated_at,
-        }));
+        Swal.fire({
+            title: 'Masukkan Nama File',
+            input: 'text',
+            inputLabel: 'Nama File',
+            inputPlaceholder: 'Laporan Kegiatan Penyuluhan',
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: 'Export',
+            cancelButtonText: 'Batal',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Nama file tidak boleh kosong!';
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setIsLoading(true);
 
-        // Create a new workbook
-        const wb = XLSX.utils.book_new();
+                const dataExportExcel = tableData.map((data) => ({
+                    NO: data.no,
+                    PENYULUH: data.ppl_name,
+                    JUDUL: data.title,
+                    KECAMATAN: data.district,
+                    DESA: data.village,
+                    LOKASI: data.address,
+                    CATATAN: data.notes,
+                    LAPORAN_KEGIATAN: data.activity_report,
+                    YANG_TERLIBAT: data.which_are_involved,
+                    DIBUAT: data.created_at,
+                    DIUPDATE: data.updated_at,
+                }));
 
-        // Convert table data to worksheet
-        const ws = XLSX.utils.json_to_sheet(dataExportExcel);
+                // Create a new workbook
+                const wb = XLSX.utils.book_new();
 
-        // Add worksheet to workbook
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                // Convert table data to worksheet
+                const ws = XLSX.utils.json_to_sheet(dataExportExcel);
 
-        // Write workbook to file
-        XLSX.writeFile(wb, 'Laporan Kegiatan Penyuluhan.xlsx');
-        setIsLoading(false);
+                // Add worksheet to workbook
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+                // Write workbook to file with the entered file name
+                XLSX.writeFile(wb, `${result.value}.xlsx`);
+                setIsLoading(false);
+
+                Swal.fire('Berhasil', `File diekspor sebagai ${result.value}.xlsx`, 'success');
+            }
+        });
     };
 
     const getDataOutreachActivities = async () => {

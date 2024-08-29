@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 // Fungsi untuk mengubah nama header menjadi huruf besar
 const transformHeadersToUpperCase = (data) => {
@@ -24,18 +25,43 @@ const transformHeadersToUpperCase = (data) => {
 };
 
 export const handleExportExcel = (title, data) => {
-    // Ubah header menjadi huruf besar
-    const transformedData = transformHeadersToUpperCase(data);
+    // Prompt the user to enter a file name using SweetAlert
+    Swal.fire({
+        title: 'Masukkan nama file',
+        input: 'text',
+        inputLabel: 'Nama File',
+        inputPlaceholder: 'Masukkan nama file tanpa ekstensi',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: 'Export',
+        cancelButtonText: 'Batal',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Nama file tidak boleh kosong!';
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Get the file name from user input
+            const fileName = result.value || title;
 
-    // Create a new workbook
-    const wb = XLSX.utils.book_new();
+            // Ubah header menjadi huruf besar
+            const transformedData = transformHeadersToUpperCase(data);
 
-    // Convert table data to worksheet
-    const ws = XLSX.utils.json_to_sheet(transformedData);
+            // Create a new workbook
+            const wb = XLSX.utils.book_new();
 
-    // Add worksheet to workbook
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            // Convert table data to worksheet
+            const ws = XLSX.utils.json_to_sheet(transformedData);
 
-    // Write workbook to file
-    XLSX.writeFile(wb, `${title}.xlsx`);
+            // Add worksheet to workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            // Write workbook to file with the provided name
+            XLSX.writeFile(wb, `${fileName}.xlsx`);
+
+            Swal.fire('Berhasil', `File diekspor sebagai ${fileName}.xlsx`, 'success');
+        }
+    });
 };
