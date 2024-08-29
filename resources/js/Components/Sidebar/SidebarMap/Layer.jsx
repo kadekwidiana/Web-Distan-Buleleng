@@ -78,8 +78,7 @@ export const SidebarLayer = () => {
                         {/* DATA SPATIAL */}
                         {layerGroup.name === 'Data Spasial' ?
                             dataSpatials.map((dataSpatial) => (
-                                dataSpatial.status === 'ACTIVE' &&
-                                    dataSpatial.layer_group_id === layerGroup.id ?
+                                dataSpatial.layer_group_id === layerGroup.id ?
                                     <CheckboxLayer key={dataSpatial.id} id={dataSpatial.name} icon={dataSpatial.icon} color={dataSpatial.color} label={dataSpatial.name} />
                                     :
                                     null
