@@ -177,6 +177,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // D 
     Route::delete('/penyuluhan/kecamatan/{districtId}/{id}/delete', [OutreachActivitiesController::class, 'destroy'])->name('outreachActivities.delete');
 
+    // pemilik/penggarap
+    Route::resource('/pemilik-penggarap', LandOwnerOrCultivatorController::class);
+    Route::post('/pemilik-penggarap/{id}/update', [LandOwnerOrCultivatorController::class, 'update'])->name('pemilik-penggarap.update');
+
     Route::group(['middleware' => 'checkRole:ADMIN'], function () {
         // DATA PENYULUH
         Route::resource('ppl', PPLController::class);
@@ -198,9 +202,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // jenis lahan pertanian
         Route::resource('/master-data/jenis-lahan-pertanian', TypeLandAgricultureController::class);
         Route::post('/master-data/jenis-lahan-pertanian/{id}/update', [TypeLandAgricultureController::class, 'update'])->name('jenis-lahan-pertanian.update');
-        // pemilik/penggarap
-        Route::resource('/pemilik-penggarap', LandOwnerOrCultivatorController::class);
-        Route::post('/pemilik-penggarap/{id}/update', [LandOwnerOrCultivatorController::class, 'update'])->name('pemilik-penggarap.update');
         // management report
         Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivityView'])->name('managementReport.outreachActivityView');
         Route::get('/management-report/penyuluhan/data', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ppls', function (Blueprint $table) {
             $table->string('nip', 18)->primary();
-            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('account_id')->unique();
             $table->foreign('account_id')
                 ->references('id')
                 ->on('users')

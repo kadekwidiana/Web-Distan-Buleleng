@@ -33,8 +33,6 @@ const useInitializeMaps = () => {
         landAgricultures,
     } = usePage().props;
 
-    // console.log(layerGroups);
-
     useEffect(() => {
         const GOOGLE_HYBRID_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
             attribution: ATRIBUTE_NAME,
@@ -52,17 +50,20 @@ const useInitializeMaps = () => {
 
         useBasemapLayers(map)
 
-        useDataMaps(map, {
-            layerGroups,
-            typeAgricultures,
-            commodities,
-            typeLandAgricultures,
-            dataSpatials,
-            gapoktans,
-            poktans,
-            subaks,
-            landAgricultures,
-        });
+        useDataMaps(
+            map,
+            {
+                layerGroups,
+                typeAgricultures,
+                commodities,
+                typeLandAgricultures,
+                dataSpatials,
+                gapoktans,
+                poktans,
+                subaks,
+                landAgricultures,
+            }
+        );
 
         useScriptSidebarMaps(map);
 

@@ -31,9 +31,11 @@ export default function CreateOutreachActivityPage() {
     const [optionsSubak, setOptionsSubak] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
     const [selectedValuesSubak, setSelectedValuesSubak] = useState([]); //value options yang di pilih
     const { district, villages, ppls, gapoktans, poktans, subaks, errors } = usePage().props;
+    // Find the PPL object that matches the auth.user.id
+    const matchedPPL = ppls.find(ppl => ppl.account_id === auth.user.id);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         village_id: '',
-        ppl_nip: '',
+        ppl_nip: auth.user.role === 'PPL' ? matchedPPL.nip ?? '' : '',
         title: '',
         location: '',
         address: '',
@@ -46,8 +48,6 @@ export default function CreateOutreachActivityPage() {
         poktan_outreach_activities: [],
         subak_outreach_activities: [],
     });
-
-    console.log('form data', data);
 
     gapoktans.forEach((gapoktan) => {
         if (!optionsGapoktan.some(option => option.value === gapoktan.id)) {
@@ -215,9 +215,7 @@ export default function CreateOutreachActivityPage() {
                                     name="ppl_nip"
                                     defaultValue={data.ppl_nip}
                                 >
-                                    {auth.user.role === 'ADMIN' &&
-                                        <option value="">-- Pilih PPL --</option>
-                                    }
+                                    <option value="">-- Pilih PPL --</option>
                                     {ppls.map((ppl, index) => (
                                         <option key={index} value={ppl.nip}>{ppl.name}</option>
                                     ))}

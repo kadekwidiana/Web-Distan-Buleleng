@@ -443,8 +443,9 @@ class GapoktanController extends Controller
             }
 
             // Fill and save gapoktan data
-            $gapoktanById->fill($validatedData);
-            $gapoktanById->save();
+            $gapoktan->fill($validatedData);
+            // dd($gapoktan);
+            $gapoktan->save();
 
             // Remove gapoktan data from session
             $request->session()->forget('gapoktan');

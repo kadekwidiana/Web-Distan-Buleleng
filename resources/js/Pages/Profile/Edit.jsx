@@ -15,7 +15,7 @@ export default function EditProfilePage({ mustVerifyEmail, status }) {
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
-                            className="max-w-xl"
+                            className=""
                         />
                     </div>
                     <div className="grid grid-cols-1 gap-4">
@@ -23,7 +23,7 @@ export default function EditProfilePage({ mustVerifyEmail, status }) {
                             <UpdateFotoUser />
                         </div>
                         <div className="rounded-sm border border-stroke bg-white shadow-default p-4">
-                            <UpdatePasswordForm className="max-w-xl" />
+                            <UpdatePasswordForm className="" />
                         </div>
                     </div>
                 </div>

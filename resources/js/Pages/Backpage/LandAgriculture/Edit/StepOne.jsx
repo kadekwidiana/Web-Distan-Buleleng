@@ -11,7 +11,7 @@ import TextInput from '@/Components/Input/TextInput';
 import BackpageLayout from '@/Layouts/BackpageLayout'
 import { useStore } from '@/Store/Index.store';
 import { ABILITY_CLASSES } from '@/Constant/Class';
-import { CONFIRMATION_STATUSES, GROUP_STATUSES } from '@/Constant/Status';
+import { CONFIRMATION_STATUSES, DATA_STATUSES, GROUP_STATUSES } from '@/Constant/Status';
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import { Banner } from 'flowbite-react';
 import React, { useEffect, useRef, useState } from 'react'
@@ -230,7 +230,7 @@ export default function StepOneCreateLandAgriculturePage() {
                   id="status"
                   name="status"
                 >
-                  {GROUP_STATUSES.map((group_status, index) => (
+                  {DATA_STATUSES.map((group_status, index) => (
                     <option key={index} value={group_status.value} >{group_status.label}</option>
                   ))}
                 </InputSelect>

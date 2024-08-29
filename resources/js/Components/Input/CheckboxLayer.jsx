@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function CheckboxLayer({ id, label, icon, color, className = '' }) {
-    console.log(color)
+    // console.log(color)
     return (
         <div className="form-check flex justify-start items-center gap-1">
             <input id={id} name={id} data-layer={id}

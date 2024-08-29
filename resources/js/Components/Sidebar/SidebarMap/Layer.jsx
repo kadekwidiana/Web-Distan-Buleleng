@@ -1,6 +1,8 @@
 import { DropdownLayer } from "@/Components/Dropdown/Layers";
 import { DropdownSubLayers } from "@/Components/Dropdown/SubLayers";
 import CheckboxLayer from "@/Components/Input/CheckboxLayer";
+import { DATA_BULELENG_DISTRICTS } from "@/Constant/BulelengDistricts";
+import { DATA_BULELENG_VILLAGES } from "@/Constant/BulelengVillages";
 import { usePage } from "@inertiajs/react";
 
 export const SidebarLayer = () => {
@@ -22,6 +24,22 @@ export const SidebarLayer = () => {
             <div className="border"></div>
             <div className="mt-2 flex flex-col gap-2">
                 {/* LAYER GROUP */}
+                {/* data ini statis, data di ambil dari data statis kabupaten, kec, dan desa */}
+                <DropdownLayer layerName={'Kewilayahan'} showLayers={true}>
+                    <CheckboxLayer id={`layer_region_regency_Buleleng`} label={'Kabupaten Buleleng'} />
+                    {
+                        DATA_BULELENG_DISTRICTS && DATA_BULELENG_DISTRICTS.map((district, index) => (
+                            <DropdownSubLayers key={index} subLayerName={`Kecamatan ${district.NAMOBJ}`} showingSubLayer={false} dataRegion={district}>
+                                {
+                                    DATA_BULELENG_VILLAGES && DATA_BULELENG_VILLAGES.map((village, index) => (
+                                        village.WADMKC === district.NAMOBJ &&
+                                        <CheckboxLayer key={index} id={`layer_region_village_${village.NAMOBJ}`} label={`Desa ${village.NAMOBJ}`} />
+                                    ))
+                                }
+                            </DropdownSubLayers>
+                        ))
+                    }
+                </DropdownLayer>
                 {layerGroups && layerGroups.map((layerGroup) => (
                     <DropdownLayer key={layerGroup.name} layerName={layerGroup.name} showLayers={true}>
                         {/* ORGANISASI PERTANIAN */}
@@ -58,12 +76,17 @@ export const SidebarLayer = () => {
                             null
                         }
                         {/* DATA SPATIAL */}
-                        {dataSpatials.map((dataSpatial) => (
-                            dataSpatial.layer_group_id === layerGroup.id ?
-                                <CheckboxLayer key={dataSpatial.id} id={dataSpatial.name} icon={dataSpatial.icon} color={dataSpatial.color} label={dataSpatial.name} />
-                                :
-                                null
-                        ))}
+                        {layerGroup.name === 'Data Spasial' ?
+                            dataSpatials.map((dataSpatial) => (
+                                dataSpatial.status === 'ACTIVE' &&
+                                    dataSpatial.layer_group_id === layerGroup.id ?
+                                    <CheckboxLayer key={dataSpatial.id} id={dataSpatial.name} icon={dataSpatial.icon} color={dataSpatial.color} label={dataSpatial.name} />
+                                    :
+                                    null
+                            ))
+                            :
+                            null
+                        }
                     </DropdownLayer>
                 ))}
             </div>

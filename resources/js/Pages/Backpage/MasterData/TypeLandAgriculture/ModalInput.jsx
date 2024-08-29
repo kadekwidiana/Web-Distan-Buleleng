@@ -81,7 +81,7 @@ export default function ModalInputTypeLandAgriculture({ openModal, setOpenModal,
             }
             setOpenModal(false);
         }}>
-            <Modal.Header>{isUpdate ? 'Edit Jenis Pertanian' : 'Tambah Jenis Pertanian'}</Modal.Header>
+            <Modal.Header>{isUpdate ? 'Edit Jenis Lahan Pertanian' : 'Tambah Jenis Lahan Pertanian'}</Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit} className="space-y-2" encType="multipart/form-data">
                     {/* <div className="">

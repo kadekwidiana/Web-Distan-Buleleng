@@ -1,3 +1,5 @@
+import { adjustPositionControlSidebarRight, adjustPositionControlSidebarLeft } from '@/Utils/adjustPositionControlSidebarMaps';
+import { closeBasemapSidebar, closeLayerSidebar, closeLegendSidebar, closeAnalisisSidebar } from '@/Utils/closeSidebarMaps';
 import L from 'leaflet';
 
 const useScriptSidebarMaps = (map) => {
@@ -15,55 +17,6 @@ const useScriptSidebarMaps = (map) => {
     }
 
     // START JS SIDEBAR RIGHT
-    // Adjust the position control sidebar right
-    function adjustPositionControlSidebarRight(sidebarClass) {
-        const sidebarWidth = document.querySelector(sidebarClass + '.active') ? sidebarWidthRight : 0; // Adjust the width based on sidebar visibility
-
-        // Set position control leaflet
-        const controlContainersLeaflet = document.querySelectorAll('.leaflet-control-zoom, .leaflet-control-attribution');
-        controlContainersLeaflet.forEach(function (controlContainerLeaflet) {
-            controlContainerLeaflet.style.right = sidebarWidth + 'px';
-        });
-
-        // Set position control basemap, layer, legend, street view, legend GEE
-        const controlContainers = document.querySelectorAll('.container-control-basemap, .container-control-layer, .container-control-legend,.container-control-street-view, .control-legend-gee');
-        controlContainers.forEach(function (controlContainer) {
-            controlContainer.style.right = sidebarWidth + 'px';
-        });
-    }
-    // func close basemap sidebar
-    function closeBasemapSidebar() {
-        const basemapSidebar = document.getElementById("sidebar-basemap");
-        if (basemapSidebar.classList.contains("active")) {
-            basemapSidebar.classList.remove("active");
-            adjustPositionControlSidebarRight('.sidebar-basemap'); // Call the function to adjust control positions
-            const basemapButton = document.querySelector('.container-control-basemap button');
-            basemapButton.classList.remove("active"); // Remove active class from the button
-        }
-    }
-
-    // Function to close layer sidebar and adjust icons
-    function closeLayerSidebar() {
-        const layerSidebar = document.getElementById("sidebar-layer");
-        if (layerSidebar.classList.contains("active")) {
-            layerSidebar.classList.remove("active");
-            adjustPositionControlSidebarRight('.sidebar-layer'); // Call the function to adjust control positions
-            const layerButton = document.querySelector('.container-control-layer button');
-            layerButton.classList.remove("active"); // Remove active class from the button
-        }
-    }
-
-    // Function to close legend sidebar and adjust icons
-    function closeLegendSidebar() {
-        const layerSidebar = document.getElementById("sidebar-legend");
-        if (layerSidebar.classList.contains("active")) {
-            layerSidebar.classList.remove("active");
-            adjustPositionControlSidebarRight('.sidebar-legend'); // Call the function to adjust control positions
-            const layerButton = document.querySelector('.container-control-legend button');
-            layerButton.classList.remove("active"); // Remove active class from the button
-        }
-    }
-
     // Control button basemaps
     const customControlBasemap = L.Control.extend({
         options: {
@@ -163,35 +116,6 @@ const useScriptSidebarMaps = (map) => {
     // END SIDEBAR RIGTH
 
     // START SIDEBAR LEFT
-    // Adjust the position control sidebar left
-    function adjustPositionControlSidebarLeft(sidebarClass) {
-        const sidebarWidth = document.querySelector(sidebarClass + '.active') ? sidebarWidthLeft : 0; // Adjust the width based on sidebar visibility
-
-        // Set position control leaflet
-        const controlContainersLeaflet = document.querySelectorAll('.leaflet-control-scale, .leaflet-control-geocoder, .leaflet-control-navbar, .leaflet-draw ');
-        controlContainersLeaflet.forEach(function (controlContainerLeaflet) {
-            controlContainerLeaflet.style.left = sidebarWidth + 'px';
-        });
-
-        // Set position control analisis
-        const controlContainers = document.querySelectorAll('.container-control-analisis');
-        controlContainers.forEach(function (controlContainer) {
-            controlContainer.style.left = sidebarWidth + 'px';
-        });
-    }
-
-    // Function to close basemap sidebar and adjust icons
-    function closeAnalisisSidebar() {
-        const basemapSidebar = document.getElementById("sidebar-analisis");
-        if (basemapSidebar.classList.contains("active")) {
-            basemapSidebar.classList.remove("active");
-            adjustPositionControlSidebarLeft('.sidebar-analisis.active'); // Call the function to adjust control positions
-            const basemapButton = document.querySelector('.container-control-analisis button');
-            basemapButton.classList.remove("active"); // Remove active class from the button
-        }
-    }
-
-
     // Control button analisis
     const customControlAnalisis = L.Control.extend({
         options: {

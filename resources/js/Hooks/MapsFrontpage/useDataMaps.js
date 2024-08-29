@@ -1,8 +1,12 @@
+import { Toast } from "@/Components/Alert/Toast";
 import { AxiosInstance } from "@/Services/AxiosConfig";
+import { adjustPositionControlSidebarLeft } from "@/Utils/adjustPositionControlSidebarMaps";
+import { closeBasemapSidebar, closeLayerSidebar, closeLegendSidebar } from "@/Utils/closeSidebarMaps";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { generateCommoditiesCycleHtml } from "@/Utils/generateCommoditiesCycleHtml";
 import L from 'leaflet';
 import shp from 'shpjs';
+import Swal from "sweetalert2";
 
 const useDataMaps = (map, dataLayers) => {
     const {
@@ -17,15 +21,6 @@ const useDataMaps = (map, dataLayers) => {
         landAgricultures,
     } = dataLayers;
 
-    // console.log(commodities);
-
-    function onEachFeature(feature, layer) {
-        // does this feature have a property named popupContent?
-        if (feature.properties && feature.properties.popupContent) {
-            layer.bindPopup(feature.properties.popupContent);
-        }
-    }
-
     // Object to hold the dynamic layer groups
     const layerGroups = {};
 
@@ -38,94 +33,6 @@ const useDataMaps = (map, dataLayers) => {
                 layer.removeFrom(map); // Remove layer
             }
         });
-    }
-
-    // fetch data geojson
-    const fetchDataGeoJsonRegion = async (dataGeoJson, layer) => {
-        try {
-            const response = await AxiosInstance({
-                method: "GET",
-                url: dataGeoJson,
-            });
-
-            L.geoJSON(response.data.features, {
-                style: function (feature) {
-                    return {
-                        color: 'black',
-                        weight: 2,
-                        opacity: 1
-                    };
-                },
-                onEachFeature: function (feature, layer) {
-                    // if (feature.properties) {
-                    //     layer.bindTooltip(feature.properties.NAMOBJ, {
-                    //         permanent: true, // Make the label always visible
-                    //         direction: 'center', // Center the label over the feature
-                    //         className: 'my-label' // Add a custom class to style the label
-                    //     });
-                    // }
-
-                    // Other feature-specific interactions can go here, such as popups or event handlers
-                    // Bind a popup to the feature
-                    if (feature.properties) {
-                        layer.bindPopup(`
-                            <div>
-                                <span>${response.data.name === 'batas-kabupaten-buleleng' ? `Kabupaten ${feature.properties.NAMOBJ}` : response.data.name === 'batas-kecamatan-buleleng' ? `Kecamatan ${feature.properties.NAMOBJ}` : response.data.name === 'batas-desa-buleleng' ? `Desa ${feature.properties.NAMOBJ}` : ''}</span > <br>
-                                ${feature.properties.LUASWH !== 0.0 ? `<span>Luas: ${feature.properties.LUASWH} m2</span>` : ''}
-                            </div>
-                    `);
-                    }
-
-                    const originalStyle = {
-                        color: 'black',
-                        weight: 2,
-                        opacity: 1
-                    };
-
-                    const eventStyle = {
-                        color: 'blue', // Highlight color on hover
-                        weight: 3,
-                        opacity: 0.8
-                    }
-
-                    // Change style on click and open popup
-                    layer.on('click', function (e) {
-                        // Reset style for all layers
-                        geojsonLayer.eachLayer(function (l) {
-                            geojsonLayer.resetStyle(l);
-                        });
-
-                        // Change style of the clicked feature
-                        layer.setStyle(eventStyle);
-
-                        // Open the popup
-                        layer.openPopup();
-                    });
-
-                    // Change back style on popup close
-                    layer.on('popupclose', function (e) {
-                        layer.setStyle(originalStyle);
-                    });
-
-                    // Change style on hover
-                    layer.on('mouseover', function (e) {
-                        layer.setStyle(eventStyle);
-                    });
-
-                    // Revert style on hover out
-                    layer.on('mouseout', function (e) {
-                        layer.setStyle(originalStyle);
-                    });
-                }
-
-            }).addTo(layer);
-
-            const geojsonLayer = L.geoJSON(response.data.features);
-
-
-        } catch (error) {
-            throw new Error(`Error: ${error.message} `);
-        }
     }
 
     const customIcon = (iconUrl) => {
@@ -351,7 +258,7 @@ const useDataMaps = (map, dataLayers) => {
                                     <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                 </div>
                                 <strong>Pemilik:</strong> ${dataLahan?.owner?.name}</br >
-                                <strong>Pemilik:</strong> ${dataLahan?.cultivator?.name}</br >
+                                <strong>Penggarap:</strong> ${dataLahan?.cultivator?.name}</br >
                                 <strong>Alamat:</strong> ${dataLahan.address}</br >
                                 <strong>Luas lahan:</strong> ${dataLahan.land_area} are (m²)</br >
                                 <strong>Jenis lahan:</strong> ${dataLahan.type_land_agriculture.name}</br >
@@ -456,6 +363,101 @@ const useDataMaps = (map, dataLayers) => {
         });
     };
 
+    const setDataGeojsonToMaps = (dataFeature, layer) => {
+        L.geoJSON({
+            "type": "FeatureCollection",
+            "name": `batas-${dataFeature.properties.NAMOBJ}`,
+            "features": [
+                dataFeature
+            ]
+        }, {
+            style: (feature) => {
+                return {
+                    color: '#000000',
+                    weight: 2,
+                    opacity: 1
+                };
+            },
+            onEachFeature: (feature, layer) => {
+                const originalStyle = {
+                    color: 'black',
+                    weight: 2,
+                    opacity: 1
+                };
+
+                const eventStyle = {
+                    color: 'blue', // Highlight color on hover
+                    weight: 3,
+                    opacity: 1
+                }
+
+                // add event listeners
+                layer.on({
+                    click: () => {
+                        Swal.fire({
+                            title: "Lakukan Analisis Geospasial pada wilayah ini?",
+                            icon: "question",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Ya",
+                            cancelButtonText: 'Tidak'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const coordinates = layer.toGeoJSON().geometry.coordinates;
+                                // const cleanedCoordinates = coordinates[0][0].map(coordinate => coordinate.slice(0, 2)); // lakukan ini karna data geojson nya memiliki 3 data dalam array, jadi yg di ambil hanya index 0, 1
+                                document.getElementById('geometry').value = JSON.stringify(coordinates);
+
+                                document.getElementById('type').value = 'polygon';
+
+                                const sidebarElement = document.getElementById("sidebar-analisis");
+
+                                if (!sidebarElement.classList.contains("active")) {
+                                    closeBasemapSidebar();
+                                    closeLayerSidebar();
+                                    closeLegendSidebar();
+
+                                    sidebarElement.classList.add("active");
+                                    adjustPositionControlSidebarLeft('.sidebar-analisis.active');
+                                }
+
+                                Toast.fire({
+                                    icon: "success",
+                                    title: "Data berhasil dimasukan ke dalam form input analisis.",
+                                    position: 'top-start'
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // Change back style on popup close
+                layer.on('popupclose', function (e) {
+                    layer.setStyle(originalStyle);
+                });
+
+                // Change style on hover
+                layer.on('mouseover', function (e) {
+                    layer.setStyle(eventStyle);
+                    if (feature.properties) {
+                        // Bind popup dengan konten dari feature properties
+                        layer.bindPopup(`
+                            <div>
+                                <span>${feature.properties.METADATA === 'TASWIL1000020230928_DATA_BATAS_DESAKELURAHAN' ? 'Wilayah Administrasi Desa/Kelurahan' : feature.properties.REMARK} ${feature.properties.NAMOBJ}</span>
+                            </div>
+                        `).openPopup(); // Buka popup secara otomatis saat hover
+                    }
+                });
+
+                // Revert style on hover out
+                layer.on('mouseout', function (e) {
+                    layer.setStyle(originalStyle);
+                    layer.closePopup(); // Menutup popup saat mouse keluar dari layer
+                });
+            }
+        }).addTo(layer);
+    }
+
     const layerDataAgricultureMappings = [
         { key: 'layer_gapoktan', data: gapoktans },
         { key: 'layer_poktan', data: poktans },
@@ -513,17 +515,15 @@ const useDataMaps = (map, dataLayers) => {
         }
     };
 
-    const fetchDataGeoJson = async (dataGeoJson, layer, color) => {
+    const fetchDataGeoJson = async (dataSpatial, layer) => {
         try {
-            const response = await axios.get(dataGeoJson);
+            const response = await axios.get(`/storage/${dataSpatial.file}`);
             const geojsonData = response.data;
 
             L.geoJSON(geojsonData, {
                 style: (feature) => {
-                    // Mengatur warna berdasarkan properti `color` pada dataSpatial atau fitur GeoJSON
-                    // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
                     return {
-                        color: color,
+                        color: dataSpatial.color,
                         weight: 2,
                         opacity: 1
                     };
@@ -536,26 +536,21 @@ const useDataMaps = (map, dataLayers) => {
         }
     };
 
-
-    const fetchShapefileFromZip = async (url, layer, color) => {
+    const fetchShapefileFromZip = async (dataSpatial, layer) => {
         try {
-            // Ambil file shapefile dari URL
             const response = await axios({
                 method: "GET",
-                url,
+                url: `/storage/${dataSpatial.file}`,
                 responseType: 'arraybuffer'
             });
 
             // Konversi shapefile ke GeoJSON
             const geojsonConvert = await shp(response.data);
 
-            // Tambahkan GeoJSON ke layer dengan style yang dikonfigurasi
             L.geoJSON(geojsonConvert, {
                 style: (feature) => {
-                    // Ambil warna dari properti atau tetapkan warna default
-                    // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
                     return {
-                        color: color,
+                        color: dataSpatial.color,
                         weight: 2,
                         opacity: 1
                     };
@@ -568,20 +563,38 @@ const useDataMaps = (map, dataLayers) => {
         }
     };
 
-    dataSpatials.forEach(dataSpatial => {
-        layerGroups[dataSpatial.name] = L.layerGroup();
-        checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
-        // 123 adalah data kewilayahan yang function nya udah di set custom
-        // if ([1, 2, 3].includes(dataSpatial.id)) {
-        //     fetchDataGeoJsonRegion(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name]);
-        // } else {
-        if (dataSpatial.file.endsWith('.geojson')) {
-            fetchDataGeoJson(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name], dataSpatial.color);
-        } else if (dataSpatial.file.endsWith('.zip')) {
-            fetchShapefileFromZip(`/storage/${dataSpatial.file}`, layerGroups[dataSpatial.name], dataSpatial.color);
+    const fetchDataGeoJsonStatic = async (path, areaRegion) => {
+        try {
+            const response = await axios.get(path);
+            const geojsonData = response.data;
+
+            geojsonData.features.forEach(geoJsonDistrict => {
+                layerGroups[geoJsonDistrict.properties.NAMOBJ] = L.layerGroup();
+                checkboxEventListenerLayer(`layer_region_${areaRegion}_${geoJsonDistrict.properties.NAMOBJ}`, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
+                setDataGeojsonToMaps(geoJsonDistrict, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
+            });
+
+        } catch (error) {
+            console.error(`Error fetching GeoJSON: ${error.message}`);
         }
-        // }
+    };
+
+    dataSpatials.forEach(dataSpatial => {
+        if (dataSpatial.status === 'ACTIVE') {
+            layerGroups[dataSpatial.name] = L.layerGroup();
+            checkboxEventListenerLayer(dataSpatial.name, layerGroups[dataSpatial.name]);
+            if (dataSpatial.file.endsWith('.geojson')) {
+                fetchDataGeoJson(dataSpatial, layerGroups[dataSpatial.name]);
+            } else if (dataSpatial.file.endsWith('.zip')) {
+                fetchShapefileFromZip(dataSpatial, layerGroups[dataSpatial.name]);
+            }
+        }
     });
+
+    // data geojson kewilayahan statis
+    fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-kabupaten-buleleng.geojson', 'regency');
+    fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-kecamatan-buleleng.geojson', 'district');
+    fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-desa-buleleng.geojson', 'village');
 
 }
 

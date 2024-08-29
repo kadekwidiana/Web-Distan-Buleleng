@@ -31,7 +31,7 @@ export const useStore = create(
                 areaJsonInput: '',
                 wideLandInput: '',
                 addressInput: '',
-                optionsSelected: null
+                optionsSelected: null,
             })
         }),
         {
