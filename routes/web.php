@@ -41,7 +41,7 @@ Route::get('/', function () {
 
 Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
 
-Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
+// Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('index.dashboard');
