@@ -34,3 +34,4 @@ Route::post('/evi', [AnalisisGeospasial::class, 'evi'])->name('evi');
 Route::resource('ppl', PPLController::class);
 
 Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');

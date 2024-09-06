@@ -15,6 +15,7 @@ import DataNotFound from "@/Components/Error/DataNotFound";
 import { HTTP_STATUS_MESSAGES } from "@/Constant/HTTPStartusMessages";
 import FetchError from "@/Components/Error/FetchError";
 import Swal from "sweetalert2";
+import { format, subMonths, subWeeks } from "date-fns";
 
 // Define table columns and data
 const tableColumns = [
@@ -27,8 +28,8 @@ const tableColumns = [
     { header: 'CATATAN', dataKey: 'notes' },
     { header: 'LAPORAN KEGIATAN', dataKey: 'activity_report' },
     { header: 'YANG TERLIBAT', dataKey: 'which_are_involved' },
-    { header: 'DI BUAT', dataKey: 'created_at' },
-    { header: 'DI UPDATE', dataKey: 'updated_at' }
+    { header: 'DATA DIBUAT', dataKey: 'created_at' },
+    { header: 'DATA DIUBAH', dataKey: 'updated_at' }
 ];
 
 // sample data
@@ -50,6 +51,16 @@ export default function ReportOutreachActivityPage() {
     const [pplNameForPDF, setPplNameForPDF] = useState('');
     const [districtNameForPDF, setDistrictNameForPDF] = useState('');
     const [villageNameForPDF, setVillageNameForPDF] = useState('');
+
+    useEffect(() => {
+        const today = new Date();
+        const oneWeekAgo = subWeeks(today, 1);
+        const onMonthAgo = subMonths(today, 1);
+
+        // Set tanggalnya dengan format yang diinginkan
+        setEndDate(format(today, 'yyyy-MM-dd')); // Tanggal hari ini
+        setStartDate(format(onMonthAgo, 'yyyy-MM-dd')); // Tanggal satu minggu lalu
+    }, []);
 
     const handlePrintPDF = () => {
         Swal.fire({
@@ -161,8 +172,8 @@ export default function ReportOutreachActivityPage() {
                     CATATAN: data.notes,
                     LAPORAN_KEGIATAN: data.activity_report,
                     YANG_TERLIBAT: data.which_are_involved,
-                    DIBUAT: data.created_at,
-                    DIUPDATE: data.updated_at,
+                    DATA_DIBUAT: data.created_at,
+                    DATA_DIUPDATE: data.updated_at,
                 }));
 
                 // Create a new workbook
@@ -244,12 +255,14 @@ export default function ReportOutreachActivityPage() {
                                         name={'start_date'}
                                         placeholder={'Tanggal Mulai'}
                                         onChange={(e) => setStartDate(e.target.value)}
+                                        defaultValue={startDate}
                                     />
                                     <TextInput
                                         type={'date'}
                                         name={'end_date'}
                                         placeholder={'Tanggal Akhir'}
                                         onChange={(e) => setEndDate(e.target.value)}
+                                        defaultValue={endDate}
                                     />
                                 </div>
                             </td>

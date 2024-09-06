@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Backpage;
 
 use App\Http\Controllers\Controller;
 use App\Models\District;
+use App\Models\LandAgriculture;
 use App\Models\OutreachActivities;
+use App\Models\Poktan;
 use App\Models\Ppl;
+use App\Models\Subak;
 use App\Models\Village;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+
+use function PHPSTORM_META\map;
 
 class ManagementReportController extends Controller
 {
@@ -112,5 +117,115 @@ class ManagementReportController extends Controller
             'districts' => $districts,
             'villages' => $villages,
         ]);
+    }
+
+
+    public function landAgricultureReportView()
+    {
+        // Get all districts in Buleleng
+        $districts = District::where('regency_id', 5108)->get();
+
+        // Get all villages in Buleleng by filtering based on the district IDs
+        $villageIds = $districts->pluck('id'); // Get the IDs of the districts
+        $villages = Village::whereIn('district_id', $villageIds)->get(); // Get the villages that belong to these districts
+
+        // Get all PPLs
+        $ppls = Ppl::all();
+        $poktans = Poktan::all();
+        $subaks = Subak::all();
+
+        return Inertia::render('Backpage/ManagementReport/LandAgriculture/Index', [
+            'navName' => 'Management Laporan Lahan Pertanian',
+            'ppls' => $ppls,
+            'districts' => $districts,
+            'villages' => $villages,
+            'poktans' => $poktans,
+            'subaks' => $subaks,
+        ]);
+    }
+
+    public function landAgricultureReport()
+    {
+        try {
+            // Mengambil filter dari request
+            $villageId = request()->input('village_id');
+            $districtId = request()->input('district_id');
+            $poktanId = request()->input('poktan_id');
+            $subakId = request()->input('subak_id');
+
+            // Mengambil data lahan pertanian beserta komoditas dan relasi terkait
+            $landAgricultureQuery = LandAgriculture::with(['commodities', 'village.district', 'owner', 'cultivator', 'poktan', 'subak']);
+
+            // Filter berdasarkan village_id jika disediakan
+            if ($villageId) {
+                $landAgricultureQuery->where('village_id', $villageId);
+            }
+
+            // Filter berdasarkan district_id jika disediakan
+            if ($districtId) {
+                $landAgricultureQuery->whereHas('village.district', function ($query) use ($districtId) {
+                    $query->where('id', $districtId);
+                });
+            }
+
+            // Filter berdasarkan poktan_id jika disediakan
+            if ($poktanId) {
+                $landAgricultureQuery->where('poktan_id', $poktanId);
+            }
+
+            // Filter berdasarkan subak_id jika disediakan
+            if ($subakId) {
+                $landAgricultureQuery->where('subak_id', $subakId);
+            }
+
+            // Mengambil semua data yang sesuai dengan filter
+            $landAgricultureQuery = $landAgricultureQuery->get();
+
+            // Mengecek apakah data ada atau tidak
+            if ($landAgricultureQuery->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data lahan pertanian tidak ditemukan untuk filter yang diberikan.'
+                ], 404); // Kembalikan status 404 jika data kosong
+            }
+
+            // Menghitung total luas lahan (land_area)
+            $totalLandArea = $landAgricultureQuery->sum('land_area');
+
+            // Mapping data untuk ditampilkan
+            $landAgricultureReports = $landAgricultureQuery->map(function ($land) {
+                return [
+                    'pemilik' => $land->owner->name,
+                    'penggarap' => $land->cultivator->name,
+                    'alamat' => $land->address,
+                    'poktan' => $land->poktan->name, // Nama poktan
+                    'subak' => $land->subak->name, // Nama subak
+                    'komoditas' => $land->commodities->map(function ($commodity) {
+                        return $commodity->name; // Mengambil nama komoditas
+                    })->implode(', '), // Gabungkan komoditas dengan koma
+                    'siklus_komoditas' => collect(json_decode($land->commodities_cycle))->map(function ($cycle) {
+                        $months = implode(',', $cycle->months); // Gabungkan bulan dengan koma
+                        return "{$cycle->name} bulan: {$months}"; // Format nama komoditas dan bulan
+                    })->implode(', '), // Gabungkan siklus komoditas dengan koma
+                    'luas_lahan' => $land->land_area . ' are',
+                    'data_dibuat' => $land->created_at, // Format tanggal dibuat
+                    'data_diubah' => $land->updated_at  // Format tanggal diubah
+                ];
+            });
+
+            // Mengembalikan respons JSON dengan data, total luas lahan, dan status sukses
+            return response()->json([
+                'success' => true,
+                'total_luas_lahan' => $totalLandArea . ' are', // Total luas lahan
+                'data' => $landAgricultureReports
+            ], 200);
+        } catch (\Exception $e) {
+            // Jika terjadi error, tangkap dan kembalikan respons error
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil laporan lahan pertanian.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

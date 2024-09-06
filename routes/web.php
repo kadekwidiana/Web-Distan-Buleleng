@@ -205,6 +205,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // management report
         Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivityView'])->name('managementReport.outreachActivityView');
         Route::get('/management-report/penyuluhan/data', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+        Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReportView'])->name('managementReport.landAgricultureReportView');
+        Route::get('/management-report/lahan-pertanian/data', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
     });
 });
 

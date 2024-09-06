@@ -180,8 +180,10 @@ class LandAgricultureController extends Controller
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
-        $poktans = Poktan::whereIn('village_id', $villageIds)->get();
-        $subaks = Subak::whereIn('village_id', $villageIds)->get();
+        // $poktans = Poktan::whereIn('village_id', $villageIds)->get();
+        // $subaks = Subak::whereIn('village_id', $villageIds)->get();
+        $poktans = Poktan::all();
+        $subaks = Subak::all();
 
         $commodities = Commodity::all();
         $typeLandAgricultures = TypeLandAgriculture::all();
@@ -322,8 +324,10 @@ class LandAgricultureController extends Controller
 
         $villageIds = Village::where('district_id', $districtId)->pluck('id');
 
-        $poktans = Poktan::whereIn('village_id', $villageIds)->get();
-        $subaks = Subak::whereIn('village_id', $villageIds)->get();
+        // $poktans = Poktan::whereIn('village_id', $villageIds)->get();
+        // $subaks = Subak::whereIn('village_id', $villageIds)->get();
+        $poktans = Poktan::all();
+        $subaks = Subak::all();
 
         $commodities = Commodity::all();
         $typeLandAgricultures = TypeLandAgriculture::all();

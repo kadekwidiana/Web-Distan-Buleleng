@@ -110,6 +110,11 @@ const SidebarMenus = () => {
                                     icon={<i className="fa-solid fa-file"></i>}
                                     label={'Penyuluhan'}
                                 />
+                                <SidebarMenu
+                                    href={'/management-report/lahan-pertanian'}
+                                    icon={<i className="fa-solid fa-file"></i>}
+                                    label={'Lahan Pertanian'}
+                                />
                             </>
                         }
                     />
