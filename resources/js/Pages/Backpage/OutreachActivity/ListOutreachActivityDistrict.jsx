@@ -151,7 +151,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                             </div>
                         </form>
                     </div>
-                    <div className="flex justify-start gap-1 items-center w-1/2">
+                    <div className="hidden xl:flex justify-start gap-1 items-center w-1/2">
                         <TextInput
                             type={'date'}
                             name={'startDate'}
@@ -170,7 +170,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                     <Button type="button" onClick={() => handleExportExcel(`Kegiatan Penyuluhan ${districtData?.name}`, outreachActivitiesInDiscrict.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
                     <ButtonAdd href={`/penyuluhan/kecamatan/${districtData.id}/create`} />
                 </div>
-                <div className="flex flex-col my-2 w-auto max-md:overflow-x-auto max-md:my-8">
+                <div className="flex flex-col my-2 w-auto overflow-x-auto max-md:my-8">
                     <Table striped>
                         <Table.Head>
                             <Table.HeadCell className='w-5'>NO</Table.HeadCell>

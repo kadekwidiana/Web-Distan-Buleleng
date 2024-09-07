@@ -242,14 +242,14 @@ export default function ReportOutreachActivityPage() {
     return (
         <BackpageLayout>
             <Head title="Laporan Penyuluhan" />
-            <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-5 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
+            <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-5 pb-2.5 shadow-default sm:px-7.5 xl:pb-1 overflow-x-auto">
                 <table className="w-full text-base text-left rtl:text-right text-gray-800">
                     <tbody>
                         <tr className="bg-white">
                             <td className="pr-2 py-2 w-1/5">Tanggal</td>
                             <td className="px-2 py-2 w-3">:</td>
                             <td className="px-2 py-2 w-full">
-                                <div className="flex justify-start gap-2 items-center w-1/2">
+                                <div className="flex justify-start gap-2 items-center lg:w-1/2">
                                     <TextInput
                                         type={'date'}
                                         name={'start_date'}
@@ -271,7 +271,7 @@ export default function ReportOutreachActivityPage() {
                             <td className="pr-2 py-2 w-1/5">Penyuluh</td>
                             <td className="px-2 py-2 w-3">:</td>
                             <td className="px-2 py-2 w-full">
-                                <div className="flex justify-start gap-2 items-center w-1/2">
+                                <div className="flex justify-start gap-2 items-center lg:w-1/2">
                                     <SelectTwo
                                         entities={ppls.map((ppl) => ({
                                             id: ppl.nip,
@@ -289,7 +289,7 @@ export default function ReportOutreachActivityPage() {
                             <td className="pr-2 py-2 w-1/5">Kecamatan</td>
                             <td className="px-2 py-2 w-3">:</td>
                             <td className="px-2 py-2 w-full">
-                                <div className="flex justify-start gap-2 items-center w-1/2">
+                                <div className="flex justify-start gap-2 items-center lg:w-1/2">
                                     <SelectTwo
                                         entities={districts}
                                         selectedEntityId={districtId}
@@ -304,7 +304,7 @@ export default function ReportOutreachActivityPage() {
                             <td className="pr-2 py-2 w-1/5">Desa</td>
                             <td className="px-2 py-2 w-3">:</td>
                             <td className="px-2 py-2 w-full">
-                                <div className="flex justify-start gap-2 items-center w-1/2">
+                                <div className="flex justify-start gap-2 items-center lg:w-1/2">
                                     <SelectTwo
                                         entities={villages}
                                         selectedEntityId={villageId}

@@ -8,7 +8,7 @@ export default function ButtonAdd({ href }) {
                 <path d="M10 4.1665V15.8332" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M4.16675 10H15.8334" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className='whitespace-nowrap font-medium hidden sm:block'>Tambah data</span>
+            <span className='whitespace-nowrap font-medium hidden lg:block'>Tambah data</span>
         </Link>
     )
 }

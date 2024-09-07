@@ -126,7 +126,7 @@ export default function ReportLandAgriculturePage() {
                 doc.setFontSize(18);
                 doc.text('Laporan Lahan Pertanian', 50, 15); // x, y
                 doc.setFontSize(13);
-                doc.text(`${filterBy}: ${titleDataPdf}`, 50, 22); // x, y
+                doc.text(`Berdasarkan ${filterBy}: ${titleDataPdf}`, 50, 22); // x, y
                 doc.text(`Total Luas Lahan: ${landAreaTotal}`, 50, 28); // x, y
                 doc.text(`Total Data: ${tableData.length}`, 50, 34); // x, y
 
@@ -179,14 +179,14 @@ export default function ReportLandAgriculturePage() {
     return (
         <BackpageLayout>
             <Head title="Laporan Lahan Pertanian" />
-            <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-5 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
+            <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-5 pb-2.5 shadow-default sm:px-7.5 xl:pb-1 overflow-x-auto">
                 <table className="w-full text-base text-left rtl:text-right text-gray-800">
                     <tbody>
                         <tr className="bg-white">
                             <td className="pr-2 py-2 w-1/5">Cari Berdasarkan</td>
                             <td className="px-2 py-2 w-3">:</td>
                             <td className="px-2 py-2 w-full">
-                                <div className="flex justify-start gap-2 items-center w-1/2">
+                                <div className="flex justify-start gap-2 items-center lg:w-1/2">
                                     <InputSelect
                                         value={filterBy} // Set nilai select berdasarkan state filterBy
                                         id="filterBy"
@@ -213,7 +213,7 @@ export default function ReportLandAgriculturePage() {
                                 <td className="pr-2 py-2 w-1/5">Poktan</td>
                                 <td className="px-2 py-2 w-3">:</td>
                                 <td className="px-2 py-2 w-full">
-                                    <div className="flex justify-start gap-2 items-center w-1/2">
+                                    <div className="flex justify-start gap-2 items-center lg:w-1/2">
                                         <SelectTwo
                                             entities={poktans}
                                             selectedEntityId={poktanId}

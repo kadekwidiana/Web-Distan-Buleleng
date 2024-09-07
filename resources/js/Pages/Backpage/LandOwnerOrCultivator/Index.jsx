@@ -149,7 +149,7 @@ export default function LandOwnerOrCultivatorPage() {
                         isUpdate={isUpdate}
                     />
                 </div>
-                <div className="flex flex-col my-2">
+                <div className="flex flex-col my-2 overflow-x-auto">
                     <Table striped>
                         <Table.Head>
                             <Table.HeadCell className='w-5'>NO</Table.HeadCell>

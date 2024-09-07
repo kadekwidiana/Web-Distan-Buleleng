@@ -19,7 +19,7 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                                 <i className="fa-solid fa-bars fa-xl"></i>
                             </button>
                             <a href="#" className="flex ms-2 md:me-24">
-                                <span className="self-center text-base sm:text-lg font-semibold  whitespace-nowrap">
+                                <span className="self-center text-sm sm:text-lg font-semibold  whitespace-nowrap">
                                     <div className="flex items-center">
                                         {navName}
                                     </div>
@@ -29,7 +29,7 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                     </div>
                     <div className="flex items-center">
                         <div className="flex items-center ms-3">
-                            <span className='px-2 text-gray-800 text-sm font-medium'>{auth.user.name}</span>
+                            <span className='hidden lg:block px-2 text-gray-800 text-sm font-medium'>{auth.user.name}</span>
                             <Dropdown label="" dismissOnClick={false} renderTrigger={() =>
                                 <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-300 :focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span className="sr-only">Open user menu</span>

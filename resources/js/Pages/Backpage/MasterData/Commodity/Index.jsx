@@ -118,7 +118,7 @@ export default function MasterDataCommodityPage() {
                             <option value={25}>25</option>
                             <option value={50}>50</option>
                         </select>
-                        <select defaultValue={typeAgricultureValue} onChange={handleFilter} name='typeAgriculture' id="typeAgriculture" className="flex-shrink-0 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
+                        <select defaultValue={typeAgricultureValue} onChange={handleFilter} name='typeAgriculture' id="typeAgriculture" className="flex-shrink-0 z-10 hidden lg:inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value="" defaultChecked>Semua Jenis</option>
                             {typeAgricultures.map((typeAgriculture, index) => (
                                 <option key={index} value={typeAgriculture.id} >{typeAgriculture.name}</option>
@@ -156,7 +156,7 @@ export default function MasterDataCommodityPage() {
                         isUpdate={isUpdate}
                     />
                 </div>
-                <div className="flex flex-col my-2">
+                <div className="flex flex-col my-2 overflow-x-auto">
                     <Table striped>
                         <Table.Head>
                             <Table.HeadCell className='w-5'>NO</Table.HeadCell>
