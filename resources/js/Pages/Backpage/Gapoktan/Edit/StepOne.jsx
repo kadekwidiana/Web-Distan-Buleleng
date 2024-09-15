@@ -242,6 +242,7 @@ export default function StepOneCreateGapoktanPage() {
                     <InputLabel className="text-nowrap text-sm font-normal">Traktor</InputLabel>
                     <TextInput
                       onChange={handleInputChangeToolsAndMachines}
+                      type='number'
                       id="traktor"
                       name="traktor"
                       value={data.tools_and_machines.traktor}
@@ -253,6 +254,7 @@ export default function StepOneCreateGapoktanPage() {
                     <InputLabel className="text-nowrap text-sm font-normal">Hand Traktor</InputLabel>
                     <TextInput
                       onChange={handleInputChangeToolsAndMachines}
+                      type='number'
                       id="hand_traktor"
                       name="hand_traktor"
                       value={data.tools_and_machines.hand_traktor}
@@ -264,6 +266,7 @@ export default function StepOneCreateGapoktanPage() {
                     <InputLabel className="text-nowrap text-sm font-normal">Pompa Air</InputLabel>
                     <TextInput
                       onChange={handleInputChangeToolsAndMachines}
+                      type='number'
                       id="pompa_air"
                       name="pompa_air"
                       value={data.tools_and_machines.pompa_air}
@@ -275,6 +278,7 @@ export default function StepOneCreateGapoktanPage() {
                     <InputLabel className="text-nowrap text-sm font-normal">Mesin Penggiling Padi</InputLabel>
                     <TextInput
                       onChange={handleInputChangeToolsAndMachines}
+                      type='number'
                       id="mesin_penggiling_padi"
                       name="mesin_penggiling_padi"
                       value={data.tools_and_machines.mesin_penggiling_padi}
@@ -286,6 +290,7 @@ export default function StepOneCreateGapoktanPage() {
                     <InputLabel className="text-nowrap text-sm font-normal">Mesin Pengering</InputLabel>
                     <TextInput
                       onChange={handleInputChangeToolsAndMachines}
+                      type='number'
                       id="mesin_pengering"
                       name="mesin_pengering"
                       value={data.tools_and_machines.mesin_pengering}
@@ -297,6 +302,7 @@ export default function StepOneCreateGapoktanPage() {
                     <InputLabel className="text-nowrap text-sm font-normal">Mesin Pencacah</InputLabel>
                     <TextInput
                       onChange={handleInputChangeToolsAndMachines}
+                      type='number'
                       id="mesin_pencacah"
                       name="mesin_pencacah"
                       value={data.tools_and_machines.mesin_pencacah}
