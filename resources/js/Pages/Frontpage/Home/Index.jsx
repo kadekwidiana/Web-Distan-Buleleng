@@ -179,8 +179,7 @@ export default function LandingPage() {
                         </div>
                         <hr className="my-4 border-gray-500 border" />
                         <div className="sm:flex sm:items-center sm:justify-between">
-                            <span className="text-sm sm:text-center text-gray-400">©2024 Dinas Pertanian Kabupaten Buleleng.
-                            </span>
+                            <span className="text-sm sm:text-center text-gray-400">©2024 Dinas Pertanian Kabupaten Buleleng. ©Support by WEF GIS </span>
                             <div className="flex mt-4 sm:justify-center sm:mt-0 space-x-4">
                                 <a href="https://facebook.com/p/Dinas-Pertanian-Kabupaten-Buleleng-100086306629196" className="text-white">
                                     <i className="fa-brands fa-square-facebook fa-2xl" style={{ color: '#1877F2' }}></i>
