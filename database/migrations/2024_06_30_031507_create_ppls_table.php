@@ -20,8 +20,8 @@ return new class extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 50);
             $table->string('employee_status', 50);
-            $table->string('front_title', 50);
-            $table->string('back_title', 50);
+            $table->string('front_title', 50)->nullable();
+            $table->string('back_title', 50)->nullable();
             $table->string('place_of_birth', 255);
             $table->date('date_of_birth');
             $table->string('gender', 20);
