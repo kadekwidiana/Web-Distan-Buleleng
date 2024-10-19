@@ -1,20 +1,19 @@
-import ButtonAdd from '@/Components/Button/Add';
-import DataNotFound from '@/Components/Error/DataNotFound';
-import { pickBy, debounce } from 'lodash';
-import BackpageLayout from '@/Layouts/BackpageLayout';
-import { Head, Link, usePage, router } from '@inertiajs/react';
-import { Dropdown, Modal, Table } from 'flowbite-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import LoadData from '@/Components/Loading/LoadData';
-import ExcelExport from '@/Components/Button/ExportExcel';
-import ButtonBack from '@/Components/Button/Back';
-import Swal from 'sweetalert2';
 import { Toast } from '@/Components/Alert/Toast';
-import DetailGapoktan from '@/Components/Modal/DetailGapoktan';
+import ButtonAdd from '@/Components/Button/Add';
+import ButtonBack from '@/Components/Button/Back';
 import Button from '@/Components/Button/Button';
-import { handleExportExcel } from '@/Utils/exportExcel';
+import DataNotFound from '@/Components/Error/DataNotFound';
 import TextInput from '@/Components/Input/TextInput';
+import LoadData from '@/Components/Loading/LoadData';
+import BackpageLayout from '@/Layouts/BackpageLayout';
+import { handleExportExcel } from '@/Utils/exportExcel';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Dropdown, Table } from 'flowbite-react';
+import { debounce, pickBy } from 'lodash';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
+import useExportPdfOutreachActivity from './useExportPdfOutreachActivity';
 
 export default function ListOutreachActivitiesInDistrictPage() {
     const { villagesByDistrictId, outreachActivitiesInDiscrict, districtData, searchValue, villageIdValue, startDateValue, endDateValue } = usePage().props;
@@ -212,6 +211,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                                                 <i className="fa-solid fa-ellipsis fa-2xl"></i>
                                             </button>
                                         }>
+                                            <Dropdown.Item onClick={() => useExportPdfOutreachActivity(outreachActivity)}><i className="mr-2 fa-solid fa-download fa-xl text-red-500"></i>Export PDF</Dropdown.Item>
                                             <Dropdown.Item><Link href={route('outreachActivities.edit', { districtId: districtData.id, id: outreachActivity.id })}><i className="mr-2 fa-solid fa-pen-to-square text-blue-500 fa-xl"></i>Edit</Link></Dropdown.Item>
                                             <Dropdown.Item onClick={() => deteleDataConfirm(outreachActivity.id)}><i className="mr-2 fa-solid fa-trash fa-xl text-red-500"></i>Hapus</Dropdown.Item>
                                         </Dropdown>

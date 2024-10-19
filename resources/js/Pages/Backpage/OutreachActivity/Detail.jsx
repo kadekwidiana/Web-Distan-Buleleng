@@ -1,12 +1,12 @@
 import ButtonBack from '@/Components/Button/Back';
+import Button from '@/Components/Button/Button';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
-import axios from 'axios';
-import { Carousel } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
-import { format } from 'date-fns';
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
+import { Head, usePage } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { Carousel } from 'flowbite-react';
+import useExportPdfOutreachActivity from './useExportPdfOutreachActivity';
 
 export default function DetailOutreachActivityPage() {
     const { outreachActivityById, districtId } = usePage().props;
@@ -116,6 +116,16 @@ export default function DetailOutreachActivityPage() {
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{formatDateToIndonesian(outreachActivityById.updated_at)}</td>
                                     </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Laporan</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">
+                                            <Button onClick={() => useExportPdfOutreachActivity(outreachActivityById)} type="button" className="bg-red-500 hover:bg-red-600 text-white text-nowrap px-3">
+                                                <i className="fa-solid fa-download"></i>
+                                                <span className='hidden sm:block'>Export PDF</span>
+                                            </Button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -135,5 +145,5 @@ export default function DetailOutreachActivityPage() {
                 </div>
             </div>
         </BackpageLayout>
-    )
+    );
 }

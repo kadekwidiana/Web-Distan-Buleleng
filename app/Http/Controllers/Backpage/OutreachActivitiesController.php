@@ -149,7 +149,7 @@ class OutreachActivitiesController extends Controller
         }
 
         // Paginate hasil pencarian
-        $outreachActivitiesInDiscrict = $outreachActivityQuery->with(['village', 'ppl'])->latest()->paginate($perpage);
+        $outreachActivitiesInDiscrict = $outreachActivityQuery->with(['gapoktanOutreachActivities', 'poktanOutreachActivities', 'subakOutreachActivities', 'village', 'ppl'])->latest()->paginate($perpage);
 
         return Inertia::render('Backpage/OutreachActivity/ListOutreachActivityDistrict', [
             'navName' => 'Kegiatan Penyuluhan',
