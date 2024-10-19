@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BuiltArea;
 use App\Models\DataSpatial;
 use App\Models\Gapoktan;
+use App\Models\LandAgriculture;
 use App\Models\OutreachActivities;
 use App\Models\Poktan;
 use App\Models\Ppl;
@@ -26,7 +27,7 @@ class DashboardController extends Controller
         $gapoktanCount = Gapoktan::count();
         $poktanCount = Poktan::count();
         $subakCount = Subak::count();
-        $landAgricultureCount = Subak::count();
+        $landAgricultureCount = LandAgriculture::count();
         $pplCount = Ppl::count();
         $outreachActivityCount = OutreachActivities::count();
         $dataSpatialCount = DataSpatial::count();
@@ -53,7 +54,18 @@ class DashboardController extends Controller
                 ->whereYear('created_at', $currentYear)
                 ->count();
         }
-
+        // dd([
+        //     'navName' => 'Dashboard',
+        //     'gapoktanCount' => $gapoktanCount,
+        //     'poktanCount' => $poktanCount,
+        //     'subakCount' => $subakCount,
+        //     'landAgricultureCount' => $landAgricultureCount,
+        //     'pplCount' => $pplCount,
+        //     'outreachActivityCount' => $outreachActivityCount,
+        //     'dataSpatialCount' => $dataSpatialCount,
+        //     'outreachActivitiesThisMonthCount' => $outreachActivitiesThisMonthCount,
+        //     'builtAreasPpl' => $builtAreasPpl,
+        // ]);
         return Inertia::render('Backpage/Dashboard/Index', [
             'navName' => 'Dashboard',
             'gapoktanCount' => $gapoktanCount,
