@@ -6,9 +6,9 @@ import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
 import TextInput from '@/Components/Input/TextInput';
 import TextInputArea from '@/Components/Input/TextInputArea';
-import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
-import React, { useEffect, useState } from 'react'
+import BackpageLayout from '@/Layouts/BackpageLayout';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '@/Store/Index.store';
 import { useShallow } from 'zustand/react/shallow';
 import MapsInputData from '@/Components/Maps/MapsInputData';
@@ -47,7 +47,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 location: locationInput,
                 address: addressInput
             }
-        )
+        );
     }, [locationInput, addressInput]);
     useEffect(() => {
         setData(
@@ -56,7 +56,7 @@ export default function StepOneCreateLandAgriculturePage() {
                 area_json: areaJsonInput,
                 land_area: wideLandInput,
             }
-        )
+        );
     }, [areaJsonInput, wideLandInput]);
 
     const [location, setLocation] = useState(data.location);
@@ -114,16 +114,30 @@ export default function StepOneCreateLandAgriculturePage() {
 
     const renderPhotoPreviews = () => {
         return (
-            <div className="py-2 grid grid-cols-2 gap-2">
-                {data.photos.map((photo, index) => (
-                    <div key={index} >
-                        <img src={URL.createObjectURL(photo)} alt={`Preview ${photo.name}`} className='border rounded-sm' />
-                        <div className="flex justify-end mt-2">
-                            <button type='button' onClick={() => removePhoto(index)} className='py-0.5 px-2 bg-red-500 text-white rounded-sm'>Hapus</button>
+            <div className="py-2 overflow-x-auto">
+                <p>Total: {data.photos.length} foto</p>
+                <div className="flex space-x-2">
+                    {data.photos.map((photo, index) => (
+                        <div key={index} className="flex-shrink-0 w-48"> {/* Adjust width here */}
+                            <img
+                                src={URL.createObjectURL(photo)}
+                                alt={`Preview ${photo.name}`}
+                                className="border rounded-sm w-full h-auto" // Ensures the image is responsive
+                            />
+                            <div className="flex justify-end mt-2">
+                                <button
+                                    type="button"
+                                    onClick={() => removePhoto(index)}
+                                    className="py-0.5 px-2 bg-red-500 text-white rounded-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600"
+                                >
+                                    Hapus
+                                </button>
+                            </div>
                         </div>
-                    </div>))}
+                    ))}
+                </div>
             </div>
-        )
+        );
     };
 
     const removePhoto = (index) => {
@@ -209,10 +223,10 @@ export default function StepOneCreateLandAgriculturePage() {
                                 <TextInputArea error={errors.address} value={data.address} onChange={handleChange} id='address' name='address' placeholder="Alamat.." />
                                 <InputError message={errors.address} />
                             </div>
-                            <div className="">
-                                <MapsInputData />
-                            </div>
                         </div>
+                    </div>
+                    <div className="mt-4">
+                        <MapsInputData mapsHeight='h-[580px]' />
                     </div>
                     <div className="flex justify-end gap-2 my-2">
                         <Link href={`/lahan_pertanian/kecamatan/${district.id}/create-step-one`}>
@@ -223,5 +237,5 @@ export default function StepOneCreateLandAgriculturePage() {
                 </form>
             </div>
         </BackpageLayout>
-    )
+    );
 }

@@ -1,7 +1,7 @@
 import useMapsInputData from '@/Hooks/MapsBackpage/useMapsInputData';
-import React from 'react'
+import React from 'react';
 
-export default function MapsInputData({ isEdit = false, data = null }) {
+export default function MapsInputData({ isEdit = false, data = null, mapsHeight = 'h-96' }) {
     useMapsInputData(isEdit, data);
     return (
         <div className="flex flex-col gap-9 lg:col-span-2">
@@ -11,10 +11,10 @@ export default function MapsInputData({ isEdit = false, data = null }) {
                         Maps
                     </h3>
                 </div>
-                <div className="w-full h-96">
+                <div className={`w-full ${mapsHeight}`}>
                     <div id='maps-input' className="h-full z-30"></div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
