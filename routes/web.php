@@ -45,7 +45,11 @@ Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('index.dashboard');
-
+    Route::get('/setting', function () {
+        return Inertia::render('Backpage/Setting/Index', [
+            'navName' => 'Pengaturan',
+        ]);
+    })->name('setting-page');
     /*
     |--------------------------------------------------------------------------
     | START ROUTE GAPOKTAN

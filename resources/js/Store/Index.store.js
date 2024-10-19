@@ -22,6 +22,16 @@ export const useStore = create(
             setAddressInput: (data) => set({ addressInput: data }),
             optionsSelected: null,
             setOptionsSelected: (data) => set({ optionsSelected: data }),
+            localSetting: {
+                isGeolocation: true,
+                isDisplayDataSpatials: true,
+            },
+            setLocalSetting: (newSettings) => set((state) => ({
+                localSetting: {
+                    ...state.localSetting,
+                    ...newSettings,
+                },
+            })),
             clearStore: () => set({
                 precipitationData: null,
                 VCIData: null,

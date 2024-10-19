@@ -1,21 +1,28 @@
 import { useStore } from "@/Store/Index.store";
-import { useEffect } from "react"
-import Swal from 'sweetalert2'
+import { useEffect } from "react";
+import Swal from 'sweetalert2';
 import { useShallow } from "zustand/react/shallow";
 // leaflet
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 // leaflet draw
-import 'leaflet-draw/dist/leaflet.draw.css'
-import 'leaflet-draw/dist/leaflet.draw'
+import 'leaflet-draw/dist/leaflet.draw.css';
+import 'leaflet-draw/dist/leaflet.draw';
 import { ATRIBUTE_NAME, GOOGLE_HYBRID_MAP, GOOGLE_STREET_MAP, OPEN_STREET_MAP, SATELLITE_MAP } from "@/Constant/Basemap";
 import { defaultIcon, locationIcon } from "@/Constant/CustomMarker";
 import * as turf from '@turf/turf';
+import { usePage } from "@inertiajs/react";
+import shp from 'shpjs';
 
 const useMapsInputData = (isEdit, data) => {
-    const { setLocationInput, setAreaJsonInput, setWideLandInput, setAddressInput } = useStore(
+    const {
+        dataSpatials,
+    } = usePage().props;
+
+    const { localSetting, setLocationInput, setAreaJsonInput, setWideLandInput, setAddressInput } = useStore(
         useShallow((state) => (
             {
+                localSetting: state.localSetting,
                 setLocationInput: state.setLocationInput,
                 setAreaJsonInput: state.setAreaJsonInput,
                 setWideLandInput: state.setWideLandInput,
@@ -76,7 +83,7 @@ const useMapsInputData = (isEdit, data) => {
                         const userLng = position.coords.longitude;
                         map.setView([userLat, userLng], 13);
                         getAddress(userLat, userLng);
-                        console.log('CALLLLLS')
+                        console.log('CALLLLLS');
                         setLocationInput(`[${userLat}, ${userLng}]`);
 
                         addMarkerToMap(userLat, userLng);
@@ -110,7 +117,9 @@ const useMapsInputData = (isEdit, data) => {
             let polygon = L.geoJSON(data.area_json ?? []).addTo(map);
         } else {
             // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
-            setMapToUserLocation();
+            if (localSetting.isGeolocation) {
+                setMapToUserLocation();
+            }
         }
 
         const baseMaps = {
@@ -120,7 +129,7 @@ const useMapsInputData = (isEdit, data) => {
             "Google Hibrid": GOOGLE_HYBRID_MAP
         };
 
-        L.control.layers(baseMaps).addTo(map);
+        const layerControl = L.control.layers(baseMaps).addTo(map);
 
         // Custom zoom control
         const customZoomControl = L.control.zoom({
@@ -128,6 +137,70 @@ const useMapsInputData = (isEdit, data) => {
         });
         // Add the custom zoom control to the map
         map.addControl(customZoomControl);
+
+        // func fetch geojson
+        const fetchDataGeoJson = async (data) => {
+            try {
+                const response = await axios.get(`/storage/${data.file}`);
+
+                const layerData = L.geoJSON(response.data, {
+                    style: (feature) => {
+                        // Mengatur warna berdasarkan properti `color` pada dataSpatial atau fitur GeoJSON
+                        // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
+                        return {
+                            color: data.color,
+                            weight: 2,
+                            opacity: 1
+                        };
+                    },
+                });
+
+                layerControl.addOverlay(layerData, data.name);
+
+            } catch (error) {
+                console.error(`Error fetching GeoJSON: ${error.message}`);
+            }
+        };
+
+        // func fetch shp
+        const fetchShapefileFromZip = async (data) => {
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: `/storage/${data.file}`,
+                    responseType: 'arraybuffer'
+                });
+
+                const geojsonConvert = await shp(response.data);
+
+                const layerData = L.geoJSON(geojsonConvert, {
+                    style: (feature) => {
+                        // Ambil warna dari properti atau tetapkan warna default
+                        // const color = feature.properties?.color || '#000000'; // Default ke hitam jika tidak ada
+                        return {
+                            color: data.color,
+                            weight: 2,
+                            opacity: 1
+                        };
+                    },
+                });
+
+                layerControl.addOverlay(layerData, data.name);
+            } catch (error) {
+                console.error(`Error fetching Shapefile: ${error.message}`);
+            }
+        };
+
+        // call the function for display data spatial
+        if (localSetting.isDisplayDataSpatials && dataSpatials) {
+            dataSpatials.forEach(dataSpatial => {
+                if (dataSpatial.file.endsWith('.geojson')) {
+                    fetchDataGeoJson(dataSpatial);
+                } else if (dataSpatial.file.endsWith('.zip')) {
+                    fetchShapefileFromZip(dataSpatial);
+                }
+            });
+        }
 
         // get address
         function getAddress(lat, lng) {
@@ -259,7 +332,7 @@ const useMapsInputData = (isEdit, data) => {
                 setWideLandInput('');
             });
         });
-    }, [])
-}
+    }, []);
+};
 
 export default useMapsInputData;

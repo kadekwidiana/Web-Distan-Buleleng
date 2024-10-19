@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 // import DropdownLaravel from '../Dropdown';
 import { Dropdown, DropdownItem } from 'flowbite-react';
 import { Link, usePage } from '@inertiajs/react';
@@ -49,6 +49,12 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                                     </a>
                                 </DropdownItem>
                                 <DropdownItem>
+                                    <Link href={'/setting'}>
+                                        <i className="fa-solid fa-gear mr-2"></i>
+                                        Pengaturan
+                                    </Link>
+                                </DropdownItem>
+                                <DropdownItem>
                                     <Link href={route('logout')} method="post" as="button">
                                         <i className="fa-solid fa-arrow-left mr-2"></i>
                                         Log Out
@@ -60,5 +66,5 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                 </div>
             </div>
         </nav>
-    )
+    );
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backpage;
 
 use App\Http\Controllers\Controller;
 use App\Models\Commodity;
+use App\Models\DataSpatial;
 use App\Models\District;
 use App\Models\LandAgriculture;
 use App\Models\LayerGrup;
@@ -253,11 +254,13 @@ class LandAgricultureController extends Controller
     {
         $district = District::firstWhere('id', $request->districtId);
         $layerGroup = LayerGrup::all();
+        $dataSpatials = DataSpatial::where('status', 'ACTIVE')->get();
 
         return Inertia::render('Backpage/LandAgriculture/Create/StepTwo', [
             'navName' => 'Tambah Lahan Pertanian',
             'district' => $district,
-            'layerGroup' => $layerGroup
+            'layerGroup' => $layerGroup,
+            'dataSpatials' => $dataSpatials
         ]);
     }
 
@@ -402,11 +405,13 @@ class LandAgricultureController extends Controller
 
         $district = District::firstWhere('id', $request->districtId);
         $layerGroup = LayerGrup::all();
+        $dataSpatials = DataSpatial::where('status', 'ACTIVE')->get();
 
         return Inertia::render('Backpage/LandAgriculture/Edit/StepTwo', [
             'navName' => 'Edit Lahan Pertanian',
             'district' => $district,
             'layerGroup' => $layerGroup,
+            'dataSpatials' => $dataSpatials,
             'landAgricultureById' => $landAgricultureById
         ]);
     }
