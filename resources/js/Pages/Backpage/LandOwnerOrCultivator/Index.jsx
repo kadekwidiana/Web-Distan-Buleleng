@@ -3,13 +3,13 @@ import ButtonAdd from '@/Components/Button/Add';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { EMPLOYEE_STATUSES } from '@/Constant/Status';
 import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import ModalInputUserOwnerLand from '@/Components/Modal/InputUserOwnerLand';
 import Button from '@/Components/Button/Button';
@@ -27,7 +27,7 @@ export default function LandOwnerOrCultivatorPage() {
     const handleChangePerPage = (e) => {
         perpage.current = e.target.value;
         getData();
-    }
+    };
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -35,7 +35,7 @@ export default function LandOwnerOrCultivatorPage() {
         if (value === '') {
             getData(true); // Pass true to indicate that search is cleared
         }
-    }
+    };
 
     const debouncedResults = useMemo(() => {
         return debounce(handleSearch, 500);
@@ -73,12 +73,12 @@ export default function LandOwnerOrCultivatorPage() {
                 preserveState: true,
                 onFinish: () => setIsLoading(false),
             }
-        )
-    }
+        );
+    };
 
     const deleteData = async (id) => {
         await router.delete(route('pemilik-penggarap.destroy', { id: id }));
-    }
+    };
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
@@ -98,7 +98,7 @@ export default function LandOwnerOrCultivatorPage() {
                 });
             }
         });
-    }
+    };
 
     const handleEditClick = (person) => {
         setSelectedPerson(person);
@@ -130,7 +130,10 @@ export default function LandOwnerOrCultivatorPage() {
                             </div>
                         </form>
                     </div>
-                    <Button type="button" onClick={() => handleExportExcel(`Pemilik/Penggarap Lahan`, persons.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
+                    <Button type="button" onClick={() => handleExportExcel(`Pemilik/Penggarap Lahan`, persons.data)} className="bg-green-600 hover:bg-green-700 text-white text-nowrap px-3">
+                        <i className="fa-solid fa-download"></i>
+                        <span className='hidden sm:block'>Export Excel</span>
+                    </Button>
                     <button onClick={() => {
                         setOpenModal(true);
                         setSelectedPerson(null);
@@ -210,5 +213,5 @@ export default function LandOwnerOrCultivatorPage() {
                 }
             </div>
         </BackpageLayout >
-    )
+    );
 }

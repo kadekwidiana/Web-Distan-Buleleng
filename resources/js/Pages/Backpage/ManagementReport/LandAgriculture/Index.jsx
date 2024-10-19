@@ -289,7 +289,10 @@ export default function ReportLandAgriculturePage() {
                     {!isLoading && landAgricultures.length > 0 &&
                         <>
                             <Button disabled={isLoading} type="button" onClick={handlePrintPDF} className="bg-red-500 hover:bg-red-600 text-white">PDF</Button>
-                            <Button type="button" onClick={() => handleExportExcel(`Laporan Lahan Pertanian`, landAgricultures)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
+                            <Button type="button" onClick={() => handleExportExcel(`Laporan Lahan Pertanian`, landAgricultures)} className="bg-green-600 hover:bg-green-700 text-white text-nowrap px-3">
+                                <i className="fa-solid fa-download"></i>
+                                <span className='hidden sm:block'>Export Excel</span>
+                            </Button>
                         </>
                     }
                 </div>

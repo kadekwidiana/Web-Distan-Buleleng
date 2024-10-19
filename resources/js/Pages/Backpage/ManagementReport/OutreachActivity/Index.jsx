@@ -237,7 +237,7 @@ export default function ReportOutreachActivityPage() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     return (
         <BackpageLayout>
@@ -325,7 +325,10 @@ export default function ReportOutreachActivityPage() {
                     {!isLoading && outreachActivities.length > 0 &&
                         <>
                             <Button disabled={isLoading} type="button" onClick={handlePrintPDF} className="bg-red-500 hover:bg-red-600 text-white">PDF</Button>
-                            <Button disabled={isLoading} type="button" onClick={handleExportExcel} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
+                            <Button disabled={isLoading} type="button" onClick={handleExportExcel} className="bg-green-600 hover:bg-green-700 text-white text-nowrap px-3">
+                                <i className="fa-solid fa-download"></i>
+                                <span className='hidden sm:block'>Export Excel</span>
+                            </Button>
                         </>
                     }
                 </div>

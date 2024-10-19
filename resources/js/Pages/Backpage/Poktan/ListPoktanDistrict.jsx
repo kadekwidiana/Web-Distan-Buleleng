@@ -1,10 +1,10 @@
 import ButtonAdd from '@/Components/Button/Add';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import { pickBy, debounce } from 'lodash';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { Head, Link, usePage, router } from '@inertiajs/react';
 import { Dropdown, Modal, Table } from 'flowbite-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import LoadData from '@/Components/Loading/LoadData';
 import ExcelExport from '@/Components/Button/ExportExcel';
 import ButtonBack from '@/Components/Button/Back';
@@ -26,12 +26,12 @@ export default function ListPoktansInDistrictPage() {
     const handleChangePerPage = (e) => {
         perpage.current = e.target.value;
         getData();
-    }
+    };
 
     const handleFilter = (e) => {
         villageId.current = e.target.value;
         getData();
-    }
+    };
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -39,7 +39,7 @@ export default function ListPoktansInDistrictPage() {
         if (value === '') {
             getData(true); // Pass true to indicate that search is cleared
         }
-    }
+    };
 
     const debouncedResults = useMemo(() => {
         return debounce(handleSearch, 500);
@@ -78,12 +78,12 @@ export default function ListPoktansInDistrictPage() {
                 preserveState: true,
                 onFinish: () => setIsLoading(false),
             }
-        )
-    }
+        );
+    };
 
     const deleteData = async (id) => {
         await router.delete(`/kelembagaan-pertanian/poktan/kecamatan/${districtData.id}/${id}/delete`);
-    }
+    };
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
@@ -103,7 +103,7 @@ export default function ListPoktansInDistrictPage() {
                 });
             }
         });
-    }
+    };
 
     return (
         <BackpageLayout>
@@ -137,7 +137,10 @@ export default function ListPoktansInDistrictPage() {
                         </form>
                     </div>
                     {/* <ExcelExport data={poktansInDiscrict.data} fileName="Gapoktan" /> */}
-                    <Button type="button" onClick={() => handleExportExcel(`Poktan ${districtData?.name}`, poktansInDiscrict.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
+                    <Button type="button" onClick={() => handleExportExcel(`Poktan ${districtData?.name}`, poktansInDiscrict.data)} className="bg-green-600 hover:bg-green-700 text-white text-nowrap px-3">
+                        <i className="fa-solid fa-download"></i>
+                        <span className='hidden sm:block'>Export Excel</span>
+                    </Button>
                     <ButtonAdd href={`/kelembagaan-pertanian/poktan/kecamatan/${districtData.id}/create-step-one`} />
                 </div>
                 <div className="flex flex-col my-2 w-auto max-md:overflow-x-auto max-md:my-8">
@@ -214,5 +217,5 @@ export default function ListPoktansInDistrictPage() {
                 }
             </div>
         </BackpageLayout >
-    )
+    );
 }

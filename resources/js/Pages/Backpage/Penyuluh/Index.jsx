@@ -3,12 +3,12 @@ import ButtonAdd from '@/Components/Button/Add';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { EMPLOYEE_STATUSES } from '@/Constant/Status';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import Button from '@/Components/Button/Button';
 import { handleExportExcel } from '@/Utils/exportExcel';
@@ -23,12 +23,12 @@ export default function PenyuluhPage() {
     const handleChangePerPage = (e) => {
         perpage.current = e.target.value;
         getData();
-    }
+    };
 
     const handleFilter = (e) => {
         employeeStatus.current = e.target.value;
         getData();
-    }
+    };
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -36,7 +36,7 @@ export default function PenyuluhPage() {
         if (value === '') {
             getData(true); // Pass true to indicate that search is cleared
         }
-    }
+    };
 
     const debouncedResults = useMemo(() => {
         return debounce(handleSearch, 500);
@@ -75,12 +75,12 @@ export default function PenyuluhPage() {
                 preserveState: true,
                 onFinish: () => setIsLoading(false),
             }
-        )
-    }
+        );
+    };
 
     const deleteData = async (id) => {
         await router.delete(route('ppl.destroy', { ppl: id }));
-    }
+    };
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
@@ -100,7 +100,7 @@ export default function PenyuluhPage() {
                 });
             }
         });
-    }
+    };
 
     return (
         <BackpageLayout>
@@ -132,7 +132,10 @@ export default function PenyuluhPage() {
                             </div>
                         </form>
                     </div>
-                    <Button type="button" onClick={() => handleExportExcel(`Penyuluh`, ppls.data)} className="bg-green-600 hover:bg-green-700 text-white">Excel</Button>
+                    <Button type="button" onClick={() => handleExportExcel(`Penyuluh`, ppls.data)} className="bg-green-600 hover:bg-green-700 text-white text-nowrap px-3">
+                        <i className="fa-solid fa-download"></i>
+                        <span className='hidden sm:block'>Export Excel</span>
+                    </Button>
                     <ButtonAdd href={'/ppl/create'} />
                 </div>
                 <div className="flex flex-col my-2 overflow-x-auto">
@@ -207,5 +210,5 @@ export default function PenyuluhPage() {
                 }
             </div>
         </BackpageLayout >
-    )
+    );
 }
