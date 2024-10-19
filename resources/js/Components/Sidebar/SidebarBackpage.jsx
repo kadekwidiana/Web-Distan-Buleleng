@@ -69,11 +69,18 @@ const SidebarMenus = () => {
                 }
             />
             {auth.user.role === 'ADMIN' &&
-                <SidebarMenu
-                    href={'/pemilik-penggarap'}
-                    icon={<i className="fa-solid fa-user"></i>}
-                    label={'Pemilik/Penggarap Lahan'}
-                />
+                <>
+                    <SidebarMenu
+                        href={'/bpp'}
+                        icon={<i className="fa-solid fa-building-columns"></i>}
+                        label={'Balai Penyuluh Pertanian'}
+                    />
+                    <SidebarMenu
+                        href={'/pemilik-penggarap'}
+                        icon={<i className="fa-solid fa-user"></i>}
+                        label={'Pemilik/Penggarap Lahan'}
+                    />
+                </>
             }
             <SidebarMenu
                 href={'/lahan_pertanian'}
@@ -121,8 +128,8 @@ const SidebarMenus = () => {
                 </>
             }
         </ul>
-    )
-}
+    );
+};
 
 export default function SidebarBackpage({ showSidebar, showSidebarMobile, handleShowSidebar, handleShowSidebarMobile }) {
     const sidebarRef = useRef(null);
@@ -131,7 +138,7 @@ export default function SidebarBackpage({ showSidebar, showSidebarMobile, handle
         if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
             handleShowSidebarMobile(false);
         }
-    }
+    };
 
     useEffect(() => {
         if (showSidebarMobile) {
@@ -141,7 +148,7 @@ export default function SidebarBackpage({ showSidebar, showSidebarMobile, handle
         }
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-        }
+        };
     }, [showSidebarMobile]);
 
     return (

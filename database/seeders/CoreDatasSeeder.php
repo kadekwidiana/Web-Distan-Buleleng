@@ -28,6 +28,7 @@ class CoreDatasSeeder extends Seeder
         $this->call(PplsSeeder::class);
         $this->call(BuiltAreasSeeder::class);
         $this->call(OutreachActivitiesSeeder::class);
+        $this->call(BppSeeder::class);
         // bridge
         $this->call(GapoktanOutreachActivitiesSeeder::class);
         $this->call(PoktanOutreachActivitiesSeeder::class);

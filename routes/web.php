@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backpage\BPPController;
 use App\Http\Controllers\Backpage\DashboardController;
 use App\Http\Controllers\Backpage\DataSpatialController;
 use App\Http\Controllers\Backpage\GapoktanController;
@@ -192,6 +193,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // DATA SPASIAL
         Route::resource('data-spasial', DataSpatialController::class);
         Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update'); //pake ini karena resource tidak bisa up file (i don't no what this problem #males-ngulik, intinya apa guyss?? ya benar... intinya bisa...)
+
+        // BPP
+        Route::resource('/bpp', BPPController::class);
+        Route::post('/bpp/{id}/update', [BPPController::class, 'update'])->name('bpp-custom.update');
 
         // MASTER DATA
         // komoditas
