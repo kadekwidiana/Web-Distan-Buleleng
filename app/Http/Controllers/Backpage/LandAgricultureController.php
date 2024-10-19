@@ -32,7 +32,7 @@ class LandAgricultureController extends Controller
         'cultivator_id.required' => 'Penggarap wajib diisi.',
         'cultivator_id.exists' => 'Penggarap tidak valid.',
         'commodities.required' => 'Komoditas wajib diisi.',
-        'commodities_cycle.json' => 'Siklus Komoditas harus berupa format JSON.',
+        'commodities_cycle.json' => 'Perkiraan Panen harus berupa format JSON.',
         'status.required' => 'Status wajib diisi.',
         'status.string' => 'Status harus berupa teks.',
         'layer_group_id.required' => 'Grup lapisan wajib diisi.',

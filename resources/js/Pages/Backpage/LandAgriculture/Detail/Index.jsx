@@ -1,12 +1,12 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 import { generateCommoditiesCycleHtml } from '@/Utils/generateCommoditiesCycleHtml';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 export default function DetailLandAgriculturePage() {
     const { landAgricultureById, districtId } = usePage().props;
@@ -71,7 +71,7 @@ export default function DetailLandAgriculturePage() {
 
                                     </tr>
                                     <tr className="bg-white">
-                                        <td className="pr-2 py-2 w-1/5">Siklus Komoditas</td>
+                                        <td className="pr-2 py-2 w-1/5">Perkiraan Panen</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full" dangerouslySetInnerHTML={{ __html: generateCommoditiesCycleHtml(JSON.parse(landAgricultureById.commodities_cycle)) }}></td>
                                     </tr>
@@ -114,5 +114,5 @@ export default function DetailLandAgriculturePage() {
                 </div>
             </div>
         </BackpageLayout>
-    )
+    );
 }

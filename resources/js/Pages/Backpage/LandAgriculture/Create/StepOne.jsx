@@ -8,13 +8,13 @@ import InputSelect from '@/Components/Input/InputSelect';
 import SelectTwo from '@/Components/Input/InputSelectTwo';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { useStore } from '@/Store/Index.store';
 import { ABILITY_CLASSES } from '@/Constant/Class';
 import { CONFIRMATION_STATUSES, DATA_STATUSES, DATA_STATUSES_FOR_OPTIONS, GROUP_STATUSES } from '@/Constant/Status';
-import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Banner } from 'flowbite-react';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import AgriculturalCycleInputs from '../AgriculturalCycleInputs';
 import { MONTHS } from '@/Constant/Month';
@@ -50,8 +50,8 @@ export default function StepOneCreateLandAgriculturePage() {
     setData({
       ...data,
       commodities_cycle: commoditiesCycleData
-    })
-  }, [commoditiesCycleData])
+    });
+  }, [commoditiesCycleData]);
 
   commodities.forEach((commodity) => {
     if (!options.some(option => option.value === commodity.id)) {
@@ -243,7 +243,7 @@ export default function StepOneCreateLandAgriculturePage() {
               </div>
               {selectedValues.length > 0 &&
                 <>
-                  <InputLabel>Siklus Komoditas</InputLabel>
+                  <InputLabel>Perkiraan Panen</InputLabel>
                   <AgriculturalCycleInputs
                     datas={commoditiesCycleData}
                     setDatas={setCommoditiesCycleData}
@@ -261,5 +261,5 @@ export default function StepOneCreateLandAgriculturePage() {
         </form>
       </div>
     </BackpageLayout>
-  )
+  );
 }

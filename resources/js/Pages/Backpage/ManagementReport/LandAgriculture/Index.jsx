@@ -34,7 +34,7 @@ const tableColumns = [
     { header: 'POKTAN', dataKey: 'poktan' },
     { header: 'SUBAK', dataKey: 'subak' },
     { header: 'KOMODITAS', dataKey: 'komoditas' },
-    { header: 'SIKLUS KOMODITAS', dataKey: 'siklus_komoditas' },
+    { header: 'PERKIRAAN PANEN', dataKey: 'siklus_komoditas' },
     { header: 'LUAS LAHAN', dataKey: 'luas_lahan' },
     { header: 'DATA DIBUAT', dataKey: 'data_dibuat' },
     { header: 'DATA DIUBAH', dataKey: 'data_diubah' }
@@ -96,7 +96,7 @@ export default function ReportLandAgriculturePage() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const handlePrintPDF = () => {
         Swal.fire({
@@ -192,12 +192,12 @@ export default function ReportLandAgriculturePage() {
                                         id="filterBy"
                                         name="filterBy"
                                         onChange={(e) => {
-                                            setFilterBy(e.target.value)
-                                            setDistrictId('')
-                                            setVillageId('')
-                                            setPoktanId('')
-                                            setSubakId('')
-                                            setLandAgricultures([])
+                                            setFilterBy(e.target.value);
+                                            setDistrictId('');
+                                            setVillageId('');
+                                            setPoktanId('');
+                                            setSubakId('');
+                                            setLandAgricultures([]);
                                         }} // Tambahkan onChange handler
                                     >
                                         <option value={''}>-- Pilih Kriteria Pencarian --</option>
@@ -306,7 +306,7 @@ export default function ReportLandAgriculturePage() {
                                     <Table.HeadCell>POKTAN</Table.HeadCell>
                                     <Table.HeadCell>SUBAK</Table.HeadCell>
                                     <Table.HeadCell>KOMODITAS</Table.HeadCell>
-                                    <Table.HeadCell>SIKLUS KOMODITAS</Table.HeadCell>
+                                    <Table.HeadCell>PERKIRAAN PANEN</Table.HeadCell>
                                     <Table.HeadCell>LUAS LAHAN</Table.HeadCell>
                                     <Table.HeadCell>DATA DIBUAT</Table.HeadCell>
                                     <Table.HeadCell>DATA DIUBAH</Table.HeadCell>

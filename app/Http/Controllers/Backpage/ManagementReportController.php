@@ -206,7 +206,7 @@ class ManagementReportController extends Controller
                     'siklus_komoditas' => collect(json_decode($land->commodities_cycle))->map(function ($cycle) {
                         $months = implode(',', $cycle->months); // Gabungkan bulan dengan koma
                         return "{$cycle->name} bulan: {$months}"; // Format nama komoditas dan bulan
-                    })->implode(', '), // Gabungkan siklus komoditas dengan koma
+                    })->implode(', '), // Gabungkan Perkiraan Panen dengan koma
                     'luas_lahan' => $land->land_area . ' are',
                     'data_dibuat' => $land->created_at, // Format tanggal dibuat
                     'data_diubah' => $land->updated_at  // Format tanggal diubah

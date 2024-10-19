@@ -14,7 +14,7 @@ function getMonthName(month) {
 /**
  * Fungsi untuk mengonversi data komoditas menjadi string HTML
  * @param {Array} commodities - Array objek yang berisi nama komoditas dan bulan
- * @returns {string} String HTML yang menampilkan siklus komoditas dan nama bulan
+ * @returns {string} String HTML yang menampilkan Perkiraan Panen dan nama bulan
  */
 export function generateCommoditiesCycleHtml(commodities) {
     let htmlString = '<br />';

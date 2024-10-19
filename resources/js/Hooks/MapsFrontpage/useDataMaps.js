@@ -33,7 +33,7 @@ const useDataMaps = (map, dataLayers) => {
                 layer.removeFrom(map); // Remove layer
             }
         });
-    }
+    };
 
     const customIcon = (iconUrl) => {
         return L.icon({
@@ -263,7 +263,7 @@ const useDataMaps = (map, dataLayers) => {
                                 <strong>Luas lahan:</strong> ${dataLahan.land_area} are (m²)</br >
                                 <strong>Jenis lahan:</strong> ${dataLahan.type_land_agriculture.name}</br >
                                 <strong>Komoditas lahan:</strong> ${dataLahan.commodities.map(commodity => commodity.name).join(', ')}<br />
-                                <strong>Siklus Komoditas:</strong> ${generateCommoditiesCycleHtml(JSON.parse(dataLahan.commodities_cycle))}<br />
+                                <strong>Perkiraan Panen:</strong> ${generateCommoditiesCycleHtml(JSON.parse(dataLahan.commodities_cycle))}<br />
                                 <strong>Tergabung di Poktan:</strong> ${dataLahan?.poktan?.name ?? '-'}</br >
                                 <strong>Tergabung di Subak:</strong> ${dataLahan?.subak?.name ?? '-'}</br >
                                 <strong>Deskripsi:</strong> ${dataLahan.description}</br >
@@ -333,7 +333,7 @@ const useDataMaps = (map, dataLayers) => {
                         <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                     </div>
                     <strong>Luas lahan:</strong> ${landAgriculture.land_area} are (m2)</br>
-                    <strong>Siklus Komoditas:</strong> ${generateCommoditiesCycleHtml(commoditiesCycle)}<br />
+                    <strong>Perkiraan Panen:</strong> ${generateCommoditiesCycleHtml(commoditiesCycle)}<br />
                     <strong>Alamat:</strong> ${landAgriculture.address} </br>
                     <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${landAgriculture.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
                     <strong>Data dibuat:</strong> ${formatDateToIndonesian(landAgriculture.created_at)}</br >
@@ -389,7 +389,7 @@ const useDataMaps = (map, dataLayers) => {
                     color: 'blue', // Highlight color on hover
                     weight: 3,
                     opacity: 1
-                }
+                };
 
                 // add event listeners
                 layer.on({
@@ -456,7 +456,7 @@ const useDataMaps = (map, dataLayers) => {
                 });
             }
         }).addTo(layer);
-    }
+    };
 
     const layerDataAgricultureMappings = [
         { key: 'layer_gapoktan', data: gapoktans },
@@ -594,6 +594,6 @@ const useDataMaps = (map, dataLayers) => {
     fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-kecamatan-buleleng.geojson', 'district');
     fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-desa-buleleng.geojson', 'village');
 
-}
+};
 
 export default useDataMaps;
