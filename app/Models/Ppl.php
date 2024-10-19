@@ -31,6 +31,7 @@ class Ppl extends Model
     protected $fillable = [
         'nip',
         'account_id',
+        'bpp_id',
         'name',
         'employee_status',
         'front_title',
@@ -80,5 +81,10 @@ class Ppl extends Model
     public function villages()
     {
         return $this->belongsToMany(Village::class, 'built_areas')->withTimestamps();
+    }
+
+    public function bpp()
+    {
+        return $this->belongsTo(Bpp::class);
     }
 }

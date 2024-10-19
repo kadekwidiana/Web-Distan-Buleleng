@@ -18,6 +18,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('bpp_id')->nullable(); // Bisa nullable jika tidak semua PPL terkait BPP
+            $table->foreign('bpp_id')
+                ->references('id')->on('bpps')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 50);
             $table->string('employee_status', 50);
             $table->string('front_title', 50)->nullable();
@@ -31,7 +35,7 @@ return new class extends Migration
             $table->string('field_of_education', 50);
             $table->string('major', 50);
             $table->string('school_name', 50);
-            $table->string('work_location', 255);
+            $table->string('work_location', 255)->nullable();
             $table->date('date_sk');
             $table->date('date_spmt');
             $table->string('position', 255);

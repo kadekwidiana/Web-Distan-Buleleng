@@ -68,4 +68,9 @@ class Bpp extends Model
     {
         return $this->belongsTo(LayerGrup::class, 'layer_group_id');
     }
+
+    public function ppls()
+    {
+        return $this->hasMany(Ppl::class);
+    }
 }

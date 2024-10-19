@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backpage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bpp;
 use App\Models\Ppl;
 use App\Models\User;
 use App\Models\Village;
@@ -18,6 +19,9 @@ class PPLController extends Controller
         'nik.string' => 'NIK harus berupa string.',
         'nik.max' => 'NIK tidak boleh lebih dari 16 karakter.',
         'nik.unique' => 'NIK sudah terdaftar.',
+
+        'bpp_id.required' => 'BPP harus diisi.',
+        'bpp_id.exists' => 'BPP tidak valid.',
 
         'name.required' => 'Nama wajib diisi.',
         'name.string' => 'Nama harus berupa string.',
@@ -168,16 +172,19 @@ class PPLController extends Controller
         $villages = Village::whereHas('district', function ($query) {
             $query->where('regency_id', 5108);
         })->get();
+        $bpps = Bpp::all();
 
         return Inertia::render('Backpage/Penyuluh/Create', [
             'navName' => 'Tambah Penyuluh',
-            'villages' => $villages
+            'villages' => $villages,
+            'bpps' => $bpps,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
+    // NOTE: INI BELUM ISI ROLEBACK DBNYA JIKA SALAH 1 GAGAL PROSESNYA
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -189,6 +196,7 @@ class PPLController extends Controller
                     return $query->where('role', 'PPL');
                 })
             ],
+            'bpp_id' => 'required|exists:bpps,id',
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users,email',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -210,7 +218,7 @@ class PPLController extends Controller
             'field_of_education' => 'required|string|max:50',
             'major' => 'required|string|max:50',
             'school_name' => 'required|string|max:50',
-            'work_location' => 'required|string|max:50',
+            'work_location' => 'nullable|string|max:50',
             'date_sk' => 'required|date',
             'date_spmt' => 'required|date',
             'position' => 'required|string|max:50',
@@ -242,6 +250,7 @@ class PPLController extends Controller
         $pplDataKeys = [
             'nip',
             'account_id',
+            'bpp_id',
             'name',
             'employee_status',
             'front_title',
@@ -284,7 +293,7 @@ class PPLController extends Controller
      */
     public function show(string $id)
     {
-        $pplById = Ppl::with(['account', 'villages'])->findOrFail($id);
+        $pplById = Ppl::with(['account', 'villages', 'bpp'])->findOrFail($id);
         return Inertia::render('Backpage/Penyuluh/Detail', [
             'navName' => 'Detail ' . $pplById->name,
             'pplById' => $pplById,
@@ -307,12 +316,15 @@ class PPLController extends Controller
             $query->where('regency_id', 5108);
         })->get();
 
+        $bpps = Bpp::all();
+
         // Pass data to the view
         return Inertia::render('Backpage/Penyuluh/Edit', [
             'navName' => 'Edit Penyuluh',
             'pplById' => $pplById,
             'villageIds' => $villageIds, // Ensure this is an array
-            'villages' => $villages
+            'villages' => $villages,
+            'bpps' => $bpps,
         ]);
     }
 
@@ -336,6 +348,7 @@ class PPLController extends Controller
                         return $query->where('role', 'PPL');
                     }),
             ],
+            'bpp_id' => 'required|exists:bpps,id',
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -357,7 +370,7 @@ class PPLController extends Controller
             'field_of_education' => 'required|string|max:50',
             'major' => 'required|string|max:50',
             'school_name' => 'required|string|max:50',
-            'work_location' => 'required|string|max:50',
+            'work_location' => 'nullable|string|max:50',
             'date_sk' => 'required|date',
             'date_spmt' => 'required|date',
             'position' => 'required|string|max:50',
@@ -399,6 +412,7 @@ class PPLController extends Controller
         $pplDataKeys = [
             'nip',
             'account_id',
+            'bpp_id',
             'name',
             'employee_status',
             'front_title',

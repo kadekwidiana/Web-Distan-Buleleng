@@ -11,13 +11,15 @@ import { RELIGIONS } from "@/Constant/Religion";
 import { EMPLOYEE_STATUSES } from "@/Constant/Status";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import SelectTwo from "@/Components/Input/InputSelectTwo";
 
 export default function CreatePenyuluhPage() {
     const [options, setOptions] = useState([]); //untuk menyimpan options multi select nya bentuknya [{value, label}]
     const [selectedValues, setSelectedValues] = useState([]); //value options yang di pilih
-    const { villages, errors } = usePage().props;
+    const { villages, bpps, errors } = usePage().props;
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         nik: "",
+        bpp_id: "",
         name: "",
         email: "",
         foto: null,
@@ -131,7 +133,8 @@ export default function CreatePenyuluhPage() {
                             { label: 'Nama Sekolah*', name: 'school_name', type: 'text', placeholder: 'Nama Sekolah...' },
                             { label: 'Tanggal SK*', name: 'date_sk', type: 'date', placeholder: 'Tanggal SK...' },
                             { label: 'Tanggal SPMT*', name: 'date_spmt', type: 'date', placeholder: 'Tanggal SPMT...' },
-                            { label: 'Lokasi Kerja*', name: 'work_location', type: 'text', placeholder: 'Lokasi Kerja...' },
+                            // { label: 'Lokasi Kerja*', name: 'work_location', type: 'text', placeholder: 'Lokasi Kerja...' },
+                            { label: 'Lokasi Kerja (BPP)*', name: 'bpp_id', type: 'text', placeholder: 'Lokasi Kerja (BPP)...' },
                             { label: 'Posisi*', name: 'position', type: 'text', placeholder: 'Posisi...' },
                             { label: 'Provinsi*', name: 'provinsi', type: 'text', placeholder: 'Provinsi...' },
                             { label: 'Kabupaten*', name: 'regency', type: 'text', placeholder: 'Kabupaten...' },
@@ -194,7 +197,7 @@ export default function CreatePenyuluhPage() {
                                         <InputError message={errors.religion} />
                                     </div>
                                 }
-                                {input.name !== 'employee_status' && input.name !== 'religion' && input.name !== 'gender' &&
+                                {input.name !== 'employee_status' && input.name !== 'religion' && input.name !== 'gender' && input.name !== 'bpp_id' &&
                                     <div key={index} className="">
                                         <InputLabel>{input.label}</InputLabel>
                                         <TextInput
@@ -208,7 +211,20 @@ export default function CreatePenyuluhPage() {
                                         <InputError message={errors[input.name]} />
                                     </div>
                                 }
-
+                                {input.name === 'bpp_id' &&
+                                    <div key={index} className="">
+                                        <InputLabel>Lokasi Kerja (BPP)*</InputLabel>
+                                        <SelectTwo
+                                            entities={bpps}
+                                            selectedEntityId={data.bpp_id}
+                                            setSelectedEntityId={(id) => setData({ ...data, bpp_id: id })}
+                                            label={'-- Pilih BPP --'}
+                                            placeholder={'Cari BPP...'}
+                                            error={errors.bpp_id}
+                                        />
+                                        <InputError message={errors.bpp_id} />
+                                    </div>
+                                }
                             </>
                         ))}
 
@@ -237,5 +253,5 @@ export default function CreatePenyuluhPage() {
                 </form>
             </div>
         </BackpageLayout>
-    )
+    );
 }
