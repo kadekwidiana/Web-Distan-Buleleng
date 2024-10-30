@@ -34,7 +34,7 @@ export default function useExportPdfOutreachActivity(outreachActivity) {
             doc.setFontSize(18);
             doc.setFont("helvetica", "bold").text('Laporan Kegiatan Penyuluhan', marginLeft + 40, 15); // Adjust x position for 2 cm margin
             doc.setFontSize(13);
-            doc.setFont("helvetica", "normal").text(`Penyuluh: ${outreachActivity?.ppl?.front_title} ${outreachActivity.ppl.name} ${outreachActivity?.ppl?.back_title}`, marginLeft + 40, 22); // Adjust x position for 2 cm margin
+            doc.setFont("helvetica", "normal").text(`Penyuluh: ${outreachActivity?.ppl?.front_title ?? ''} ${outreachActivity.ppl.name} ${outreachActivity?.ppl?.back_title ?? ''}`, marginLeft + 40, 22); // Adjust x position for 2 cm margin
             doc.setFont("helvetica", "normal").text(`Tanggal Input Kegiatan: ${formatDateToIndonesian(outreachActivity.created_at)}`, marginLeft + 40, 28); // Adjust x position for 2 cm margin
 
             // Draw horizontal line above table
@@ -123,7 +123,7 @@ export default function useExportPdfOutreachActivity(outreachActivity) {
             const footerY = doc.internal.pageSize.height - 10;
             doc.setFontSize(12);
             doc.setFont("helvetica", "normal").text(`Singaraja, ${formatDateToIndonesian(new Date().toLocaleDateString())}`, doc.internal.pageSize.width - marginRight, footerY, { align: 'right' });
-            doc.text(`${outreachActivity?.ppl?.front_title} ${outreachActivity.ppl.name} ${outreachActivity?.ppl?.back_title} | Dinas Pertanian Kabupaten Buleleng`, doc.internal.pageSize.width - marginRight, footerY + 5, { align: 'right' });
+            doc.text(`${outreachActivity?.ppl?.front_title ?? ''} ${outreachActivity.ppl.name} ${outreachActivity?.ppl?.back_title ?? ''} | Dinas Pertanian Kabupaten Buleleng`, doc.internal.pageSize.width - marginRight, footerY + 5, { align: 'right' });
 
             // Save the PDF with the entered file name
             doc.save(`${result.value}.pdf`);
