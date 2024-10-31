@@ -194,7 +194,7 @@ export default function ListPoktansInDistrictPage() {
                 {subaksInDiscrict.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {subaksInDiscrict.from} to {subaksInDiscrict.from} total{" "} {subaksInDiscrict.total}
+                            Showing {subaksInDiscrict.from} to {subaksInDiscrict.to} total{" "} {subaksInDiscrict.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {subaksInDiscrict.links.map((link, index) => (

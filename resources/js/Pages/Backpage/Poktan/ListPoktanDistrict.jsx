@@ -200,7 +200,7 @@ export default function ListPoktansInDistrictPage() {
                 {poktansInDiscrict.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {poktansInDiscrict.from} to {poktansInDiscrict.from} total{" "} {poktansInDiscrict.total}
+                            Showing {poktansInDiscrict.from} to {poktansInDiscrict.to} total{" "} {poktansInDiscrict.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {poktansInDiscrict.links.map((link, index) => (

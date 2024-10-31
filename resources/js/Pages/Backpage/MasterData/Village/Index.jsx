@@ -213,7 +213,7 @@ export default function MasterDataDistrictPage() {
                 {villages.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {villages.from} to {villages.from} total{" "} {villages.total}
+                            Showing {villages.from} to {villages.to} total{" "} {villages.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {villages.links.map((link, index) => (

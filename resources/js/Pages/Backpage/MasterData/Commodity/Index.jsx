@@ -200,7 +200,7 @@ export default function MasterDataCommodityPage() {
                 {commodities.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {commodities.from} to {commodities.from} total{" "} {commodities.total}
+                            Showing {commodities.from} to {commodities.to} total{" "} {commodities.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {commodities.links.map((link, index) => (

@@ -3,13 +3,13 @@ import ButtonAdd from '@/Components/Button/Add';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { DATA_STATUSES, EMPLOYEE_STATUSES } from '@/Constant/Status';
 import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import ModalInputLayerGroup from './ModalInput';
 // import ModalInputCommodity from './ModalInput';
@@ -27,12 +27,12 @@ export default function MasterDataLayerGroupPage() {
     const handleChangePerPage = (e) => {
         perpage.current = e.target.value;
         getData();
-    }
+    };
 
     const handleFilter = (e) => {
         status.current = e.target.value;
         getData();
-    }
+    };
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -40,7 +40,7 @@ export default function MasterDataLayerGroupPage() {
         if (value === '') {
             getData(true); // Pass true to indicate that search is cleared
         }
-    }
+    };
 
     const debouncedResults = useMemo(() => {
         return debounce(handleSearch, 500);
@@ -79,12 +79,12 @@ export default function MasterDataLayerGroupPage() {
                 preserveState: true,
                 onFinish: () => setIsLoading(false),
             }
-        )
-    }
+        );
+    };
 
     const deleteData = async (id) => {
         await router.delete(route('layer-grup.destroy', { id: id }));
-    }
+    };
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
@@ -104,7 +104,7 @@ export default function MasterDataLayerGroupPage() {
                 });
             }
         });
-    }
+    };
 
     const handleEditClick = (layerGroup) => {
         setSelectedLayerGroup(layerGroup);
@@ -206,7 +206,7 @@ export default function MasterDataLayerGroupPage() {
                 {layerGroups.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {layerGroups.from} to {layerGroups.from} total{" "} {layerGroups.total}
+                            Showing {layerGroups.from} to {layerGroups.to} total{" "} {layerGroups.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {layerGroups.links.map((link, index) => (
@@ -223,5 +223,5 @@ export default function MasterDataLayerGroupPage() {
                 }
             </div>
         </BackpageLayout >
-    )
+    );
 }

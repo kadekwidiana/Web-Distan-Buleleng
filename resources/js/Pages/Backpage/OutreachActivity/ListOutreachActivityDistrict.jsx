@@ -226,7 +226,7 @@ export default function ListOutreachActivitiesInDistrictPage() {
                 {outreachActivitiesInDiscrict.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {outreachActivitiesInDiscrict.from} to {outreachActivitiesInDiscrict.from} total{" "} {outreachActivitiesInDiscrict.total}
+                            Showing {outreachActivitiesInDiscrict.from} to {outreachActivitiesInDiscrict.to} total{" "} {outreachActivitiesInDiscrict.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {outreachActivitiesInDiscrict.links.map((link, index) => (

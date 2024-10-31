@@ -201,7 +201,7 @@ export default function ListGapoktansInDistrictPage() {
                 {gapoktansInDiscrict.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {gapoktansInDiscrict.from} to {gapoktansInDiscrict.from} total{" "} {gapoktansInDiscrict.total}
+                            Showing {gapoktansInDiscrict.from} to {gapoktansInDiscrict.to} total{" "} {gapoktansInDiscrict.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {gapoktansInDiscrict.links.map((link, index) => (

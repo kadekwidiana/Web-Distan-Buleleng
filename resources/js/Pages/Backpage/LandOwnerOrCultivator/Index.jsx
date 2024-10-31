@@ -192,7 +192,7 @@ export default function LandOwnerOrCultivatorPage() {
                 {persons.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {persons.from} to {persons.from} total{" "} {persons.total}
+                            Showing {persons.from} to {persons.to} total{" "} {persons.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {persons.links.map((link, index) => (

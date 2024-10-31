@@ -184,7 +184,7 @@ export default function DatSpatialPage() {
                 {dataSpatials.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {dataSpatials.from} to {dataSpatials.from} total{" "} {dataSpatials.total}
+                            Showing {dataSpatials.from} to {dataSpatials.to} total{" "} {dataSpatials.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {dataSpatials.links.map((link, index) => (

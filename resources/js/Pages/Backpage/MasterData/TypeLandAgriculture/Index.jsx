@@ -183,7 +183,7 @@ export default function MasterDataLayerGroupPage() {
                 {typeLandAgricultures.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {typeLandAgricultures.from} to {typeLandAgricultures.from} total{" "} {typeLandAgricultures.total}
+                            Showing {typeLandAgricultures.from} to {typeLandAgricultures.to} total{" "} {typeLandAgricultures.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {typeLandAgricultures.links.map((link, index) => (

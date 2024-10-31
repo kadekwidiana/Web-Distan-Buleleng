@@ -188,7 +188,7 @@ export default function ListGapoktansInDistrictPage() {
                 {landAgriculturesInDiscrict.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {landAgriculturesInDiscrict.from} to {landAgriculturesInDiscrict.from} total{" "} {landAgriculturesInDiscrict.total}
+                            Showing {landAgriculturesInDiscrict.from} to {landAgriculturesInDiscrict.to} total{" "} {landAgriculturesInDiscrict.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {landAgriculturesInDiscrict.links.map((link, index) => (

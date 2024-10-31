@@ -193,7 +193,7 @@ export default function MasterDataDistrictPage() {
                 {districts.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {districts.from} to {districts.from} total{" "} {districts.total}
+                            Showing {districts.from} to {districts.to} total{" "} {districts.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {districts.links.map((link, index) => (

@@ -193,7 +193,7 @@ export default function PenyuluhPage() {
                 {ppls.data.length > 0 && !isLoading &&
                     <div className="flex items-center justify-between m-2">
                         <div className="">
-                            Showing {ppls.from} to {ppls.from} total{" "} {ppls.total}
+                            Showing {ppls.from} to {ppls.to} total{" "} {ppls.total}
                         </div>
                         <div className="flex items-center gap-2">
                             {ppls.links.map((link, index) => (
