@@ -28,6 +28,28 @@ class Village extends Model
     protected $table = 'villages';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+
+    protected $fillable = [
+        'id',
+        'district_id',
+        'name',
+        'wide',
+        'center_coordinate',
+        'area_json'
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -35,6 +57,16 @@ class Village extends Model
     // protected $hidden = [
     //     'district_id'
     // ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'center_coordinate' => 'json',
+        'area_json' => 'json',
+    ];
 
     /**
      * Village belongs to District.

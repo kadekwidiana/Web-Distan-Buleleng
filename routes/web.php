@@ -13,6 +13,7 @@ use App\Http\Controllers\Backpage\OutreachActivitiesController;
 use App\Http\Controllers\Backpage\LandOwnerOrCultivatorController;
 use App\Http\Controllers\Backpage\ManagementReportController;
 use App\Http\Controllers\Backpage\MasterData\DistrictController;
+use App\Http\Controllers\Backpage\MasterData\VillageController;
 use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\Backpage\SubakController;
@@ -200,9 +201,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/bpp/{id}/update', [BPPController::class, 'update'])->name('bpp-custom.update');
 
         // MASTER DATA
-        // komoditas
+        // kecamatan
         Route::resource('/master-data/kecamatan', DistrictController::class);
         Route::post('/master-data/kecamatan/{id}/update', [DistrictController::class, 'update'])->name('kecamatan.update');
+        // desa
+        Route::resource('/master-data/desa', VillageController::class);
+        Route::post('/master-data/desa/{id}/update', [VillageController::class, 'update'])->name('desa.update');
         // komoditas
         Route::resource('/master-data/komoditas', CommodityController::class);
         Route::post('/master-data/komoditas/{id}/update', [CommodityController::class, 'update'])->name('komoditas.update');
