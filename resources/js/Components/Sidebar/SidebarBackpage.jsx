@@ -21,6 +21,16 @@ const SidebarMenus = () => {
                     subMenus={
                         <>
                             <SidebarMenu
+                                href={'/master-data/kecamatan'}
+                                icon={<i className="fa-solid fa-database"></i>}
+                                label={'Kecamatan'}
+                            />
+                            <SidebarMenu
+                                href={'/master-data/desa'}
+                                icon={<i className="fa-solid fa-database"></i>}
+                                label={'Desa'}
+                            />
+                            <SidebarMenu
                                 href={'/master-data/jenis-pertanian'}
                                 icon={<i className="fa-solid fa-database"></i>}
                                 label={'Jenis Pertanian'}

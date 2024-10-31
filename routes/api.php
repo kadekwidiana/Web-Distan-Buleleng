@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backpage\ManagementReportController;
+use App\Http\Controllers\Backpage\MasterData\DistrictController;
 use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\LayerController;
@@ -35,3 +36,7 @@ Route::resource('ppl', PPLController::class);
 
 Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
 Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
+
+// komoditas
+Route::resource('/master-data/kecamatan', DistrictController::class);
+Route::post('/master-data/kecamatan/{id}/update', [DistrictController::class, 'update'])->name('kecamatan.update');

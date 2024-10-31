@@ -29,12 +29,39 @@ class District extends Model
     protected $table = 'districts';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
+
+    protected $fillable = [
+        'id',
+        'regency_id',
+        'name',
+        'wide',
+        'center_coordinate',
+        'area_json'
+    ];
+
     protected $hidden = [
         'regency_id'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'center_coordinate' => 'json',
+        'area_json' => 'json',
     ];
 
     /**

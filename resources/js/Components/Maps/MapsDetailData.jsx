@@ -1,10 +1,13 @@
 import useMapsDetailData from '@/Hooks/MapsBackpage/useMapsDetailData';
 import useMapsDetailDataSpatial from '@/Hooks/MapsBackpage/useMapsDetailDataSpatial';
-import React from 'react'
+import useMapsDetailRegion from '@/Hooks/MapsBackpage/useMapsDetailRegion';
+import React from 'react';
 
-export default function MapsDetailData({ data, isSpatial = false }) {
+export default function MapsDetailData({ data, isSpatial = false, isRegion = false }) {
     if (isSpatial) {
         useMapsDetailDataSpatial(data);
+    } if (isRegion) {
+        useMapsDetailRegion(data);
     } else {
         useMapsDetailData(data);
     }
@@ -20,6 +23,6 @@ export default function MapsDetailData({ data, isSpatial = false }) {
                     <div id='maps' className="h-full z-30"></div>
                 </div>
             </div>
-        </div>                                   
-    )
+        </div>
+    );
 }
