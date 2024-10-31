@@ -8,10 +8,11 @@ import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
 import TextInputArea from '@/Components/Input/TextInputArea';
 import MapsInputData from '@/Components/Maps/MapsInputData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { useStore } from '@/Store/Index.store';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import React, { useEffect, useState } from 'react'
+import { Banner } from 'flowbite-react';
+import React, { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 export default function EditOutreachActivityPage() {
@@ -102,7 +103,7 @@ export default function EditOutreachActivityPage() {
                 ...data,
                 location: locationInput
             }
-        )
+        );
     }, [locationInput]);
 
     useEffect(() => {
@@ -111,7 +112,7 @@ export default function EditOutreachActivityPage() {
                 ...data,
                 address: addressInput
             }
-        )
+        );
     }, [addressInput]);
 
     const [location, setLocation] = useState(data.location);
@@ -181,7 +182,7 @@ export default function EditOutreachActivityPage() {
                         </div>
                     </div>))}
             </div>
-        )
+        );
     };
 
     const removePhoto = (index) => {
@@ -285,6 +286,18 @@ export default function EditOutreachActivityPage() {
                         </div>
                         <div className="flex flex-col gap-3">
                             <div>
+                                <Banner>
+                                    <div className="flex w-full flex-col justify-between rounded-md border-t-4 border-blue-500 bg-blue-100 p-2 shadow-sm md:flex-row lg:max-w-7xl">
+                                        <div className="mb-3 mr-4 flex flex-col">
+                                            <h3>Petunjuk</h3>
+                                            <p className="text-sm font-normal text-gray-600">
+                                                Disarankan untuk mengunggah foto dengan orientasi <strong>landscape</strong> agar sesuai dengan ukuran saat diekspor ke PDF.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Banner>
+                            </div>
+                            <div>
                                 <InputLabel>Foto</InputLabel>
                                 <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
                                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 2MB).</p>
@@ -319,5 +332,5 @@ export default function EditOutreachActivityPage() {
                 </form>
             </div>
         </BackpageLayout>
-    )
+    );
 }

@@ -115,6 +115,7 @@ export default function useExportPdfOutreachActivity(outreachActivity) {
                     imageY = 30; // Reset Y position for new page
                 }
 
+                // UKURAN TINGGI GAMBAR NYA BELUM BISA SESUAI/OTOMATIS (nanti lah ini di resolve, logic nya udah ada. skrg capek cuy)
                 doc.addImage(url, 'JPEG', marginLeft, imageY, maxWidth, 110); // Adjust width and height as needed
                 imageY += 120; // Add spacing after each image
             });
