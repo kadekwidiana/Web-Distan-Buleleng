@@ -8,6 +8,7 @@ import { debounce, pickBy } from 'lodash';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import ModalInputVillage from './ModalInput';
+import { PER_PAGES } from '@/Constant/PerPage';
 
 export default function MasterDataDistrictPage() {
     const { villages, districts, districtIdValue, searchValue } = usePage().props;
@@ -106,7 +107,7 @@ export default function MasterDataDistrictPage() {
         setOpenModal(true);
         setIsUpdate(true);
     };
-
+    console.log(villages);
     return (
         <BackpageLayout>
             <Head title="Master Data Desa di Buleleng" />
@@ -114,11 +115,10 @@ export default function MasterDataDistrictPage() {
                 <div className="flex justify-between gap-2 sm:gap-10">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
-                            <option value={10} defaultChecked>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                            <option value={200}>200</option>
+                            {/* <option value={10} defaultChecked>10</option> */}
+                            {PER_PAGES.map((perpage) => (
+                                <option key={perpage} value={perpage}>{perpage}</option>
+                            ))}
                         </select>
                         <select defaultValue={districtIdValue} onChange={handleFilter} name='district' id="district" className="flex-shrink-0 z-10 hidden lg:inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value="" defaultChecked>Semua Kecamatan</option>
@@ -173,7 +173,7 @@ export default function MasterDataDistrictPage() {
                             {!isLoading && villages.data.map((district, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(villages.current_page - 1) * villages.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {district.name}

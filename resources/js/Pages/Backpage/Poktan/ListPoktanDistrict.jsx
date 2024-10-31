@@ -13,6 +13,7 @@ import { Toast } from '@/Components/Alert/Toast';
 import DetailGapoktan from '@/Components/Modal/DetailGapoktan';
 import { handleExportExcel } from '@/Utils/exportExcel';
 import Button from '@/Components/Button/Button';
+import { PER_PAGES } from '@/Constant/PerPage';
 
 export default function ListPoktansInDistrictPage() {
     const { villagesByDistrictId, poktansInDiscrict, districtData, searchValue, villageIdValue } = usePage().props;
@@ -114,9 +115,9 @@ export default function ListPoktansInDistrictPage() {
                 <div className="flex justify-between gap-2 sm:gap-6">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 hidden md:inline-flex items-center sm:py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
-                            <option value={10} defaultChecked>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
+                            {PER_PAGES.map((perpage) => (
+                                <option key={perpage} value={perpage}>{perpage}</option>
+                            ))}
                         </select>
                         <select defaultValue={villageIdValue} onChange={handleFilter} name='villageId' id="villageId" className="flex-shrink-0 z-10 hidden md:inline-flex items-center sm:py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value="" defaultChecked>Semua Desa</option>

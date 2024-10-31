@@ -3,6 +3,7 @@ import Button from '@/Components/Button/Button';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import LoadData from '@/Components/Loading/LoadData';
 import ModalInputUserOwnerLand from '@/Components/Modal/InputUserOwnerLand';
+import { PER_PAGES } from '@/Constant/PerPage';
 import BackpageLayout from '@/Layouts/BackpageLayout';
 import { handleExportExcel } from '@/Utils/exportExcel';
 import { Head, Link, router, usePage } from '@inertiajs/react';
@@ -109,9 +110,9 @@ export default function LandOwnerOrCultivatorPage() {
                 <div className="flex justify-between gap-2 sm:gap-6">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
-                            <option value={10} defaultChecked>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
+                            {PER_PAGES.map((perpage) => (
+                                <option key={perpage} value={perpage}>{perpage}</option>
+                            ))}
                         </select>
                         <form className="relative w-full">
                             <div className="relative w-full">

@@ -12,6 +12,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import Button from '@/Components/Button/Button';
 import { handleExportExcel } from '@/Utils/exportExcel';
+import { PER_PAGES } from '@/Constant/PerPage';
 
 export default function PenyuluhPage() {
     const { ppls, employeeStatusValue, searchValue } = usePage().props;
@@ -109,9 +110,9 @@ export default function PenyuluhPage() {
                 <div className="flex justify-between gap-2 sm:gap-6">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 hidden lg:inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
-                            <option value={10} defaultChecked>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
+                            {PER_PAGES.map((perpage) => (
+                                <option key={perpage} value={perpage}>{perpage}</option>
+                            ))}
                         </select>
                         <select defaultValue={employeeStatusValue} onChange={handleFilter} name='employeeStatus' id="employeeStatus" className="flex-shrink-0 z-10 hidden lg:inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value="" defaultChecked>Semua Status Pegawai</option>

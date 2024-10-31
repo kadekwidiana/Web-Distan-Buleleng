@@ -8,6 +8,7 @@ import { debounce, pickBy } from 'lodash';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import ModalInputCommodity from './ModalInput';
+import { PER_PAGES } from '@/Constant/PerPage';
 
 export default function MasterDataCommodityPage() {
     const { commodities, typeAgricultures, typeAgricultureValue, searchValue } = usePage().props;
@@ -114,9 +115,9 @@ export default function MasterDataCommodityPage() {
                 <div className="flex justify-between gap-2 sm:gap-10">
                     <div className="flex w-full">
                         <select defaultValue={perpage.current} onChange={handleChangePerPage} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
-                            <option value={10} defaultChecked>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
+                            {PER_PAGES.map((perpage) => (
+                                <option key={perpage} value={perpage}>{perpage}</option>
+                            ))}
                         </select>
                         <select defaultValue={typeAgricultureValue} onChange={handleFilter} name='typeAgriculture' id="typeAgriculture" className="flex-shrink-0 z-10 hidden lg:inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:border-bluering-blue-500 focus:outline-none focus-visible:outline-none">
                             <option value="" defaultChecked>Semua Jenis</option>
