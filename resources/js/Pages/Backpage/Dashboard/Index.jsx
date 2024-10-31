@@ -1,16 +1,16 @@
 import BannerWelcomeAdmin from '@/Components/Banner/WelcomeAdmin';
 import CardMenuDashboard from '@/Components/Card/MenuDashboard';
-import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, usePage } from '@inertiajs/react'
+import BackpageLayout from '@/Layouts/BackpageLayout';
+import { Head, usePage } from '@inertiajs/react';
 import { Banner } from 'flowbite-react';
 import React from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
 
-export default function Dashboard() {
+export default function DashboardPage() {
     const { auth } = usePage().props;
-    const { gapoktanCount, poktanCount, subakCount, pplCount, landAgricultureCount, outreachActivityCount, outreachActivitiesThisMonthCount, builtAreasPpl, dataSpatialCount } = usePage().props;
+    const { bppCount, gapoktanCount, poktanCount, subakCount, pplCount, landAgricultureCount, outreachActivityCount, outreachActivitiesThisMonthCount, builtAreasPpl, dataSpatialCount } = usePage().props;
     const currentMonth = format(new Date(), 'MMMM yyyy', { locale: id });
     return (
         <BackpageLayout>
@@ -50,6 +50,13 @@ export default function Dashboard() {
                                 label={`Kegiatan Penyuluhan Bulan ${currentMonth}`}
                                 count={outreachActivitiesThisMonthCount}
                                 url={'/management-report/penyuluhan'}
+                            />
+                            <CardMenuDashboard
+                                icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
+                                bgIcon={'blue'}
+                                label={'Balai Penyuluh Pertanian'}
+                                count={bppCount}
+                                url={'/bpp'}
                             />
                             <CardMenuDashboard
                                 icon={<i className="fa-solid fa-building-columns fa-lg"></i>}
@@ -282,5 +289,5 @@ export default function Dashboard() {
                 </footer>
             </div>
         </BackpageLayout>
-    )
+    );
 }

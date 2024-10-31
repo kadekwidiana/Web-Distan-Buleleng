@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backpage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bpp;
 use App\Models\BuiltArea;
 use App\Models\DataSpatial;
 use App\Models\Gapoktan;
@@ -24,6 +25,7 @@ class DashboardController extends Controller
     {
         $userSession = Auth::user();
         $builtAreasPpl = [];
+        $bppCount = Bpp::count();
         $gapoktanCount = Gapoktan::count();
         $poktanCount = Poktan::count();
         $subakCount = Subak::count();
@@ -68,6 +70,7 @@ class DashboardController extends Controller
         // ]);
         return Inertia::render('Backpage/Dashboard/Index', [
             'navName' => 'Dashboard',
+            'bppCount' => $bppCount,
             'gapoktanCount' => $gapoktanCount,
             'poktanCount' => $poktanCount,
             'subakCount' => $subakCount,
