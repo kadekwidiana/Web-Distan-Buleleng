@@ -155,7 +155,7 @@ export default function PenyuluhPage() {
                             {!isLoading && ppls.data.map((ppl, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(ppls.current_page - 1) * ppls.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {ppl.nip}

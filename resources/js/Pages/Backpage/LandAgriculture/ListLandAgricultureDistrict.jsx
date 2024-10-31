@@ -156,7 +156,7 @@ export default function ListGapoktansInDistrictPage() {
                             {!isLoading && landAgriculturesInDiscrict.data.map((landAgriculture, index) => (
                                 <Table.Row key={landAgriculture.id} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(landAgriculturesInDiscrict.current_page - 1) * landAgriculturesInDiscrict.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {landAgriculture.owner.name}

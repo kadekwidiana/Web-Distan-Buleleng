@@ -157,7 +157,7 @@ export default function MasterDataDistrictPage() {
                             {!isLoading && districts.data.map((district, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(districts.current_page - 1) * districts.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {district.name}

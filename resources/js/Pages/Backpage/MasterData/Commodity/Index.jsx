@@ -171,7 +171,7 @@ export default function MasterDataCommodityPage() {
                             {!isLoading && commodities.data.map((commodity, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(commodities.current_page - 1) * commodities.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {commodity.name}

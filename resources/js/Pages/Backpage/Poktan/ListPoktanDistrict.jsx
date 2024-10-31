@@ -160,7 +160,7 @@ export default function ListPoktansInDistrictPage() {
                             {!isLoading && poktansInDiscrict.data.map((poktan, index) => (
                                 <Table.Row key={poktan.id} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(poktansInDiscrict.current_page - 1) * poktansInDiscrict.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {poktan.name}

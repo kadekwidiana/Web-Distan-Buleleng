@@ -163,7 +163,7 @@ export default function LandOwnerOrCultivatorPage() {
                             {!isLoading && persons.data.map((person, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(persons.current_page - 1) * persons.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {person.nik}

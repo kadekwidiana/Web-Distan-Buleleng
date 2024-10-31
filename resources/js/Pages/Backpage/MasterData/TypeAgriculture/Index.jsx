@@ -157,7 +157,7 @@ export default function MasterDataLayerGroupPage() {
                             {!isLoading && typeAgricultures.data.map((typeAgriculture, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(typeAgricultures.current_page - 1) * typeAgricultures.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {typeAgriculture.name}

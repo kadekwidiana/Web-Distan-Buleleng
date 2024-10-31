@@ -155,7 +155,7 @@ export default function BPPPage() {
                             {!isLoading && bpps.data.map((bpp, index) => (
                                 <Table.Row key={index} className="bg-white">
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 w-5">
-                                        {index + 1}
+                                        {(bpps.current_page - 1) * bpps.per_page + index + 1}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {bpp.name}
