@@ -1,11 +1,11 @@
 import { Toast } from '@/Components/Alert/Toast';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import LoadData from '@/Components/Loading/LoadData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import ModalInputCommodity from './ModalInput';
 
@@ -22,12 +22,12 @@ export default function MasterDataCommodityPage() {
     const handleChangePerPage = (e) => {
         perpage.current = e.target.value;
         getData();
-    }
+    };
 
     const handleFilter = (e) => {
         typeAgriculture.current = e.target.value;
         getData();
-    }
+    };
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -35,7 +35,7 @@ export default function MasterDataCommodityPage() {
         if (value === '') {
             getData(true); // Pass true to indicate that search is cleared
         }
-    }
+    };
 
     const debouncedResults = useMemo(() => {
         return debounce(handleSearch, 500);
@@ -74,12 +74,12 @@ export default function MasterDataCommodityPage() {
                 preserveState: true,
                 onFinish: () => setIsLoading(false),
             }
-        )
-    }
+        );
+    };
 
     const deleteData = async (id) => {
         await router.delete(route('komoditas.destroy', { id: id }));
-    }
+    };
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
@@ -99,7 +99,7 @@ export default function MasterDataCommodityPage() {
                 });
             }
         });
-    }
+    };
 
     const handleEditClick = (commodity) => {
         setSelectedCommodity(commodity);
@@ -204,7 +204,17 @@ export default function MasterDataCommodityPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             {commodities.links.map((link, index) => (
-                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded' preserveScroll preserveState>
+                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded'
+                                    preserveScroll
+                                    preserveState
+                                    data={
+                                        {
+                                            perpage: perpage.current,
+                                            search: search ?? searchValue,
+                                            typeAgriculture: typeAgriculture.current ?? typeAgricultureValue
+                                        }
+                                    }
+                                >
                                     <div dangerouslySetInnerHTML={
                                         {
                                             __html: link.label,
@@ -217,5 +227,5 @@ export default function MasterDataCommodityPage() {
                 }
             </div>
         </BackpageLayout >
-    )
+    );
 }

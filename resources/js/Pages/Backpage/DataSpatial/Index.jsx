@@ -1,15 +1,13 @@
 import { Toast } from '@/Components/Alert/Toast';
 import ButtonAdd from '@/Components/Button/Add';
 import DataNotFound from '@/Components/Error/DataNotFound';
-import MultiSelect from '@/Components/Input/MultiSelect';
 import LoadData from '@/Components/Loading/LoadData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
-import { EMPLOYEE_STATUSES } from '@/Constant/Status';
 import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Dropdown, Table } from 'flowbite-react';
 import { debounce, pickBy } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
 export default function DatSpatialPage() {
@@ -22,12 +20,12 @@ export default function DatSpatialPage() {
     const handleChangePerPage = (e) => {
         perpage.current = e.target.value;
         getData();
-    }
+    };
 
     const handleFilter = (e) => {
         typeSpatial.current = e.target.value;
         getData();
-    }
+    };
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -35,7 +33,7 @@ export default function DatSpatialPage() {
         if (value === '') {
             getData(true); // Pass true to indicate that search is cleared
         }
-    }
+    };
 
     const debouncedResults = useMemo(() => {
         return debounce(handleSearch, 500);
@@ -74,12 +72,12 @@ export default function DatSpatialPage() {
                 preserveState: true,
                 onFinish: () => setIsLoading(false),
             }
-        )
-    }
+        );
+    };
 
     const deleteData = async (id) => {
         await router.delete(route('data-spasial.destroy', { id: id }));
-    }
+    };
 
     const deteleDataConfirm = (id) => {
         Swal.fire({
@@ -98,7 +96,7 @@ export default function DatSpatialPage() {
                 });
             }
         });
-    }
+    };
 
     return (
         <BackpageLayout>
@@ -190,7 +188,17 @@ export default function DatSpatialPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             {dataSpatials.links.map((link, index) => (
-                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded' preserveScroll preserveState>
+                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded'
+                                    preserveScroll
+                                    preserveState
+                                    data={
+                                        {
+                                            perpage: perpage.current,
+                                            search: search ?? searchValue,
+                                            typeSpatial: typeSpatial.current ?? typeSpatialValue
+                                        }
+                                    }
+                                >
                                     <div dangerouslySetInnerHTML={
                                         {
                                             __html: link.label,
@@ -203,5 +211,5 @@ export default function DatSpatialPage() {
                 }
             </div>
         </BackpageLayout >
-    )
+    );
 }

@@ -1,19 +1,15 @@
 import { Toast } from '@/Components/Alert/Toast';
-import ButtonAdd from '@/Components/Button/Add';
-import DataNotFound from '@/Components/Error/DataNotFound';
-import MultiSelect from '@/Components/Input/MultiSelect';
-import LoadData from '@/Components/Loading/LoadData';
-import BackpageLayout from '@/Layouts/BackpageLayout';
-import { EMPLOYEE_STATUSES } from '@/Constant/Status';
-import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Dropdown, Table } from 'flowbite-react';
-import { debounce, pickBy } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Swal from 'sweetalert2';
-import ModalInputUserOwnerLand from '@/Components/Modal/InputUserOwnerLand';
 import Button from '@/Components/Button/Button';
+import DataNotFound from '@/Components/Error/DataNotFound';
+import LoadData from '@/Components/Loading/LoadData';
+import ModalInputUserOwnerLand from '@/Components/Modal/InputUserOwnerLand';
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { handleExportExcel } from '@/Utils/exportExcel';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Table } from 'flowbite-react';
+import { debounce, pickBy } from 'lodash';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 
 export default function LandOwnerOrCultivatorPage() {
     const { persons, searchValue } = usePage().props;
@@ -200,7 +196,16 @@ export default function LandOwnerOrCultivatorPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             {persons.links.map((link, index) => (
-                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded' preserveScroll preserveState>
+                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded'
+                                    preserveScroll
+                                    preserveState
+                                    data={
+                                        {
+                                            perpage: perpage.current,
+                                            search: search ?? searchValue,
+                                        }
+                                    }
+                                >
                                     <div dangerouslySetInnerHTML={
                                         {
                                             __html: link.label,

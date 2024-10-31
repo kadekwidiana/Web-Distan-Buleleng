@@ -198,7 +198,17 @@ export default function ListPoktansInDistrictPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             {subaksInDiscrict.links.map((link, index) => (
-                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded' preserveScroll preserveState>
+                                <Link key={index} href={link.url} className='bg-blue-900 text-white p-2 text-sm rounded'
+                                    preserveScroll
+                                    preserveState
+                                    data={
+                                        {
+                                            perpage: perpage.current,
+                                            search: search ?? searchValue,
+                                            villageId: villageId.current ?? villageIdValue
+                                        }
+                                    }
+                                >
                                     <div dangerouslySetInnerHTML={
                                         {
                                             __html: link.label,
