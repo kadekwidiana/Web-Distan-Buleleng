@@ -227,7 +227,17 @@ class OutreachActivitiesController extends Controller
             'ppl_nip' => 'required|exists:ppls,nip',
             'title' => 'required|string|max:255',
             'photos.*' => 'required',
-            'location' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
             'address' => 'required|string',
             'file' => 'nullable|file|max:10240', // max 10MB
             'notes' => 'required|string',
@@ -360,7 +370,17 @@ class OutreachActivitiesController extends Controller
             'ppl_nip' => 'required|exists:ppls,nip',
             'title' => 'required|string|max:255',
             'photos.*' => 'required',
-            'location' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
             'address' => 'required|string',
             'file' => 'nullable|max:10240', // max 10MB
             'notes' => 'required|string',

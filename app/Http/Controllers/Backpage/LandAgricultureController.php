@@ -272,8 +272,28 @@ class LandAgricultureController extends Controller
             'commodities' => 'nullable', //hanya validasi, di tabel subak tidak ada, pkae nullable karna di step 1 sudah required
             'layer_group_id' => 'required|exists:layer_grups,id',
             'photos.*' => 'required',
-            'location' => 'required|json',
-            'area_json' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
+            // 'area_json' => 'required|json',
+            'area_json' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || !empty(array_filter(array_keys($data), 'is_numeric'))) {
+                        $fail('Area JSON harus berupa objek JSON, misalnya {}.');
+                    }
+                },
+            ],
             'land_area' => 'required|string',
             'address' => 'required|string',
             'description' => 'nullable|string',
@@ -426,8 +446,28 @@ class LandAgricultureController extends Controller
             'commodities' => 'nullable', //hanya validasi, di tabel subak tidak ada, pkae nullable karna di step 1 sudah required
             'layer_group_id' => 'required|exists:layer_grups,id',
             'photos.*' => 'required',
-            'location' => 'required|json',
-            'area_json' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
+            // 'area_json' => 'required|json',
+            'area_json' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || !empty(array_filter(array_keys($data), 'is_numeric'))) {
+                        $fail('Area JSON harus berupa objek JSON, misalnya {}.');
+                    }
+                },
+            ],
             'land_area' => 'required|string',
             'address' => 'required|string',
             'description' => 'nullable|string',

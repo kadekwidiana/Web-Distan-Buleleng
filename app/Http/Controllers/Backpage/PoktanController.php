@@ -263,7 +263,17 @@ class PoktanController extends Controller
             'commodities' => 'nullable', //hanya validasi, di tabel poktan tidak ada, pkae nullable karna di step 1 sudah required
             'layer_group_id' => 'required|exists:layer_grups,id',
             'photos.*' => 'required',
-            'location' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
             'address' => 'required|string',
             'description' => 'nullable|string',
         ], $this->validationMessages);
@@ -399,7 +409,17 @@ class PoktanController extends Controller
             'commodities' => 'nullable', //hanya validasi, di tabel poktan tidak ada, pkae nullable karna di step 1 sudah required
             'layer_group_id' => 'required|exists:layer_grups,id',
             'photos.*' => 'required',
-            'location' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
             'address' => 'required|string',
             'description' => 'nullable|string',
         ], $this->validationMessages);

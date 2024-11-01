@@ -122,7 +122,17 @@ class BPPController extends Controller
             'since' => 'required|string|max:4',
             'status' => 'required|string|max:50',
             'photos.*' => 'required',
-            'location' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
             'address' => 'required|string',
             'description' => 'nullable|string',
         ], $this->validationMessages);
@@ -199,7 +209,17 @@ class BPPController extends Controller
             'since' => 'required|string|max:4',
             'status' => 'required|string|max:50',
             'photos.*' => 'nullable', // Mengizinkan photos tidak diubah
-            'location' => 'required|json',
+            // 'location' => 'required|json',
+            'location' => [
+                'required',
+                'json',
+                function ($attribute, $value, $fail) {
+                    $data = json_decode($value, true);
+                    if (!is_array($data) || count($data) !== 2 || !is_numeric($data[0]) || !is_numeric($data[1])) {
+                        $fail('Kordinat lokasi harus berupa array dengan dua nilai numerik, misalnya [1212, 1212].');
+                    }
+                },
+            ],
             'address' => 'required|string',
             'description' => 'nullable|string',
         ], $this->validationMessages);
