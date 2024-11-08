@@ -1,11 +1,13 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import { ABILITY_CLASSES } from '@/Constant/Class';
+import { CONFIRMATION_STATUSES, GROUP_STATUSES } from '@/Constant/Status';
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 export default function DetailGapoktanPage() {
     const { poktanById, districtId } = usePage().props;
@@ -65,12 +67,17 @@ export default function DetailGapoktanPage() {
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Kelas Kemampuan</td>
                                         <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{poktanById.ability_class}</td>
+                                        <td className="px-2 py-2 w-full">{ABILITY_CLASSES.find((abilityClass) => poktanById.ability_class === abilityClass.value)?.label}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Status Grup</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{GROUP_STATUSES.find((groupStatus) => poktanById.status === groupStatus.value)?.label}</td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Status Konfirmasi</td>
                                         <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{poktanById.group_confirmation_status}</td>
+                                        <td className="px-2 py-2 w-full">{CONFIRMATION_STATUSES.find((confirmationStatus) => poktanById.group_confirmation_status === confirmationStatus.value)?.label}</td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Tahun Kelas Kemampuan</td>
@@ -128,5 +135,5 @@ export default function DetailGapoktanPage() {
                 </div>
             </div>
         </BackpageLayout>
-    )
+    );
 }

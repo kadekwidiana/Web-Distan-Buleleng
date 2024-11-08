@@ -89,7 +89,7 @@ export default function DetailGapoktanPage() {
                                         <td className="px-2 py-2 w-full">{gapoktanById.business_process}</td>
                                     </tr>
                                     <tr className="bg-white">
-                                        <td className="pr-2 py-2 w-1/5">Status</td>
+                                        <td className="pr-2 py-2 w-1/5">Status Grup</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{GROUP_STATUSES.find((groupStatus) => gapoktanById.status === groupStatus.value)?.label}</td>
                                     </tr>
