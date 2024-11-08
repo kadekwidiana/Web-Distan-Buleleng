@@ -27,7 +27,7 @@ export default function StepOneCreateLandAgriculturePage() {
     );
 
     const { district, layerGroup, errors } = usePage().props;
-    console.log(errors);
+    // console.log(errors);
     const { data, setData, post, progress, processing, recentlySuccessful } = useForm({
         // step 2
         commodities: optionsSelected, // untuk di kirim/validasi ke BE,, ambil optionsSelected yg disimpan di step 1
@@ -215,7 +215,7 @@ export default function StepOneCreateLandAgriculturePage() {
                             </div>
                             <div className="">
                                 <InputLabel>Area Json*</InputLabel>
-                                <TextInputArea defaultValue={data.area_json} onChange={handleChange} id='area_json' name='area_json' placeholder="Area json.." />
+                                <TextInputArea value={data.area_json} onChange={handleChange} id='area_json' name='area_json' placeholder="Area json.." />
                                 <InputError message={errors.area_json} />
                             </div>
                             <div className="">
