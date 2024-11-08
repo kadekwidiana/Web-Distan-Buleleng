@@ -3,6 +3,7 @@ import ButtonAdd from '@/Components/Button/Add';
 import DataNotFound from '@/Components/Error/DataNotFound';
 import LoadData from '@/Components/Loading/LoadData';
 import { PER_PAGES } from '@/Constant/PerPage';
+import { DATA_STATUSES } from '@/Constant/Status';
 import { TYPE_DATA_SPATIALS } from '@/Constant/Type';
 import BackpageLayout from '@/Layouts/BackpageLayout';
 import { Head, Link, router, usePage } from '@inertiajs/react';
@@ -136,6 +137,7 @@ export default function DatSpatialPage() {
                         <Table.Head>
                             <Table.HeadCell className='w-5'>NO</Table.HeadCell>
                             <Table.HeadCell>NAMA</Table.HeadCell>
+                            <Table.HeadCell>STATUS</Table.HeadCell>
                             <Table.HeadCell>TIPE SPASIAL</Table.HeadCell>
                             <Table.HeadCell>WARNA</Table.HeadCell>
                             <Table.HeadCell className='flex justify-center'>
@@ -150,6 +152,9 @@ export default function DatSpatialPage() {
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {dataSpatial.name}
+                                    </Table.Cell>
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                                        {DATA_STATUSES.find((dataStatus) => dataSpatial.status === dataStatus.value)?.label}
                                     </Table.Cell>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                                         {dataSpatial.type}

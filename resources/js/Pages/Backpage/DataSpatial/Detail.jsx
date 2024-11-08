@@ -1,12 +1,13 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
+import BackpageLayout from '@/Layouts/BackpageLayout';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
+import { DATA_STATUSES } from '@/Constant/Status';
 
 export default function DetailDataSpatialPage() {
     const { dataSpatialById, districtId } = usePage().props;
@@ -39,15 +40,25 @@ export default function DetailDataSpatialPage() {
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Status</td>
                                         <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{dataSpatialById.status}</td>
+                                        <td className="px-2 py-2 w-full">{DATA_STATUSES.find((dataStatus) => dataSpatialById.status === dataStatus.value)?.label}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Warna</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">
+                                            <div
+                                                className="w-5 h-5"
+                                                style={{ backgroundColor: dataSpatialById.color }}
+                                            ></div>
+                                        </td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">File</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         {dataSpatialById.file &&
                                             <td className="px-2 py-2 w-full flex justify-start gap-2 items-center">
-                                                <a href={`/storage/${dataSpatialById.file}`} target='_blank' className="w-auto p-1 border rounded-md text-white bg-cyan-800">Lihat File</a>
-                                                <a href={`/storage/${dataSpatialById.file}`} target='_blank' className="w-auto p-1 border rounded-md text-white bg-cyan-800" download>Download</a>
+                                                <a href={`/storage/${dataSpatialById.file}`} target='_blank' className="w-auto p-1 px-2 border rounded-[4px] text-white bg-cyan-800">Lihat File</a>
+                                                <a href={`/storage/${dataSpatialById.file}`} target='_blank' className="w-auto p-1 px-2 border rounded-[4px] text-white bg-cyan-800" download>Download</a>
                                             </td>
                                         }
                                     </tr>
@@ -76,5 +87,5 @@ export default function DetailDataSpatialPage() {
                 </div>
             </div>
         </BackpageLayout>
-    )
+    );
 }
