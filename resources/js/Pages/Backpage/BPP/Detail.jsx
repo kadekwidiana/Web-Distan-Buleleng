@@ -1,5 +1,6 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
+import { GROUP_STATUSES } from '@/Constant/Status';
 import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 import { Head, usePage } from '@inertiajs/react';
@@ -78,7 +79,10 @@ export default function DetailGapoktanPage() {
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Status</td>
                                         <td className="px-2 py-2 w-3">:</td>
-                                        <td className="px-2 py-2 w-full">{bppById.status}</td>
+                                        {/* <td className="px-2 py-2 w-full">{bppById.status}</td> */}
+                                        <td className="px-2 py-2 w-full">
+                                            {GROUP_STATUSES.find((groupStatus) => bppById.status === groupStatus.value)?.label}
+                                        </td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Deskripsi</td>
