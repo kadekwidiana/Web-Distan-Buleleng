@@ -1,11 +1,12 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import { GROUP_STATUSES } from '@/Constant/Status';
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 export default function DetailGapoktanPage() {
     const { gapoktanById, districtId } = usePage().props;
@@ -87,11 +88,52 @@ export default function DetailGapoktanPage() {
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{gapoktanById.business_process}</td>
                                     </tr>
-                                    {/* <tr className="bg-white">
-                                    <td className="pr-2 py-2 w-1/5">Peralatan dan Mesin</td>
-                                    <td className="px-2 py-2 w-3">:</td>
-                                    <td className="px-2 py-2 w-full">{JSON.parse(gapoktanById.tools_and_machines).traktor}</td>
-                                </tr> */}
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Status</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{GROUP_STATUSES.find((groupStatus) => gapoktanById.status === groupStatus.value)?.label}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Unit Usaha</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">
+                                            {(() => {
+                                                const businessUnit = JSON.parse(gapoktanById.business_unit);
+                                                const activeUnits = [];
+
+                                                if (businessUnit?.sp_produksi) activeUnits.push('SP Produksi');
+                                                if (businessUnit?.pemasaran) activeUnits.push('Pemasaran');
+                                                if (businessUnit?.keuangan_mikro) activeUnits.push('Keuangan Mikro');
+
+                                                return (
+                                                    <>
+                                                        {activeUnits.join(', ')}
+                                                        {businessUnit?.jasa_lainnya && `, Jasa Lainnya: ${businessUnit.jasa_lainnya}`}
+                                                    </>
+                                                );
+                                            })()}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Peralatan dan Mesin</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">
+                                            {(() => {
+                                                const toolsAndMachines = JSON.parse(gapoktanById.tools_and_machines);
+                                                const toolDescriptions = [];
+
+                                                if (toolsAndMachines?.traktor) toolDescriptions.push(`Traktor: ${toolsAndMachines.traktor}`);
+                                                if (toolsAndMachines?.hand_traktor) toolDescriptions.push(`Hand Traktor: ${toolsAndMachines.hand_traktor}`);
+                                                if (toolsAndMachines?.pompa_air) toolDescriptions.push(`Pompa Air: ${toolsAndMachines.pompa_air}`);
+                                                if (toolsAndMachines?.mesin_penggiling_padi) toolDescriptions.push(`Mesin Penggiling Padi: ${toolsAndMachines.mesin_penggiling_padi}`);
+                                                if (toolsAndMachines?.mesin_pengering) toolDescriptions.push(`Mesin Pengering: ${toolsAndMachines.mesin_pengering}`);
+                                                if (toolsAndMachines?.mesin_pencacah) toolDescriptions.push(`Mesin Pencacah: ${toolsAndMachines.mesin_pencacah}`);
+                                                if (toolsAndMachines?.lainnya) toolDescriptions.push(`Lainnya: ${toolsAndMachines.lainnya}`);
+
+                                                return toolDescriptions.join(', ');
+                                            })()}
+                                        </td>
+                                    </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Deskripsi</td>
                                         <td className="px-2 py-2 w-3">:</td>
@@ -126,5 +168,5 @@ export default function DetailGapoktanPage() {
                 </div>
             </div>
         </BackpageLayout>
-    )
+    );
 }
