@@ -10,6 +10,7 @@ import TextInputArea from '@/Components/Input/TextInputArea';
 import MapsInputData from '@/Components/Maps/MapsInputData';
 import BackpageLayout from '@/Layouts/BackpageLayout';
 import { useStore } from '@/Store/Index.store';
+import { getLocationFromExif } from '@/Utils/getLocationFromExif';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Banner } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
@@ -183,6 +184,11 @@ export default function CreateOutreachActivityPage() {
             photos: updatedPhotos
         }));
     };
+
+    // get location from metadata file image
+    useEffect(() => {
+        getLocationFromExif(data.photos[0]);
+    }, [data.photos[0]]);
 
     return (
         <BackpageLayout>
