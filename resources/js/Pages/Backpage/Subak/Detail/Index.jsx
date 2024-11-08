@@ -1,11 +1,12 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
-import BackpageLayout from '@/Layouts/BackpageLayout'
+import { GROUP_STATUSES } from '@/Constant/Status';
+import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { Carousel } from 'flowbite-react';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 export default function DetailSubakPage() {
     const { subakById, districtId } = usePage().props;
@@ -58,6 +59,16 @@ export default function DetailSubakPage() {
                                         <td className="px-2 py-2 w-full">{subakById.since}</td>
                                     </tr>
                                     <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Grup Status</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{GROUP_STATUSES.find((groupStatus) => subakById.status === groupStatus.value)?.label}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Desa</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{subakById.village.name}</td>
+                                    </tr>
+                                    <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Alamat</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{subakById.address}</td>
@@ -108,5 +119,5 @@ export default function DetailSubakPage() {
                 </div>
             </div>
         </BackpageLayout>
-    )
+    );
 }

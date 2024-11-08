@@ -59,6 +59,11 @@ export default function DetailGapoktanPage() {
                                         <td className="px-2 py-2 w-full">{gapoktanById.since}</td>
                                     </tr>
                                     <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Desa</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{gapoktanById.village.name}</td>
+                                    </tr>
+                                    <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Alamat</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full">{gapoktanById.address}</td>

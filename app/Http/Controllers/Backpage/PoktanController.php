@@ -157,7 +157,7 @@ class PoktanController extends Controller
 
     public function show(Request $request)
     {
-        $poktanById = Poktan::with('commodities')->findOrFail($request->poktanId);
+        $poktanById = Poktan::with(['commodities', 'village'])->findOrFail($request->poktanId);
         // dd($poktanById->commodities);
         return Inertia::render('Backpage/Poktan/Detail/Index', [
             'navName' => 'Detail ' . $poktanById->name,

@@ -484,7 +484,7 @@ class GapoktanController extends Controller
      */
     public function show(Request $request)
     {
-        $gapoktanById = Gapoktan::findOrFail($request->gapoktanId);
+        $gapoktanById = Gapoktan::with('village')->findOrFail($request->gapoktanId);
 
         return Inertia::render('Backpage/Gapoktan/Detail/Index', [
             'navName' => 'Detail ' . $gapoktanById->name,

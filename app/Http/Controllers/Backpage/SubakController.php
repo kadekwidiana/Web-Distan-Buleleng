@@ -151,7 +151,7 @@ class SubakController extends Controller
 
     public function show(Request $request)
     {
-        $subakById = Subak::with('commodities')->findOrFail($request->subakId);
+        $subakById = Subak::with(['commodities', 'village'])->findOrFail($request->subakId);
         // dd($subakById);
         return Inertia::render('Backpage/Subak/Detail/Index', [
             'navName' => 'Detail ' . $subakById->name,
