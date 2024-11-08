@@ -1,5 +1,6 @@
 import ButtonBack from '@/Components/Button/Back';
 import MapsDetailData from '@/Components/Maps/MapsDetailData';
+import { GROUP_STATUSES } from '@/Constant/Status';
 import BackpageLayout from '@/Layouts/BackpageLayout';
 import { formatDateToIndonesian } from '@/Utils/formatDateToIndonesian';
 import { generateCommoditiesCycleHtml } from '@/Utils/generateCommoditiesCycleHtml';
@@ -74,6 +75,16 @@ export default function DetailLandAgriculturePage() {
                                         <td className="pr-2 py-2 w-1/5">Perkiraan Panen</td>
                                         <td className="px-2 py-2 w-3">:</td>
                                         <td className="px-2 py-2 w-full" dangerouslySetInnerHTML={{ __html: generateCommoditiesCycleHtml(JSON.parse(landAgricultureById.commodities_cycle)) }}></td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Status</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{GROUP_STATUSES.find((groupStatus) => landAgricultureById.status === groupStatus.value)?.label}</td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="pr-2 py-2 w-1/5">Desa</td>
+                                        <td className="px-2 py-2 w-3">:</td>
+                                        <td className="px-2 py-2 w-full">{landAgricultureById.village.name}</td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="pr-2 py-2 w-1/5">Alamat</td>
