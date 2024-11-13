@@ -59,32 +59,36 @@ const useDataMaps = (map, dataLayers) => {
         }
 
         const popupContent = `
-                        <div>
-                            <strong>${dataGapoktan.name}</strong>
-                            <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
-                                <div class="swiper-wrapper">
-                                    ${photos.map(photo => `
-                                        <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
-                                            <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                <div>
+                                    <strong>${dataGapoktan.name}</strong>
+                                    ${photos.length > 0 ? `
+                                        <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                                            <div class="swiper-wrapper">
+                                                ${photos.map(photo => `
+                                                    <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                                        <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                            <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                                            <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                                            <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                         </div>
-                                    `).join('')}
+                                    ` : `
+                                       <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                                    `}
+                                    <strong>Ketua:</strong> ${dataGapoktan.leader}</br>
+                                    <strong>Jumlah anggota:</strong> ${dataGapoktan.number_of_members}</br>
+                                    <strong>Tahun berdiri:</strong> ${dataGapoktan.since}</br>
+                                    <strong>Alamat:</strong> ${dataGapoktan.address}</br>
+                                    <strong>Usaha pertanian:</strong> ${dataGapoktan.farming_business}</br>
+                                    <strong>Proses bisnis:</strong> ${dataGapoktan.business_process}</br>
+                                    <strong>Deskripsi:</strong> ${dataGapoktan.description}</br>
+                                    <strong>Lihat lokasi:</strong><a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataGapoktan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br>
+                                    <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataGapoktan.created_at)}</br>
+                                    <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataGapoktan.updated_at)}</br>
                                 </div>
-                                <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
-                                <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
-                                <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
-                            </div>
-                            <strong>Ketua:</strong> ${dataGapoktan.leader}</br >
-                            <strong>Jumlah anggota:</strong> ${dataGapoktan.number_of_members}</br >
-                            <strong>Tahun berdiri:</strong> ${dataGapoktan.since}</br >
-                            <strong>Alamat:</strong> ${dataGapoktan.address}</br >
-                            <strong>Usaha pertanian:</strong> ${dataGapoktan.farming_business}</br >
-                            <strong>Proses bisnis:</strong> ${dataGapoktan.business_process}</br >
-                            <strong>Deskripsi:</strong> ${dataGapoktan.description}</br >
-                            <strong>Lihat lokasi:</strong><a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataGapoktan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
-                            <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataGapoktan.created_at)}</br >
-                            <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataGapoktan.updated_at)}</br >
-                        </div >
-                    `;
+                            `;
 
         marker.bindPopup(popupContent);
         marker.addTo(layer);
@@ -123,26 +127,30 @@ const useDataMaps = (map, dataLayers) => {
         const popupContent = `
                             <div>
                                 <strong>${dataPoktan.name}</strong>
-                                <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
-                                    <div class="swiper-wrapper">
-                                        ${photos.map(photo => `
-                                            <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
-                                                <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
-                                            </div>
-                                        `).join('')}
+                                ${photos.length > 0 ? `
+                                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                                        <div class="swiper-wrapper">
+                                            ${photos.map(photo => `
+                                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                     </div>
-                                    <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
-                                    <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
-                                    <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
-                                </div>
-                                <strong>Ketua:</strong> ${dataPoktan.leader}</br >
-                                <strong>Jumlah anggota:</strong> ${dataPoktan.number_of_members}</br >
-                                <strong>Tahun berdiri:</strong> ${dataPoktan.since}</br >
-                                <strong>Alamat:</strong> ${dataPoktan.address}</br >
-                                <strong>Deskripsi:</strong> ${dataPoktan.description}</br >
-                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataPoktan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
-                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataPoktan.created_at)}</br >
-                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataPoktan.updated_at)}</br >
+                                ` : `
+                                    <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                                `}
+                                <strong>Ketua:</strong> ${dataPoktan.leader}</br>
+                                <strong>Jumlah anggota:</strong> ${dataPoktan.number_of_members}</br>
+                                <strong>Tahun berdiri:</strong> ${dataPoktan.since}</br>
+                                <strong>Alamat:</strong> ${dataPoktan.address}</br>
+                                <strong>Deskripsi:</strong> ${dataPoktan.description}</br>
+                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataPoktan.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br>
+                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataPoktan.created_at)}</br>
+                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataPoktan.updated_at)}</br>
                             </div>
                         `;
 
@@ -183,27 +191,31 @@ const useDataMaps = (map, dataLayers) => {
         const popupContent = `
                             <div>
                                 <strong>${dataSubak.name}</strong>
-                                <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
-                                    <div class="swiper-wrapper">
-                                        ${photos.map(photo => `
-                                            <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
-                                                <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
-                                            </div>
-                                        `).join('')}
+                                ${photos.length > 0 ? `
+                                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                                        <div class="swiper-wrapper">
+                                            ${photos.map(photo => `
+                                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                     </div>
-                                    <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
-                                    <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
-                                    <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
-                                </div>
-                                <strong>Ketua:</strong> ${dataSubak.leader}</br >
-                                <strong>Jumlah anggota:</strong> ${dataSubak.number_of_members}</br >
-                                <strong>Tahun berdiri:</strong> ${dataSubak.since}</br >
-                                <strong>Alamat:</strong> ${dataSubak.address}</br >
-                                <strong>Deskripsi:</strong> ${dataSubak.description}</br >
-                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataSubak.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br >
-                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataSubak.created_at)}</br >
-                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataSubak.updated_at)}</br >
-                            </div >
+                                ` : `
+                                    <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                                `}
+                                <strong>Ketua:</strong> ${dataSubak.leader}</br>
+                                <strong>Jumlah anggota:</strong> ${dataSubak.number_of_members}</br>
+                                <strong>Tahun berdiri:</strong> ${dataSubak.since}</br>
+                                <strong>Alamat:</strong> ${dataSubak.address}</br>
+                                <strong>Deskripsi:</strong> ${dataSubak.description}</br>
+                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataSubak.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br>
+                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataSubak.created_at)}</br>
+                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataSubak.updated_at)}</br>
+                            </div>
                         `;
 
         marker.bindPopup(popupContent);
@@ -245,18 +257,22 @@ const useDataMaps = (map, dataLayers) => {
         const popupContent = `
                             <div>
                                 <strong>Lahan Pertanian</strong>
-                                <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
-                                    <div class="swiper-wrapper">
-                                        ${photos.map(photo => `
-                                            <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
-                                                <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
-                                            </div>
-                                        `).join('')}
+                                ${photos.length > 0 ? `
+                                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                                        <div class="swiper-wrapper">
+                                            ${photos.map(photo => `
+                                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                                     </div>
-                                    <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
-                                    <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
-                                    <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
-                                </div>
+                                ` : `
+                                    <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                                `}
                                 <strong>Pemilik:</strong> ${dataLahan?.owner?.name}</br >
                                 <strong>Penggarap:</strong> ${dataLahan?.cultivator?.name}</br >
                                 <strong>Alamat:</strong> ${dataLahan.address}</br >
@@ -320,18 +336,22 @@ const useDataMaps = (map, dataLayers) => {
             const popupContent = `
                 <div>
                     <strong>Komoditas ${dataCommodity.name}</strong>
-                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
-                        <div class="swiper-wrapper">
-                            ${photos.map(photo => `
-                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
-                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
-                                </div>
-                            `).join('')}
+                    ${photos.length > 0 ? `
+                        <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                            <div class="swiper-wrapper">
+                                ${photos.map(photo => `
+                                    <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                        <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                            <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                            <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
                         </div>
-                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
-                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
-                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
-                    </div>
+                    ` : `
+                        <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                    `}
                     <strong>Luas lahan:</strong> ${landAgriculture.land_area} are (m2)</br>
                     <strong>Perkiraan Panen:</strong> ${generateCommoditiesCycleHtml(commoditiesCycle)}<br />
                     <strong>Alamat:</strong> ${landAgriculture.address} </br>
