@@ -1,4 +1,5 @@
 import { Toast } from '@/Components/Alert/Toast';
+import IntructionsUploadImage from '@/Components/Banner/IntructionsUploadImage';
 import Button from '@/Components/Button/Button';
 import InputError from '@/Components/Error/InputError';
 import InputLabel from '@/Components/Input/InputLabel';
@@ -8,21 +9,25 @@ import MultiSelect from '@/Components/Input/MultiSelect';
 import TextInput from '@/Components/Input/TextInput';
 import TextInputArea from '@/Components/Input/TextInputArea';
 import MapsInputData from '@/Components/Maps/MapsInputData';
+import { useGetLocationFromExif } from '@/Hooks/MapsBackpage/useGetLocationFromExif';
 import BackpageLayout from '@/Layouts/BackpageLayout';
 import { useStore } from '@/Store/Index.store';
-import { getLocationFromExif } from '@/Utils/getLocationFromExif';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Banner } from 'flowbite-react';
+import { Accordion, Banner } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 export default function CreateOutreachActivityPage() {
     const { auth } = usePage().props;
-    const { locationInput, addressInput } = useStore(
+    const { locationInput, locationInputFromMetadata, addressInput, setLocationInput, setLocationInputFromMetadata, setAddressInput } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
+                locationInputFromMetadata: state.locationInputFromMetadata,
                 addressInput: state.addressInput,
+                setLocationInput: state.setLocationInput,
+                setLocationInputFromMetadata: state.setLocationInputFromMetadata,
+                setAddressInput: state.setAddressInput,
             }
         )),
     );
@@ -107,6 +112,7 @@ export default function CreateOutreachActivityPage() {
                 address: addressInput
             }
         );
+        // console.log('berubah ini syanggggg');
     }, [locationInput, addressInput]);
 
     const [location, setLocation] = useState(data.location);
@@ -144,6 +150,7 @@ export default function CreateOutreachActivityPage() {
     useEffect(() => {
         setData({ ...data, location: location });
         setData({ ...data, address: address });
+        // console.log('berubah ini syanggggg kuuuu');
     }, [location, address]);
 
     const handleSubmit = (e) => {
@@ -183,12 +190,26 @@ export default function CreateOutreachActivityPage() {
             ...prevData,
             photos: updatedPhotos
         }));
+        // jika yg di hapus adalah index 0
+        if (index === 0) {
+            // console.log('hapus sayangku', index);
+            setLocationInputFromMetadata(null);
+            setLocationInput('');
+            setAddressInput('');
+        }
     };
 
-    // get location from metadata file image
+    // ngebug pada saat refresh, input location dan address nya tidak bisa di isi dari metadata (solusinya pake ini dah)
     useEffect(() => {
-        getLocationFromExif(data.photos[0]);
-    }, [data.photos[0]]);
+        if (data.photos.length <= 0) {
+            setLocationInputFromMetadata(null); // pada saat refresh 1x data nya masihg tersimpan di cache, klo 2x bisa
+            setLocationInput('');
+            setAddressInput('');
+        }
+    }, [data.photos]);
+
+    // get location from metadata file image
+    useGetLocationFromExif(data.photos[0], locationInputFromMetadata);
 
     return (
         <BackpageLayout>
@@ -278,16 +299,7 @@ export default function CreateOutreachActivityPage() {
                         </div>
                         <div className="flex flex-col gap-3">
                             <div>
-                                <Banner>
-                                    <div className="flex w-full flex-col justify-between rounded-md border-t-4 border-blue-500 bg-blue-100 p-2 shadow-sm md:flex-row lg:max-w-7xl">
-                                        <div className="mb-3 mr-4 flex flex-col">
-                                            <h3>Petunjuk</h3>
-                                            <p className="text-sm font-normal text-gray-600">
-                                                Disarankan untuk mengunggah foto dengan orientasi <strong>landscape</strong> agar sesuai dengan ukuran saat diekspor ke PDF.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Banner>
+                                <IntructionsUploadImage isOutreachActivity />
                             </div>
                             <div>
                                 <InputLabel>Foto</InputLabel>
@@ -311,7 +323,8 @@ export default function CreateOutreachActivityPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData />
+                                {/* pake key untuk re rrender jika terjadi perubahan state locationInputFromMetadata (akhirnya bisa, setelah ngulik 3hari)*/}
+                                <MapsInputData key={locationInputFromMetadata ? locationInputFromMetadata.join(',') : 'default'} />
                             </div>
                         </div>
                     </div>
