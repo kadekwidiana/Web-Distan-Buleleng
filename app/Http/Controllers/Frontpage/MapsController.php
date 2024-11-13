@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontpage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bpp;
 use App\Models\Commodity;
 use App\Models\DataSpatial;
 use App\Models\Gapoktan;
@@ -40,6 +41,9 @@ class MapsController extends Controller
         // Fetch subaks with ACTIVE status
         $subaks = Subak::where('status', 'ACTIVE')->get();
 
+        // Fetch poktans with ACTIVE status
+        $bpps = Bpp::where('status', 'ACTIVE')->get();
+
         // Fetch land agricultures with ACTIVE status and their related data
         $landAgricultures = LandAgriculture::with(['owner', 'cultivator', 'typeLandAgriculture', 'poktan', 'subak', 'commodities'])
             ->where('status', 'ACTIVE')
@@ -61,6 +65,7 @@ class MapsController extends Controller
             'gapoktans' => $gapoktans,
             'poktans' => $poktans,
             'subaks' => $subaks,
+            'bpps' => $bpps,
             'landAgricultures' => $landAgricultures,
         ];
 

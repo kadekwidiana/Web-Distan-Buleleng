@@ -18,6 +18,7 @@ const useDataMaps = (map, dataLayers) => {
         gapoktans,
         poktans,
         subaks,
+        bpps,
         landAgricultures,
     } = dataLayers;
 
@@ -78,6 +79,8 @@ const useDataMaps = (map, dataLayers) => {
                                        <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
                                     `}
                                     <strong>Ketua:</strong> ${dataGapoktan.leader}</br>
+                                    <strong>Sekretaris:</strong> ${dataGapoktan.secretary}</br>
+                                    <strong>Bendahara:</strong> ${dataGapoktan.treasurer}</br>
                                     <strong>Jumlah anggota:</strong> ${dataGapoktan.number_of_members}</br>
                                     <strong>Tahun berdiri:</strong> ${dataGapoktan.since}</br>
                                     <strong>Alamat:</strong> ${dataGapoktan.address}</br>
@@ -144,6 +147,8 @@ const useDataMaps = (map, dataLayers) => {
                                     <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
                                 `}
                                 <strong>Ketua:</strong> ${dataPoktan.leader}</br>
+                                <strong>Sekretaris:</strong> ${dataPoktan.secretary}</br>
+                                <strong>Bendahara:</strong> ${dataPoktan.treasurer}</br>
                                 <strong>Jumlah anggota:</strong> ${dataPoktan.number_of_members}</br>
                                 <strong>Tahun berdiri:</strong> ${dataPoktan.since}</br>
                                 <strong>Alamat:</strong> ${dataPoktan.address}</br>
@@ -208,6 +213,8 @@ const useDataMaps = (map, dataLayers) => {
                                     <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
                                 `}
                                 <strong>Ketua:</strong> ${dataSubak.leader}</br>
+                                <strong>Sekretaris:</strong> ${dataSubak.secretary}</br>
+                                <strong>Bendahara:</strong> ${dataSubak.treasurer}</br>
                                 <strong>Jumlah anggota:</strong> ${dataSubak.number_of_members}</br>
                                 <strong>Tahun berdiri:</strong> ${dataSubak.since}</br>
                                 <strong>Alamat:</strong> ${dataSubak.address}</br>
@@ -215,6 +222,74 @@ const useDataMaps = (map, dataLayers) => {
                                 <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataSubak.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br>
                                 <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataSubak.created_at)}</br>
                                 <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataSubak.updated_at)}</br>
+                            </div>
+                        `;
+
+        marker.bindPopup(popupContent);
+        marker.addTo(layer);
+
+        // Initialize Swiper after the popup opens
+        marker.on('popupopen', () => {
+            new Swiper(`#${swiperId}`, {
+                slidesPerView: 1, // Display one slide at a time
+                spaceBetween: 10,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                autoHeight: true, // Ensure Swiper adjusts height based on the content
+            });
+        });
+    };
+
+    const setDataBpps = (dataBpp, layer) => {
+        const iconUrl = dataBpp.icon; // URL ikon diambil dari dataBpp.icon
+        const marker = L.marker(dataBpp.location, { icon: customIcon(iconUrl) });
+
+        const swiperId = `swiper-${Math.random().toString(36).substring(7)}`;
+
+        let photos = [];
+        try {
+            photos = JSON.parse(dataBpp.photo);
+        } catch (e) {
+            console.error("Invalid JSON string for photos", e);
+        }
+
+        const popupContent = `
+                            <div>
+                                <strong>${dataBpp.name}</strong>
+                                ${photos.length > 0 ? `
+                                    <div class="swiper-container overflow-auto" id="${swiperId}" style="width: 300px; height: 200px; position: relative; margin-top: 5px;">
+                                        <div class="swiper-wrapper">
+                                            ${photos.map(photo => `
+                                                <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                                    <img src="${photo}" style="max-width: 100%; max-height: 100%;" class="swiper-lazy">
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <div class="swiper-pagination" style="position: absolute; bottom: 5px; width: 100%; text-align: center;"></div>
+                                        <div class="swiper-button-next" style="position: absolute; top: 50%;"></div>
+                                        <div class="swiper-button-prev" style="position: absolute; top: 50%;"></div>
+                                    </div>
+                                ` : `
+                                    <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                                `}
+                                <strong>Ketua:</strong> ${dataBpp.leader}</br>
+                                <strong>Sekretaris:</strong> ${dataBpp.secretary}</br>
+                                <strong>Bendahara:</strong> ${dataBpp.treasurer}</br>
+                                <strong>Jumlah anggota:</strong> ${dataBpp.number_of_members}</br>
+                                <strong>Telepon:</strong> ${dataBpp.phone_number}</br>
+                                <strong>Email:</strong> ${dataBpp.email}</br>
+                                <strong>Tahun berdiri:</strong> ${dataBpp.since}</br>
+                                <strong>Alamat:</strong> ${dataBpp.address}</br>
+                                <strong>Deskripsi:</strong> ${dataBpp.description ?? '-'}</br>
+                                <strong>Lihat lokasi:</strong> <a href='http://maps.google.com/maps?q=&layer=c&cbll=${dataBpp.location}&cbp=11,0,0,0' target='_blank' class='text-blue-500 font-semibold underline'>Street view</a></br>
+                                <strong>Data dibuat:</strong> ${formatDateToIndonesian(dataBpp.created_at)}</br>
+                                <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataBpp.updated_at)}</br>
                             </div>
                         `;
 
@@ -482,6 +557,7 @@ const useDataMaps = (map, dataLayers) => {
         { key: 'layer_gapoktan', data: gapoktans },
         { key: 'layer_poktan', data: poktans },
         { key: 'layer_subak', data: subaks },
+        { key: 'layer_bpp', data: bpps },
         { key: 'layer_lahan_pertanian', data: landAgricultures }
     ];
 
@@ -499,6 +575,9 @@ const useDataMaps = (map, dataLayers) => {
                     break;
                 case subaks:
                     setDataSubaks(item, layerGroups[key]);
+                    break;
+                case bpps:
+                    setDataBpps(item, layerGroups[key]);
                     break;
                 case landAgricultures:
                     setDataLandAgricultures(item, layerGroups[key]);

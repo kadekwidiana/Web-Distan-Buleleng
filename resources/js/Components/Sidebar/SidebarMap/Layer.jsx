@@ -48,6 +48,7 @@ export const SidebarLayer = () => {
                                 <CheckboxLayer id={'layer_gapoktan'} icon={gapoktans[0].icon} label={'Gabungan Kelompok Tani'} />
                                 <CheckboxLayer id={'layer_poktan'} icon={poktans[0].icon} label={'Kelompok Tani'} />
                                 <CheckboxLayer id={'layer_subak'} icon={subaks[0].icon} label={'Subak'} />
+                                <CheckboxLayer id={'layer_bpp'} icon={'/assets/icons/icon-layer/bpp.png'} label={'BPP'} />
                             </div>
                             :
                             null
@@ -90,5 +91,5 @@ export const SidebarLayer = () => {
                 ))}
             </div>
         </div >
-    )
-}
+    );
+};

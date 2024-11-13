@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect } from "react";
 import useScriptSidebarMaps from "./useSidebars";
 import useDataMaps from "./useDataMaps";
 import { useBasemapLayers } from "./useBasemapLayers";
@@ -10,13 +10,13 @@ import { usePage } from "@inertiajs/react";
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 // leaflet draw
-import 'leaflet-draw/dist/leaflet.draw.css'
-import 'leaflet-draw/dist/leaflet.draw'
+import 'leaflet-draw/dist/leaflet.draw.css';
+import 'leaflet-draw/dist/leaflet.draw';
 // leaflet hash
-import '/public/assets/js-leaflet/leaflet-hash'
+import '/public/assets/js-leaflet/leaflet-hash';
 // leaflet navbar
-import '/public/assets/css-leaflet/Leaflet.NavBar.css'
-import '/public/assets/js-leaflet/Leaflet.NavBar'
+import '/public/assets/css-leaflet/Leaflet.NavBar.css';
+import '/public/assets/js-leaflet/Leaflet.NavBar';
 import { useMapsControls } from "./useMapsControls";
 
 //  LOGIC ANTI MAINSTREAM wkwk
@@ -30,6 +30,7 @@ const useInitializeMaps = () => {
         gapoktans,
         poktans,
         subaks,
+        bpps,
         landAgricultures,
     } = usePage().props;
 
@@ -48,7 +49,7 @@ const useInitializeMaps = () => {
             zoomControl: false
         });
 
-        useBasemapLayers(map)
+        useBasemapLayers(map);
 
         useDataMaps(
             map,
@@ -61,6 +62,7 @@ const useInitializeMaps = () => {
                 gapoktans,
                 poktans,
                 subaks,
+                bpps,
                 landAgricultures,
             }
         );
@@ -73,7 +75,7 @@ const useInitializeMaps = () => {
 
         useLayerAnalisis(map);
 
-    }, [])
-}
+    }, []);
+};
 
 export default useInitializeMaps;
