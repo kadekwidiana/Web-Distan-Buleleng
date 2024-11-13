@@ -19,10 +19,11 @@ const useMapsInputData = (isEdit, data) => {
         dataSpatials,
     } = usePage().props;
 
-    const { localSetting, setLocationInput, setAreaJsonInput, setWideLandInput, setAddressInput } = useStore(
+    const { localSetting, locationInputFromMetadata, setLocationInput, setAreaJsonInput, setWideLandInput, setAddressInput } = useStore(
         useShallow((state) => (
             {
                 localSetting: state.localSetting,
+                locationInputFromMetadata: state.locationInputFromMetadata,
                 setLocationInput: state.setLocationInput,
                 setAreaJsonInput: state.setAreaJsonInput,
                 setWideLandInput: state.setWideLandInput,
@@ -30,6 +31,7 @@ const useMapsInputData = (isEdit, data) => {
             }
         )),
     );
+
     useEffect(() => {
         const GOOGLE_HYBRID_MAP = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
             attribution: ATRIBUTE_NAME,
@@ -49,12 +51,71 @@ const useMapsInputData = (isEdit, data) => {
             zoomControl: false
         });
 
+        const baseMaps = {
+            "OpenStreetMap": OPEN_STREET_MAP,
+            "Google Street": GOOGLE_STREET_MAP,
+            "Google Satelite": SATELLITE_MAP,
+            "Google Hibrid": GOOGLE_HYBRID_MAP
+        };
+
+        const layerControl = L.control.layers(baseMaps).addTo(map);
+
+        // Custom zoom control
+        const customZoomControl = L.control.zoom({
+            position: 'bottomright'
+        });
+        // Add the custom zoom control to the map
+        map.addControl(customZoomControl);
+
+        // get address
+        function getAddress(lat, lng, isLocationFromMetadata = false) {
+            if (isLocationFromMetadata) {
+                setLocationInput(`[${lat}, ${lng}]`);
+            }
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const address = data.display_name;
+                    // console.log('is calllllll');
+                    setAddressInput(address);
+                })
+                .catch(error => {
+                    console.error('Error fetching address:', error);
+                });
+        }
+
         // Fungsi untuk menambahkan marker ke peta
         function addMarkerToMap(lat, lng) {
             // Membuat marker dengan koordinat yang diberikan
             L.marker([lat, lng], { icon: locationIcon }).addTo(map)
                 .bindPopup('Lokasi anda saat ini.')
                 .openPopup();
+        }
+        // Function to add a marker to the map if location input from metadata exists
+        function addMarkerMetadataToMap() {
+            // Check if locationInputFromMetadata is a valid array with latitude and longitude
+            if (Array.isArray(locationInputFromMetadata) && locationInputFromMetadata.length === 2) {
+                const [lat, lng] = locationInputFromMetadata;
+
+                // Create marker using provided coordinates
+                L.marker([lat, lng], { icon: locationIcon }).addTo(map)
+                    .bindPopup('Lokasi dari metadata.')
+                    .openPopup();
+
+                // Set the map view to the marker's location
+                map.setView([lat, lng], 13);
+
+                // console.log('call set location input');
+                // Get the address for the coordinates
+                getAddress(lat, lng, true);
+            } else {
+                console.error('Invalid location input from metadata. Expected [lat, lng].');
+            }
         }
 
         const Toast = Swal.mixin({
@@ -82,8 +143,8 @@ const useMapsInputData = (isEdit, data) => {
                         const userLat = position.coords.latitude;
                         const userLng = position.coords.longitude;
                         map.setView([userLat, userLng], 13);
+                        // console.log('CALLLLLS');
                         getAddress(userLat, userLng);
-                        console.log('CALLLLLS');
                         setLocationInput(`[${userLat}, ${userLng}]`);
 
                         addMarkerToMap(userLat, userLng);
@@ -104,39 +165,6 @@ const useMapsInputData = (isEdit, data) => {
                 console.error("Geolocation is not supported by this browser.");
             }
         }
-
-        if (isEdit) {
-            L.marker(data?.location ?? coorBali, { icon: defaultIcon }).addTo(map)
-                .bindPopup(`
-                <div class='flex flex-col justify-center items-center gap-1'>
-                <span>Lokasi ${data?.name ?? ''}</span>
-                </div>
-                `)
-                .openPopup();
-            setLocationInput(`[${data?.location[0]}, ${data?.location[1]}]`);
-            let polygon = L.geoJSON(data.area_json ?? []).addTo(map);
-        } else {
-            // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
-            if (localSetting.isGeolocation) {
-                setMapToUserLocation();
-            }
-        }
-
-        const baseMaps = {
-            "OpenStreetMap": OPEN_STREET_MAP,
-            "Google Street": GOOGLE_STREET_MAP,
-            "Google Satelite": SATELLITE_MAP,
-            "Google Hibrid": GOOGLE_HYBRID_MAP
-        };
-
-        const layerControl = L.control.layers(baseMaps).addTo(map);
-
-        // Custom zoom control
-        const customZoomControl = L.control.zoom({
-            position: 'bottomright'
-        });
-        // Add the custom zoom control to the map
-        map.addControl(customZoomControl);
 
         // func fetch geojson
         const fetchDataGeoJson = async (data) => {
@@ -191,6 +219,28 @@ const useMapsInputData = (isEdit, data) => {
             }
         };
 
+        // Call the function if location input from metadata exists
+        if (locationInputFromMetadata) {
+            addMarkerMetadataToMap();
+        }
+
+        if (isEdit) {
+            L.marker(data?.location ?? coorBali, { icon: defaultIcon }).addTo(map)
+                .bindPopup(`
+                <div class='flex flex-col justify-center items-center gap-1'>
+                <span>Lokasi ${data?.name ?? ''}</span>
+                </div>
+                `)
+                .openPopup();
+            setLocationInput(`[${data?.location[0]}, ${data?.location[1]}]`);
+            let polygon = L.geoJSON(data.area_json ?? []).addTo(map);
+        } else {
+            // Panggil fungsi setMapToUserLocation untuk mendapatkan lokasi pengguna dan mengatur pusat peta
+            if (localSetting.isGeolocation) {
+                setMapToUserLocation();
+            }
+        }
+
         // call the function for display data spatial
         if (localSetting.isDisplayDataSpatials && dataSpatials) {
             dataSpatials.forEach(dataSpatial => {
@@ -200,25 +250,6 @@ const useMapsInputData = (isEdit, data) => {
                     fetchShapefileFromZip(dataSpatial);
                 }
             });
-        }
-
-        // get address
-        function getAddress(lat, lng) {
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const address = data.display_name;
-
-                    setAddressInput(address);
-                })
-                .catch(error => {
-                    console.error('Error fetching address:', error);
-                });
         }
 
         // Layer draw

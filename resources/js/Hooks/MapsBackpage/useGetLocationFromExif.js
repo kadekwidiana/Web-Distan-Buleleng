@@ -1,9 +1,21 @@
 import { Toast } from '@/Components/Alert/Toast';
+import { useStore } from '@/Store/Index.store';
 import EXIF from 'exifreader';
+import { useShallow } from 'zustand/react/shallow';
 
-export const getLocationFromExif = (photo) => {
+
+export const useGetLocationFromExif = (photo, locationInputFromMetadata) => {
+    const { setLocationInputFromMetadata } = useStore(
+        useShallow((state) => (
+            {
+                setLocationInputFromMetadata: state.setLocationInputFromMetadata,
+            }
+        )),
+    );
+
     const fileReader = new FileReader();
-    if (photo) {
+
+    if (photo && !locationInputFromMetadata) {
         fileReader.onload = () => {
             const exifData = EXIF.load(fileReader.result);
             // console.log('EXIF Data:', exifData);  // Debugging: Log EXIF data
@@ -12,8 +24,9 @@ export const getLocationFromExif = (photo) => {
             if (exifData['GPSLatitude'] && exifData['GPSLongitude']) {
                 const latitude = convertDMSToDecimal(exifData['GPSLatitude'].value, exifData['GPSLatitudeRef']?.value[0]);
                 const longitude = convertDMSToDecimal(exifData['GPSLongitude'].value, exifData['GPSLongitudeRef']?.value[0]);
+                // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                setLocationInputFromMetadata([latitude, longitude]);
 
-                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
                 Toast.fire({
                     icon: "info",
                     title: "Koordinat GPS berhasil ditemukan dalam file yang Anda unggah!",
@@ -21,7 +34,7 @@ export const getLocationFromExif = (photo) => {
 
                 return { latitude, longitude };
             } else {
-                console.log("No GPS data found in EXIF.");
+                // console.log("No GPS data found in EXIF.");
                 Toast.fire({
                     icon: "error",
                     title: "Data GPS koordinat tidak ditemukan dalam file yang Anda unggah!"
