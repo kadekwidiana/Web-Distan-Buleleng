@@ -1,4 +1,5 @@
 import { Toast } from "@/Components/Alert/Toast";
+import IntructionsUploadImage from "@/Components/Banner/IntructionsUploadImage";
 import Button from "@/Components/Button/Button";
 import InputError from "@/Components/Error/InputError";
 import InputLabel from "@/Components/Input/InputLabel";
@@ -8,6 +9,7 @@ import TextInput from "@/Components/Input/TextInput";
 import TextInputArea from "@/Components/Input/TextInputArea";
 import MapsInputData from "@/Components/Maps/MapsInputData";
 import { GROUP_STATUSES } from "@/Constant/Status";
+import { useGetLocationFromExif } from "@/Hooks/MapsBackpage/useGetLocationFromExif";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { useStore } from "@/Store/Index.store";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
@@ -15,11 +17,15 @@ import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export default function CreateBPPPage() {
-    const { locationInput, addressInput } = useStore(
+    const { locationInput, locationInputFromMetadata, addressInput, setLocationInput, setLocationInputFromMetadata, setAddressInput } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
+                locationInputFromMetadata: state.locationInputFromMetadata,
                 addressInput: state.addressInput,
+                setLocationInput: state.setLocationInput,
+                setLocationInputFromMetadata: state.setLocationInputFromMetadata,
+                setAddressInput: state.setAddressInput,
             }
         )),
     );
@@ -123,7 +129,26 @@ export default function CreateBPPPage() {
             ...prevData,
             photos: updatedPhotos
         }));
+        // jika yg di hapus adalah index 0
+        if (index === 0) {
+            // console.log('hapus sayangku', index);
+            setLocationInputFromMetadata(null);
+            setLocationInput('');
+            setAddressInput('');
+        }
     };
+
+    // ngebug pada saat refresh, input location dan address nya tidak bisa di isi dari metadata (solusinya pake ini dah)
+    useEffect(() => {
+        if (data.photos.length <= 0) {
+            setLocationInputFromMetadata(null); // pada saat refresh 1x data nya masihg tersimpan di cache, klo 2x bisa
+            setLocationInput('');
+            setAddressInput('');
+        }
+    }, [data.photos]);
+
+    // get location from metadata file image
+    useGetLocationFromExif(data.photos[0], locationInputFromMetadata);
 
     return (
         <BackpageLayout>
@@ -148,17 +173,6 @@ export default function CreateBPPPage() {
                                 <InputLabel>Nama BPP*</InputLabel>
                                 <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama BPP..." />
                                 <InputError message={errors.name} />
-                            </div>
-                            <div>
-                                <InputLabel>Foto</InputLabel>
-                                <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
-                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 2MB).</p>
-                                <div className="w-full">
-                                    {renderPhotoPreviews()}
-                                </div>
-                                {data.photos.map((_, index) => (
-                                    <InputError key={index} message={errors[`photos.${index}`]} />
-                                ))}
                             </div>
                             <div className="">
                                 <InputLabel>Telepon*</InputLabel>
@@ -185,8 +199,6 @@ export default function CreateBPPPage() {
                                 <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                                 <InputError message={errors.treasurer} />
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-3">
                             <div className="">
                                 <InputLabel>Jumlah Anggota*</InputLabel>
                                 <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
@@ -212,6 +224,22 @@ export default function CreateBPPPage() {
                                 </InputSelect>
                                 <InputError message={errors.status} />
                             </div>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <div>
+                                <IntructionsUploadImage />
+                            </div>
+                            <div>
+                                <InputLabel>Foto</InputLabel>
+                                <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
+                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 2MB).</p>
+                                <div className="w-full">
+                                    {renderPhotoPreviews()}
+                                </div>
+                                {data.photos.map((_, index) => (
+                                    <InputError key={index} message={errors[`photos.${index}`]} />
+                                ))}
+                            </div>
                             <div className="">
                                 <InputLabel>Lokasi Koordinat*</InputLabel>
                                 <TextInput error={errors.location} value={data.location} onChange={handleChange} id='location' name='location' placeholder="Lokasi..." />
@@ -223,7 +251,8 @@ export default function CreateBPPPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData />
+                                {/* pake key untuk re rrender jika terjadi perubahan state locationInputFromMetadata (akhirnya bisa, setelah ngulik 3hari)*/}
+                                <MapsInputData key={locationInputFromMetadata ? locationInputFromMetadata.join(',') : 'default'} />
                             </div>
                         </div>
                     </div>

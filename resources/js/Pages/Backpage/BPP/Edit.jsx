@@ -106,7 +106,7 @@ export default function EditBPPPage() {
             }
         });
     };
-    console.log(errors);
+    // console.log(errors);
     const renderPhotoPreviews = () => {
         return (
             <div className="py-2 grid grid-cols-2 gap-2">
@@ -161,17 +161,6 @@ export default function EditBPPPage() {
                                 <TextInput error={errors.name} defaultValue={data.name} onChange={handleChange} id='name' name='name' placeholder="Nama BPP..." />
                                 <InputError message={errors.name} />
                             </div>
-                            <div>
-                                <InputLabel>Foto</InputLabel>
-                                <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
-                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 2MB).</p>
-                                <div className="w-full">
-                                    {renderPhotoPreviews()}
-                                </div>
-                                {data.photos.map((_, index) => (
-                                    <InputError key={index} message={errors[`photos.${index}`]} />
-                                ))}
-                            </div>
                             <div className="">
                                 <InputLabel>Telepon*</InputLabel>
                                 <TextInput type='number' error={errors.phone_number} defaultValue={data.phone_number} onChange={handleChange} id='phone_number' name='phone_number' placeholder="Telepon..." />
@@ -197,8 +186,6 @@ export default function EditBPPPage() {
                                 <TextInput error={errors.treasurer} defaultValue={data.treasurer} onChange={handleChange} id='treasurer' name='treasurer' placeholder="Bendahara..." />
                                 <InputError message={errors.treasurer} />
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-3">
                             <div className="">
                                 <InputLabel>Jumlah Anggota*</InputLabel>
                                 <TextInput error={errors.number_of_members} defaultValue={data.number_of_members} type="number" onChange={handleChange} id='number_of_members' name='number_of_members' placeholder="00" />
@@ -223,6 +210,19 @@ export default function EditBPPPage() {
                                     ))}
                                 </InputSelect>
                                 <InputError message={errors.status} />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <div>
+                                <InputLabel>Foto</InputLabel>
+                                <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
+                                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 2MB).</p>
+                                <div className="w-full">
+                                    {renderPhotoPreviews()}
+                                </div>
+                                {data.photos.map((_, index) => (
+                                    <InputError key={index} message={errors[`photos.${index}`]} />
+                                ))}
                             </div>
                             <div className="">
                                 <InputLabel>Lokasi Koordinat*</InputLabel>

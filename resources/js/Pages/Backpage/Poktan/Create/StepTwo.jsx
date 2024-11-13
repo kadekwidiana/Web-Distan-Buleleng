@@ -6,19 +6,25 @@ import InputLabel from '@/Components/Input/InputLabel';
 import InputSelect from '@/Components/Input/InputSelect';
 import TextInput from '@/Components/Input/TextInput';
 import TextInputArea from '@/Components/Input/TextInputArea';
-import BackpageLayout from '@/Layouts/BackpageLayout'
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
-import React, { useEffect, useState } from 'react'
+import BackpageLayout from '@/Layouts/BackpageLayout';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '@/Store/Index.store';
 import { useShallow } from 'zustand/react/shallow';
 import MapsInputData from '@/Components/Maps/MapsInputData';
+import { useGetLocationFromExif } from '@/Hooks/MapsBackpage/useGetLocationFromExif';
+import IntructionsUploadImage from '@/Components/Banner/IntructionsUploadImage';
 
 export default function StepOneCreateGapoktanPage() {
-    const { locationInput, addressInput, optionsSelected } = useStore(
+    const { locationInput, locationInputFromMetadata, addressInput, setLocationInput, setLocationInputFromMetadata, setAddressInput, optionsSelected } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
+                locationInputFromMetadata: state.locationInputFromMetadata,
                 addressInput: state.addressInput,
+                setLocationInput: state.setLocationInput,
+                setLocationInputFromMetadata: state.setLocationInputFromMetadata,
+                setAddressInput: state.setAddressInput,
                 optionsSelected: state.optionsSelected,
             }
         )),
@@ -43,7 +49,7 @@ export default function StepOneCreateGapoktanPage() {
                 location: locationInput,
                 address: addressInput
             }
-        )
+        );
     }, [locationInput, addressInput]);
 
     const [location, setLocation] = useState(data.location);
@@ -106,7 +112,7 @@ export default function StepOneCreateGapoktanPage() {
                         </div>
                     </div>))}
             </div>
-        )
+        );
     };
 
     const removePhoto = (index) => {
@@ -117,7 +123,26 @@ export default function StepOneCreateGapoktanPage() {
             ...prevData,
             photos: updatedPhotos
         }));
+        // jika yg di hapus adalah index 0
+        if (index === 0) {
+            // console.log('hapus sayangku', index);
+            setLocationInputFromMetadata(null);
+            setLocationInput('');
+            setAddressInput('');
+        }
     };
+
+    // ngebug pada saat refresh, input location dan address nya tidak bisa di isi dari metadata (solusinya pake ini dah)
+    useEffect(() => {
+        if (data.photos.length <= 0) {
+            setLocationInputFromMetadata(null); // pada saat refresh 1x data nya masihg tersimpan di cache, klo 2x bisa
+            setLocationInput('');
+            setAddressInput('');
+        }
+    }, [data.photos]);
+
+    // get location from metadata file image
+    useGetLocationFromExif(data.photos[0], locationInputFromMetadata);
 
     return (
         <BackpageLayout>
@@ -155,6 +180,9 @@ export default function StepOneCreateGapoktanPage() {
                                 <InputError message={errors.layer_group_id} />
                             </div> */}
                             <div>
+                                <IntructionsUploadImage />
+                            </div>
+                            <div>
                                 <InputLabel>Foto</InputLabel>
                                 <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
                                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 2MB).</p>
@@ -183,7 +211,8 @@ export default function StepOneCreateGapoktanPage() {
                                 <InputError message={errors.address} />
                             </div>
                             <div className="">
-                                <MapsInputData />
+                                {/* pake key untuk re rrender jika terjadi perubahan state locationInputFromMetadata (akhirnya bisa, setelah ngulik 3hari)*/}
+                                <MapsInputData key={locationInputFromMetadata ? locationInputFromMetadata.join(',') : 'default'} />
                             </div>
                         </div>
                     </div>
@@ -196,5 +225,5 @@ export default function StepOneCreateGapoktanPage() {
                 </form>
             </div>
         </BackpageLayout>
-    )
+    );
 }

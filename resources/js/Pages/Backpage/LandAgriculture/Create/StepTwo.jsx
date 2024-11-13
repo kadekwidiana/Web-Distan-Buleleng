@@ -12,16 +12,22 @@ import React, { useEffect, useState } from 'react';
 import { useStore } from '@/Store/Index.store';
 import { useShallow } from 'zustand/react/shallow';
 import MapsInputData from '@/Components/Maps/MapsInputData';
+import { useGetLocationFromExif } from '@/Hooks/MapsBackpage/useGetLocationFromExif';
+import IntructionsUploadImage from '@/Components/Banner/IntructionsUploadImage';
 
 export default function StepOneCreateLandAgriculturePage() {
-    const { locationInput, addressInput, areaJsonInput, wideLandInput, optionsSelected } = useStore(
+    const { locationInput, locationInputFromMetadata, addressInput, areaJsonInput, wideLandInput, optionsSelected, setLocationInput, setLocationInputFromMetadata, setAddressInput } = useStore(
         useShallow((state) => (
             {
                 locationInput: state.locationInput,
+                locationInputFromMetadata: state.locationInputFromMetadata,
                 areaJsonInput: state.areaJsonInput,
                 wideLandInput: state.wideLandInput,
                 addressInput: state.addressInput,
                 optionsSelected: state.optionsSelected,
+                setLocationInput: state.setLocationInput,
+                setLocationInputFromMetadata: state.setLocationInputFromMetadata,
+                setAddressInput: state.setAddressInput,
             }
         )),
     );
@@ -148,7 +154,26 @@ export default function StepOneCreateLandAgriculturePage() {
             ...prevData,
             photos: updatedPhotos
         }));
+        // jika yg di hapus adalah index 0
+        if (index === 0) {
+            // console.log('hapus sayangku', index);
+            setLocationInputFromMetadata(null);
+            setLocationInput('');
+            setAddressInput('');
+        }
     };
+
+    // ngebug pada saat refresh, input location dan address nya tidak bisa di isi dari metadata (solusinya pake ini dah)
+    useEffect(() => {
+        if (data.photos.length <= 0) {
+            setLocationInputFromMetadata(null); // pada saat refresh 1x data nya masihg tersimpan di cache, klo 2x bisa
+            setLocationInput('');
+            setAddressInput('');
+        }
+    }, [data.photos]);
+
+    // get location from metadata file image
+    useGetLocationFromExif(data.photos[0], locationInputFromMetadata);
 
     return (
         <BackpageLayout>
@@ -185,6 +210,9 @@ export default function StepOneCreateLandAgriculturePage() {
                                 </InputSelect>
                                 <InputError message={errors.layer_group_id} />
                             </div> */}
+                            <div>
+                                <IntructionsUploadImage />
+                            </div>
                             <div>
                                 <InputLabel>Foto</InputLabel>
                                 <input type="file" onChange={handleChange} id='photos' name='photos' multiple className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
@@ -226,7 +254,8 @@ export default function StepOneCreateLandAgriculturePage() {
                         </div>
                     </div>
                     <div className="mt-4">
-                        <MapsInputData mapsHeight='h-[580px]' />
+                        {/* pake key untuk re rrender jika terjadi perubahan state locationInputFromMetadata (akhirnya bisa, setelah ngulik 3hari)*/}
+                        <MapsInputData mapsHeight='h-[580px]' key={locationInputFromMetadata ? locationInputFromMetadata.join(',') : 'default'} />
                     </div>
                     <div className="flex justify-end gap-2 my-2">
                         <Link href={`/lahan_pertanian/kecamatan/${district.id}/create-step-one`}>
