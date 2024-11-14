@@ -696,7 +696,85 @@ const useDataMaps = (map, dataLayers) => {
             geojsonData.features.forEach(geoJsonDistrict => {
                 layerGroups[geoJsonDistrict.properties.NAMOBJ] = L.layerGroup();
                 checkboxEventListenerLayer(`layer_region_${areaRegion}_${geoJsonDistrict.properties.NAMOBJ}`, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
-                setDataAreaJsonToMaps(geoJsonDistrict, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
+                L.geoJSON(geoJsonDistrict, {
+                    style: (feature) => {
+                        return {
+                            color: '#000000',
+                            weight: 2,
+                            opacity: 1
+                        };
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const originalStyle = {
+                            color: 'black',
+                            weight: 2,
+                            opacity: 1
+                        };
+
+                        const eventStyle = {
+                            color: 'blue', // Highlight color on hover
+                            weight: 3,
+                            opacity: 1
+                        };
+
+                        // add event listeners
+                        layer.on({
+                            click: () => {
+                                // console.log('test');
+                                Swal.fire({
+                                    title: "Lakukan Analisis Geospasial pada wilayah ini?",
+                                    icon: "question",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonText: "Ya",
+                                    cancelButtonText: 'Tidak'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        const coordinates = layer.toGeoJSON().geometry.coordinates;
+                                        // const cleanedCoordinates = coordinates[0][0].map(coordinate => coordinate.slice(0, 2)); // lakukan ini karna data geojson nya memiliki 3 data dalam array, jadi yg di ambil hanya index 0, 1
+                                        document.getElementById('geometry').value = JSON.stringify(coordinates);
+
+                                        document.getElementById('type').value = 'polygon';
+
+                                        const sidebarElement = document.getElementById("sidebar-analisis");
+
+                                        if (!sidebarElement.classList.contains("active")) {
+                                            closeBasemapSidebar();
+                                            closeLayerSidebar();
+                                            closeLegendSidebar();
+
+                                            sidebarElement.classList.add("active");
+                                            adjustPositionControlSidebarLeft('.sidebar-analisis.active');
+                                        }
+
+                                        Toast.fire({
+                                            icon: "success",
+                                            title: "Data berhasil dimasukan ke dalam form input analisis.",
+                                            position: 'top-start'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+                        // Change back style on popup close
+                        layer.on('popupclose', function (e) {
+                            layer.setStyle(originalStyle);
+                        });
+
+                        // Change style on hover
+                        layer.on('mouseover', function (e) {
+                            layer.setStyle(eventStyle);
+                        });
+
+                        // Revert style on hover out
+                        layer.on('mouseout', function (e) {
+                            layer.setStyle(originalStyle);
+                            // layer.closePopup(); // Menutup popup saat mouse keluar dari layer
+                        });
+                    }
+                }).addTo(layerGroups[geoJsonDistrict.properties.NAMOBJ]);
             });
 
         } catch (error) {
