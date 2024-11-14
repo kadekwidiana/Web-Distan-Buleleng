@@ -298,10 +298,13 @@ class PoktanController extends Controller
             $poktan->fill($validatedData);
             $poktan->save();
 
-            // menyimpan commodties poktan
-            $poktanById = Poktan::with('commodities')->find($poktan->id);
-            $commodities = $validatedData['commodities'];
-            $poktanById->commodities()->sync($commodities); // simpan relasi many to many
+            // Memeriksa apakah ada data commodities dalam validatedData
+            if (!empty($validatedData['commodities'])) {
+                // menyimpan commodities poktan
+                $poktanById = Poktan::with('commodities')->find($poktan->id);
+                $commodities = $validatedData['commodities'];
+                $poktanById->commodities()->sync($commodities); // simpan relasi many to many
+            }
 
             // Hapus data poktan dari sesi
             $request->session()->forget('poktan');

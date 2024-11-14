@@ -285,10 +285,13 @@ class SubakController extends Controller
             $subak->fill($validatedData);
             $subak->save();
 
-            // menyimpan commodties subak
-            $subakById = Subak::with('commodities')->find($subak->id);
-            $commodities = $validatedData['commodities'];
-            $subakById->commodities()->sync($commodities); // simpan relasi many to many
+            // Memeriksa apakah ada data commodities dalam validatedData
+            if (!empty($validatedData['commodities'])) {
+                // menyimpan commodties subak
+                $subakById = Subak::with('commodities')->find($subak->id);
+                $commodities = $validatedData['commodities'];
+                $subakById->commodities()->sync($commodities); // simpan relasi many to many
+            }
 
             // Hapus data subak dari sesi
             $request->session()->forget('subak');
