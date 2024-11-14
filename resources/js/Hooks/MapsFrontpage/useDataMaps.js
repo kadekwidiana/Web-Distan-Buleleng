@@ -491,15 +491,15 @@ const useDataMaps = (map, dataLayers) => {
                                                 <div>
                                                     <strong>${typeRegion === 'district' ? 'KECAMATAN ' : 'DESA '} ${dataRegion.name}</strong>
                                                     <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
-                                                    <strong>Luas Wilayah:</strong> ${dataRegion?.wide ?? '-'}</br>
-                                                    <strong>Jumlah Gapoktan:</strong> ${dataRegion?.agriculture_recap?.gapoktan_count ?? '-'}</br>
-                                                    <strong>Jumlah Poktan:</strong> ${dataRegion?.agriculture_recap?.poktan_count ?? '-'}</br>
-                                                    <strong>Jumlah Subak:</strong> ${dataRegion?.agriculture_recap?.subak_count ?? '-'}</br>
+                                                    <strong>Luas wilayah:</strong> ${dataRegion?.wide ?? '-'}</br>
+                                                    <strong>Jumlah gapoktan:</strong> ${dataRegion?.agriculture_recap?.gapoktan_count ?? '-'}</br>
+                                                    <strong>Jumlah poktan:</strong> ${dataRegion?.agriculture_recap?.poktan_count ?? '-'}</br>
+                                                    <strong>Jumlah subak:</strong> ${dataRegion?.agriculture_recap?.subak_count ?? '-'}</br>
                                                     <strong>Jumlah BPP:</strong> ${dataRegion?.agriculture_recap?.bpp_count ?? '-'}</br>
-                                                    <strong>Jumlah Lahan Pertanian:</strong> ${dataRegion?.agriculture_recap?.land_agriculture_count ?? '-'}</br>
-                                                    <strong>Luas Lahan Pertanian:</strong> ${dataRegion?.agriculture_recap?.land_area ?? '-'}</br>
+                                                    <strong>Jumlah lahan pertanian:</strong> ${dataRegion?.agriculture_recap?.land_agriculture_count ?? '-'}</br>
+                                                    <strong>Luas lahan pertanian:</strong> ${dataRegion?.agriculture_recap?.land_area ?? '-'}</br>
                                                     <strong>Jumlah PPL:</strong> ${dataRegion?.agriculture_recap?.ppl_count ?? '-'}</br>
-                                                    <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataRegion?.agriculture_recap?.updated_at) ?? '-'}</br>
+                                                    <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataRegion?.agriculture_recap?.updated_at, true) ?? '-'}</br>
                                                     <strong>Analisis Kewilayahan:</strong> <button id='analisis-${dataRegion.id}' class='text-blue-500 font-semibold underline'>Lakukan Analisis</button></br>
                                                     <strong>Detail:</strong> <a href='/' class='text-blue-500 font-semibold underline'>Lihat detail</a></br>
                                                 </div>
