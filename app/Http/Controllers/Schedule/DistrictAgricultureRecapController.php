@@ -35,6 +35,9 @@ class DistrictAgricultureRecapController extends Controller
                 $landArea = LandAgriculture::whereIn('village_id', $villageIds)->sum('land_area'); // Asumsikan 'area' adalah kolom yang menyimpan luas tanah
                 $pplCount = BuiltArea::whereIn('village_id', $villageIds)->count();
 
+                // Get current timestamp
+                $currentTimestamp = now()->timezone('Asia/Makassar');
+
                 // Data yang akan disimpan atau diupdate
                 $recapData = [
                     'district_id' => $districtId,
@@ -45,7 +48,13 @@ class DistrictAgricultureRecapController extends Controller
                     'land_agriculture_count' => $landAgricultureCount,
                     'land_area' => $landArea,
                     'ppl_count' => $pplCount,
+                    'updated_at' => $currentTimestamp,
                 ];
+
+                // Check if record exists to set created_at
+                if (!DistrictAgricultureRecap::where('district_id', $districtId)->exists()) {
+                    $recapData['created_at'] = $currentTimestamp;
+                }
 
                 // Update if district_id exists, otherwise insert
                 DistrictAgricultureRecap::updateOrInsert(
