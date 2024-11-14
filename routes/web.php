@@ -22,6 +22,8 @@ use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
 use App\Http\Controllers\Frontpage\TestDataController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Schedule\DistrictAgricultureRecapController;
+use App\Http\Controllers\Schedule\VillageAgricultureRecapController;
 use App\Models\OutreachActivities;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +46,9 @@ Route::get('/', function () {
 
 Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
 
-// Route::get('/test-page', [TestDataController::class, 'testPage'])->name('test-page');
+// test generate recap
+// Route::get('/test-recap-district', [DistrictAgricultureRecapController::class, 'generateRecap'])->name('test-generate-recap-district');
+// Route::get('/test-recap-village', [VillageAgricultureRecapController::class, 'generateRecap'])->name('test-generate-recap-village');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('index.dashboard');
