@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\Backpage\ManagementReportController;
 use App\Http\Controllers\Backpage\MasterData\DistrictController;
 use App\Http\Controllers\Backpage\PPLController;
@@ -19,24 +20,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// // LAYERS
+// Route::get('/data-layer', [LayerController::class, 'dataLayer'])->name('dataLayer');
+
+// // EXTERNAL REQUEST
+// Route::post('/precipitation', [AnalisisGeospasial::class, 'precipitation'])->name('precipitation');
+// Route::post('/vci', [AnalisisGeospasial::class, 'vci'])->name('vci');
+// Route::post('/evi', [AnalisisGeospasial::class, 'evi'])->name('evi');
+
+// // DATA PENYULUH
+// Route::resource('ppl', PPLController::class);
+
+// Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+// Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
+
+// // komoditas
+// Route::resource('/master-data/kecamatan', DistrictController::class);
+// Route::post('/master-data/kecamatan/{id}/update', [DistrictController::class, 'update'])->name('kecamatan.update');
+
+Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function () {
+    Route::get('/', function () {
+        return response()->json(['message' => 'You have access']);
+    });
+
+    // information agriculture region
+    Route::get('/information-agriculture-region', [InformationAgricultureController::class, 'index'])->name('information-agriculture.index');
 });
-
-// LAYERS
-Route::get('/data-layer', [LayerController::class, 'dataLayer'])->name('dataLayer');
-
-// EXTERNAL REQUEST
-Route::post('/precipitation', [AnalisisGeospasial::class, 'precipitation'])->name('precipitation');
-Route::post('/vci', [AnalisisGeospasial::class, 'vci'])->name('vci');
-Route::post('/evi', [AnalisisGeospasial::class, 'evi'])->name('evi');
-
-// DATA PENYULUH
-Route::resource('ppl', PPLController::class);
-
-Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
-Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
-
-// komoditas
-Route::resource('/master-data/kecamatan', DistrictController::class);
-Route::post('/master-data/kecamatan/{id}/update', [DistrictController::class, 'update'])->name('kecamatan.update');
