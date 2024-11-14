@@ -107,4 +107,14 @@ class Village extends Model
     {
         return $this->belongsToMany(Ppl::class, 'built_areas');
     }
+
+    /**
+     * Village has one agriculture recap.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function agricultureRecap()
+    {
+        return $this->hasOne(VillageAgricultureRecap::class);
+    }
 }

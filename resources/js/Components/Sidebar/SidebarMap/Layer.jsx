@@ -16,8 +16,9 @@ export const SidebarLayer = () => {
         poktans,
         subaks,
         landAgricultures,
+        districts,
     } = usePage().props;
-
+    // console.log('distridt with villages', districts);
     return (
         <div className="max-h-[90dvh] sidebar-layer bg-white mt-0 pb-5 px-2" id="sidebar-layer">
             <h1 className="text-center font-semibold text-gray-700 text-lg my-1">Layers</h1>
@@ -26,14 +27,13 @@ export const SidebarLayer = () => {
                 {/* LAYER GROUP */}
                 {/* data ini statis, data di ambil dari data statis kabupaten, kec, dan desa */}
                 <DropdownLayer layerName={'Kewilayahan'} showLayers={true}>
-                    <CheckboxLayer id={`layer_region_regency_Buleleng`} label={'Kabupaten Buleleng'} />
+                    <CheckboxLayer id={`layer_region_regency_Buleleng`} label={'KABUPATEN BULELENG'} />
                     {
-                        DATA_BULELENG_DISTRICTS && DATA_BULELENG_DISTRICTS.map((district, index) => (
-                            <DropdownSubLayers key={index} subLayerName={`Kecamatan ${district.NAMOBJ}`} showingSubLayer={false} dataRegion={district}>
+                        districts && districts.map((district, index) => (
+                            <DropdownSubLayers key={index} subLayerName={`KECAMATAN ${district.name}`} showingSubLayer={false} dataRegion={district}>
                                 {
-                                    DATA_BULELENG_VILLAGES && DATA_BULELENG_VILLAGES.map((village, index) => (
-                                        village.WADMKC === district.NAMOBJ &&
-                                        <CheckboxLayer key={index} id={`layer_region_village_${village.NAMOBJ}`} label={`Desa ${village.NAMOBJ}`} />
+                                    district.villages.map((village, index) => (
+                                        <CheckboxLayer key={index} id={`layer_region_village_${village.name}`} label={`DESA ${village.name}`} />
                                     ))
                                 }
                             </DropdownSubLayers>

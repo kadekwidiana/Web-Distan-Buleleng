@@ -83,4 +83,14 @@ class District extends Model
     {
         return $this->hasMany(Village::class);
     }
+
+    /**
+     * District has one agriculture recap.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function agricultureRecap()
+    {
+        return $this->hasOne(DistrictAgricultureRecap::class);
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bpp;
 use App\Models\Commodity;
 use App\Models\DataSpatial;
+use App\Models\District;
 use App\Models\Gapoktan;
 use App\Models\LandAgriculture;
 use App\Models\LayerGrup;
@@ -13,6 +14,7 @@ use App\Models\Poktan;
 use App\Models\Subak;
 use App\Models\TypeAgriculture;
 use App\Models\TypeLandAgriculture;
+use App\Models\Village;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -55,6 +57,16 @@ class MapsController extends Controller
         }])
             ->get();
 
+        // kecamatan dan desa
+        $districts = District::where('regency_id', 5108)->with(['villages', 'agricultureRecap'])->get();
+        // dd($districts);
+        // Get villages with agricultureRecap and where regency_id matches
+        $villages = Village::whereHas('district', function ($query) {
+            $query->where('regency_id', 5108);
+        })
+            ->with('agricultureRecap') // Eager load agricultureRecap for villages
+            ->get();
+
         // Prepare data for the view
         $data = [
             'layerGroups' => $layerGroups,
@@ -67,6 +79,8 @@ class MapsController extends Controller
             'subaks' => $subaks,
             'bpps' => $bpps,
             'landAgricultures' => $landAgricultures,
+            'districts' => $districts,
+            'villages' => $villages,
         ];
 
         return Inertia::render('Frontpage/Maps/Index', $data);

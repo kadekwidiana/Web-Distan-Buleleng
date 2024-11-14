@@ -32,6 +32,8 @@ const useInitializeMaps = () => {
         subaks,
         bpps,
         landAgricultures,
+        districts,
+        villages,
     } = usePage().props;
 
     useEffect(() => {
@@ -64,6 +66,8 @@ const useInitializeMaps = () => {
                 subaks,
                 bpps,
                 landAgricultures,
+                districts,
+                villages
             }
         );
 

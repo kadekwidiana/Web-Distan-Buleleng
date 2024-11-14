@@ -20,6 +20,8 @@ const useDataMaps = (map, dataLayers) => {
         subaks,
         bpps,
         landAgricultures,
+        districts,
+        villages
     } = dataLayers;
 
     // Object to hold the dynamic layer groups
@@ -458,14 +460,9 @@ const useDataMaps = (map, dataLayers) => {
         });
     };
 
-    const setDataGeojsonToMaps = (dataFeature, layer) => {
-        L.geoJSON({
-            "type": "FeatureCollection",
-            "name": `batas-${dataFeature.properties.NAMOBJ}`,
-            "features": [
-                dataFeature
-            ]
-        }, {
+    const setDataAreaJsonToMaps = (dataRegion, layer, typeRegion) => {
+        // console.log('data region', dataRegion.name);
+        L.geoJSON(dataRegion.area_json, {
             style: (feature) => {
                 return {
                     color: '#000000',
@@ -489,42 +486,71 @@ const useDataMaps = (map, dataLayers) => {
                 // add event listeners
                 layer.on({
                     click: () => {
-                        Swal.fire({
-                            title: "Lakukan Analisis Geospasial pada wilayah ini?",
-                            icon: "question",
-                            showCancelButton: true,
-                            confirmButtonColor: "#3085d6",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Ya",
-                            cancelButtonText: 'Tidak'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const coordinates = layer.toGeoJSON().geometry.coordinates;
-                                // const cleanedCoordinates = coordinates[0][0].map(coordinate => coordinate.slice(0, 2)); // lakukan ini karna data geojson nya memiliki 3 data dalam array, jadi yg di ambil hanya index 0, 1
-                                document.getElementById('geometry').value = JSON.stringify(coordinates);
+                        // console.log('test data', dataRegion);
+                        const popupContent = `
+                                                <div>
+                                                    <strong>${typeRegion === 'district' ? 'KECAMATAN ' : 'DESA '} ${dataRegion.name}</strong>
+                                                    <p style="margin-top: 5px; color: gray; text-align: center;">Gambar tidak tersedia</p>
+                                                    <strong>Luas Wilayah:</strong> ${dataRegion?.wide ?? '-'}</br>
+                                                    <strong>Jumlah Gapoktan:</strong> ${dataRegion?.agriculture_recap?.gapoktan_count ?? '-'}</br>
+                                                    <strong>Jumlah Poktan:</strong> ${dataRegion?.agriculture_recap?.poktan_count ?? '-'}</br>
+                                                    <strong>Jumlah Subak:</strong> ${dataRegion?.agriculture_recap?.subak_count ?? '-'}</br>
+                                                    <strong>Jumlah BPP:</strong> ${dataRegion?.agriculture_recap?.bpp_count ?? '-'}</br>
+                                                    <strong>Jumlah Lahan Pertanian:</strong> ${dataRegion?.agriculture_recap?.land_agriculture_count ?? '-'}</br>
+                                                    <strong>Luas Lahan Pertanian:</strong> ${dataRegion?.agriculture_recap?.land_area ?? '-'}</br>
+                                                    <strong>Jumlah PPL:</strong> ${dataRegion?.agriculture_recap?.ppl_count ?? '-'}</br>
+                                                    <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataRegion?.agriculture_recap?.updated_at) ?? '-'}</br>
+                                                    <strong>Analisis Kewilayahan:</strong> <button id='analisis-${dataRegion.id}' class='text-blue-500 font-semibold underline'>Lakukan Analisis</button></br>
+                                                    <strong>Detail:</strong> <a href='/' class='text-blue-500 font-semibold underline'>Lihat detail</a></br>
+                                                </div>
+                                            `;
+                        // Menampilkan popup saat layer diklik
+                        layer.bindPopup(popupContent).openPopup();
 
-                                document.getElementById('type').value = 'polygon';
+                        // Event delegation: attach event listener to the document
+                        document.addEventListener('click', (event) => {
+                            // Check if the clicked element is the 'Analisis' button
+                            if (event.target && event.target.id === `analisis-${dataRegion.id}`) {
+                                // console.log('test');
+                                Swal.fire({
+                                    title: "Lakukan Analisis Geospasial pada wilayah ini?",
+                                    icon: "question",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonText: "Ya",
+                                    cancelButtonText: 'Tidak'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        const coordinates = layer.toGeoJSON().geometry.coordinates;
+                                        // const cleanedCoordinates = coordinates[0][0].map(coordinate => coordinate.slice(0, 2)); // lakukan ini karna data geojson nya memiliki 3 data dalam array, jadi yg di ambil hanya index 0, 1
+                                        document.getElementById('geometry').value = JSON.stringify(coordinates);
 
-                                const sidebarElement = document.getElementById("sidebar-analisis");
+                                        document.getElementById('type').value = 'polygon';
 
-                                if (!sidebarElement.classList.contains("active")) {
-                                    closeBasemapSidebar();
-                                    closeLayerSidebar();
-                                    closeLegendSidebar();
+                                        const sidebarElement = document.getElementById("sidebar-analisis");
 
-                                    sidebarElement.classList.add("active");
-                                    adjustPositionControlSidebarLeft('.sidebar-analisis.active');
-                                }
+                                        if (!sidebarElement.classList.contains("active")) {
+                                            closeBasemapSidebar();
+                                            closeLayerSidebar();
+                                            closeLegendSidebar();
 
-                                Toast.fire({
-                                    icon: "success",
-                                    title: "Data berhasil dimasukan ke dalam form input analisis.",
-                                    position: 'top-start'
+                                            sidebarElement.classList.add("active");
+                                            adjustPositionControlSidebarLeft('.sidebar-analisis.active');
+                                        }
+
+                                        Toast.fire({
+                                            icon: "success",
+                                            title: "Data berhasil dimasukan ke dalam form input analisis.",
+                                            position: 'top-start'
+                                        });
+                                    }
                                 });
                             }
                         });
                     }
                 });
+
 
                 // Change back style on popup close
                 layer.on('popupclose', function (e) {
@@ -534,20 +560,20 @@ const useDataMaps = (map, dataLayers) => {
                 // Change style on hover
                 layer.on('mouseover', function (e) {
                     layer.setStyle(eventStyle);
-                    if (feature.properties) {
-                        // Bind popup dengan konten dari feature properties
-                        layer.bindPopup(`
-                            <div>
-                                <span>${feature.properties.METADATA === 'TASWIL1000020230928_DATA_BATAS_DESAKELURAHAN' ? 'Wilayah Administrasi Desa/Kelurahan' : feature.properties.REMARK} ${feature.properties.NAMOBJ}</span>
-                            </div>
-                        `).openPopup(); // Buka popup secara otomatis saat hover
-                    }
+                    // if (feature.properties) {
+                    //     // Bind popup dengan konten dari feature properties
+                    //     layer.bindPopup(`
+                    //         <div>
+                    //             <span>${feature.properties.METADATA === 'TASWIL1000020230928_DATA_BATAS_DESAKELURAHAN' ? 'Wilayah Administrasi Desa/Kelurahan' : feature.properties.REMARK} ${feature.properties.NAMOBJ}</span>
+                    //         </div>
+                    //     `).openPopup(); // Buka popup secara otomatis saat hover
+                    // }
                 });
 
                 // Revert style on hover out
                 layer.on('mouseout', function (e) {
                     layer.setStyle(originalStyle);
-                    layer.closePopup(); // Menutup popup saat mouse keluar dari layer
+                    // layer.closePopup(); // Menutup popup saat mouse keluar dari layer
                 });
             }
         }).addTo(layer);
@@ -670,7 +696,20 @@ const useDataMaps = (map, dataLayers) => {
             geojsonData.features.forEach(geoJsonDistrict => {
                 layerGroups[geoJsonDistrict.properties.NAMOBJ] = L.layerGroup();
                 checkboxEventListenerLayer(`layer_region_${areaRegion}_${geoJsonDistrict.properties.NAMOBJ}`, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
-                setDataGeojsonToMaps(geoJsonDistrict, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
+                setDataAreaJsonToMaps(geoJsonDistrict, layerGroups[geoJsonDistrict.properties.NAMOBJ]);
+            });
+
+        } catch (error) {
+            console.error(`Error fetching GeoJSON: ${error.message}`);
+        }
+    };
+
+    const loopDataAreaJsonDynamic = async (dataRegions, typeRegion) => {
+        try {
+            dataRegions.forEach(dataRegion => {
+                layerGroups[dataRegion.name] = L.layerGroup();
+                checkboxEventListenerLayer(`layer_region_${typeRegion}_${dataRegion.name}`, layerGroups[dataRegion.name]);
+                setDataAreaJsonToMaps(dataRegion, layerGroups[dataRegion.name], typeRegion);
             });
 
         } catch (error) {
@@ -690,9 +729,12 @@ const useDataMaps = (map, dataLayers) => {
 
     // data geojson kewilayahan statis
     fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-kabupaten-buleleng.geojson', 'regency');
-    fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-kecamatan-buleleng.geojson', 'district');
-    fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-desa-buleleng.geojson', 'village');
+    // fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-kecamatan-buleleng.geojson', 'district');
+    // fetchDataGeoJsonStatic('/assets/data-spasial/minisize/batas-desa-buleleng.geojson', 'village');
 
+    // data area json dinamis
+    loopDataAreaJsonDynamic(districts, 'district');
+    loopDataAreaJsonDynamic(villages, 'village');
 };
 
 export default useDataMaps;

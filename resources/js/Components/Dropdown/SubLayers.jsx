@@ -10,7 +10,7 @@ export const DropdownSubLayers = ({ subLayerName, children, showingSubLayer = fa
             <div className="form-check flex justify-start items-center gap-1">
                 <i onClick={() => setShowSubLayer(!showSubLayer)} className={`fa-solid ${showSubLayer ? 'fa-minus' : 'fa-plus'} text-gray-500 border border-gray-400 px-[2px] py-[1px] rounded-sm cursor-pointer`}></i>
                 {dataRegion &&
-                    <input id={`layer_region_district_${dataRegion.NAMOBJ}`} name={dataRegion.NAMOBJ} data-layer={dataRegion.NAMOBJ}
+                    <input id={`layer_region_district_${dataRegion.name}`} name={dataRegion.name} data-layer={dataRegion.name}
                         className={"w-4.5 h-4.5 text-blue-600 bg-gray-50 border-gray-300 rounded-sm focus:ring-blue-500 focus:ring-0 "}
                         type="checkbox" value="" />
                 }
@@ -22,5 +22,5 @@ export const DropdownSubLayers = ({ subLayerName, children, showingSubLayer = fa
                 {children}
             </div>
         </>
-    )
-}
+    );
+};
