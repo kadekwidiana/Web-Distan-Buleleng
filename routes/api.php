@@ -49,4 +49,8 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
 
     // information agriculture region
     Route::get('/information-agriculture-region', [InformationAgricultureController::class, 'index'])->name('information-agriculture.index');
+
+    // management report
+    Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+    Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
 });
