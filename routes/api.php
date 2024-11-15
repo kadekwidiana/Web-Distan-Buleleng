@@ -11,6 +11,7 @@ use App\Http\Controllers\API\MasterData\TypeAgricultureController;
 use App\Http\Controllers\API\MasterData\TypeLandAgricultureController;
 use App\Http\Controllers\API\MasterData\VillageController;
 use App\Http\Controllers\API\PoktanController;
+use App\Http\Controllers\API\PPLController;
 use App\Http\Controllers\API\SubakController;
 use App\Http\Controllers\Backpage\ManagementReportController;
 use Illuminate\Http\Request;
@@ -81,4 +82,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/bpps', BPPController::class);
     // pemilik/penggarap lahan
     Route::resource('/land-owners-or-cultivators', LandOwnerOrCultivatorController::class);
+    // ppl
+    Route::resource('/ppls', PPLController::class);
 });
