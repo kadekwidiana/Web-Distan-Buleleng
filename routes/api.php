@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\InformationAgricultureController;
+use App\Http\Controllers\API\MasterData\DistrictController;
+use App\Http\Controllers\API\MasterData\VillageController;
 use App\Http\Controllers\Backpage\ManagementReportController;
-use App\Http\Controllers\Backpage\MasterData\DistrictController;
-use App\Http\Controllers\Backpage\PPLController;
-use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
-use App\Http\Controllers\Frontpage\LayerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,14 +41,17 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/master-data/kecamatan/{id}/update', [DistrictController::class, 'update'])->name('kecamatan.update');
 
 Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function () {
+    // test call
     Route::get('/', function () {
         return response()->json(['message' => 'You have access']);
     });
-
     // information agriculture region
-    Route::get('/information-agriculture-region', [InformationAgricultureController::class, 'index'])->name('information-agriculture.index');
-
+    Route::get('/information-agriculture-regions', [InformationAgricultureController::class, 'index'])->name('information-agriculture.index');
     // management report
-    Route::get('/management-report/penyuluhan', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
-    Route::get('/management-report/lahan-pertanian', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
+    Route::get('/management-report/outreach-activities', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
+    Route::get('/management-report/land-agricultures', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
+    // kecamatan
+    Route::resource('/master-data/districts', DistrictController::class);
+    // desa
+    Route::resource('/master-data/villages', VillageController::class);
 });
