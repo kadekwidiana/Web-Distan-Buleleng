@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\GapoktanController;
 use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\API\MasterData\CommodityController;
 use App\Http\Controllers\API\MasterData\DistrictController;
@@ -66,4 +67,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/master-data/type-land-agricultures', TypeLandAgricultureController::class);
     // komoditas
     Route::resource('/master-data/commodities', CommodityController::class);
+    // gapoktan
+    Route::resource('/gapoktans', GapoktanController::class);
 });
