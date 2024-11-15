@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\InformationAgricultureController;
+use App\Http\Controllers\API\MasterData\CommodityController;
 use App\Http\Controllers\API\MasterData\DistrictController;
 use App\Http\Controllers\API\MasterData\RegencyController;
 use App\Http\Controllers\API\MasterData\VillageController;
@@ -57,4 +58,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/master-data/districts', DistrictController::class);
     // desa
     Route::resource('/master-data/villages', VillageController::class);
+    // komoditas
+    Route::resource('/master-data/commodities', CommodityController::class);
 });
