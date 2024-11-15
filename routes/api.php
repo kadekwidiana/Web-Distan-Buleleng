@@ -4,6 +4,7 @@ use App\Http\Controllers\API\BPPController;
 use App\Http\Controllers\API\DataSpatialController;
 use App\Http\Controllers\API\GapoktanController;
 use App\Http\Controllers\API\InformationAgricultureController;
+use App\Http\Controllers\API\LandAgricultureController;
 use App\Http\Controllers\API\LandOwnerOrCultivatorController;
 use App\Http\Controllers\API\MasterData\CommodityController;
 use App\Http\Controllers\API\MasterData\DistrictController;
@@ -83,6 +84,9 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/bpps', BPPController::class);
     // pemilik/penggarap lahan
     Route::resource('/land-owners-or-cultivators', LandOwnerOrCultivatorController::class);
+    // lahan pertanian
+    Route::resource('/land-agricultures', LandAgricultureController::class);
+    Route::post('/land-agricultures/{id}/update', [LandAgricultureController::class, 'update'])->name('land-agricultures.update');
     // ppl
     Route::resource('/ppls', PPLController::class);
     // data spasial
