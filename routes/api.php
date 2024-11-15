@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BPPController;
 use App\Http\Controllers\API\GapoktanController;
 use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\API\MasterData\CommodityController;
@@ -75,4 +76,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/poktans', PoktanController::class);
     // subak
     Route::resource('/subaks', SubakController::class);
+    // bpp
+    Route::resource('/bpps', BPPController::class);
 });
