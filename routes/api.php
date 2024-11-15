@@ -9,6 +9,7 @@ use App\Http\Controllers\API\MasterData\TypeAgricultureController;
 use App\Http\Controllers\API\MasterData\TypeLandAgricultureController;
 use App\Http\Controllers\API\MasterData\VillageController;
 use App\Http\Controllers\API\PoktanController;
+use App\Http\Controllers\API\SubakController;
 use App\Http\Controllers\Backpage\ManagementReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,4 +73,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/gapoktans', GapoktanController::class);
     // poktan
     Route::resource('/poktans', PoktanController::class);
+    // subak
+    Route::resource('/subaks', SubakController::class);
 });
