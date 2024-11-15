@@ -51,4 +51,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Ppl::class, 'account_id', 'id');
     }
+
+    public function landOwnerAgricultures()
+    {
+        return $this->hasMany(LandAgriculture::class, 'owner_id', 'id');
+    }
+
+    public function landCultivatorAgricultures()
+    {
+        return $this->hasMany(LandAgriculture::class, 'cultivator_id', 'id');
+    }
 }

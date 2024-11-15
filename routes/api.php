@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\BPPController;
 use App\Http\Controllers\API\GapoktanController;
 use App\Http\Controllers\API\InformationAgricultureController;
+use App\Http\Controllers\API\LandOwnerOrCultivatorController;
 use App\Http\Controllers\API\MasterData\CommodityController;
 use App\Http\Controllers\API\MasterData\DistrictController;
 use App\Http\Controllers\API\MasterData\RegencyController;
@@ -78,4 +79,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/subaks', SubakController::class);
     // bpp
     Route::resource('/bpps', BPPController::class);
+    // pemilik/penggarap lahan
+    Route::resource('/land-owners-or-cultivators', LandOwnerOrCultivatorController::class);
 });
