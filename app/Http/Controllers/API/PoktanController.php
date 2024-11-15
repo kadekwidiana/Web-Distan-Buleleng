@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gapoktan;
+use App\Models\Poktan;
 use Illuminate\Http\Request;
 
-class GapoktanController extends Controller
+class PoktanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +18,19 @@ class GapoktanController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $gapoktansQuery = Gapoktan::with(['village']);
+            $poktansQuery = Poktan::with(['village', 'gapoktan', 'commodities']);
 
             if ($villageId) {
-                $gapoktansQuery->where('village_id', $villageId);
+                $poktansQuery->where('village_id', $villageId);
             }
 
             if ($search) {
-                $gapoktansQuery->where('name', 'like', '%' . $search . '%');
+                $poktansQuery->where('name', 'like', '%' . $search . '%');
             }
 
-            $gapoktans = $gapoktansQuery->paginate($perpage);
+            $poktans = $poktansQuery->paginate($perpage);
 
-            return response()->json($gapoktans);
+            return response()->json($poktans);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
