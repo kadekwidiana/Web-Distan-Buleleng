@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\API\MasterData\DistrictController;
+use App\Http\Controllers\API\MasterData\RegencyController;
 use App\Http\Controllers\API\MasterData\VillageController;
 use App\Http\Controllers\Backpage\ManagementReportController;
 use Illuminate\Http\Request;
@@ -50,6 +51,8 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     // management report
     Route::get('/management-report/outreach-activities', [ManagementReportController::class, 'outreachActivity'])->name('managementReport.outreachActivity');
     Route::get('/management-report/land-agricultures', [ManagementReportController::class, 'landAgricultureReport'])->name('managementReport.landAgricultureReport');
+    // kabupeten
+    Route::resource('/master-data/regencies', RegencyController::class);
     // kecamatan
     Route::resource('/master-data/districts', DistrictController::class);
     // desa
