@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API\MasterData;
 
 use App\Http\Controllers\Controller;
-use App\Models\Village;
+use App\Models\TypeLandAgriculture;
 use Illuminate\Http\Request;
 
-class VillageController extends Controller
+class TypeLandAgricultureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,25 +16,16 @@ class VillageController extends Controller
         try {
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
-            $regencyId = $request->regency_id ?? 5108; // Default to 5108 if not provided
-            $districtId = $request->district_id; // Optional district filter
 
-            $villagesQuery = Village::with(['district.regency'])
-                ->whereHas('district', function ($query) use ($regencyId, $districtId) {
-                    $query->where('regency_id', $regencyId);
-
-                    if ($districtId) {
-                        $query->where('id', $districtId);
-                    }
-                });
+            $typeLandAgriculturesQuery = TypeLandAgriculture::query();
 
             if ($search) {
-                $villagesQuery->where('name', 'like', '%' . $search . '%');
+                $typeLandAgriculturesQuery->where('name', 'like', '%' . $search . '%');
             }
 
-            $villages = $villagesQuery->paginate($perpage);
+            $typeLandAgricultures = $typeLandAgriculturesQuery->paginate($perpage);
 
-            return response()->json($villages);
+            return response()->json($typeLandAgricultures);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

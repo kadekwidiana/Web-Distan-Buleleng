@@ -13,20 +13,28 @@ class DistrictController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpage ?? 10;
-        $search = $request->search;
-        $regencyId = $request->regency_id ?? 5108; // Default to 5108 if not provided
+        try {
+            $perpage = $request->perpage ?? 10;
+            $search = $request->search;
+            $regencyId = $request->regency_id ?? 5108; // Default to 5108 if not provided
 
-        $districtsQuery = District::with(['regency'])
-            ->where('regency_id', $regencyId);
+            $districtsQuery = District::with(['regency'])
+                ->where('regency_id', $regencyId);
 
-        if ($search) {
-            $districtsQuery->where('name', 'like', '%' . $search . '%');
+            if ($search) {
+                $districtsQuery->where('name', 'like', '%' . $search . '%');
+            }
+
+            $districts = $districtsQuery->paginate($perpage);
+
+            return response()->json($districts);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        $districts = $districtsQuery->paginate($perpage);
-
-        return response()->json($districts);
     }
 
     /**

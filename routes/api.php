@@ -4,6 +4,8 @@ use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\API\MasterData\CommodityController;
 use App\Http\Controllers\API\MasterData\DistrictController;
 use App\Http\Controllers\API\MasterData\RegencyController;
+use App\Http\Controllers\API\MasterData\TypeAgricultureController;
+use App\Http\Controllers\API\MasterData\TypeLandAgricultureController;
 use App\Http\Controllers\API\MasterData\VillageController;
 use App\Http\Controllers\Backpage\ManagementReportController;
 use Illuminate\Http\Request;
@@ -58,6 +60,10 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/master-data/districts', DistrictController::class);
     // desa
     Route::resource('/master-data/villages', VillageController::class);
+    // jenis pertanian
+    Route::resource('/master-data/type-agricultures', TypeAgricultureController::class);
+    // jenis lahan pertanian
+    Route::resource('/master-data/type-land-agricultures', TypeLandAgricultureController::class);
     // komoditas
     Route::resource('/master-data/commodities', CommodityController::class);
 });

@@ -13,18 +13,26 @@ class CommodityController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpage ?? 10;
-        $search = $request->search;
+        try {
+            $perpage = $request->perpage ?? 10;
+            $search = $request->search;
 
-        $commoditiesQuery = Commodity::with(['typeAgriculture']); // Assuming a 'province' relation exists
+            $commoditiesQuery = Commodity::with(['typeAgriculture']); // Assuming a 'province' relation exists
 
-        if ($search) {
-            $commoditiesQuery->where('name', 'like', '%' . $search . '%');
+            if ($search) {
+                $commoditiesQuery->where('name', 'like', '%' . $search . '%');
+            }
+
+            $commodities = $commoditiesQuery->paginate($perpage);
+
+            return response()->json($commodities);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        $commodities = $commoditiesQuery->paginate($perpage);
-
-        return response()->json($commodities);
     }
 
     /**

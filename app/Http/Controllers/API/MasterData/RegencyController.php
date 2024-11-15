@@ -13,23 +13,31 @@ class RegencyController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpage ?? 10;
-        $search = $request->search;
-        $provinceId = $request->province_id ?? 51; // default bali
+        try {
+            $perpage = $request->perpage ?? 10;
+            $search = $request->search;
+            $provinceId = $request->province_id ?? 51; // default bali
 
-        $regenciesQuery = Regency::with(['province']); // Assuming a 'province' relation exists
+            $regenciesQuery = Regency::with(['province']); // Assuming a 'province' relation exists
 
-        if ($provinceId) {
-            $regenciesQuery->where('province_id', $provinceId);
+            if ($provinceId) {
+                $regenciesQuery->where('province_id', $provinceId);
+            }
+
+            if ($search) {
+                $regenciesQuery->where('name', 'like', '%' . $search . '%');
+            }
+
+            $regencies = $regenciesQuery->paginate($perpage);
+
+            return response()->json($regencies);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        if ($search) {
-            $regenciesQuery->where('name', 'like', '%' . $search . '%');
-        }
-
-        $regencies = $regenciesQuery->paginate($perpage);
-
-        return response()->json($regencies);
     }
 
     /**
