@@ -17,7 +17,7 @@ class CommodityController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $commoditiesQuery = Commodity::with(['typeAgriculture']); // Assuming a 'province' relation exists
+            $commoditiesQuery = Commodity::with(['typeAgriculture'])->latest();
 
             if ($search) {
                 $commoditiesQuery->where('name', 'like', '%' . $search . '%');

@@ -18,7 +18,7 @@ class GapoktanController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $gapoktansQuery = Gapoktan::with(['village']);
+            $gapoktansQuery = Gapoktan::with(['village'])->latest();
 
             if ($villageId) {
                 $gapoktansQuery->where('village_id', $villageId);

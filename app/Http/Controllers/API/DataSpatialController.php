@@ -17,7 +17,7 @@ class DataSpatialController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $dataSpatialsQuery = DataSpatial::query();
+            $dataSpatialsQuery = DataSpatial::query()->latest();
 
             if ($search) {
                 $dataSpatialsQuery->where('name', 'like', '%' . $search . '%');

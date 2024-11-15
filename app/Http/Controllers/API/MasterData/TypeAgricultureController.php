@@ -17,7 +17,7 @@ class TypeAgricultureController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $typeAgriculturesQuery = TypeAgriculture::with(['commodities']); // Assuming a 'province' relation exists
+            $typeAgriculturesQuery = TypeAgriculture::with(['commodities'])->latest();
 
             if ($search) {
                 $typeAgriculturesQuery->where('name', 'like', '%' . $search . '%');

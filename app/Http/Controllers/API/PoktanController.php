@@ -18,7 +18,7 @@ class PoktanController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $poktansQuery = Poktan::with(['village', 'gapoktan', 'commodities']);
+            $poktansQuery = Poktan::with(['village', 'gapoktan', 'commodities'])->latest();
 
             if ($villageId) {
                 $poktansQuery->where('village_id', $villageId);

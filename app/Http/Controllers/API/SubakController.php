@@ -18,7 +18,7 @@ class SubakController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $subaksQuery = Subak::with(['village', 'commodities']);
+            $subaksQuery = Subak::with(['village', 'commodities'])->latest();
 
             if ($villageId) {
                 $subaksQuery->where('village_id', $villageId);

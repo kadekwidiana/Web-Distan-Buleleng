@@ -17,7 +17,7 @@ class PPLController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $pplsQuery = Ppl::with(['account', 'villages', 'bpp']);
+            $pplsQuery = Ppl::with(['account', 'villages', 'bpp'])->latest();
 
             if ($search) {
                 $pplsQuery->where('name', 'like', '%' . $search . '%');

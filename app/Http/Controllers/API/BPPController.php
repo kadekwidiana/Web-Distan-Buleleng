@@ -18,7 +18,7 @@ class BPPController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $bppsQuery = Bpp::with(['district', 'ppls']);
+            $bppsQuery = Bpp::with(['district', 'ppls'])->latest();
 
             if ($districtId) {
                 $bppsQuery->where('district_id', $districtId);

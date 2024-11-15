@@ -17,7 +17,7 @@ class TypeLandAgricultureController extends Controller
             $perpage = $request->perpage ?? 10;
             $search = $request->search;
 
-            $typeLandAgriculturesQuery = TypeLandAgriculture::query();
+            $typeLandAgriculturesQuery = TypeLandAgriculture::query()->latest();
 
             if ($search) {
                 $typeLandAgriculturesQuery->where('name', 'like', '%' . $search . '%');
