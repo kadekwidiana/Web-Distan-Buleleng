@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\BPPController;
+use App\Http\Controllers\API\DataSpatialController;
 use App\Http\Controllers\API\GapoktanController;
 use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\API\LandOwnerOrCultivatorController;
@@ -84,4 +85,6 @@ Route::prefix('/v1/protect')->middleware(['validate.api.key'])->group(function (
     Route::resource('/land-owners-or-cultivators', LandOwnerOrCultivatorController::class);
     // ppl
     Route::resource('/ppls', PPLController::class);
+    // data spasial
+    Route::resource('/data-spatials', DataSpatialController::class);
 });
