@@ -193,6 +193,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/pemilik-penggarap/{id}/update', [LandOwnerOrCultivatorController::class, 'update'])->name('pemilik-penggarap.update');
 
     Route::group(['middleware' => 'checkRole:ADMIN'], function () {
+        // singkronasi data
+        Route::get('/synchronization', function () {
+            return Inertia::render('Backpage/Synchronization/Index', [
+                'navName' => 'Singkronasi Data',
+            ]);
+        })->name('setting-page');
+        // generate rekap
+        Route::get('/generate-recap-districts', [DistrictAgricultureRecapController::class, 'generateRecap'])->name('generate-recap-districts');
+        Route::get('/generate-recap-villages', [VillageAgricultureRecapController::class, 'generateRecap'])->name('generate-recap-villages');
         // DATA PENYULUH
         Route::resource('ppl', PPLController::class);
 

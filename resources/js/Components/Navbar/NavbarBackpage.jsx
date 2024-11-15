@@ -48,6 +48,14 @@ export default function NavbarBackpage({ showSidebar, showSidebarMobile, handleS
                                         Panduan
                                     </a>
                                 </DropdownItem>
+                                {auth?.user?.role === 'ADMIN' &&
+                                    <DropdownItem>
+                                        <Link href={'/synchronization'}>
+                                            <i className="fa-solid fa-database mr-2"></i>
+                                            Sinkronisasi Data
+                                        </Link>
+                                    </DropdownItem>
+                                }
                                 <DropdownItem>
                                     <Link href={'/setting'}>
                                         <i className="fa-solid fa-gear mr-2"></i>
