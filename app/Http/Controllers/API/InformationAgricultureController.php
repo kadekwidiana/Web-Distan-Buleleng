@@ -89,7 +89,7 @@ class InformationAgricultureController extends Controller
                     return $query->where('district_id', $districtIdFromVillage);
                 })->get();
 
-            $ppls = BuiltArea::with('ppl') // Eager load the Ppl relationship
+            $ppls = BuiltArea::with(['ppl', 'ppl.villages']) // Eager load the Ppl relationship
                 ->when($districtId, function ($query) use ($villageIds) {
                     return $query->whereIn('village_id', $villageIds);
                 })
