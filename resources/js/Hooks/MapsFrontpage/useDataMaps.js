@@ -501,7 +501,7 @@ const useDataMaps = (map, dataLayers) => {
                                                     <strong>Jumlah PPL:</strong> ${dataRegion?.agriculture_recap?.ppl_count ?? '-'}</br>
                                                     <strong>Data diupdate:</strong> ${formatDateToIndonesian(dataRegion?.agriculture_recap?.updated_at, true) ?? '-'}</br>
                                                     <strong>Analisis kewilayahan:</strong> <button id='analisis-${dataRegion.id}' class='text-blue-500 font-semibold underline'>Lakukan analisis</button></br>
-                                                    <strong>Detail:</strong> <a href='/' class='text-blue-500 font-semibold underline'>Lihat detail</a></br>
+                                                    <strong>Detail:</strong> <a href='/information?${typeRegion === 'district' ? `districtId=${dataRegion.id}` : `villageId=${dataRegion.id}`}' class='text-blue-500 font-semibold underline'>Lihat detail</a></br>
                                                 </div>
                                             `;
                         // Menampilkan popup saat layer diklik
