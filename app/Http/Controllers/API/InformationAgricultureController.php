@@ -73,7 +73,7 @@ class InformationAgricultureController extends Controller
                     return $query->where('village_id', $villageId);
                 })->get();
 
-            $land_agricultures = LandAgriculture::with(['poktan', 'subak', 'commodities', 'owner', 'cultivator'])
+            $land_agricultures = LandAgriculture::with(['poktan', 'subak', 'commodities', 'owner', 'cultivator', 'typeLandAgriculture'])
                 ->when($districtId, function ($query) use ($villageIds) {
                     return $query->whereIn('village_id', $villageIds);
                 })->when($villageId, function ($query) use ($villageId) {
