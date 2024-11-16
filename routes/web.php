@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\InformationAgricultureController;
 use App\Http\Controllers\Backpage\BPPController;
 use App\Http\Controllers\Backpage\DashboardController;
 use App\Http\Controllers\Backpage\DataSpatialController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\Backpage\SubakController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
+use App\Http\Controllers\Frontpage\InformationController;
 use App\Http\Controllers\Frontpage\LayerController;
 use App\Http\Controllers\Frontpage\MapsController;
 use App\Http\Controllers\Frontpage\TestDataController;
@@ -45,7 +47,10 @@ Route::get('/', function () {
 })->name('landing-page');
 
 Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');
+Route::get('/information', [InformationController::class, 'index'])->name('information-frontpage');
 
+// informasi pertanian kewiayahan
+Route::get('/information-agriculture-regions', [InformationAgricultureController::class, 'index'])->name('information-agriculture.index');
 // test generate recap
 // Route::get('/test-recap-district', [DistrictAgricultureRecapController::class, 'generateRecap'])->name('test-generate-recap-district');
 // Route::get('/test-recap-village', [VillageAgricultureRecapController::class, 'generateRecap'])->name('test-generate-recap-village');

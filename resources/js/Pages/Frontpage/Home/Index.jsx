@@ -1,8 +1,8 @@
-import NavbarFrontpage from '@/Components/Navbar/NavbarFrontpage'
-import FrontpageLayout from '@/Layouts/FrontpageLayout'
-import { Head, Link } from '@inertiajs/react'
-import { Carousel } from 'flowbite-react'
-import React from 'react'
+import NavbarFrontpage from '@/Components/Navbar/NavbarFrontpage';
+import FrontpageLayout from '@/Layouts/FrontpageLayout';
+import { Head, Link } from '@inertiajs/react';
+import { Carousel } from 'flowbite-react';
+import React from 'react';
 
 export default function LandingPage() {
     return (
@@ -156,6 +156,9 @@ export default function LandingPage() {
                                         <li className='hover:text-gray-300'>
                                             <a href="/maps">Peta Geografis</a>
                                         </li>
+                                        <li className='hover:text-gray-300'>
+                                            <a href="/information">Informasi Pertanian</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div>
@@ -196,5 +199,5 @@ export default function LandingPage() {
                 </footer>
             </FrontpageLayout>
         </>
-    )
+    );
 }

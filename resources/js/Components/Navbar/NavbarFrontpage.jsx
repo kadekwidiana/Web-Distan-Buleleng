@@ -1,7 +1,7 @@
 // import { a } from '@inertiajs/react'
 import { Link, usePage } from '@inertiajs/react';
 import { Dropdown, DropdownItem } from 'flowbite-react';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 export default function NavbarFrontpage() {
     const { auth } = usePage().props;
@@ -35,6 +35,10 @@ export default function NavbarFrontpage() {
                         <li>
                             <a href="/maps" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 ${route().current('maps-frontpage') && 'underline underline-offset-4 font-bold'}`}
                                 aria-current="page">Peta Geografis</a>
+                        </li>
+                        <li>
+                            <a href="/information" className={`block py-2 px-3 text-white rounded lg:bg-transparent lg:p-0 ${route().current('information-frontpage') && 'underline underline-offset-4 font-bold'}`}
+                                aria-current="page">Informasi Pertanian</a>
                         </li>
                         <li>
 
@@ -88,5 +92,5 @@ export default function NavbarFrontpage() {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
