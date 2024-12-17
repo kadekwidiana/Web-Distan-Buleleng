@@ -35,6 +35,8 @@ export const useGetLocationFromExif = (photo, locationInputFromMetadata) => {
                 return { latitude, longitude };
             } else {
                 // console.log("No GPS data found in EXIF.");
+                setLocationInputFromMetadata([]); // ngebug re render toast (set [])
+
                 Toast.fire({
                     icon: "error",
                     title: "Data GPS koordinat tidak ditemukan dalam file yang Anda unggah!"
