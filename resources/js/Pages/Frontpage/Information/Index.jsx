@@ -115,7 +115,7 @@ export default function InformationPage() {
                 />
                 <meta name="author" content="Dinas Pertanian Kabupaten Buleleng" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta property="og:title" content="Informasi Pertanian - Dinas Pertanian Kabupaten Buleleng" />
+                <meta property="og:title" content="Sipetani - Informasi Pertanian" />
                 <meta
                     property="og:description"
                     content="Menampilkan informasi terkait pertanian di Kabupaten Buleleng, termasuk data lahan, kelembagaan, dan kegiatan penyuluhan."

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { Head } from '@inertiajs/react';
 import { SidebarAnalisis, SidebarBasemap, SidebarLayer, SidebarLegend } from '@/Components/Sidebar/SidebarMap/Index';
 import FrontpageLayout from '@/Layouts/FrontpageLayout';
@@ -21,7 +21,7 @@ export default function MapsPage() {
                 />
                 <meta name="author" content="Dinas Pertanian Kabupaten Buleleng" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta property="og:title" content="Peta Geografis - Dinas Pertanian Kabupaten Buleleng" />
+                <meta property="og:title" content="Sipetani - Peta Geografis" />
                 <meta
                     property="og:description"
                     content="Menampilkan peta interaktif dengan informasi geografis tentang pertanian di Kabupaten Buleleng."
@@ -32,7 +32,7 @@ export default function MapsPage() {
                 <meta property="og:locale" content="id_ID" />
                 <link rel="canonical" href="https://sipetani.bulelengkab.go.id/maps" />
             </Head>
-            
+
             {/* Navbar component */}
             <FrontpageLayout>
                 {/* <!-- Sidebar basemap --> */}
@@ -53,5 +53,5 @@ export default function MapsPage() {
                 </div>
             </FrontpageLayout>
         </>
-    )
+    );
 }
