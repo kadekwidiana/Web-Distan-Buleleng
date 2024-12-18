@@ -23,7 +23,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(255, 255, 255, 0.9);
+        /* background-color: rgba(255, 255, 255, 0.9); */
+        background-color: white;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -73,7 +74,7 @@
   <body class="font-sans antialiased bg-slate-100">
     <div id="loading-root" class="loading">
       <div class="preloader">
-        <img src="/assets/images/logo-distan-buleleng-2.png" alt="Logo Distan Buleleng" class="preloader-logo" />
+        <img src="/assets/images/logo-distan-buleleng-2.svg" alt="Logo Distan Buleleng" class="preloader-logo" />
         <span class="preloader-text"></span>
       </div>
     </div>
