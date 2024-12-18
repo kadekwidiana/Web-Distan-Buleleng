@@ -116,6 +116,11 @@ const SidebarMenus = () => {
                         icon={<i className="fa-solid fa-map"></i>}
                         label={'Data Spasial'}
                     />
+                    <SidebarMenu
+                        href={'/data-pengguna'}
+                        icon={<i className="fa-solid fa-user"></i>}
+                        label={'Data Pengguna'}
+                    />
                     <DropdownMenu
                         icon={<i className="fa-solid fa-file"></i>}
                         label={'Management Laporan'}

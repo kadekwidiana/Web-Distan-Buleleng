@@ -18,6 +18,7 @@ use App\Http\Controllers\Backpage\MasterData\VillageController;
 use App\Http\Controllers\Backpage\PoktanController;
 use App\Http\Controllers\Backpage\PPLController;
 use App\Http\Controllers\Backpage\SubakController;
+use App\Http\Controllers\Backpage\UserController;
 use App\Http\Controllers\ExternalRequest\AnalisisGeospasial;
 use App\Http\Controllers\Frontpage\InformationController;
 use App\Http\Controllers\Frontpage\LayerController;
@@ -213,6 +214,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // DATA SPASIAL
         Route::resource('data-spasial', DataSpatialController::class);
         Route::post('/data-spasial/{id}/update', [DataSpatialController::class, 'update'])->name('data-spasial.update'); //pake ini karena resource tidak bisa up file (i don't no what this problem #males-ngulik, intinya apa guyss?? ya benar... intinya bisa...)
+
+        // USER
+        Route::resource('/data-pengguna', UserController::class);
+        Route::post('/data-pengguna/{id}/update', [UserController::class, 'update'])->name('data-pengguna-custom.update');
 
         // BPP
         Route::resource('/bpp', BPPController::class);
