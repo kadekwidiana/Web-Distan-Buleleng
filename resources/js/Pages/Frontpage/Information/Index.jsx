@@ -103,7 +103,30 @@ export default function InformationPage() {
     // console.log('data set', informationAgricultures);
     return (
         <>
-            <Head title="Informasi Pertanian" />
+            <Head>
+                <title>Informasi Pertanian</title>
+                <meta
+                    name="description"
+                    content="Informasi Pertanian Dinas Pertanian Kabupaten Buleleng menyediakan data dan informasi terkait pertanian di Kabupaten Buleleng, termasuk lahan pertanian, kelembagaan, kegiatan penyuluhan, dan lainnya."
+                />
+                <meta
+                    name="keywords"
+                    content="Informasi Pertanian, Data Pertanian, Pertanian Buleleng, Lahan Pertanian, Kelembagaan Pertanian, Penyuluhan Pertanian"
+                />
+                <meta name="author" content="Dinas Pertanian Kabupaten Buleleng" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta property="og:title" content="Informasi Pertanian - Dinas Pertanian Kabupaten Buleleng" />
+                <meta
+                    property="og:description"
+                    content="Menampilkan informasi terkait pertanian di Kabupaten Buleleng, termasuk data lahan, kelembagaan, dan kegiatan penyuluhan."
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://sipetani.bulelengkab.go.id/information" />
+                <meta property="og:image" content="https://sipetani.bulelengkab.go.id/assets/images/logo-buleleng.png" />
+                <meta property="og:locale" content="id_ID" />
+                <link rel="canonical" href="https://sipetani.bulelengkab.go.id/information" />
+            </Head>
+
             <FrontpageLayout>
                 <div className="min-h-[90dvh] flex flex-col">
                     <section className="flex-grow">

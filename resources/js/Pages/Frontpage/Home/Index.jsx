@@ -6,7 +6,30 @@ import { Carousel } from 'flowbite-react';
 export default function LandingPage() {
     return (
         <>
-            <Head title="Beranda" />
+            <Head>
+                <title>Dinas Pertanian Kabupaten Buleleng</title>
+                <meta
+                    name="description"
+                    content="Sistem Informasi Potensi Pertanian Dinas Pertanian Kabupaten Buleleng adalah platform yang menyediakan data geografis terintegrasi untuk mendukung pengelolaan dan pengembangan sektor pertanian. Pengguna dapat mengakses peta interaktif, informasi lahan, batas wilayah, dan data terkait pertanian di Kabupaten Buleleng. Sebagai pengembangan dari aplikasi Siprotani, sistem ini menawarkan fitur yang lebih lengkap dan mudah diakses."
+                />
+                <meta
+                    name="keywords"
+                    content="Sistem Informasi Pertanian, Potensi Pertanian, Pertanian Buleleng, Data Geografis, Petani, Lahan Pertanian, Penyuluh, Sistem Informasi"
+                />
+                <meta name="author" content="Dinas Pertanian Kabupaten Buleleng" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta property="og:title" content="Sipetani - Dinas Pertanian Kabupaten Buleleng" />
+                <meta
+                    property="og:description"
+                    content="Platform yang menyediakan data geografis terintegrasi untuk mendukung pengelolaan dan pengembangan sektor pertanian, memudahkan akses peta interaktif dan data relevan di Kabupaten Buleleng."
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://sipetani.bulelengkab.go.id/" />
+                <meta property="og:image" content="https://sipetani.bulelengkab.go.id/assets/images/logo-buleleng.png" />
+                <meta property="og:locale" content="id_ID" />
+                <link rel="canonical" href="https://sipetani.bulelengkab.go.id/" />
+            </Head>
+            
             <FrontpageLayout>
                 <section className="mt-16 lg:mt-20">
                     <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-12">

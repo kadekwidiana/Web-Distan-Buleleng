@@ -9,7 +9,30 @@ export default function MapsPage() {
 
     return (
         <>
-            <Head title="Peta Geografis" />
+            <Head>
+                <title>Peta Geografis</title>
+                <meta
+                    name="description"
+                    content="Peta Geografis Dinas Pertanian Kabupaten Buleleng menampilkan peta interaktif yang memberikan informasi geografis terkait pertanian di Kabupaten Buleleng, termasuk data lahan, batas wilayah, dan informasi lainnya."
+                />
+                <meta
+                    name="keywords"
+                    content="Peta Pertanian, Peta Geografis, Pertanian Buleleng, Data Lahan, Batas Wilayah, Informasi Pertanian, Peta Interaktif"
+                />
+                <meta name="author" content="Dinas Pertanian Kabupaten Buleleng" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta property="og:title" content="Peta Geografis - Dinas Pertanian Kabupaten Buleleng" />
+                <meta
+                    property="og:description"
+                    content="Menampilkan peta interaktif dengan informasi geografis tentang pertanian di Kabupaten Buleleng."
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://sipetani.bulelengkab.go.id/maps" />
+                <meta property="og:image" content="https://sipetani.bulelengkab.go.id/assets/images/logo-buleleng.png" />
+                <meta property="og:locale" content="id_ID" />
+                <link rel="canonical" href="https://sipetani.bulelengkab.go.id/maps" />
+            </Head>
+            
             {/* Navbar component */}
             <FrontpageLayout>
                 {/* <!-- Sidebar basemap --> */}
