@@ -1,20 +1,20 @@
-import { Link } from '@inertiajs/react'
-import React from 'react'
+import { Link } from '@inertiajs/react';
+import React from 'react';
 
 export default function HeaderSidebarBackpage({ handleShowSidebarMobile }) {
     return (
         <div className="sm:block flex justify-between items-start">
-            <div className="my-4 mx-2">
+            <div className="my-4">
                 <Link href="/" className="text-gray-50 text-3xl font-semibold uppercase flex justify-start items-center">
-                    <img src="/assets/images/logo-distan-buleleng-1.png" width={100} height={100} alt="Picture of the author" className='w-24' />
+                    <img src="/assets/images/logo-distan-buleleng-1.png" width={100} height={100} alt="Logo" className='w-24' />
                 </Link>
                 <p className="mt-2 text-gray-50 font-semibold text-xl">Dashboard,</p>
-                <p className="text-gray-50 font-semibold text-xl">SIG Dinas Pertanian</p>
+                <p className="text-gray-50 font-semibold text-xl">Sipetani Dinas Pertanian</p>
                 <p className="text-gray-50 font-semibold text-xl">Kab. Buleleng</p>
             </div>
             <button onClick={handleShowSidebarMobile} className='block sm:hidden pt-3 pr-1 text-gray-100'>
                 <i className="fa-solid fa-arrow-left fa-lg"></i>
             </button>
         </div>
-    )
+    );
 }

@@ -1,8 +1,7 @@
-import NavbarFrontpage from '@/Components/Navbar/NavbarFrontpage';
+import FooterFrontpage from '@/Components/Footer/FooterFrontpage';
 import FrontpageLayout from '@/Layouts/FrontpageLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { Carousel } from 'flowbite-react';
-import React from 'react';
 
 export default function LandingPage() {
     return (
@@ -11,9 +10,9 @@ export default function LandingPage() {
             <FrontpageLayout>
                 <section className="mt-16 lg:mt-20">
                     <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-12">
-                        <h1 className="mb-4 text-4xl font-bold leading-none text-gray-800 md:text-4xl lg:text-5xl">Selamat Datang Di Sistem Informasi Geografis Dinas Pertanian Kabupaten Buleleng</h1>
+                        <h1 className="mb-4 text-4xl font-bold leading-none text-gray-800 md:text-4xl lg:text-5xl">Selamat Datang Di Sistem Informasi Potensi Pertanian Dinas Pertanian Kabupaten Buleleng</h1>
                         <p className="mb-8 text-lg font-normal text-gray-600 lg:text-xl sm:px-16 lg:px-36">
-                            Sistem Informasi Geografis Dinas Pertanian Kabupaten Buleleng menyediakan data dan informasi geografis yang lengkap dan akurat untuk mendukung pengelolaan dan pengembangan sektor pertanian. Platform ini memudahkan pengguna dalam mengakses peta interaktif, informasi lahan pertanian, batas wilayah, serta berbagai data penting lainnya yang terkait dengan pertanian di Kabupaten Buleleng.
+                            Sistem Informasi Potensi Pertanian Dinas Pertanian Kabupaten Buleleng adalah platform yang menyediakan data geografis terintegrasi untuk mendukung pengelolaan serta pengembangan sektor pertanian. Sistem ini memudahkan pengguna mengakses peta interaktif, informasi lahan, batas wilayah, dan data lainnya yang relevan dengan pertanian di Kabupaten Buleleng. Sistem ini merupakan pengembangan dari aplikasi Siprotani, platform ini menawarkan fitur yang lebih lengkap dan mudah diakses.
                         </p>
 
                         <div className="flex flex-col gap-2 space-y-4 px-6 sm:flex-row sm:justify-center sm:space-y-0">
@@ -53,7 +52,7 @@ export default function LandingPage() {
                                             <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                             </svg>
-                                            Menampilkan informasi geografis terkait pertanian.
+                                            Menyajikan informasi geografis pertanian.
                                         </li>
                                     </ul>
                                     <ul className="space-y-1 text-lg text-gray-600 list-inside">
@@ -69,7 +68,7 @@ export default function LandingPage() {
                                             <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                             </svg>
-                                            Pengelolaan data Kelompok Tani.
+                                            Pengelolaan data kelembagaan pertanian.
                                         </li>
                                     </ul>
                                     <ul className="space-y-1 text-lg text-gray-600 list-inside">
@@ -77,7 +76,7 @@ export default function LandingPage() {
                                             <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                             </svg>
-                                            Pengelolaan data Gabungan Kelompok Tani.
+                                            Pengelolaan data lahan pertanian.
                                         </li>
                                     </ul>
                                     <ul className="space-y-1 text-lg text-gray-600 list-inside">
@@ -85,7 +84,7 @@ export default function LandingPage() {
                                             <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                             </svg>
-                                            Pengelolaan data Subak.
+                                            Pengelolaan data petani.
                                         </li>
                                     </ul>
                                     <ul className="space-y-1 text-lg text-gray-600 list-inside">
@@ -93,7 +92,15 @@ export default function LandingPage() {
                                             <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                             </svg>
-                                            Pengelolaan data Lahan Pertanian.
+                                            Pengelolaan data penyuluh.
+                                        </li>
+                                    </ul>
+                                    <ul className="space-y-1 text-lg text-gray-600 list-inside">
+                                        <li className="flex items-center">
+                                            <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                            </svg>
+                                            Pengelolaan data spasial.
                                         </li>
                                     </ul>
                                     <ul className="space-y-1 text-lg text-gray-600 list-inside">
@@ -112,7 +119,14 @@ export default function LandingPage() {
                                             Pengelolaan laporan
                                         </li>
                                     </ul>
-
+                                    <ul className="space-y-1 text-lg text-gray-600 list-inside">
+                                        <li className="flex items-center">
+                                            <svg className="w-5 h-5 me-2 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                            </svg>
+                                            Dll.
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -133,70 +147,11 @@ export default function LandingPage() {
                                     </a>
                                     <span className='text-gray-700 text-base'>Dinas Pertanian Kabupaten Buleleng</span>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </section>
-                <footer className="bg-gray-800 py-2">
-                    <div className="mx-auto w-full max-w-screen-xl p-4 py-4 lg:py-6">
-                        <div className=" md:flex md:justify-between">
-                            <div className="mb-6 md:mb-0 sm:w-2/6">
-                                <Link href="https://flowbite.com/" className="flex items-center">
-                                    <img src="./assets/images/logo-distan-buleleng-1.png" width={100} height={100} alt="Picture of the author" className='w-24' priority={true} />
-                                </Link>
-                            </div>
-                            <div className="sm:w-1/2 flex justify-between">
-                                <div>
-                                    <h2 className="mb-4 text-sm text-gray-400">Menu</h2>
-                                    <ul className="text-white text-sm flex flex-col gap-2">
-                                        <li className='hover:text-gray-300'>
-                                            <a href="/">Beranda</a>
-                                        </li>
-                                        <li className='hover:text-gray-300'>
-                                            <a href="/maps">Peta Geografis</a>
-                                        </li>
-                                        <li className='hover:text-gray-300'>
-                                            <a href="/information">Informasi Pertanian</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2 className="mb-4 text-sm text-gray-400">Kontak Kami</h2>
-                                    <ul className="text-white text-sm flex flex-col gap-2">
-                                        <li className="flex justify-start gap-2 items-center">
-                                            <i className="fa-solid fa-location-dot"></i>
-                                            <p>Jl. Ahmad Yani No 99, Singaraja - Bali</p>
-                                        </li>
-                                        <li className='flex justify-start gap-2 items-center'>
-                                            <i className="fa-solid fa-phone"></i>
-                                            <p>(0362) 25090</p>
-                                        </li>
-                                        <li className='flex justify-start gap-2 items-center'>
-                                            <i className="fa-solid fa-envelope"></i>
-                                            <p>distan@bulelengkab.go.id</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <hr className="my-4 border-gray-500 border" />
-                        <div className="sm:flex sm:items-center sm:justify-between">
-                            <span className="text-sm sm:text-center text-gray-400">©2024 Dinas Pertanian Kabupaten Buleleng. ©Support by WEF GIS </span>
-                            <div className="flex mt-4 sm:justify-center sm:mt-0 space-x-4">
-                                <a href="https://facebook.com/p/Dinas-Pertanian-Kabupaten-Buleleng-100086306629196" className="text-white">
-                                    <i className="fa-brands fa-square-facebook fa-2xl" style={{ color: '#1877F2' }}></i>
-                                </a>
-                                <a href="https://www.instagram.com/distanbuleleng/" className="text-white">
-                                    <i className="fa-brands fa-square-instagram fa-2xl" style={{ color: '#FD1D1D' }}></i>
-                                </a>
-                                <a href="https://www.youtube.com/@dinaspertanianbuleleng7447" className="text-white">
-                                    <i className="fa-brands fa-youtube fa-2xl" style={{ color: '#FF0000' }}></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <FooterFrontpage />
             </FrontpageLayout>
         </>
     );

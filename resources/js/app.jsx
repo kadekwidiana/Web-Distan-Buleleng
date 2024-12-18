@@ -7,7 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import ReactQueryProvider from './Layouts/Providers/ReactQueryProvider';
 import ErrorPage from './Pages/Error/ErrorPage';
 
-const appName = import.meta.env.VITE_APP_NAME || 'SIG';
+const appName = import.meta.env.VITE_APP_NAME || 'Sipetani';
 
 createInertiaApp({
     title: (title) => `${appName} - ${title}`,

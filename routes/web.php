@@ -43,7 +43,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Frontpage/Home/Index2');
+    return Inertia::render('Frontpage/Home/Index');
 })->name('landing-page');
 
 Route::get('/maps', [MapsController::class, 'index'])->name('maps-frontpage');

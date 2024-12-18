@@ -14,8 +14,7 @@ export default function NavbarFrontpage() {
                     <img src="./assets/images/logo-distan-buleleng-1.png" className="h-14"
                         alt="Logo" />
                     <div className="flex flex-col gap-0">
-                        {/* <span className="self-start text-xs sm:text-lg sm:font-medium">Sistem Informasi Geografis</span> */}
-                        <span className="self-start text-xs sm:text-lg sm:font-medium">SIPROTANI</span>
+                        <span className="self-start text-xs sm:text-lg sm:font-medium">Sipetani</span>
                         <span className="self-start sm:text-2xl font-semibold">Dinas Pertanian Kab. Buleleng</span>
                     </div>
                 </a>

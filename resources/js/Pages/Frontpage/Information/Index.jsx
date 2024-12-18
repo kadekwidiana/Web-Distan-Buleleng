@@ -17,6 +17,7 @@ import SubakList from './_Component/SubakList';
 import LandAgricultureList from './_Component/LandAgricultureList';
 import BPPList from './_Component/BPPList';
 import PPLList from './_Component/PPLList';
+import FooterFrontpage from '@/Components/Footer/FooterFrontpage';
 
 const filtersBy = [
     'Kecamatan',
@@ -220,65 +221,7 @@ export default function InformationPage() {
                             }
                         </div>
                     </section>
-                    <footer className="bg-gray-800 w-full mt-auto">
-                        <div className="mx-auto w-full max-w-screen-xl p-4 py-4 lg:py-6">
-                            <div className=" md:flex md:justify-between">
-                                <div className="mb-6 md:mb-0 sm:w-2/6">
-                                    <Link href="/" className="flex items-center">
-                                        <img src="./assets/images/logo-distan-buleleng-1.png" width={100} height={100} alt="Picture of the author" className='w-24' />
-                                    </Link>
-                                </div>
-                                <div className="sm:w-1/2 flex justify-between">
-                                    <div>
-                                        <h2 className="mb-4 text-sm text-gray-400">Menu</h2>
-                                        <ul className="text-white text-sm flex flex-col gap-2">
-                                            <li className='hover:text-gray-300'>
-                                                <a href="/">Beranda</a>
-                                            </li>
-                                            <li className='hover:text-gray-300'>
-                                                <a href="/maps">Peta Geografis</a>
-                                            </li>
-                                            <li className='hover:text-gray-300'>
-                                                <a href="/information">Informasi Pertanian</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h2 className="mb-4 text-sm text-gray-400">Kontak Kami</h2>
-                                        <ul className="text-white text-sm flex flex-col gap-2">
-                                            <li className="flex justify-start gap-2 items-center">
-                                                <i className="fa-solid fa-location-dot"></i>
-                                                <p>Jl. Ahmad Yani No 99, Singaraja - Bali</p>
-                                            </li>
-                                            <li className='flex justify-start gap-2 items-center'>
-                                                <i className="fa-solid fa-phone"></i>
-                                                <p>(0362) 25090</p>
-                                            </li>
-                                            <li className='flex justify-start gap-2 items-center'>
-                                                <i className="fa-solid fa-envelope"></i>
-                                                <p>distan@bulelengkab.go.id</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="my-4 border-gray-500 border" />
-                            <div className="sm:flex sm:items-center sm:justify-between">
-                                <span className="text-sm sm:text-center text-gray-400">©2024 Dinas Pertanian Kabupaten Buleleng. ©Support by WEF GIS </span>
-                                <div className="flex mt-4 sm:justify-center sm:mt-0 space-x-4">
-                                    <a href="https://facebook.com/p/Dinas-Pertanian-Kabupaten-Buleleng-100086306629196" className="text-white">
-                                        <i className="fa-brands fa-square-facebook fa-2xl" style={{ color: '#1877F2' }}></i>
-                                    </a>
-                                    <a href="https://www.instagram.com/distanbuleleng/" className="text-white">
-                                        <i className="fa-brands fa-square-instagram fa-2xl" style={{ color: '#FD1D1D' }}></i>
-                                    </a>
-                                    <a href="https://www.youtube.com/@dinaspertanianbuleleng7447" className="text-white">
-                                        <i className="fa-brands fa-youtube fa-2xl" style={{ color: '#FF0000' }}></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
+                    <FooterFrontpage />
                 </div>
             </FrontpageLayout>
         </>
