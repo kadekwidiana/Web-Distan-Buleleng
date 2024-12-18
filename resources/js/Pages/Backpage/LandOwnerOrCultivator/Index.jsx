@@ -105,7 +105,7 @@ export default function LandOwnerOrCultivatorPage() {
 
     return (
         <BackpageLayout>
-            <Head title="Master Data Komoditas" />
+            <Head title="Pemilik/Penggarap Lahan" />
             <div className="min-h-[84dvh] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
                 <div className="flex justify-between gap-2 sm:gap-6">
                     <div className="flex w-full">
